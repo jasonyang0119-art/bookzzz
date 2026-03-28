@@ -592,11 +592,13 @@ hc.addEventListener('mouseleave',function(){uTilt(hc);});
 
 /* ══════════ OPEN HOTEL ══════════ */
 function openH(id){
-  /* Store selected hotel for next page */
   var h=S.hotels.find(function(x){return x.id==id;});
-  if(h){localStorage.setItem('bz_hotel',JSON.stringify(h));}
-  showToast('🏨 Opening '+( h?h.name:'hotel')+' ...');
-  /* hotel.html — coming next! */
+  if(h){
+    localStorage.setItem('bz_hotel',JSON.stringify(h));
+    localStorage.setItem('bz_user',S.user.firstName||'Guest');
+    sessionStorage.setItem('bz_lang',S.lang);
+  }
+  window.location.href='https://jasonyang0119-art.github.io/bookzzz/hotel.html?id='+id;
 }
 
 /* ══════════ BOTTOM NAV ══════════ */
