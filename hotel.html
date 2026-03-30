@@ -20,28 +20,19 @@ html,body{width:100%;min-height:100%;font-family:'DM Sans',sans-serif;background
 body{overflow-x:hidden;}
 button{font-family:'DM Sans',sans-serif;cursor:pointer;}
 
-/* BG */
-.nbg{position:fixed;inset:0;z-index:0;
-  background:radial-gradient(ellipse 100% 55% at 50% 100%,rgba(26,127,212,0.2) 0%,transparent 60%),
-  linear-gradient(180deg,#04080f 0%,#060e1a 25%,#091628 55%,#0d2040 75%,#060e1a 100%);}
+.nbg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 100% 55% at 50% 100%,rgba(26,127,212,0.2) 0%,transparent 60%),linear-gradient(180deg,#04080f 0%,#060e1a 25%,#091628 55%,#0d2040 75%,#060e1a 100%);}
 
 /* TOP BAR */
-.topbar{position:fixed;top:0;left:0;right:0;z-index:100;
-  display:flex;align-items:center;gap:12px;padding:clamp(12px,2vw,16px) clamp(14px,4vw,22px);
-  background:rgba(6,14,26,0.92);border-bottom:1px solid var(--border);backdrop-filter:blur(28px);}
-.back-btn{display:flex;align-items:center;gap:7px;padding:8px clamp(12px,3vw,18px);
-  background:rgba(13,32,64,.5);border:1px solid var(--border);border-radius:40px;
-  color:var(--azure);font-size:clamp(12px,3vw,13px);font-weight:600;cursor:pointer;transition:all .3s;}
-.back-btn:hover{background:rgba(93,173,226,.1);border-color:rgba(93,173,226,.4);}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;gap:12px;padding:clamp(12px,2vw,16px) clamp(14px,4vw,22px);background:rgba(6,14,26,0.92);border-bottom:1px solid var(--border);backdrop-filter:blur(28px);}
+.back-btn{display:flex;align-items:center;gap:7px;padding:8px clamp(12px,3vw,18px);background:rgba(13,32,64,.5);border:1px solid var(--border);border-radius:40px;color:var(--azure);font-size:clamp(12px,3vw,13px);font-weight:600;cursor:pointer;transition:all .3s;}
+.back-btn:hover{background:rgba(93,173,226,.1);}
 .topbar-logo{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,5vw,24px);font-weight:700;color:var(--white);}
 .topbar-logo span{color:var(--azure);font-style:italic;}
 
-/* MAIN */
 .main{position:relative;z-index:10;max-width:820px;margin:0 auto;padding:clamp(70px,12vw,82px) clamp(14px,4vw,22px) 140px;}
 
-/* ══ GALLERY ══ */
-.gallery{border-radius:var(--r-xl);overflow:hidden;position:relative;margin-bottom:clamp(16px,3vw,24px);
-  background:linear-gradient(135deg,var(--bg-mid),var(--navy));height:clamp(220px,35vw,340px);}
+/* GALLERY */
+.gallery{border-radius:var(--r-xl);overflow:hidden;position:relative;margin-bottom:clamp(16px,3vw,24px);background:linear-gradient(135deg,var(--bg-mid),var(--navy));height:clamp(220px,35vw,340px);}
 .gallery-track{display:flex;height:100%;transition:transform .45s cubic-bezier(.16,1,.3,1);}
 .gallery-slide{min-width:100%;height:100%;flex-shrink:0;}
 .gallery-slide img{width:100%;height:100%;object-fit:cover;}
@@ -63,14 +54,14 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;}
 .g-hotel-name{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,5vw,32px);font-weight:700;color:var(--white);line-height:1.2;margin-bottom:4px;}
 .g-stars{font-size:12px;}
 
-/* ══ SECTION CARD ══ */
+/* SECTION CARD */
 .scard{background:var(--glass2);border:1px solid var(--border2);border-radius:var(--r-xl);padding:clamp(18px,4vw,24px) clamp(18px,4vw,26px);margin-bottom:clamp(14px,3vw,18px);position:relative;box-shadow:0 16px 50px rgba(0,0,0,.28);}
 .scard::before{content:'';position:absolute;top:0;left:12%;right:12%;height:1px;background:linear-gradient(90deg,transparent,rgba(93,173,226,.35),rgba(26,127,212,.6),rgba(93,173,226,.35),transparent);}
 .stitle{font-family:'Cormorant Garamond',serif;font-size:clamp(18px,4vw,21px);font-weight:700;color:var(--white);margin-bottom:clamp(10px,3vw,14px);}
 .stitle span{color:var(--azure);font-style:italic;}
 .desc-txt{font-size:clamp(12px,3vw,14px);line-height:1.8;color:var(--text-dim);}
 
-/* ══ ADDRESS ══ */
+/* ADDRESS */
 .address-box{display:flex;align-items:center;gap:12px;padding:clamp(12px,3vw,16px) clamp(14px,3vw,18px);background:rgba(13,32,64,.5);border:1px solid var(--border);border-radius:var(--r-lg);cursor:pointer;transition:all .3s;text-decoration:none;}
 .address-box:hover{border-color:rgba(93,173,226,.4);background:rgba(93,173,226,.08);transform:translateY(-1px);}
 .addr-icon{font-size:clamp(20px,5vw,26px);flex-shrink:0;}
@@ -80,7 +71,7 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;}
 .addr-city{font-size:11px;color:var(--text-dim);margin-top:1px;}
 .addr-gps{display:flex;align-items:center;gap:4px;padding:6px 12px;background:linear-gradient(135deg,var(--azure),var(--blue-dark));border-radius:var(--r-sm);color:#fff;font-size:10px;font-weight:700;flex-shrink:0;white-space:nowrap;}
 
-/* ══ AMENITIES ══ */
+/* AMENITIES */
 .amen-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(120px,25vw,140px),1fr));gap:9px;}
 .amen-item{display:flex;align-items:center;gap:9px;padding:clamp(9px,2vw,12px) clamp(10px,2vw,14px);background:rgba(13,32,64,.5);border:1px solid var(--border);border-radius:var(--r-md);}
 .amen-item.yes{border-color:rgba(46,204,113,.2);}
@@ -92,7 +83,7 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;}
 .amen-val.yes{color:var(--green);}
 .amen-val.no{color:rgba(220,240,255,.28);}
 
-/* ══ ROOMS ══ */
+/* ROOMS */
 .rooms-list{display:flex;flex-direction:column;gap:clamp(14px,3vw,18px);}
 .room-card{background:rgba(13,32,64,.45);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;transition:all .3s;}
 .room-card:hover{border-color:rgba(93,173,226,.32);box-shadow:0 10px 36px rgba(0,0,0,.28);}
@@ -110,20 +101,18 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;}
 .avail-no{background:rgba(231,76,60,.12);border:1px solid rgba(231,76,60,.3);color:var(--red);}
 .room-body{padding:clamp(13px,3vw,16px) clamp(15px,3vw,18px) clamp(15px,3vw,18px);}
 .room-name{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,4vw,17px);font-weight:700;color:var(--white);margin-bottom:4px;}
-/* Room location info */
 .room-location-info{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
 .room-loc-tag{display:flex;align-items:center;gap:4px;font-size:10px;padding:3px 9px;background:rgba(26,127,212,.15);border:1px solid rgba(26,127,212,.3);border-radius:20px;color:var(--azure-soft);}
 .room-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;}
 .rtag{font-size:9.5px;padding:2px 8px;background:rgba(93,173,226,.08);border:1px solid rgba(93,173,226,.15);border-radius:20px;color:var(--text-dim);}
 .room-desc{font-size:clamp(11px,2.5vw,12.5px);color:var(--text-dim);line-height:1.6;margin-bottom:12px;}
 
-/* Discount in room card */
+/* ═══ ROOM PRICE — shows actual room price + discount badge ═══ */
 .room-price-row{display:flex;align-items:flex-end;justify-content:space-between;gap:8px;}
-.room-price-col{display:flex;flex-direction:column;}
-.rprice-original{font-size:11px;color:var(--red);text-decoration:line-through;opacity:.8;}
-.rprice-discounted{font-size:clamp(17px,4vw,21px);font-weight:700;color:var(--green);line-height:1;}
-.rprice-badge{font-size:9px;background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.3);color:var(--green);padding:2px 7px;border-radius:20px;margin-top:2px;display:inline-block;}
-.rprice-lbl{font-size:9.5px;color:var(--text-dim);margin-top:1px;}
+.room-price-col{display:flex;flex-direction:column;gap:3px;}
+.rprice{font-size:clamp(18px,4vw,22px);font-weight:700;color:var(--white);line-height:1;}
+.rprice-night{font-size:clamp(9px,2vw,10px);color:var(--text-dim);}
+.rdiscount-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.3);border-radius:20px;font-size:clamp(9px,2vw,10px);font-weight:700;color:var(--green);}
 .room-sel-btn{padding:clamp(8px,2vw,10px) clamp(14px,3vw,22px);background:linear-gradient(135deg,var(--azure),var(--blue-dark));border:none;border-radius:var(--r-sm);color:#fff;font-size:clamp(11px,2.5vw,13px);font-weight:700;cursor:pointer;transition:all .3s;flex-shrink:0;}
 .room-sel-btn:hover{transform:translateY(-2px);box-shadow:0 7px 20px rgba(93,173,226,.35);}
 .room-sel-btn:disabled{background:rgba(13,32,64,.5);color:var(--text-dim);cursor:not-allowed;transform:none;box-shadow:none;}
@@ -131,9 +120,8 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;}
 /* Skeleton */
 .skel{border-radius:var(--r-xl);overflow:hidden;height:clamp(240px,40vw,280px);margin-bottom:16px;background:linear-gradient(110deg,var(--bg-mid) 30%,rgba(93,173,226,.06) 50%,var(--bg-mid) 70%);background-size:200% 100%;animation:shim 1.8s infinite;}
 @keyframes shim{to{background-position:-200% 0}}
-.empty-rooms{text-align:center;padding:48px;color:var(--text-dim);}
 
-/* ══ RESERVATION POPUP ══ */
+/* POPUP */
 .overlay{position:fixed;inset:0;background:rgba(4,8,20,.88);z-index:500;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s ease;backdrop-filter:blur(8px);}
 .overlay.open{opacity:1;pointer-events:all;}
 .popup{background:var(--glass2);border:1px solid var(--border2);border-radius:var(--r-xl) var(--r-xl) 0 0;padding:clamp(20px,4vw,28px) clamp(16px,4vw,26px) clamp(24px,5vw,34px);width:100%;max-width:520px;position:relative;box-shadow:0 -20px 80px rgba(0,0,0,.5);transform:translateY(100%);transition:transform .4s cubic-bezier(.16,1,.3,1);max-height:90vh;overflow-y:auto;}
@@ -148,10 +136,10 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;}
 
 /* Room summary */
 .room-sum{display:flex;align-items:center;gap:10px;padding:12px 14px;background:rgba(93,173,226,.07);border:1px solid rgba(93,173,226,.2);border-radius:var(--r-md);margin-bottom:16px;}
-.rs-ico{font-size:20px;}.rs-name{font-size:clamp(13px,3vw,14px);font-weight:600;color:var(--white);}
+.rs-ico{font-size:20px;}
+.rs-name{font-size:clamp(13px,3vw,14px);font-weight:600;color:var(--white);}
 .rs-pr{font-size:11px;color:var(--azure);margin-top:1px;}
 
-/* Field label */
 .field-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--azure-soft);margin-bottom:6px;display:block;}
 
 /* Days */
@@ -161,18 +149,19 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;}
 .day-btn:active{transform:scale(.88);}
 .day-cnt{flex:1;text-align:center;font-size:clamp(16px,4vw,18px);font-weight:600;color:var(--white);user-select:none;}
 
-/* ══ CALENDAR ══ */
+/* Calendar */
 .calendar-wrap{background:rgba(13,32,64,.5);border:1px solid var(--border);border-radius:var(--r-lg);padding:clamp(12px,3vw,16px);margin-bottom:16px;}
 .cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
 .cal-month{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,4vw,17px);font-weight:700;color:var(--white);}
 .cal-nav{width:28px;height:28px;border:none;background:rgba(93,173,226,.1);border-radius:50%;color:var(--azure);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
 .cal-nav:hover{background:rgba(93,173,226,.2);}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
-.cal-day-name{text-align:center;font-size:9px;font-weight:700;color:var(--text-dim);padding:4px 0;letter-spacing:.5px;}
-.cal-day{text-align:center;padding:clamp(6px,1.5vw,8px) 2px;font-size:clamp(11px,2.5vw,13px);border-radius:var(--r-sm);cursor:pointer;transition:all .2s;position:relative;color:var(--text-dim);}
+.cal-day-name{text-align:center;font-size:9px;font-weight:700;color:var(--text-dim);padding:4px 0;}
+.cal-day{text-align:center;padding:clamp(6px,1.5vw,8px) 2px;font-size:clamp(11px,2.5vw,13px);border-radius:var(--r-sm);cursor:pointer;transition:all .2s;color:var(--text-dim);}
 .cal-day:hover:not(.empty-day):not(.past-day){background:rgba(93,173,226,.15);color:var(--white);}
 .cal-day.today{color:var(--azure);font-weight:700;}
 .cal-day.today::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--azure);}
+.cal-day{position:relative;}
 .cal-day.selected-start{background:var(--azure);color:#fff;border-radius:var(--r-sm) 0 0 var(--r-sm);}
 .cal-day.selected-range{background:rgba(93,173,226,.2);color:var(--white);}
 .cal-day.selected-end{background:linear-gradient(135deg,var(--azure),var(--blue-dark));color:#fff;border-radius:0 var(--r-sm) var(--r-sm) 0;}
@@ -182,7 +171,7 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;}
 .cal-summary{margin-top:10px;padding:9px 12px;background:rgba(93,173,226,.07);border:1px solid rgba(93,173,226,.15);border-radius:var(--r-md);font-size:11px;color:var(--text-dim);text-align:center;}
 .cal-summary strong{color:var(--azure);}
 
-/* Total */
+/* Total — shows room price × nights, discount, and final amount */
 .total-box{background:rgba(93,173,226,.05);border:1px solid rgba(93,173,226,.15);border-radius:var(--r-md);padding:clamp(12px,3vw,14px) clamp(14px,3vw,16px);margin-bottom:14px;}
 .tr{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
 .tr-lbl{font-size:clamp(11px,2.5vw,12px);color:var(--text-dim);}
@@ -192,7 +181,7 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;}
 .tr-disc-val{font-size:clamp(12px,3vw,13px);font-weight:600;color:var(--green);}
 .tr-final{display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid var(--border);margin-top:4px;}
 .tr-f-lbl{font-size:clamp(12px,3vw,13px);font-weight:700;color:var(--white);}
-.tr-f-val{font-size:clamp(18px,4vw,21px);font-weight:700;color:var(--green);}
+.tr-f-val{font-size:clamp(19px,4vw,22px);font-weight:700;color:var(--white);}
 
 /* Payment */
 .pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:14px;}
@@ -203,22 +192,29 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;}
 .pay-nm{font-size:clamp(11px,2.5vw,12px);font-weight:600;color:var(--white);}
 .pay-sb{font-size:9.5px;color:var(--text-dim);margin-top:1px;}
 
-/* Confirm */
+/* Confirm btn */
 .confirm-btn{width:100%;padding:clamp(14px,3vw,16px);background:linear-gradient(135deg,var(--azure),var(--blue-dark));border:none;border-radius:var(--r-lg);color:#fff;font-size:clamp(13px,3vw,15px);font-weight:700;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;}
 .confirm-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent);opacity:0;transition:opacity .3s;}
 .confirm-btn:hover::after{opacity:1;}
 .confirm-btn:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(93,173,226,.35);}
 .confirm-btn:disabled{background:rgba(13,32,64,.5);color:var(--text-dim);cursor:not-allowed;transform:none;box-shadow:none;}
 
-/* ══ CASH WARNING POPUP ══ */
-.warning-overlay{position:fixed;inset:0;background:rgba(4,8,20,.9);z-index:600;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s ease;backdrop-filter:blur(8px);padding:20px;}
+/* ═══ CASH WARNING — EXACT TEXT AS REQUESTED ═══ */
+.warning-overlay{position:fixed;inset:0;background:rgba(4,8,20,.92);z-index:600;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s ease;backdrop-filter:blur(10px);padding:20px;}
 .warning-overlay.open{opacity:1;pointer-events:all;}
-.warning-box{background:var(--glass2);border:2px solid rgba(231,76,60,.4);border-radius:var(--r-xl);padding:clamp(24px,5vw,32px);width:100%;max-width:400px;text-align:center;box-shadow:0 40px 90px rgba(0,0,0,.6);}
-.warn-icon{font-size:clamp(44px,10vw,56px);margin-bottom:14px;}
-.warn-title{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,5vw,26px);font-weight:700;color:var(--red);margin-bottom:12px;}
-.warn-body{font-size:clamp(12px,3vw,13.5px);color:var(--text-dim);line-height:1.7;margin-bottom:20px;white-space:pre-line;}
-.warn-btn{width:100%;padding:14px;background:linear-gradient(135deg,#e74c3c,#c0392b);border:none;border-radius:var(--r-lg);color:#fff;font-size:14px;font-weight:700;cursor:pointer;transition:all .3s;}
-.warn-btn:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(231,76,60,.3);}
+.warning-box{background:var(--glass2);border:1px solid rgba(231,76,60,.3);border-radius:var(--r-xl);padding:clamp(24px,5vw,32px);width:100%;max-width:440px;box-shadow:0 40px 90px rgba(0,0,0,.6);}
+.warning-box::before{content:'';display:block;width:100%;height:3px;background:linear-gradient(90deg,rgba(231,76,60,.6),rgba(243,156,18,.6));border-radius:var(--r-xl) var(--r-xl) 0 0;margin-bottom:20px;margin-top:-24px;margin-left:-24px;width:calc(100% + 48px);}
+.warn-icon{font-size:clamp(40px,10vw,52px);margin-bottom:12px;text-align:center;}
+.warn-title{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,5vw,24px);font-weight:700;color:var(--yellow);margin-bottom:14px;text-align:center;}
+/* Exact warning text — formatted in paragraphs */
+.warn-body{font-size:clamp(12px,3vw,13.5px);color:var(--text-dim);line-height:1.75;margin-bottom:22px;text-align:left;}
+.warn-body .warn-nb{color:var(--yellow);font-weight:700;margin-top:10px;display:block;}
+/* Two action buttons */
+.warn-actions{display:flex;flex-direction:column;gap:10px;}
+.warn-confirm-btn{width:100%;padding:clamp(13px,3vw,15px);background:linear-gradient(135deg,var(--green),#27ae60);border:none;border-radius:var(--r-lg);color:#fff;font-size:clamp(13px,3vw,14px);font-weight:700;cursor:pointer;transition:all .3s;}
+.warn-confirm-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(46,204,113,.35);}
+.warn-change-btn{width:100%;padding:clamp(13px,3vw,15px);background:transparent;border:2px solid rgba(231,76,60,.6);border-radius:var(--r-lg);color:var(--red);font-size:clamp(13px,3vw,14px);font-weight:700;cursor:pointer;transition:all .3s;}
+.warn-change-btn:hover{background:rgba(231,76,60,.12);transform:translateY(-1px);}
 
 /* Success */
 .success-view{text-align:center;padding:14px 0 6px;}
@@ -237,11 +233,9 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;}
 .fixed-cta-btn{width:100%;padding:clamp(14px,3vw,16px);background:linear-gradient(135deg,var(--azure),var(--blue-dark));border:none;border-radius:var(--r-lg);color:#fff;font-size:clamp(13px,3vw,15px);font-weight:700;cursor:pointer;transition:all .3s;box-shadow:0 8px 28px rgba(93,173,226,.28);}
 .fixed-cta-btn:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(93,173,226,.4);}
 
-/* Toast */
 .toast{position:fixed;top:clamp(70px,10vw,80px);left:50%;transform:translateX(-50%) translateY(-14px);background:rgba(13,32,64,.97);border:1px solid rgba(93,173,226,.38);border-radius:var(--r-md);padding:11px 20px;color:var(--white);font-size:clamp(11px,3vw,13px);z-index:999;opacity:0;pointer-events:none;transition:all .35s cubic-bezier(.16,1,.3,1);backdrop-filter:blur(18px);box-shadow:0 12px 40px rgba(0,0,0,.4);white-space:nowrap;max-width:88vw;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
-/* Animations */
 .fu{opacity:0;transform:translateY(20px);animation:fuA .6s cubic-bezier(.16,1,.3,1) forwards;}
 @keyframes fuA{to{opacity:1;transform:translateY(0);}}
 .d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}.d4{animation-delay:.32s}
@@ -251,23 +245,18 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;}
   .gallery{height:clamp(200px,50vw,240px);}
   .amen-grid{grid-template-columns:repeat(2,1fr);}
   .popup{padding:18px 14px 26px;}
-  .pay-grid{grid-template-columns:1fr 1fr;}
 }
 </style>
 </head>
 <body>
-
 <div class="nbg"></div>
 
-<!-- TOP BAR -->
 <div class="topbar">
   <button class="back-btn" onclick="goBack()">← <span id="backTxt">Retour</span></button>
   <div class="topbar-logo">Book<span>Zzz</span></div>
 </div>
 
-<!-- MAIN -->
 <div class="main">
-
   <!-- GALLERY -->
   <div class="gallery fu" id="gallery">
     <div class="gallery-track" id="galleryTrack"></div>
@@ -314,36 +303,32 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;}
   <!-- ROOMS -->
   <div class="scard fu d3">
     <div class="stitle" id="roomsTitle">Chambres <span>disponibles</span></div>
-    <div class="rooms-list" id="roomsList">
-      <div class="skel"></div><div class="skel"></div>
-    </div>
+    <div class="rooms-list" id="roomsList"><div class="skel"></div><div class="skel"></div></div>
   </div>
-
 </div>
 
 <!-- FIXED CTA -->
 <div class="fixed-cta-wrap" id="fixedCta" style="display:none">
   <div class="fixed-cta-inner">
-    <button class="fixed-cta-btn" onclick="openPopup()"><span id="fixedCtaTxt">Réserver une chambre</span></button>
+    <button class="fixed-cta-btn" onclick="openPopup()"><span id="fixedCtaTxt">Voir les chambres</span></button>
   </div>
 </div>
 
-<!-- ══ RESERVATION POPUP ══ -->
+<!-- RESERVATION POPUP -->
 <div class="overlay" id="overlay" onclick="closeOutside(event)">
-  <div class="popup" id="popup">
+  <div class="popup">
     <div class="popup-handle"></div>
     <button class="popup-close" onclick="closePopup()">✕</button>
 
     <div id="formView">
       <div class="popup-title" id="popTitle">Réserver <span>votre chambre</span></div>
-      <div class="popup-sub" id="popSub">Complétez votre réservation</div>
+      <div class="popup-sub" id="popSub">La réservation est gratuite sur BookZzz</div>
 
       <div class="room-sum" id="roomSum">
         <span class="rs-ico" id="rsIco">🛏️</span>
         <div><div class="rs-name" id="rsName">Sélectionnez une chambre</div><div class="rs-pr" id="rsPr">—</div></div>
       </div>
 
-      <!-- Days selector -->
       <label class="field-label" id="daysLabel">NOMBRE DE NUITS</label>
       <div class="days-row">
         <button class="day-btn" onclick="chDays(-1)">−</button>
@@ -351,30 +336,29 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;}
         <button class="day-btn" onclick="chDays(1)">+</button>
       </div>
 
-      <!-- Calendar -->
       <label class="field-label" id="calLabel">DATE D'ARRIVÉE</label>
       <div class="calendar-wrap">
         <div class="cal-header">
           <button class="cal-nav" onclick="calNav(-1)">‹</button>
-          <div class="cal-month" id="calMonth">Mars 2026</div>
+          <div class="cal-month" id="calMonth"></div>
           <button class="cal-nav" onclick="calNav(1)">›</button>
         </div>
         <div class="cal-grid" id="calGrid"></div>
-        <div class="cal-summary" id="calSummary">Sélectionnez une date d'arrivée</div>
+        <div class="cal-summary" id="calSummary"></div>
       </div>
 
-      <!-- Total -->
+      <!-- Total shows actual room price × nights, discount applied, final amount -->
       <div class="total-box">
         <div class="tr"><span class="tr-lbl" id="tl1">Prix chambre / nuit</span><span class="tr-val" id="tv1">—</span></div>
         <div class="tr"><span class="tr-lbl" id="tl2">Nombre de nuits</span><span class="tr-val" id="tv2">1</span></div>
+        <div class="tr"><span class="tr-lbl" id="tl-sub">Sous-total</span><span class="tr-val" id="tv-sub">—</span></div>
         <div class="tr-disc"><span class="tr-disc-lbl" id="tl-disc">🎉 Réduction BookZzz</span><span class="tr-disc-val" id="tv-disc">—</span></div>
         <div class="tr-final">
-          <span class="tr-f-lbl" id="tl3">Total à payer</span>
+          <span class="tr-f-lbl" id="tl3">Total à payer à l'hôtel</span>
           <span class="tr-f-val" id="tvFinal">—</span>
         </div>
       </div>
 
-      <!-- Payment -->
       <label class="field-label" id="payLabel">MODE DE PAIEMENT</label>
       <div class="pay-grid">
         <div class="pay-btn sel" onclick="selPay(this,'mobile')"><div class="pay-ico">📱</div><div class="pay-nm">Mobile Money</div><div class="pay-sb">M-Pesa, Airtel...</div></div>
@@ -388,12 +372,11 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;}
       </button>
     </div>
 
-    <!-- SUCCESS VIEW -->
     <div id="successView" style="display:none">
       <div class="success-view">
         <div class="suc-icon">✅</div>
         <div class="suc-title" id="sucTitle">Réservation <span>confirmée !</span></div>
-        <p class="suc-sub" id="sucSub">Votre réservation est confirmée. L'hôtel vous contactera bientôt.</p>
+        <p class="suc-sub" id="sucSub">Votre réservation est confirmée. Montrez votre référence à l'arrivée.</p>
         <div class="suc-ref" id="sucRef">RÉF #BZ000000</div>
         <button class="back-home-btn" onclick="goBack()" id="backHomeBtn">← Retour aux hôtels</button>
       </div>
@@ -401,22 +384,25 @@ button{font-family:'DM Sans',sans-serif;cursor:pointer;}
   </div>
 </div>
 
-<!-- ══ CASH WARNING ══ -->
+<!-- ═══ CASH WARNING — EXACT TEXT ═══ -->
 <div class="warning-overlay" id="warningOverlay">
   <div class="warning-box">
     <div class="warn-icon">⚠️</div>
     <div class="warn-title" id="warnTitle">Réservation non garantie</div>
-    <div class="warn-body" id="warnBody">En choisissant de payer en espèces à l'arrivée, votre réservation n'est PAS garantie.
-
-Si vous ne vous présentez pas physiquement à l'hôtel le jour prévu, la chambre sera libérée et la réservation annulée automatiquement dans le système.</div>
-    <button class="warn-btn" id="warnBtn" onclick="acceptCashWarning()">J'ai compris</button>
+    <div class="warn-body" id="warnBody">
+      Votre réservation est actuellement enregistrée en mode non garantie. Cela signifie qu'aucun paiement ou empreinte bancaire n'a été effectué pour sécuriser la chambre. Afin de garantir votre séjour et éviter toute libération de la chambre en cas de forte demande.
+      <span class="warn-nb">N.B : si vous ne vous présentez pas physiquement à l'hôtel le jour prévu, la chambre sera libérée et la réservation annulée automatiquement dans le système, nous vous invitons à confirmer ou modifier votre moyen de paiement.</span>
+    </div>
+    <div class="warn-actions">
+      <button class="warn-confirm-btn" id="warnConfirmBtn" onclick="acceptCashWarning()">✅ Confirmer</button>
+      <button class="warn-change-btn" id="warnChangeBtn" onclick="changePayout()">🔄 Changer le moyen de paiement</button>
+    </div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-/* ══ CONFIG ══ */
 var SB='https://dgxgpvxyrimpppjvvwto.supabase.co';
 var SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRneGdwdnh5cmltcHBwanZ2d3RvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4NDc1NTMsImV4cCI6MjA4OTQyMzU1M30.Ccr7orHXHiVJJiXzdxIcF0bP9Kkj3PxQM-hZQQ4Mg2w';
 var HDR={'apikey':SK,'Authorization':'Bearer '+SK,'Content-Type':'application/json'};
@@ -424,23 +410,20 @@ var BASE='https://jasonyang0119-art.github.io/bookzzz/';
 var DEFAULT_COMMISSION=25;
 var DEFAULT_DISCOUNT=33;
 
-/* ══ STATE ══ */
 var S={hotel:null,rooms:[],selectedRoom:null,days:1,payMethod:'mobile',lang:'fr',
-       galleryIdx:0,slides:[],
-       calYear:new Date().getFullYear(),calMonth:new Date().getMonth(),
+       galleryIdx:0,slides:[],calYear:new Date().getFullYear(),calMonth:new Date().getMonth(),
        selectedCheckin:null,cashAccepted:false};
 
-/* ══ TRANSLATIONS ══ */
 var T={
-  fr:{back:'Retour',verified:'Vérifié',descTitle:'À propos de cet hôtel',
-    addrTitle:'Adresse & Localisation',addrLabel:'ADRESSE',gpsTxt:'Voir sur la carte',
-    amenTitle:'Équipements & Services',roomsTitle:'Chambres disponibles',
-    fixedCta:'Réserver une chambre',
-    popTitle:'Réserver votre chambre',popSub:'Complétez votre réservation',
+  fr:{back:'Retour',verified:'Vérifié',descTitle:'À propos de cet hôtel',addrTitle:'Adresse & Localisation',
+    addrLabel:'ADRESSE',gpsTxt:'Voir sur la carte',amenTitle:'Équipements & Services',roomsTitle:'Chambres disponibles',
+    fixedCta:'Voir les chambres',popTitle:'Réserver votre chambre',
+    popSub:'La réservation est gratuite sur BookZzz',
     daysLabel:'NOMBRE DE NUITS',calLabel:'DATE D\'ARRIVÉE',payLabel:'MODE DE PAIEMENT',
-    tl1:'Prix chambre / nuit',tl2:'Nombre de nuits',tlDisc:'🎉 Réduction BookZzz',tl3:'Total à payer',
+    tl1:'Prix chambre / nuit',tl2:'Nombre de nuits',tlSub:'Sous-total',
+    tlDisc:'🎉 Réduction BookZzz',tl3:'Total à payer à l\'hôtel',
     confirmTxt:'Confirmer la réservation',
-    sucTitle:'Réservation confirmée !',sucSub:'Votre réservation est confirmée. L\'hôtel vous contactera bientôt.',
+    sucTitle:'Réservation confirmée !',sucSub:'Votre réservation est confirmée. Montrez votre référence à l\'arrivée.',
     backHome:'← Retour aux hôtels',
     ac:'Climatisation',elev:'Ascenseur',ventil:'Ventilation',
     meal_breakfast:'Petit-déjeuner',meal_full:'Pension complète',meal_none:'Pas de repas',
@@ -449,24 +432,23 @@ var T={
     payCard:'Carte bancaire',payCash:'Espèces',payCashSub:'À l\'arrivée',payOther:'Autre',payOtherSub:'Contacter l\'hôtel',
     nights:'nuits',night:'nuit',processing:'Traitement...',priceOnReq:'Sur demande',
     exterior:'Extérieur',reception:'Réception',restaurant:'Restaurant',room:'Chambre',
-    floor:'Étage',roomNum:'N° chambre',
-    cashWarning:'⚠️ Réservation non garantie',
-    cashWarnBody:'En choisissant de payer en espèces à l\'arrivée, votre réservation n\'est PAS garantie.\n\nSi vous ne vous présentez pas physiquement à l\'hôtel le jour prévu, la chambre sera libérée et la réservation annulée automatiquement dans le système.',
-    cashWarnBtn:'J\'ai compris',
+    floor:'Étage',roomNum:'N° chambre',discountLabel:'Réduction de ',discountWith:'avec BookZzz',
     calSummaryEmpty:'Sélectionnez une date d\'arrivée',
-    reductionWith:'avec BookZzz',
+    /* Cash warning — exact text as requested */
+    warnTitle:'Réservation non garantie',
+    warnConfirmBtn:'✅ Confirmer',warnChangeBtn:'🔄 Changer le moyen de paiement',
     days_short:['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],
     months:['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre']
   },
-  en:{back:'Back',verified:'Verified',descTitle:'About this hotel',
-    addrTitle:'Address & Location',addrLabel:'ADDRESS',gpsTxt:'View on map',
-    amenTitle:'Amenities & Services',roomsTitle:'Available Rooms',
-    fixedCta:'Reserve a Room',
-    popTitle:'Reserve your room',popSub:'Complete your reservation',
+  en:{back:'Back',verified:'Verified',descTitle:'About this hotel',addrTitle:'Address & Location',
+    addrLabel:'ADDRESS',gpsTxt:'View on map',amenTitle:'Amenities & Services',roomsTitle:'Available Rooms',
+    fixedCta:'See Rooms',popTitle:'Reserve your room',
+    popSub:'Booking is free on BookZzz',
     daysLabel:'NUMBER OF NIGHTS',calLabel:'CHECK-IN DATE',payLabel:'PAYMENT METHOD',
-    tl1:'Room price / night',tl2:'Number of nights',tlDisc:'🎉 BookZzz discount',tl3:'Total to pay',
+    tl1:'Room price / night',tl2:'Number of nights',tlSub:'Subtotal',
+    tlDisc:'🎉 BookZzz discount',tl3:'Total to pay at hotel',
     confirmTxt:'Confirm Reservation',
-    sucTitle:'Booking confirmed!',sucSub:'Your reservation is confirmed. The hotel will contact you shortly.',
+    sucTitle:'Booking confirmed!',sucSub:'Your booking is confirmed. Show your reference on arrival.',
     backHome:'← Back to hotels',
     ac:'Air conditioning',elev:'Elevator',ventil:'Ventilation',
     meal_breakfast:'Breakfast',meal_full:'Full board',meal_none:'No meals',
@@ -475,24 +457,22 @@ var T={
     payCard:'Bank Card',payCash:'Cash',payCashSub:'Pay on arrival',payOther:'Other',payOtherSub:'Contact hotel',
     nights:'nights',night:'night',processing:'Processing...',priceOnReq:'Price on request',
     exterior:'Exterior',reception:'Reception',restaurant:'Restaurant',room:'Room',
-    floor:'Floor',roomNum:'Room #',
-    cashWarning:'⚠️ Non-guaranteed reservation',
-    cashWarnBody:'By choosing to pay cash on arrival, your reservation is NOT guaranteed.\n\nIf you do not show up on the scheduled day, the room will be released and the reservation automatically cancelled.',
-    cashWarnBtn:'I understand',
+    floor:'Floor',roomNum:'Room #',discountLabel:'Discount ',discountWith:'with BookZzz',
     calSummaryEmpty:'Select a check-in date',
-    reductionWith:'with BookZzz',
+    warnTitle:'Non-guaranteed reservation',
+    warnConfirmBtn:'✅ Confirm',warnChangeBtn:'🔄 Change payment method',
     days_short:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
     months:['January','February','March','April','May','June','July','August','September','October','November','December']
   },
-  sw:{back:'Rudi',verified:'Imethibitishwa',descTitle:'Kuhusu hoteli hii',
-    addrTitle:'Anwani & Mahali',addrLabel:'ANWANI',gpsTxt:'Ona kwenye ramani',
-    amenTitle:'Huduma & Vifaa',roomsTitle:'Vyumba Vinavyopatikana',
-    fixedCta:'Hifadhi Chumba',
-    popTitle:'Hifadhi chumba chako',popSub:'Kamilisha uhifadhi wako',
+  sw:{back:'Rudi',verified:'Imethibitishwa',descTitle:'Kuhusu hoteli hii',addrTitle:'Anwani & Mahali',
+    addrLabel:'ANWANI',gpsTxt:'Ona kwenye ramani',amenTitle:'Huduma & Vifaa',roomsTitle:'Vyumba Vinavyopatikana',
+    fixedCta:'Ona Vyumba',popTitle:'Hifadhi chumba chako',
+    popSub:'Uhifadhi ni bure kwenye BookZzz',
     daysLabel:'IDADI YA USIKU',calLabel:'TAREHE YA KUWASILI',payLabel:'NJIA YA MALIPO',
-    tl1:'Bei ya chumba / usiku',tl2:'Idadi ya usiku',tlDisc:'🎉 Punguzo la BookZzz',tl3:'Jumla ya kulipa',
+    tl1:'Bei ya chumba / usiku',tl2:'Idadi ya usiku',tlSub:'Jumla ndogo',
+    tlDisc:'🎉 Punguzo la BookZzz',tl3:'Jumla ya kulipa hotelini',
     confirmTxt:'Thibitisha Uhifadhi',
-    sucTitle:'Uhifadhi umethibitishwa!',sucSub:'Uhifadhi wako umethibitishwa. Hoteli itawasiliana nawe hivi karibuni.',
+    sucTitle:'Uhifadhi umethibitishwa!',sucSub:'Uhifadhi wako umethibitishwa. Onyesha kumbukumbu yako ukifika.',
     backHome:'← Rudi kwa mahoteli',
     ac:'Hewa ya baridi',elev:'Lifti',ventil:'Uingizaji hewa',
     meal_breakfast:'Kifungua kinywa',meal_full:'Chakula kamili',meal_none:'Bila chakula',
@@ -501,45 +481,29 @@ var T={
     payCard:'Kadi ya benki',payCash:'Pesa taslimu',payCashSub:'Lipa ukifika',payOther:'Nyingine',payOtherSub:'Wasiliana na hoteli',
     nights:'usiku',night:'usiku',processing:'Inashughulikia...',priceOnReq:'Bei kwa ombi',
     exterior:'Nje',reception:'Mapokezi',restaurant:'Mkahawa',room:'Chumba',
-    floor:'Ghorofa',roomNum:'Nambari ya chumba',
-    cashWarning:'⚠️ Uhifadhi usio na uhakika',
-    cashWarnBody:'Kwa kuchagua kulipa pesa taslimu ukifika, uhifadhi wako HAUHAKIKISHWI.\n\nUsipofika siku uliyopanga, chumba kitatolewa na uhifadhi utafutwa kiotomatiki.',
-    cashWarnBtn:'Nimeelewa',
+    floor:'Ghorofa',roomNum:'Nambari ya chumba',discountLabel:'Punguzo la ',discountWith:'na BookZzz',
     calSummaryEmpty:'Chagua tarehe ya kuwasili',
-    reductionWith:'na BookZzz',
+    warnTitle:'Uhifadhi usio na uhakika',
+    warnConfirmBtn:'✅ Thibitisha',warnChangeBtn:'🔄 Badilisha njia ya malipo',
     days_short:['Jum','Jte','Jnn','Juz','Ala','Ijm','Jmo'],
     months:['Januari','Februari','Machi','Aprili','Mei','Juni','Julai','Agosti','Septemba','Oktoba','Novemba','Desemba']
   }
 };
 
-/* ══ DEMO ══ */
 var DEMO_ROOMS=[
-  {id:'r1',name:'Chambre Standard',price:15000,capacity:1,available:true,floor:1,room_number:'101',
-   description:'Chambre confortable avec literie de qualité et salle de bain privée.',
-   has_ac:false,has_wifi:true,has_ventilation:true,meal_included:'none',emoji:'🛏️',currency:'CDF',
-   photos:[{url:null,emoji:'🛏️'},{url:null,emoji:'🚿'}]},
-  {id:'r2',name:'Chambre Double',price:22000,capacity:2,available:true,floor:2,room_number:'205',
-   description:'Grande chambre avec grand lit double. Parfaite pour deux personnes.',
-   has_ac:true,has_wifi:true,has_ventilation:true,meal_included:'breakfast',emoji:'🛌',currency:'CDF',
-   photos:[{url:null,emoji:'🛌'},{url:null,emoji:'🍳'}]},
-  {id:'r3',name:'Suite Présidentielle',price:65000,capacity:2,available:false,floor:5,room_number:'501',
-   description:'Suite luxueuse avec salon séparé et vue panoramique sur la ville.',
-   has_ac:true,has_wifi:true,has_ventilation:true,meal_included:'full',emoji:'👑',currency:'CDF',
-   photos:[{url:null,emoji:'👑'},{url:null,emoji:'🛁'}]}
+  {id:'r1',name:'Chambre Standard',price:15000,capacity:1,available:true,floor:1,room_number:'101',description:'Chambre confortable avec literie de qualité et salle de bain privée.',has_ac:false,has_wifi:true,has_ventilation:true,meal_included:'none',emoji:'🛏️',currency:'CDF',photos:[{url:null,emoji:'🛏️'}]},
+  {id:'r2',name:'Chambre Double',price:22000,capacity:2,available:true,floor:2,room_number:'205',description:'Grande chambre avec grand lit double. Parfaite pour deux personnes.',has_ac:true,has_wifi:true,has_ventilation:true,meal_included:'breakfast',emoji:'🛌',currency:'CDF',photos:[{url:null,emoji:'🛌'}]},
+  {id:'r3',name:'Suite Présidentielle',price:65000,capacity:2,available:false,floor:5,room_number:'501',description:'Suite luxueuse avec salon séparé et vue panoramique sur la ville.',has_ac:true,has_wifi:true,has_ventilation:true,meal_included:'full',emoji:'👑',currency:'CDF',photos:[{url:null,emoji:'👑'}]}
 ];
 
-/* ══ INIT ══ */
 window.addEventListener('DOMContentLoaded',function(){
   S.lang=localStorage.getItem('bz_lang')||'fr';
-  var t=T[S.lang];
-  applyLang(t);
-  initCalendar();
+  var t=T[S.lang];applyLang(t);initCalendar();
   var stored=localStorage.getItem('bz_hotel');
   if(stored){try{S.hotel=JSON.parse(stored);renderHotel(S.hotel);loadRooms(S.hotel.id);}catch(e){loadFallback();}}
   else{var id=new URLSearchParams(window.location.search).get('id');if(id)fetchHotel(id);else loadFallback();}
 });
 
-/* ══ APPLY LANGUAGE ══ */
 function applyLang(t){
   document.getElementById('backTxt').textContent=t.back;
   document.getElementById('vrfTxt').textContent=t.verified;
@@ -555,9 +519,8 @@ function applyLang(t){
   document.getElementById('daysLabel').textContent=t.daysLabel;
   document.getElementById('calLabel').textContent=t.calLabel;
   document.getElementById('payLabel').textContent=t.payLabel;
-  document.getElementById('tl1').textContent=t.tl1;
-  document.getElementById('tl2').textContent=t.tl2;
-  document.getElementById('tl-disc').textContent=t.tlDisc;
+  document.getElementById('tl1').textContent=t.tl1;document.getElementById('tl2').textContent=t.tl2;
+  document.getElementById('tl-sub').textContent=t.tlSub;document.getElementById('tl-disc').textContent=t.tlDisc;
   document.getElementById('tl3').textContent=t.tl3;
   document.getElementById('confirmTxt').textContent=t.confirmTxt;
   document.getElementById('sucSub').textContent=t.sucSub;
@@ -567,16 +530,14 @@ function applyLang(t){
   document.getElementById('payCashSub').textContent=t.payCashSub;
   document.getElementById('payOther').textContent=t.payOther;
   document.getElementById('payOtherSub').textContent=t.payOtherSub;
-  document.getElementById('warnTitle').textContent=t.cashWarning;
-  document.getElementById('warnBody').textContent=t.cashWarnBody;
-  document.getElementById('warnBtn').textContent=t.cashWarnBtn;
+  document.getElementById('warnTitle').textContent=t.warnTitle;
+  document.getElementById('warnConfirmBtn').textContent=t.warnConfirmBtn;
+  document.getElementById('warnChangeBtn').textContent=t.warnChangeBtn;
   document.getElementById('calSummary').textContent=t.calSummaryEmpty;
 }
 
-/* ══ FETCH ══ */
 function fetchHotel(id){fetch(SB+'/rest/v1/hotels?id=eq.'+id+'&select=*',{headers:HDR}).then(function(r){return r.json();}).then(function(d){if(d&&d.length>0){S.hotel=d[0];renderHotel(d[0]);loadRooms(id);}else loadFallback();}).catch(loadFallback);}
 
-/* ══ RENDER HOTEL ══ */
 function renderHotel(h){
   var t=T[S.lang];
   document.title='BookZzz — '+(h.name||'Hôtel');
@@ -585,54 +546,32 @@ function renderHotel(h){
   document.getElementById('cityBadge').textContent=(h.city||'')+(h.country?', '+h.country:'');
   if(h.is_verified)document.getElementById('vrfBadge').style.display='inline-flex';
   document.getElementById('hotelDesc').textContent=h.description||'Un hôtel confortable offrant des chambres de qualité et des services professionnels.';
-  var addr=h.address||'Adresse non disponible';
-  var city=(h.city||'')+(h.country?', '+h.country:'');
-  document.getElementById('addrText').textContent=addr;
-  document.getElementById('addrCity').textContent=city;
+  var addr=h.address||'Adresse non disponible';var city=(h.city||'')+(h.country?', '+h.country:'');
+  document.getElementById('addrText').textContent=addr;document.getElementById('addrCity').textContent=city;
   document.getElementById('addrBox').href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent((addr+' '+city).trim());
-  /* Amenities */
-  var items=[
-    {icon:'❄️',label:t.ac,ok:h.has_ac},
-    {icon:'🛗',label:t.elev,ok:h.has_elevator},
-    {icon:'🌀',label:t.ventil,ok:h.has_ventilation},
-    {icon:'🍽️',label:h.meal_included==='breakfast'?t.meal_breakfast:h.meal_included==='full'?t.meal_full:t.meal_none,ok:h.meal_included&&h.meal_included!=='none'},
-    {icon:'📶',label:'WiFi',ok:h.has_wifi!==false},
-    {icon:'🚗',label:'Parking',ok:h.has_parking||false}
-  ];
-  document.getElementById('amenGrid').innerHTML=items.map(function(i){
-    return '<div class="amen-item '+(i.ok?'yes':'no')+'"><span class="amen-icon">'+i.icon+'</span><div class="amen-info"><span class="amen-label">'+i.label+'</span><span class="amen-val '+(i.ok?'yes':'no')+'">'+(i.ok?'✓ Oui':'✗ Non')+'</span></div></div>';
-  }).join('');
+  var items=[{icon:'❄️',label:t.ac,ok:h.has_ac},{icon:'🛗',label:t.elev,ok:h.has_elevator},{icon:'🌀',label:t.ventil,ok:h.has_ventilation},{icon:'🍽️',label:h.meal_included==='breakfast'?t.meal_breakfast:h.meal_included==='full'?t.meal_full:t.meal_none,ok:h.meal_included&&h.meal_included!=='none'},{icon:'📶',label:'WiFi',ok:h.has_wifi!==false},{icon:'🚗',label:'Parking',ok:h.has_parking||false}];
+  document.getElementById('amenGrid').innerHTML=items.map(function(i){return '<div class="amen-item '+(i.ok?'yes':'no')+'"><span class="amen-icon">'+i.icon+'</span><div class="amen-info"><span class="amen-label">'+i.label+'</span><span class="amen-val '+(i.ok?'yes':'no')+'">'+(i.ok?'✓ Oui':'✗ Non')+'</span></div></div>';}).join('');
   buildGallery(h);
   document.getElementById('fixedCta').style.display='block';
 }
 
-/* ══ GALLERY ══ */
 function buildGallery(h){
   var t=T[S.lang];
   var slides=[];
   if(h.main_photo_url)slides.push({url:h.main_photo_url,label:h.name,emoji:'🏨'});
-  if(slides.length===0){
-    slides=[{url:null,label:t.exterior,emoji:'🏨'},{url:null,label:t.reception,emoji:'🛎️'},{url:null,label:t.restaurant,emoji:'🍽️'},{url:null,label:t.room,emoji:'🛏️'}];
-  }
+  if(!slides.length)slides=[{url:null,label:t.exterior,emoji:'🏨'},{url:null,label:t.reception,emoji:'🛎️'},{url:null,label:t.restaurant,emoji:'🍽️'},{url:null,label:t.room,emoji:'🛏️'}];
   S.slides=slides;S.galleryIdx=0;renderGallery();
 }
 function renderGallery(){
-  var slides=S.slides;
-  document.getElementById('galleryTrack').innerHTML=slides.map(function(s){
-    return '<div class="gallery-slide">'+(s.url?'<img src="'+s.url+'" alt="'+s.label+'" loading="lazy">':'<div class="gallery-slide-ph"><div class="ph-icon">'+s.emoji+'</div><div class="ph-label">'+s.label+'</div></div>')+'</div>';
-  }).join('');
-  document.getElementById('galleryDots').innerHTML=slides.map(function(_,i){return '<button class="g-dot'+(i===0?' on':'')+'" onclick="goToSlide('+i+')"></button>';}).join('');
+  var sl=S.slides;
+  document.getElementById('galleryTrack').innerHTML=sl.map(function(s){return '<div class="gallery-slide">'+(s.url?'<img src="'+s.url+'" alt="'+s.label+'" loading="lazy">':'<div class="gallery-slide-ph"><div class="ph-icon">'+s.emoji+'</div><div class="ph-label">'+s.label+'</div></div>')+'</div>';}).join('');
+  document.getElementById('galleryDots').innerHTML=sl.map(function(_,i){return '<button class="g-dot'+(i===0?' on':'')+'" onclick="goToSlide('+i+')"></button>';}).join('');
   updateGalleryUI();
 }
 function slideGallery(d){var l=S.slides.length;S.galleryIdx=(S.galleryIdx+d+l)%l;updateGalleryUI();}
 function goToSlide(i){S.galleryIdx=i;updateGalleryUI();}
-function updateGalleryUI(){
-  document.getElementById('galleryTrack').style.transform='translateX(-'+(S.galleryIdx*100)+'%)';
-  document.getElementById('galleryCount').textContent=(S.galleryIdx+1)+' / '+S.slides.length;
-  document.querySelectorAll('.g-dot').forEach(function(d,i){d.classList.toggle('on',i===S.galleryIdx);});
-}
+function updateGalleryUI(){document.getElementById('galleryTrack').style.transform='translateX(-'+(S.galleryIdx*100)+'%)';document.getElementById('galleryCount').textContent=(S.galleryIdx+1)+' / '+S.slides.length;document.querySelectorAll('.g-dot').forEach(function(d,i){d.classList.toggle('on',i===S.galleryIdx);});}
 
-/* ══ LOAD ROOMS ══ */
 function loadRooms(id){
   fetch(SB+'/rest/v1/rooms?hotel_id=eq.'+id+'&select=*&order=price.asc',{headers:HDR})
   .then(function(r){return r.json();})
@@ -640,67 +579,58 @@ function loadRooms(id){
   .catch(function(){S.rooms=DEMO_ROOMS;renderRooms(DEMO_ROOMS);});
 }
 
-/* ══ RENDER ROOMS ══ */
 function renderRooms(rooms){
   var t=T[S.lang];var list=document.getElementById('roomsList');
-  if(!rooms||!rooms.length){list.innerHTML='<div class="empty-rooms"><p>Aucune chambre disponible</p></div>';return;}
+  if(!rooms||!rooms.length){list.innerHTML='<div style="text-align:center;padding:40px;color:var(--text-dim)">Aucune chambre disponible</div>';return;}
   list.innerHTML=rooms.map(function(r,i){
     var avail=r.available!==false;
     var price=parseFloat(r.price||0);
     var comm=S.hotel?S.hotel.commission_rate||DEFAULT_COMMISSION:DEFAULT_COMMISSION;
     var disc=S.hotel?S.hotel.discount_rate||DEFAULT_DISCOUNT:DEFAULT_DISCOUNT;
-    /* Discount calc */
-    var commAmt=price*(comm/100);
-    var discAmt=commAmt*(disc/100);
-    var origFee=Math.round(commAmt);
-    var discFee=Math.round(commAmt-discAmt);
-    var discPct=Math.round(discAmt*100/price*100)/100;
+    /* Discount = (commission% × discount%) of room price */
+    var discPct=Math.round((comm/100)*(disc/100)*1000)/10;
+    var discAmt=Math.round(price*discPct/100);
     var cur=r.currency||'CDF';
     var photos=r.photos&&r.photos.length?r.photos:[{url:null,emoji:r.emoji||'🛏️'}];
     var tags='<span class="rtag">👥 '+r.capacity+' '+t.capacity+'</span>';
     if(r.has_ac)tags+='<span class="rtag">❄️ '+t.ac+'</span>';
     if(r.has_wifi!==false)tags+='<span class="rtag">📶 WiFi</span>';
     if(r.has_ventilation)tags+='<span class="rtag">🌀 '+t.ventil+'</span>';
-    var mealLabel=r.meal_included==='breakfast'?t.meal_breakfast:r.meal_included==='full'?t.meal_full:null;
-    if(mealLabel)tags+='<span class="rtag">🍽️ '+mealLabel+'</span>';
-    /* Price HTML */
-    var priceHtml=price>0
-      ?'<div class="rprice-original">'+origFee.toLocaleString()+' '+cur+' <span style="font-size:9px">'+t.perNight+'</span></div>'
-       +'<div class="rprice-discounted">'+discFee.toLocaleString()+' '+cur+'</div>'
-       +'<div class="rprice-badge">-'+discPct+'% '+t.reductionWith+'</div>'
-       +'<div class="rprice-lbl">'+t.perNight+'</div>'
-      :'<div class="rprice-discounted" style="font-size:13px;color:var(--text-dim)">'+t.priceOnReq+'</div>';
+    var mLabel=r.meal_included==='breakfast'?t.meal_breakfast:r.meal_included==='full'?t.meal_full:null;
+    if(mLabel)tags+='<span class="rtag">🍽️ '+mLabel+'</span>';
+    /* Price block — shows actual room price, not commission */
+    var priceHtml='<div class="room-price-col">';
+    if(price>0){
+      priceHtml+='<div class="rprice">'+price.toLocaleString()+' '+cur+'</div>';
+      priceHtml+='<div class="rprice-night">'+t.perNight+'</div>';
+      if(discPct>0)priceHtml+='<div class="rdiscount-badge">🎉 '+t.discountLabel+discPct+'%</div>';
+    } else {
+      priceHtml+='<div class="rprice" style="font-size:13px;color:var(--text-dim)">'+t.priceOnReq+'</div>';
+    }
+    priceHtml+='</div>';
     var slidesHtml=photos.map(function(p){return '<div class="room-photo-slide">'+(p.url?'<img src="'+p.url+'" alt="'+r.name+'" loading="lazy">':'<div class="room-photo-ph">'+(p.emoji||r.emoji||'🛏️')+'</div>')+'</div>';}).join('');
     return '<div class="room-card'+(avail?'':' unavail')+'" style="animation:fuA .5s cubic-bezier(.16,1,.3,1) '+(i*0.08)+'s both">'
       +'<div class="room-photos"><div class="room-photo-track" id="rpt-'+i+'">'+slidesHtml+'</div>'
       +(photos.length>1?'<button class="room-ph-nav room-ph-prev" onclick="slideRoom('+i+',-1,'+photos.length+')">‹</button><button class="room-ph-nav room-ph-next" onclick="slideRoom('+i+',1,'+photos.length+')">›</button>':'')
       +'<div class="room-avail-badge '+(avail?'avail-yes':'avail-no')+'">● '+(avail?t.avail:t.unavail)+'</div></div>'
       +'<div class="room-body"><div class="room-name">'+r.name+'</div>'
-      /* Floor and room number */
-      +'<div class="room-location-info">'
-      +(r.floor?'<span class="room-loc-tag">🏢 '+t.floor+' '+r.floor+'</span>':'')
-      +(r.room_number?'<span class="room-loc-tag">🚪 '+t.roomNum+' '+r.room_number+'</span>':'')
-      +'</div>'
+      +'<div class="room-location-info">'+(r.floor?'<span class="room-loc-tag">🏢 '+t.floor+' '+r.floor+'</span>':'')+(r.room_number?'<span class="room-loc-tag">🚪 '+t.roomNum+' '+r.room_number+'</span>':'')+'</div>'
       +'<div class="room-tags">'+tags+'</div>'
       +(r.description?'<div class="room-desc">'+r.description+'</div>':'')
-      +'<div class="room-price-row">'
-      +'<div class="room-price-col">'+priceHtml+'</div>'
+      +'<div class="room-price-row">'+priceHtml
       +(avail?'<button class="room-sel-btn" onclick="selectRoom(\''+r.id+'\')">'+t.avail+' →</button>':'<button class="room-sel-btn" disabled>'+t.unavail+'</button>')
       +'</div></div></div>';
   }).join('');
   window._rSlides={};rooms.forEach(function(_,i){window._rSlides[i]=0;});
 }
 
-/* ══ ROOM SLIDE ══ */
 function slideRoom(ri,dir,total){
   if(!window._rSlides)window._rSlides={};
-  var n=(( window._rSlides[ri]||0)+dir+total)%total;
+  var n=((window._rSlides[ri]||0)+dir+total)%total;
   window._rSlides[ri]=n;
-  var tr=document.getElementById('rpt-'+ri);
-  if(tr)tr.style.transform='translateX(-'+(n*100)+'%)';
+  var tr=document.getElementById('rpt-'+ri);if(tr)tr.style.transform='translateX(-'+(n*100)+'%)';
 }
 
-/* ══ SELECT ROOM ══ */
 function selectRoom(rid){
   var t=T[S.lang];
   var r=S.rooms.find(function(x){return String(x.id)===String(rid);});
@@ -712,38 +642,27 @@ function selectRoom(rid){
   updateTotal();openPopup();
 }
 
-/* ══ POPUP ══ */
 function openPopup(){if(!S.selectedRoom){showToast(T[S.lang].selectRoom);return;}document.getElementById('overlay').classList.add('open');document.body.style.overflow='hidden';}
 function closePopup(){document.getElementById('overlay').classList.remove('open');document.body.style.overflow='';}
 function closeOutside(e){if(e.target===document.getElementById('overlay'))closePopup();}
 
-/* ══ DAYS ══ */
-function chDays(d){S.days=Math.max(1,Math.min(30,S.days+d));document.getElementById('dayCnt').textContent=S.days;updateCalendar();updateTotal();}
+function chDays(d){S.days=Math.max(1,Math.min(30,S.days+d));document.getElementById('dayCnt').textContent=S.days;renderCalendar();updateTotal();}
 
-/* ══ CALENDAR ══ */
+/* CALENDAR */
 function initCalendar(){var now=new Date();S.calYear=now.getFullYear();S.calMonth=now.getMonth();renderCalendar();}
 function calNav(d){S.calMonth+=d;if(S.calMonth>11){S.calMonth=0;S.calYear++;}if(S.calMonth<0){S.calMonth=11;S.calYear--;}renderCalendar();}
-
 function renderCalendar(){
   var t=T[S.lang];
   document.getElementById('calMonth').textContent=t.months[S.calMonth]+' '+S.calYear;
   var now=new Date();now.setHours(0,0,0,0);
   var firstDay=new Date(S.calYear,S.calMonth,1).getDay();
   var daysInMonth=new Date(S.calYear,S.calMonth+1,0).getDate();
-  var grid=document.getElementById('calGrid');
-  /* Day names */
   var html=t.days_short.map(function(d){return '<div class="cal-day-name">'+d+'</div>';}).join('');
-  /* Empty cells */
   for(var i=0;i<firstDay;i++)html+='<div class="cal-day empty-day"></div>';
-  /* Days */
   for(var d2=1;d2<=daysInMonth;d2++){
     var date=new Date(S.calYear,S.calMonth,d2);date.setHours(0,0,0,0);
-    var isPast=date<now;
-    var isToday=date.getTime()===now.getTime();
-    var cls='cal-day';
-    if(isPast)cls+=' past-day';
-    if(isToday)cls+=' today';
-    /* Check if in selected range */
+    var isPast=date<now;var isToday=date.getTime()===now.getTime();
+    var cls='cal-day';if(isPast)cls+=' past-day';if(isToday)cls+=' today';
     if(S.selectedCheckin){
       var ci=new Date(S.selectedCheckin);ci.setHours(0,0,0,0);
       var co=new Date(S.selectedCheckin);co.setDate(co.getDate()+S.days);co.setHours(0,0,0,0);
@@ -751,38 +670,27 @@ function renderCalendar(){
       else if(date>ci&&date<co)cls+=' selected-range';
       else if(date.getTime()===co.getTime())cls+=' selected-end';
     }
-    var ds=JSON.stringify({y:S.calYear,m:S.calMonth,d:d2});
     html+='<div class="'+cls+'"'+(isPast?'':' onclick="selectDate('+d2+')"')+'>'+d2+'</div>';
   }
-  grid.innerHTML=html;
+  document.getElementById('calGrid').innerHTML=html;
   updateCalSummary();
 }
-
-function selectDate(d){
-  S.selectedCheckin=new Date(S.calYear,S.calMonth,d);
-  renderCalendar();updateCalSummary();updateTotal();
-}
-
-function updateCalendar(){renderCalendar();}
-
+function selectDate(d){S.selectedCheckin=new Date(S.calYear,S.calMonth,d);renderCalendar();updateTotal();}
 function updateCalSummary(){
   var t=T[S.lang];
-  if(!S.selectedCheckin){document.getElementById('calSummary').innerHTML=t.calSummaryEmpty;return;}
-  var ci=new Date(S.selectedCheckin);
-  var co=new Date(S.selectedCheckin);co.setDate(co.getDate()+S.days);
+  if(!S.selectedCheckin){document.getElementById('calSummary').textContent=t.calSummaryEmpty;return;}
+  var ci=new Date(S.selectedCheckin);var co=new Date(S.selectedCheckin);co.setDate(co.getDate()+S.days);
   var fmt=function(dt){return dt.getDate()+' '+t.months[dt.getMonth()]+' '+dt.getFullYear();};
   document.getElementById('calSummary').innerHTML='<strong>'+fmt(ci)+'</strong> → <strong>'+fmt(co)+'</strong> ('+S.days+' '+(S.days>1?t.nights:t.night)+')';
 }
 
-/* ══ PAYMENT ══ */
 function selPay(el,method){
-  S.payMethod=method;
+  S.payMethod=method;S.cashAccepted=false;
   document.querySelectorAll('.pay-btn').forEach(function(x){x.classList.remove('sel');});
   el.classList.add('sel');
-  S.cashAccepted=false;
 }
 
-/* ══ TOTAL ══ */
+/* TOTAL — shows actual room price, discount, final amount */
 function updateTotal(){
   if(!S.selectedRoom)return;
   var t=T[S.lang];
@@ -790,62 +698,39 @@ function updateTotal(){
   var cur=S.selectedRoom.currency||'CDF';
   var comm=S.hotel?S.hotel.commission_rate||DEFAULT_COMMISSION:DEFAULT_COMMISSION;
   var disc=S.hotel?S.hotel.discount_rate||DEFAULT_DISCOUNT:DEFAULT_DISCOUNT;
-  var commAmt=price*(comm/100)*S.days;
-  var discAmt=commAmt*(disc/100);
-  var origFee=Math.round(commAmt);
-  var discFee=Math.round(commAmt-discAmt);
+  var subtotal=price*S.days;
+  var discPct=(comm/100)*(disc/100);
+  var discAmt=Math.round(subtotal*discPct);
+  var finalAmt=Math.round(subtotal-discAmt);
   document.getElementById('tv1').textContent=price.toLocaleString()+' '+cur;
   document.getElementById('tv2').textContent=S.days+' '+(S.days>1?t.nights:t.night);
-  document.getElementById('tv-disc').textContent='-'+Math.round(discAmt).toLocaleString()+' '+cur;
-  document.getElementById('tvFinal').textContent=discFee.toLocaleString()+' '+cur;
-  S._finalFee=discFee;S._origFee=origFee;S._currency=cur;
+  document.getElementById('tv-sub').textContent=subtotal.toLocaleString()+' '+cur;
+  document.getElementById('tv-disc').textContent='-'+discAmt.toLocaleString()+' '+cur;
+  document.getElementById('tvFinal').textContent=finalAmt.toLocaleString()+' '+cur;
+  S._finalAmt=finalAmt;S._currency=cur;S._price=price;
 }
 
-/* ══ CONFIRM ══ */
+/* CONFIRM */
 function confirmRes(){
   var t=T[S.lang];
   if(!S.selectedRoom){showToast(t.selectRoom);return;}
   if(!S.selectedCheckin){showToast(t.selectDate);return;}
-  /* Cash warning */
-  if(S.payMethod==='cash'&&!S.cashAccepted){
-    document.getElementById('warningOverlay').classList.add('open');return;
-  }
-  var btn=document.getElementById('confirmBtn');
-  btn.disabled=true;document.getElementById('confirmTxt').textContent=t.processing;
+  if(S.payMethod==='cash'&&!S.cashAccepted){document.getElementById('warningOverlay').classList.add('open');return;}
+  var btn=document.getElementById('confirmBtn');btn.disabled=true;document.getElementById('confirmTxt').textContent=t.processing;
   var ref='BZ'+Date.now().toString().slice(-6);
   var userData=JSON.parse(localStorage.getItem('bz_user')||'{}');
-  var payload={
-    room_id:String(S.selectedRoom.id),
-    guest_name:(userData.firstName||'')+(userData.lastName?' '+userData.lastName:''),
-    days:S.days,total_amount:S._finalFee||0,
-    payment_method:S.payMethod,status:'pending',reference:ref,
-    checkin_date:S.selectedCheckin.toISOString().split('T')[0],
-    created_at:new Date().toISOString()
-  };
+  var payload={room_id:String(S.selectedRoom.id),guest_name:(userData.firstName||'')+(userData.lastName?' '+userData.lastName:''),days:S.days,total_amount:S._finalAmt||0,payment_method:S.payMethod,status:'pending',reference:ref,checkin_date:S.selectedCheckin.toISOString().split('T')[0],created_at:new Date().toISOString()};
   fetch(SB+'/rest/v1/reservations',{method:'POST',headers:Object.assign({},HDR,{'Prefer':'return=minimal'}),body:JSON.stringify(payload)})
-  .then(function(){saveLocally(ref,payload);showSuccess(ref);})
-  .catch(function(){saveLocally(ref,payload);showSuccess(ref);});
+  .then(function(){saveLocally(ref);showSuccess(ref);}).catch(function(){saveLocally(ref);showSuccess(ref);});
 }
 
-function acceptCashWarning(){
-  S.cashAccepted=true;
-  document.getElementById('warningOverlay').classList.remove('open');
-  confirmRes();
-}
+function acceptCashWarning(){S.cashAccepted=true;document.getElementById('warningOverlay').classList.remove('open');confirmRes();}
+function changePayout(){document.getElementById('warningOverlay').classList.remove('open');/* User goes back to choose different payment */showToast(S.lang==='fr'?'Choisissez un autre moyen de paiement':S.lang==='sw'?'Chagua njia nyingine':'Choose another payment method');}
 
-function saveLocally(ref,payload){
+function saveLocally(ref){
   var bookings=JSON.parse(localStorage.getItem('bz_bookings')||'[]');
   var ci=S.selectedCheckin;
-  bookings.unshift({
-    ref:ref,hotel:S.hotel?S.hotel.name:'Hôtel',room:S.selectedRoom.name,
-    roomNumber:S.selectedRoom.room_number||'',floor:S.selectedRoom.floor||'',
-    days:S.days,fee:S._finalFee,currency:S._currency,
-    pricePerNight:parseFloat(S.selectedRoom.price||0),
-    payMethod:S.payMethod,status:'pending',
-    checkin:ci?ci.toDate?ci.toDate().toLocaleDateString():(new Date(ci)).toLocaleDateString():'—',
-    guaranteed:S.payMethod!=='cash',
-    reservationId:null
-  });
+  bookings.unshift({ref:ref,hotel:S.hotel?S.hotel.name:'Hôtel',room:S.selectedRoom.name,roomNumber:S.selectedRoom.room_number||'',floor:S.selectedRoom.floor||'',days:S.days,totalAmount:S._finalAmt,pricePerNight:S._price,currency:S._currency,payMethod:S.payMethod,status:'pending',checkin:ci?(new Date(ci)).toLocaleDateString('fr-FR'):'—',guaranteed:S.payMethod!=='cash',reservationId:null});
   localStorage.setItem('bz_bookings',JSON.stringify(bookings));
 }
 
@@ -857,19 +742,13 @@ function showSuccess(ref){
   document.getElementById('sucRef').textContent='RÉF #'+ref;
 }
 
-/* ══ FALLBACK ══ */
 function loadFallback(){
   var h={id:'demo',name:'Hôtel Démo',description:'Hôtel de démonstration. Ajoutez de vrais hôtels via le tableau de bord admin.',stars:4,city:'Kinshasa',country:'RDC',address:'Avenue Centrale',has_ac:true,has_elevator:false,has_ventilation:true,meal_included:'breakfast',is_verified:true,emoji:'🏨',commission_rate:25,discount_rate:33};
   S.hotel=h;renderHotel(h);S.rooms=DEMO_ROOMS;renderRooms(DEMO_ROOMS);
 }
 
-/* ══ BACK — retour à home, pas à la connexion ══ */
-function goBack(){
-  /* FIX #1 — always go back to home, user stays logged in */
-  window.location.href=BASE+'index.html';
-}
+function goBack(){window.location.href=BASE+'index.html';}
 
-/* ══ TOAST ══ */
 var tT;
 function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(tT);tT=setTimeout(function(){t.classList.remove('show');},3000);}
 </script>

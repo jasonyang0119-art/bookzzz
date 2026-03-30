@@ -16,16 +16,12 @@
   --green:#2ecc71;--red:#e74c3c;--yellow:#f39c12;
   --r-xl:28px;--r-lg:20px;--r-md:14px;--r-sm:10px;
 }
-
-/* ── RESET & BASE ── */
 html,body{width:100%;height:100%;font-family:'DM Sans',sans-serif;background:var(--bg-deep);color:var(--text);}
 body{overflow:hidden;}
-button{font-family:'DM Sans',sans-serif;cursor:pointer;}
-input{font-family:'DM Sans',sans-serif;}
+button,input{font-family:'DM Sans',sans-serif;cursor:pointer;}
 
 /* ── SCREENS ── */
-.screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
-  opacity:0;pointer-events:none;transition:opacity .45s ease;z-index:10;overflow:hidden;}
+.screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .45s ease;z-index:10;overflow:hidden;}
 .screen.active{opacity:1;pointer-events:all;}
 #home{align-items:flex-start;overflow-y:auto;overflow-x:hidden;}
 #home::-webkit-scrollbar{width:0;}
@@ -54,8 +50,7 @@ input{font-family:'DM Sans',sans-serif;}
 /* ── SPLASH ── */
 #splash{z-index:100;background:var(--bg-deep);}
 .spin{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;}
-.spg{display:flex;align-items:center;gap:clamp(10px,3vw,18px);opacity:0;transform:translateX(110px);
-  animation:sIn 1s cubic-bezier(.16,1,.3,1) .5s forwards;}
+.spg{display:flex;align-items:center;gap:clamp(10px,3vw,18px);opacity:0;transform:translateX(110px);animation:sIn 1s cubic-bezier(.16,1,.3,1) .5s forwards;}
 @keyframes sIn{to{opacity:1;transform:translateX(0);}}
 .spbrand{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,10vw,80px);font-weight:700;letter-spacing:-2px;line-height:1;display:flex;align-items:baseline;}
 .spb{color:var(--white);}.spz{color:var(--azure);font-style:italic;text-shadow:0 0 28px rgba(93,173,226,.8),0 0 70px rgba(93,173,226,.3);}
@@ -63,20 +58,18 @@ input{font-family:'DM Sans',sans-serif;}
   opacity:0;transform:translateY(-18px);animation:slD .8s cubic-bezier(.16,1,.3,1) 1.4s forwards;}
 @keyframes slD{to{opacity:1;transform:translateY(0);}}
 .sls{color:var(--white);font-weight:700;}.slz{color:var(--azure);font-weight:700;font-style:italic;}
-.spdots{margin-top:48px;display:flex;gap:8px;opacity:0;animation:fi .4s ease 2.3s forwards;}
+.spdots{margin-top:52px;display:flex;gap:8px;opacity:0;animation:fi .4s ease 2.3s forwards;}
 @keyframes fi{to{opacity:1;}}
 .spdots span{width:6px;height:6px;border-radius:50%;background:var(--azure);animation:dp 1.2s ease-in-out infinite;}
 .spdots span:nth-child(2){animation-delay:.2s}.spdots span:nth-child(3){animation-delay:.4s}
 @keyframes dp{0%,100%{transform:scale(.6);opacity:.3}50%{transform:scale(1.2);opacity:1}}
 
-/* ── INTRO CARDS (lang/country/city/profile) ── */
+/* ── INTRO CARDS ── */
 .intro-wrap{width:100%;max-width:460px;padding:16px;}
 .intro-card{padding:clamp(28px,5vw,50px) clamp(20px,5vw,52px);width:100%;}
 .card-logo{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,8vw,40px);font-weight:700;color:var(--white);margin-bottom:5px;text-align:center;}
 .card-logo span{color:var(--azure);font-style:italic;}
 .card-sub{font-size:clamp(10px,2.5vw,12px);color:var(--text-dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:clamp(24px,4vw,36px);text-align:center;}
-
-/* Language buttons */
 .lo{display:flex;flex-direction:column;gap:10px;}
 .lb{display:flex;align-items:center;gap:12px;padding:clamp(12px,3vw,16px) clamp(14px,4vw,20px);
   background:rgba(13,32,64,.45);border:1px solid var(--border);border-radius:var(--r-lg);
@@ -85,21 +78,15 @@ input{font-family:'DM Sans',sans-serif;}
 .lb:hover::after{opacity:1;}
 .lb:hover{border-color:rgba(93,173,226,.45);transform:translateY(-2px);box-shadow:0 10px 32px rgba(93,173,226,.12);}
 .lb:active{transform:scale(.98);}
-.lfl{font-size:clamp(20px,5vw,25px);flex-shrink:0;}
-.li{flex:1;}
+.lfl{font-size:clamp(20px,5vw,25px);flex-shrink:0;}.li{flex:1;}
 .ln{font-size:clamp(14px,3.5vw,16px);font-weight:600;color:var(--white);}
 .lna{font-size:clamp(10px,2.5vw,11px);color:var(--text-dim);margin-top:1px;}
 .lar{color:var(--azure);opacity:.5;font-size:16px;transition:all .3s;flex-shrink:0;}
 .lb:hover .lar{opacity:1;transform:translateX(4px);}
-
-/* Back step button */
-.back-step{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;
-  background:rgba(13,32,64,.5);border:1px solid var(--border);border-radius:40px;
-  color:var(--text-dim);font-size:clamp(11px,2.5vw,12px);cursor:pointer;margin-bottom:16px;
-  transition:all .3s;width:auto;}
+.back-step{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:rgba(13,32,64,.5);border:1px solid var(--border);border-radius:40px;color:var(--text-dim);font-size:clamp(11px,2.5vw,12px);cursor:pointer;margin-bottom:16px;transition:all .3s;}
 .back-step:hover{color:var(--azure);border-color:rgba(93,173,226,.4);}
 
-/* Country/City grid */
+/* Country / City */
 .cc-icon{font-size:clamp(32px,8vw,42px);margin-bottom:8px;text-align:center;}
 .cc-title{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,6vw,32px);font-weight:700;color:var(--white);margin-bottom:6px;line-height:1.2;text-align:center;}
 .cc-title span{color:var(--azure);font-style:italic;}
@@ -108,25 +95,19 @@ input{font-family:'DM Sans',sans-serif;}
 .cc-notice-txt{font-size:clamp(10px,2.5vw,12px);color:var(--text-dim);line-height:1.5;}
 .cc-notice-txt strong{color:var(--azure-soft);}
 .countries-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.cbtn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:clamp(14px,3vw,18px) 12px;
-  background:rgba(13,32,64,.45);border:1px solid var(--border);border-radius:var(--r-lg);
-  cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden;width:100%;}
+.cbtn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:clamp(14px,3vw,18px) 12px;background:rgba(13,32,64,.45);border:1px solid var(--border);border-radius:var(--r-lg);cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden;width:100%;}
 .cbtn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(93,173,226,.07),transparent);opacity:0;transition:opacity .3s;}
 .cbtn:hover::after{opacity:1;}
-.cbtn:hover{border-color:rgba(93,173,226,.45);transform:translateY(-2px);box-shadow:0 10px 32px rgba(93,173,226,.12);}
+.cbtn:hover{border-color:rgba(93,173,226,.45);transform:translateY(-2px);}
 .cbtn:active{transform:scale(.98);}
 .cflag{font-size:clamp(24px,6vw,32px);}
 .cname{font-size:clamp(11px,2.5vw,13px);font-weight:600;color:var(--white);text-align:center;}
 .cbtn-soon{opacity:.4;cursor:not-allowed;}
 .cbtn-soon:hover{transform:none;box-shadow:none;border-color:var(--border);}
 .soon-tag{position:absolute;top:6px;right:6px;font-size:8px;padding:2px 7px;background:rgba(93,173,226,.12);border:1px solid rgba(93,173,226,.2);border-radius:20px;color:var(--azure);font-weight:600;}
-
-/* Cities list */
 .cities-list{display:flex;flex-direction:column;gap:9px;max-height:min(340px,50vh);overflow-y:auto;}
 .cities-list::-webkit-scrollbar{width:0;}
-.city-btn{display:flex;align-items:center;gap:12px;padding:clamp(12px,3vw,14px) clamp(14px,3vw,18px);
-  background:rgba(13,32,64,.45);border:1px solid var(--border);border-radius:var(--r-lg);
-  cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);text-align:left;position:relative;overflow:hidden;width:100%;}
+.city-btn{display:flex;align-items:center;gap:12px;padding:clamp(12px,3vw,14px) clamp(14px,3vw,18px);background:rgba(13,32,64,.45);border:1px solid var(--border);border-radius:var(--r-lg);cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);text-align:left;position:relative;overflow:hidden;width:100%;}
 .city-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(93,173,226,.07),transparent);opacity:0;transition:opacity .3s;}
 .city-btn:hover::after{opacity:1;}
 .city-btn:hover{border-color:rgba(93,173,226,.45);transform:translateY(-2px);}
@@ -171,18 +152,12 @@ input{font-family:'DM Sans',sans-serif;}
 .ngr{font-size:clamp(10px,2.5vw,12px);color:var(--text-dim);background:rgba(13,32,64,.5);border:1px solid var(--border);border-radius:40px;padding:6px clamp(10px,2vw,16px);display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
 .country-pill{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;background:rgba(93,173,226,.1);border:1px solid rgba(93,173,226,.25);border-radius:20px;font-size:clamp(9px,2vw,11px);color:var(--azure);}
 
-/* Language overlay popup (FIX #2) */
-.lang-overlay{position:fixed;inset:0;background:rgba(4,8,20,.85);z-index:400;display:flex;align-items:center;justify-content:center;
-  opacity:0;pointer-events:none;transition:opacity .35s ease;backdrop-filter:blur(8px);}
+/* Language overlay popup */
+.lang-overlay{position:fixed;inset:0;background:rgba(4,8,20,.85);z-index:400;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s ease;backdrop-filter:blur(8px);}
 .lang-overlay.open{opacity:1;pointer-events:all;}
-.lang-popup{background:var(--glass2);border:1px solid var(--border2);border-radius:var(--r-xl);
-  padding:clamp(24px,5vw,40px) clamp(20px,5vw,48px);width:90%;max-width:400px;position:relative;
-  box-shadow:0 40px 90px rgba(0,0,0,.5);}
-.lang-popup::before{content:'';position:absolute;top:0;left:14%;right:14%;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(93,173,226,.5),rgba(26,127,212,.9),rgba(93,173,226,.5),transparent);}
-.lang-popup-close{position:absolute;top:14px;right:16px;width:30px;height:30px;border-radius:50%;
-  background:rgba(93,173,226,.1);border:1px solid var(--border);color:var(--text-dim);font-size:14px;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;}
+.lang-popup{background:var(--glass2);border:1px solid var(--border2);border-radius:var(--r-xl);padding:clamp(24px,5vw,40px) clamp(20px,5vw,48px);width:90%;max-width:400px;position:relative;box-shadow:0 40px 90px rgba(0,0,0,.5);}
+.lang-popup::before{content:'';position:absolute;top:0;left:14%;right:14%;height:1px;background:linear-gradient(90deg,transparent,rgba(93,173,226,.5),rgba(26,127,212,.9),rgba(93,173,226,.5),transparent);}
+.lang-popup-close{position:absolute;top:14px;right:16px;width:30px;height:30px;border-radius:50%;background:rgba(93,173,226,.1);border:1px solid var(--border);color:var(--text-dim);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;}
 .lang-popup-close:hover{color:var(--white);}
 .lang-popup-title{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,5vw,28px);font-weight:700;color:var(--white);margin-bottom:4px;}
 .lang-popup-title span{color:var(--azure);font-style:italic;}
@@ -190,10 +165,7 @@ input{font-family:'DM Sans',sans-serif;}
 
 /* Hero */
 .hero{margin-bottom:clamp(18px,3vw,28px);}
-.hcard{background:linear-gradient(135deg,rgba(13,32,64,.85),rgba(6,14,26,.92));border:1px solid var(--border2);
-  border-radius:clamp(20px,4vw,32px);padding:clamp(24px,5vw,44px) clamp(20px,5vw,48px);
-  backdrop-filter:blur(40px);box-shadow:0 55px 110px rgba(0,0,0,.5);
-  transform-style:preserve-3d;transition:transform .1s ease;position:relative;overflow:hidden;}
+.hcard{background:linear-gradient(135deg,rgba(13,32,64,.85),rgba(6,14,26,.92));border:1px solid var(--border2);border-radius:clamp(20px,4vw,32px);padding:clamp(24px,5vw,44px) clamp(20px,5vw,48px);backdrop-filter:blur(40px);box-shadow:0 55px 110px rgba(0,0,0,.5);transform-style:preserve-3d;transition:transform .1s ease;position:relative;overflow:hidden;}
 .hcard::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(93,173,226,.45),rgba(26,127,212,.85),rgba(93,173,226,.45),transparent);}
 .hglow{position:absolute;top:-50px;right:-50px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(93,173,226,.1) 0%,transparent 70%);pointer-events:none;}
 .htag{display:inline-flex;align-items:center;gap:7px;background:rgba(93,173,226,.09);border:1px solid rgba(93,173,226,.22);border-radius:40px;padding:5px 14px;margin-bottom:clamp(10px,2vw,16px);font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--azure);}
@@ -211,7 +183,6 @@ input{font-family:'DM Sans',sans-serif;}
 .filters::-webkit-scrollbar{height:0;}
 .ftag{padding:clamp(6px,1.5vw,8px) clamp(12px,3vw,18px);background:rgba(13,32,64,.5);border:1px solid var(--border);border-radius:40px;font-size:clamp(11px,2.5vw,12px);font-weight:500;color:var(--text-dim);cursor:pointer;transition:all .3s;white-space:nowrap;flex-shrink:0;}
 .ftag:hover,.ftag.on{background:rgba(93,173,226,.12);border-color:rgba(93,173,226,.4);color:var(--azure);}
-
 .sech{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,5vw,28px);font-weight:700;color:var(--white);margin-bottom:4px;}
 .sech span{color:var(--azure);font-style:italic;}
 .secs{font-size:clamp(11px,2.5vw,12px);color:var(--text-dim);margin-bottom:18px;}
@@ -235,14 +206,15 @@ input{font-family:'DM Sans',sans-serif;}
 .hamen-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:11px;}
 .atag{font-size:9px;padding:2px 7px;background:rgba(93,173,226,.08);border:1px solid rgba(93,173,226,.15);border-radius:20px;color:var(--text-dim);}
 
-/* Discount display on hotel card */
-.price-wrap{display:flex;flex-direction:column;}
-.price-original{font-size:11px;color:var(--red);text-decoration:line-through;opacity:.8;}
-.price-discounted{font-size:clamp(16px,4vw,19px);font-weight:700;color:var(--green);line-height:1;}
-.price-badge{font-size:9px;background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.3);color:var(--green);padding:2px 7px;border-radius:20px;margin-top:2px;display:inline-block;}
-.plbl{font-size:9.5px;color:var(--text-dim);margin-top:1px;}
-
+/* ═══ HOTEL CARD PRICE SECTION — CORRECTED ═══
+   Shows: room price + discount badge only.
+   NO commission mention. NO "frais de réservation". */
 .hpr{display:flex;align-items:flex-end;justify-content:space-between;gap:8px;}
+.hprice-block{display:flex;flex-direction:column;gap:3px;}
+.room-price-display{font-size:clamp(17px,4vw,20px);font-weight:700;color:var(--white);line-height:1;}
+.room-price-night{font-size:clamp(9px,2vw,10px);color:var(--text-dim);}
+/* Discount badge — only shown if discount > 0 */
+.discount-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.3);border-radius:20px;font-size:clamp(9px,2vw,10px);font-weight:700;color:var(--green);}
 .rbtn{padding:clamp(7px,2vw,9px) clamp(14px,3vw,18px);background:linear-gradient(135deg,var(--azure),var(--blue-dark));border:none;border-radius:var(--r-sm);color:#fff;font-size:clamp(11px,2.5vw,12px);font-weight:700;cursor:pointer;transition:all .3s;flex-shrink:0;}
 .rbtn:hover{transform:translateY(-2px);box-shadow:0 7px 20px rgba(93,173,226,.32);}
 
@@ -252,8 +224,6 @@ input{font-family:'DM Sans',sans-serif;}
 .skel-body{padding:14px 16px;}
 .skel-line{height:10px;border-radius:6px;background:linear-gradient(110deg,var(--bg-mid) 30%,rgba(93,173,226,.06) 50%,var(--bg-mid) 70%);background-size:200% 100%;animation:shim 1.8s infinite;margin-bottom:8px;}
 .skel-line.w70{width:70%;}.skel-line.w50{width:50%;}.skel-line.w40{width:40%;}
-
-/* Empty */
 .empty{grid-column:1/-1;text-align:center;padding:60px 30px;color:var(--text-dim);}
 .ei{font-size:clamp(40px,10vw,56px);margin-bottom:14px;}
 .empty h3{font-size:clamp(15px,4vw,18px);color:var(--white);margin-bottom:6px;}
@@ -266,7 +236,7 @@ input{font-family:'DM Sans',sans-serif;}
 .panel-title span{color:var(--azure);font-style:italic;}
 .panel-sub{font-size:clamp(11px,2.5vw,12px);color:var(--text-dim);margin-bottom:20px;}
 
-/* BOOKINGS PANEL */
+/* Bookings */
 .booking-empty{text-align:center;padding:50px 20px;background:var(--glass);border:1px solid var(--border);border-radius:var(--r-xl);}
 .booking-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--r-lg);padding:clamp(14px,3vw,18px) clamp(16px,3vw,20px);margin-bottom:12px;transition:all .3s;}
 .booking-card:hover{border-color:var(--border2);}
@@ -281,24 +251,28 @@ input{font-family:'DM Sans',sans-serif;}
 .status-pending{background:rgba(255,193,7,.1);border:1px solid rgba(255,193,7,.3);color:var(--yellow);}
 .status-confirmed{background:rgba(46,204,113,.1);border:1px solid rgba(46,204,113,.3);color:var(--green);}
 .status-arrived{background:rgba(93,173,226,.1);border:1px solid rgba(93,173,226,.3);color:var(--azure);}
-.status-cancelled{background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.3);color:var(--red);}
 .guaranteed-badge{padding:4px 11px;border-radius:40px;font-size:10px;font-weight:700;background:rgba(46,204,113,.1);border:1px solid rgba(46,204,113,.3);color:var(--green);}
 .not-guaranteed-badge{padding:4px 11px;border-radius:40px;font-size:10px;font-weight:700;background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.3);color:var(--red);}
-
-/* Booking action buttons */
 .bc-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
 .bc-action-btn{padding:8px 14px;border:none;border-radius:var(--r-sm);font-size:11px;font-weight:700;cursor:pointer;transition:all .3s;flex-shrink:0;}
 .btn-arrived{background:linear-gradient(135deg,var(--green),#27ae60);color:#fff;}
 .btn-arrived:hover{transform:translateY(-1px);box-shadow:0 5px 16px rgba(46,204,113,.3);}
 .btn-arrived:disabled{background:rgba(13,32,64,.5);color:var(--text-dim);cursor:not-allowed;transform:none;box-shadow:none;}
 .btn-extend{background:linear-gradient(135deg,var(--azure),var(--blue-dark));color:#fff;}
-.btn-extend:hover{transform:translateY(-1px);box-shadow:0 5px 16px rgba(93,173,226,.3);}
+.btn-extend:hover{transform:translateY(-1px);}
 .btn-shorten{background:rgba(231,76,60,.15);border:1px solid rgba(231,76,60,.3);color:var(--red);}
 .btn-shorten:hover{background:rgba(231,76,60,.25);}
 
-/* Extend/Shorten modal */
-.adjust-popup{background:var(--glass2);border:1px solid var(--border2);border-radius:var(--r-xl);padding:clamp(20px,4vw,28px);margin-top:10px;display:none;}
-.adjust-popup.open{display:block;}
+/* Adjust modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(4,8,20,.85);z-index:300;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s ease;backdrop-filter:blur(6px);}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal-box{background:var(--glass2);border:1px solid var(--border2);border-radius:var(--r-xl) var(--r-xl) 0 0;padding:clamp(20px,4vw,28px) clamp(18px,4vw,26px) clamp(24px,5vw,32px);width:100%;max-width:500px;transform:translateY(100%);transition:transform .4s cubic-bezier(.16,1,.3,1);position:relative;}
+.modal-overlay.open .modal-box{transform:translateY(0);}
+.modal-handle{width:36px;height:3px;border-radius:2px;background:rgba(93,173,226,.3);margin:0 auto 18px;}
+.modal-close{position:absolute;top:16px;right:16px;width:28px;height:28px;border-radius:50%;background:rgba(93,173,226,.1);border:1px solid var(--border);color:var(--text-dim);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;}
+.modal-close:hover{color:var(--white);}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,5vw,26px);font-weight:700;color:var(--white);margin-bottom:16px;}
+.modal-title span{color:var(--azure);font-style:italic;}
 .adj-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--azure-soft);margin-bottom:8px;display:block;}
 .adj-row{display:flex;align-items:center;background:rgba(13,32,64,.6);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;margin-bottom:14px;}
 .adj-btn{width:44px;height:44px;border:none;background:transparent;color:var(--azure);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
@@ -309,10 +283,10 @@ input{font-family:'DM Sans',sans-serif;}
 .adj-confirm{width:100%;padding:13px;background:linear-gradient(135deg,var(--azure),var(--blue-dark));border:none;border-radius:var(--r-lg);color:#fff;font-size:14px;font-weight:700;cursor:pointer;transition:all .3s;}
 .adj-confirm:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(93,173,226,.3);}
 
-/* MAP */
+/* Map */
 .map-placeholder{background:var(--glass);border:1px solid var(--border);border-radius:var(--r-xl);overflow:hidden;height:clamp(280px,50vw,400px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:var(--text-dim);}
 
-/* PROFILE PANEL */
+/* Profile panel */
 .prof-panel{background:var(--glass);border:1px solid var(--border2);border-radius:var(--r-xl);padding:clamp(20px,4vw,28px);margin-bottom:14px;}
 .prof-avatar{width:clamp(48px,10vw,64px);height:clamp(48px,10vw,64px);border-radius:50%;background:linear-gradient(135deg,var(--azure),var(--blue-dark));display:flex;align-items:center;justify-content:center;font-size:clamp(20px,5vw,26px);margin:0 auto clamp(12px,3vw,16px);}
 .prof-name-display{text-align:center;font-family:'Cormorant Garamond',serif;font-size:clamp(20px,5vw,26px);font-weight:700;color:var(--white);margin-bottom:3px;}
@@ -334,61 +308,28 @@ input{font-family:'DM Sans',sans-serif;}
 .faq-a{display:none;padding:0 clamp(14px,3vw,20px) clamp(12px,3vw,16px);font-size:clamp(12px,3vw,13px);color:var(--text-dim);line-height:1.7;}
 .faq-item.open .faq-a{display:block;}
 
-/* ── BOTTOM NAV ── */
-.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:calc(100% - clamp(20px,5vw,40px));max-width:450px;
-  background:rgba(6,14,26,.92);border:1px solid var(--border2);border-bottom:none;border-radius:20px 20px 0 0;
-  padding:clamp(8px,2vw,10px) 4px;backdrop-filter:blur(28px);display:flex;justify-content:space-around;z-index:200;
-  box-shadow:0 -18px 55px rgba(0,0,0,.38);}
-.ni{display:flex;flex-direction:column;align-items:center;gap:2px;padding:clamp(6px,1.5vw,7px) clamp(12px,3vw,17px);
-  border-radius:var(--r-md);cursor:pointer;transition:all .3s;min-width:clamp(44px,10vw,54px);background:none;border:none;color:var(--text-dim);}
+/* Bottom nav */
+.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:calc(100% - clamp(20px,5vw,40px));max-width:450px;background:rgba(6,14,26,.92);border:1px solid var(--border2);border-bottom:none;border-radius:20px 20px 0 0;padding:clamp(8px,2vw,10px) 4px;backdrop-filter:blur(28px);display:flex;justify-content:space-around;z-index:200;box-shadow:0 -18px 55px rgba(0,0,0,.38);}
+.ni{display:flex;flex-direction:column;align-items:center;gap:2px;padding:clamp(6px,1.5vw,7px) clamp(12px,3vw,17px);border-radius:var(--r-md);cursor:pointer;transition:all .3s;min-width:clamp(44px,10vw,54px);background:none;border:none;color:var(--text-dim);}
 .ni.active{color:var(--azure);background:rgba(93,173,226,.09);}
 .ni:hover:not(.active){color:var(--azure-soft);background:rgba(93,173,226,.04);}
 .nii{font-size:clamp(16px,4vw,18px);}
 .nil{font-size:clamp(8px,2vw,9px);font-weight:600;letter-spacing:.3px;}
 
-/* TOAST */
-.toast{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-14px);
-  background:rgba(13,32,64,.97);border:1px solid rgba(93,173,226,.38);border-radius:var(--r-md);
-  padding:11px 20px;color:var(--white);font-size:clamp(12px,3vw,13px);z-index:999;opacity:0;pointer-events:none;
-  transition:all .35s cubic-bezier(.16,1,.3,1);backdrop-filter:blur(18px);
-  box-shadow:0 12px 40px rgba(0,0,0,.4);white-space:nowrap;max-width:88vw;}
+/* Toast */
+.toast{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-14px);background:rgba(13,32,64,.97);border:1px solid rgba(93,173,226,.38);border-radius:var(--r-md);padding:11px 20px;color:var(--white);font-size:clamp(12px,3vw,13px);z-index:999;opacity:0;pointer-events:none;transition:all .35s cubic-bezier(.16,1,.3,1);backdrop-filter:blur(18px);box-shadow:0 12px 40px rgba(0,0,0,.4);white-space:nowrap;max-width:88vw;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
-/* POPUP OVERLAY generic */
-.modal-overlay{position:fixed;inset:0;background:rgba(4,8,20,.85);z-index:300;
-  display:flex;align-items:flex-end;justify-content:center;
-  opacity:0;pointer-events:none;transition:opacity .35s ease;backdrop-filter:blur(6px);}
-.modal-overlay.open{opacity:1;pointer-events:all;}
-.modal-box{background:var(--glass2);border:1px solid var(--border2);border-radius:var(--r-xl) var(--r-xl) 0 0;
-  padding:clamp(20px,4vw,28px) clamp(18px,4vw,26px) clamp(24px,5vw,32px);width:100%;max-width:500px;
-  transform:translateY(100%);transition:transform .4s cubic-bezier(.16,1,.3,1);position:relative;}
-.modal-overlay.open .modal-box{transform:translateY(0);}
-.modal-handle{width:36px;height:3px;border-radius:2px;background:rgba(93,173,226,.3);margin:0 auto 18px;}
-.modal-close{position:absolute;top:16px;right:16px;width:28px;height:28px;border-radius:50%;
-  background:rgba(93,173,226,.1);border:1px solid var(--border);color:var(--text-dim);font-size:13px;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;}
-.modal-close:hover{color:var(--white);}
-.modal-title{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,5vw,26px);font-weight:700;color:var(--white);margin-bottom:16px;}
-.modal-title span{color:var(--azure);font-style:italic;}
-
-/* Animations */
 .fu{opacity:0;transform:translateY(22px);animation:fuA .6s cubic-bezier(.16,1,.3,1) forwards;}
 @keyframes fuA{to{opacity:1;transform:translateY(0);}}
 .d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}.d4{animation-delay:.32s}
 
-/* ── RESPONSIVE MOBILE ── */
 @media(max-width:480px){
-  .intro-card{padding:28px 20px;}
-  .hcard{padding:22px 18px;}
+  .intro-card{padding:28px 18px;}
+  .hcard{padding:22px 16px;}
   .countries-grid{grid-template-columns:1fr 1fr;}
   .bnav{border-radius:16px 16px 0 0;}
-  .moon{width:44px;height:44px;top:4%;right:8%;}
-  .cityf{height:100px;}
-}
-@media(max-width:360px){
-  .spbrand{font-size:42px;}
-  .intro-card{padding:22px 16px;}
-  .countries-grid{grid-template-columns:1fr 1fr;}
+  .moon{width:42px;height:42px;top:4%;right:8%;}
 }
 @media(min-width:768px) and (max-width:1024px){
   .hw{max-width:720px;}
@@ -408,11 +349,11 @@ input{font-family:'DM Sans',sans-serif;}
   <g opacity="0.8"><rect x="77" y="28" width="4" height="3" rx=".5" fill="rgba(93,173,226,.8)"/><rect x="213" y="20" width="4" height="3" rx=".5" fill="rgba(26,127,212,.9)"/><rect x="442" y="23" width="4" height="3" rx=".5" fill="rgba(93,173,226,.9)"/><rect x="670" y="23" width="4" height="3" rx=".5" fill="rgba(220,240,255,.7)"/><rect x="978" y="26" width="4" height="3" rx=".5" fill="rgba(93,173,226,.7)"/><rect x="1124" y="32" width="4" height="3" rx=".5" fill="rgba(93,173,226,.9)"/></g>
 </svg>
 
-<!-- ══ SPLASH ══ -->
+<!-- SPLASH -->
 <div class="screen active" id="splash">
   <div class="spin">
     <div class="spg">
-      <svg width="clamp(36px,8vw,50px)" height="56" viewBox="0 0 50 56" fill="none" style="width:clamp(36px,8vw,50px);filter:drop-shadow(0 0 14px rgba(93,173,226,.5))">
+      <svg width="50" height="56" viewBox="0 0 50 56" fill="none" style="filter:drop-shadow(0 0 14px rgba(93,173,226,.5))">
         <defs><linearGradient id="hg" x1="0" y1="0" x2="0" y2="56" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#0d2d5e"/><stop offset="100%" stop-color="#06121e"/></linearGradient><linearGradient id="rg" x1="0" y1="0" x2="50" y2="0"><stop offset="0%" stop-color="#5DADE2"/><stop offset="100%" stop-color="#1a7fd4"/></linearGradient></defs>
         <rect x="5" y="12" width="40" height="44" rx="2.5" fill="url(#hg)" stroke="rgba(93,173,226,.38)" stroke-width="1"/>
         <rect x="14" y="4" width="22" height="10" rx="2" fill="url(#rg)"/>
@@ -433,7 +374,7 @@ input{font-family:'DM Sans',sans-serif;}
   </div>
 </div>
 
-<!-- ══ LANGUAGE ══ -->
+<!-- LANGUAGE -->
 <div class="screen" id="lang">
   <div class="intro-wrap">
     <div class="gc intro-card" id="langCard">
@@ -448,7 +389,7 @@ input{font-family:'DM Sans',sans-serif;}
   </div>
 </div>
 
-<!-- ══ COUNTRY ══ -->
+<!-- COUNTRY -->
 <div class="screen" id="country">
   <div class="intro-wrap">
     <div class="gc intro-card" id="countryCard">
@@ -462,7 +403,7 @@ input{font-family:'DM Sans',sans-serif;}
   </div>
 </div>
 
-<!-- ══ CITY ══ -->
+<!-- CITY -->
 <div class="screen" id="city">
   <div class="intro-wrap">
     <div class="gc intro-card" id="cityCard">
@@ -475,7 +416,7 @@ input{font-family:'DM Sans',sans-serif;}
   </div>
 </div>
 
-<!-- ══ PROFILE ══ -->
+<!-- PROFILE -->
 <div class="screen" id="profile">
   <div class="intro-wrap">
     <div class="gc intro-card" id="profileCard">
@@ -495,16 +436,12 @@ input{font-family:'DM Sans',sans-serif;}
   </div>
 </div>
 
-<!-- ══ HOME ══ -->
+<!-- HOME -->
 <div class="screen" id="home">
   <div class="hw">
     <nav class="tnav fu">
       <div class="nlogo">Book<span>Zzz</span></div>
-      <div class="ngr">
-        <span>👋</span>
-        <strong id="nName" style="color:var(--azure-soft)">Invité</strong>
-        <span class="country-pill" id="countryPill">🇨🇩 RDC</span>
-      </div>
+      <div class="ngr"><span>👋</span><strong id="nName" style="color:var(--azure-soft)">Invité</strong><span class="country-pill" id="countryPill">🇨🇩 RDC</span></div>
     </nav>
 
     <!-- HOME TAB -->
@@ -522,7 +459,7 @@ input{font-family:'DM Sans',sans-serif;}
           </div>
         </div>
       </div>
-      <div class="filters fu d2" id="filterRow">
+      <div class="filters fu d2">
         <span class="ftag on" onclick="setFilter(this,'all')" id="f-all">🏨 Tous</span>
         <span class="ftag" onclick="setFilter(this,'ac')" id="f-ac">❄️ Climatisé</span>
         <span class="ftag" onclick="setFilter(this,'meal')" id="f-meal">🍽️ Repas inclus</span>
@@ -531,7 +468,7 @@ input{font-family:'DM Sans',sans-serif;}
       </div>
       <div class="fu d3">
         <div class="sech" id="secH">Hôtels <span>disponibles</span></div>
-        <div class="secs" id="secS">Appuyez sur une carte pour voir les chambres</div>
+        <div class="secs" id="secS">Appuyez sur une carte pour voir les chambres et réserver</div>
       </div>
       <div class="hgrid fu d4" id="hGrid">
         <div class="skel"><div class="skel-img"></div><div class="skel-body"><div class="skel-line w70"></div><div class="skel-line w50"></div><div class="skel-line w40"></div></div></div>
@@ -544,7 +481,7 @@ input{font-family:'DM Sans',sans-serif;}
     <div class="tab-panel" id="panel-bookings">
       <div class="panel-wrap">
         <div class="panel-title" id="bkTitle">Mes <span>réservations</span></div>
-        <div class="panel-sub" id="bkSub">Gérez vos réservations et votre arrivée</div>
+        <div class="panel-sub" id="bkSub">Gérez vos réservations et signalez votre arrivée</div>
         <div id="bookingsList"></div>
       </div>
     </div>
@@ -552,12 +489,12 @@ input{font-family:'DM Sans',sans-serif;}
     <!-- MAP TAB -->
     <div class="tab-panel" id="panel-map">
       <div class="panel-wrap">
-        <div class="panel-title">Carte <span id="mapTitleSpan">des hôtels</span></div>
+        <div class="panel-title">Carte <span>des hôtels</span></div>
         <div class="panel-sub" id="mapSub">Localisation GPS de tous les hôtels</div>
         <div class="map-placeholder">
           <div style="font-size:clamp(44px,10vw,64px)">🗺️</div>
-          <div style="font-size:clamp(14px,4vw,16px);font-weight:600;color:var(--white)" id="mapComing">Carte interactive</div>
-          <div style="font-size:clamp(11px,3vw,13px);text-align:center;max-width:260px;line-height:1.6" id="mapSubTxt">La carte interactive avec GPS de chaque hôtel arrive bientôt.</div>
+          <div style="font-size:clamp(14px,4vw,16px);font-weight:600;color:var(--white)">Carte interactive</div>
+          <div style="font-size:clamp(11px,3vw,13px);text-align:center;max-width:260px;line-height:1.6;color:var(--text-dim)">La carte interactive avec GPS de chaque hôtel arrive bientôt.</div>
         </div>
       </div>
     </div>
@@ -584,7 +521,6 @@ input{font-family:'DM Sans',sans-serif;}
     </div>
   </div>
 
-  <!-- Bottom Nav -->
   <nav class="bnav">
     <button class="ni active" onclick="setTab(this,'home')"><span class="nii">🏠</span><span class="nil" id="n1">Accueil</span></button>
     <button class="ni" onclick="setTab(this,'bookings')"><span class="nii">🔖</span><span class="nil" id="n2">Réservations</span></button>
@@ -593,9 +529,9 @@ input{font-family:'DM Sans',sans-serif;}
   </nav>
 </div>
 
-<!-- ══ LANGUAGE OVERLAY POPUP (FIX #2) ══ -->
+<!-- LANGUAGE OVERLAY -->
 <div class="lang-overlay" id="langOverlay" onclick="closeLangOverlayOutside(event)">
-  <div class="lang-popup" id="langPopup">
+  <div class="lang-popup">
     <button class="lang-popup-close" onclick="closeLangOverlay()">✕</button>
     <div class="lang-popup-title">Book<span>Zzz</span></div>
     <div class="lang-popup-sub" id="lpSub">Choisissez votre langue</div>
@@ -607,7 +543,7 @@ input{font-family:'DM Sans',sans-serif;}
   </div>
 </div>
 
-<!-- ══ ADJUST STAY MODAL ══ -->
+<!-- ADJUST STAY MODAL -->
 <div class="modal-overlay" id="adjustModal" onclick="closeAdjustOutside(event)">
   <div class="modal-box">
     <div class="modal-handle"></div>
@@ -620,145 +556,111 @@ input{font-family:'DM Sans',sans-serif;}
       <button class="adj-btn" onclick="chAdj(1)">+</button>
     </div>
     <div class="adj-total" id="adjTotal">Nouveau total : <strong>—</strong></div>
-    <button class="adj-confirm" id="adjConfirm" onclick="confirmAdjust()">Confirmer</button>
+    <button class="adj-confirm" onclick="confirmAdjust()">Confirmer</button>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-/* ══════════ SUPABASE ══════════ */
 var SB='https://dgxgpvxyrimpppjvvwto.supabase.co';
 var SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRneGdwdnh5cmltcHBwanZ2d3RvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4NDc1NTMsImV4cCI6MjA4OTQyMzU1M30.Ccr7orHXHiVJJiXzdxIcF0bP9Kkj3PxQM-hZQQ4Mg2w';
 var HDR={'apikey':SK,'Authorization':'Bearer '+SK,'Content-Type':'application/json'};
 var BASE='https://jasonyang0119-art.github.io/bookzzz/';
-var DEFAULT_COMMISSION=25; /* % */
-var DEFAULT_DISCOUNT=33;   /* % of commission */
+var DEFAULT_COMMISSION=25;
+var DEFAULT_DISCOUNT=33;
 
-/* ══════════ COUNTRIES + CITIES (admin controlled) ══════════ */
 var COUNTRIES=[
   {code:'CD',flag:'🇨🇩',name_fr:'RDC / Congo-Kinshasa',name_en:'DRC / Congo-Kinshasa',name_sw:'DRC / Kongo-Kinshasa',active:true,
-   cities:[
-     {name:'Kinshasa',desc_fr:'Capitale, ville principale',desc_en:'Capital city',desc_sw:'Mji mkuu',icon:'🏙️',active:true},
-     {name:'Goma',desc_fr:'Nord-Kivu',desc_en:'North Kivu',desc_sw:'Kivu Kaskazini',icon:'🌋',active:true},
-     {name:'Lubumbashi',desc_fr:'Katanga',desc_en:'Katanga',desc_sw:'Katanga',icon:'⛏️',active:true},
-     {name:'Bukavu',desc_fr:'Sud-Kivu',desc_en:'South Kivu',desc_sw:'Kivu Kusini',icon:'🏞️',active:false},
-     {name:'Mbuji-Mayi',desc_fr:'Kasaï Oriental',desc_en:'East Kasai',desc_sw:'Kasai Mashariki',icon:'💎',active:false}
-   ]},
+   cities:[{name:'Kinshasa',desc_fr:'Capitale, ville principale',desc_en:'Capital city',desc_sw:'Mji mkuu',icon:'🏙️',active:true},{name:'Goma',desc_fr:'Nord-Kivu',desc_en:'North Kivu',desc_sw:'Kivu Kaskazini',icon:'🌋',active:true},{name:'Lubumbashi',desc_fr:'Katanga',desc_en:'Katanga',desc_sw:'Katanga',icon:'⛏️',active:true},{name:'Bukavu',desc_fr:'Sud-Kivu',desc_en:'South Kivu',desc_sw:'Kivu Kusini',icon:'🏞️',active:false},{name:'Mbuji-Mayi',desc_fr:'Kasaï Oriental',desc_en:'East Kasai',desc_sw:'Kasai Mashariki',icon:'💎',active:false}]},
   {code:'TZ',flag:'🇹🇿',name_fr:'Tanzanie',name_en:'Tanzania',name_sw:'Tanzania',active:true,
-   cities:[
-     {name:'Dar es Salaam',desc_fr:'Capitale économique',desc_en:'Economic capital',desc_sw:'Mji mkuu wa uchumi',icon:'🌊',active:true},
-     {name:'Dodoma',desc_fr:'Capitale politique',desc_en:'Political capital',desc_sw:'Mji mkuu wa kisiasa',icon:'🏛️',active:true},
-     {name:'Zanzibar',desc_fr:'Île paradisiaque',desc_en:'Paradise island',desc_sw:'Kisiwa cha paradiso',icon:'🏝️',active:false}
-   ]},
+   cities:[{name:'Dar es Salaam',desc_fr:'Capitale économique',desc_en:'Economic capital',desc_sw:'Mji mkuu wa uchumi',icon:'🌊',active:true},{name:'Dodoma',desc_fr:'Capitale politique',desc_en:'Political capital',desc_sw:'Mji mkuu wa kisiasa',icon:'🏛️',active:true},{name:'Zanzibar',desc_fr:'Île paradisiaque',desc_en:'Paradise island',desc_sw:'Kisiwa cha paradiso',icon:'🏝️',active:false}]},
   {code:'RW',flag:'🇷🇼',name_fr:'Rwanda',name_en:'Rwanda',name_sw:'Rwanda',active:false,cities:[{name:'Kigali',desc_fr:'Capitale',desc_en:'Capital',desc_sw:'Mji mkuu',icon:'🏙️',active:false}]},
   {code:'BI',flag:'🇧🇮',name_fr:'Burundi',name_en:'Burundi',name_sw:'Burundi',active:false,cities:[{name:'Bujumbura',desc_fr:'Capitale',desc_en:'Capital',desc_sw:'Mji mkuu',icon:'🏙️',active:false}]},
   {code:'KE',flag:'🇰🇪',name_fr:'Kenya',name_en:'Kenya',name_sw:'Kenya',active:false,cities:[{name:'Nairobi',desc_fr:'Capitale',desc_en:'Capital',desc_sw:'Mji mkuu',icon:'🏙️',active:false}]},
   {code:'CI',flag:'🇨🇮',name_fr:"Côte d'Ivoire",name_en:'Ivory Coast',name_sw:"Côte d'Ivoire",active:false,cities:[{name:'Abidjan',desc_fr:'Capitale économique',desc_en:'Economic capital',desc_sw:'Mji mkuu wa uchumi',icon:'🏙️',active:false}]}
 ];
 
-/* ══════════ STATE ══════════ */
-var S={lang:'fr',country:null,city:null,user:{},hotels:[],gc:1,activeFilter:'all',
-       adjustTarget:null,adjustDays:1,profileSetup:false};
+var S={lang:'fr',country:null,city:null,user:{},hotels:[],gc:1,activeFilter:'all',profileSetup:false,adjustTarget:null,adjustDays:1};
 
-/* ══════════ TRANSLATIONS ══════════ */
 var T={
-  fr:{back:'Retour',step:'ÉTAPE 3 / 3',pty:'vous',pt:'Parlez-nous de ',ps:'Configuration rapide — 10 secondes.',
-    fl:'PRÉNOM *',ll:'NOM DE FAMILLE',gl:'PERSONNES PAR CHAMBRE',gh:'Minimum 1 · Maximum 2',cta:'Voir les hôtels →',
-    htag:'Meilleurs hôtels près de vous',h1:'Trouvez votre\nnuit parfaite',
-    hs:'Réservez avant d\'arriver. Sans stress.\nArrivez et dormez tranquille.',
-    sp:'Chercher un hôtel, une ville...',sb:'Chercher',sh:'Hôtels ',shsp:'disponibles',
-    ss:'Appuyez sur une carte pour voir les chambres',rb:'Réserver',
-    verified:'Vérifié',rooms:'chambres',meal:'Repas',ac:'Clim.',elev:'Ascenseur',
+  fr:{back:'Retour',step:'ÉTAPE 3 / 3',pty:'vous',pt:'Parlez-nous de ',ps:'Configuration rapide — 10 secondes.',fl:'PRÉNOM *',ll:'NOM DE FAMILLE',gl:'PERSONNES PAR CHAMBRE',gh:'Minimum 1 · Maximum 2',cta:'Voir les hôtels →',
+    htag:'Meilleurs hôtels près de vous',h1:'Trouvez votre\nnuit parfaite',hs:'Réservez avant d\'arriver. Sans stress.\nArrivez et dormez tranquille.',
+    sp:'Chercher un hôtel, une ville...',sb:'Chercher',sh:'Hôtels ',shsp:'disponibles',ss:'Appuyez sur une carte pour voir les chambres',
+    rb:'Voir les chambres',verified:'Vérifié',rooms:'chambres',meal:'Repas',ac:'Clim.',elev:'Ascenseur',
+    perNight:'/ nuit',discountLabel:'Réduction de ',discountWith:'avec BookZzz',
     f_all:'🏨 Tous',f_ac:'❄️ Climatisé',f_meal:'🍽️ Repas inclus',f_elev:'🛗 Ascenseur',f_vrf:'✅ Vérifié',
     nr:'Aucun hôtel trouvé',ns:'Essayez un autre filtre',
     n1:'Accueil',n2:'Réservations',n3:'Carte',n4:'Profil',
-    bkTitle:'Mes réservations',bkSub:'Gérez vos réservations et votre arrivée',bkEmpty:'Aucune réservation pour le moment',
+    bkTitle:'Mes réservations',bkSub:'Gérez vos réservations et signalez votre arrivée',bkEmpty:'Aucune réservation pour le moment',
+    arrivedBtn:'✅ Je suis arrivé(e)',extendBtn:'➕ Prolonger',shortenBtn:'➖ Raccourcir',
+    guaranteed:'Réservation garantie',notGuaranteed:'Réservation non garantie',
+    adjTitle:'Modifier le séjour',adjLabel:'NOUVEAU NOMBRE DE NUITS',
     pirL1:'Prénom',pirL2:'Nom',pirL3:'Personnes / chambre',pirL4:'Langue',pirL5:'Destination',
-    changeLang:'🌐 Changer de langue',
-    ccTitle:'Dans quel pays voyagez-vous ?',ccSub:'Choisissez votre pays de destination',
+    changeLang:'🌐 Changer de langue',ccTitle:'Dans quel pays voyagez-vous ?',ccSub:'Choisissez votre pays de destination',
     ccNotice:'Ce n\'est pas votre pays d\'origine, mais le pays où vous cherchez un hôtel via BookZzz.',
     cityTitle:'Choisissez votre ville',citySub:'Sélectionnez la ville où vous cherchez un hôtel',
-    soon:'Bientôt',prTitle:'Mon profil',prSub:'Vos informations personnelles',
-    faqTitle:'FAQ — Aide',langSub:'Choisissez votre langue',
-    reductionWith:'avec BookZzz',guaranteed:'Réservation garantie',notGuaranteed:'Réservation non garantie',
-    arrivedBtn:'✅ Je suis arrivé(e)',extendBtn:'➕ Prolonger',shortenBtn:'➖ Raccourcir',
-    adjTitle:'Modifier le séjour',adjLabel:'NOUVEAU NOMBRE DE NUITS',
-    cashWarning:'⚠️ Réservation non garantie',cashWarnBody:'En choisissant de payer en espèces à l\'arrivée, votre réservation n\'est PAS garantie.\n\nSi vous ne vous présentez pas le jour prévu, la chambre sera libérée et la réservation annulée automatiquement.',
-    cashWarnBtn:'J\'ai compris',
+    soon:'Bientôt',prTitle:'Mon profil',prSub:'Vos informations personnelles',faqTitle:'FAQ — Aide',langSub:'Choisissez votre langue',
     faqs:[
-      {q:'Comment fonctionne BookZzz ?',a:'BookZzz vous permet de réserver une chambre d\'hôtel avant votre arrivée. Choisissez un hôtel, une chambre, payez les frais de réservation et votre place est garantie.'},
-      {q:'Qu\'est-ce que la réservation garantie ?',a:'Une réservation est garantie uniquement si vous payez en ligne via BookZzz (Mobile Money ou carte). Le paiement en espèces à l\'arrivée est une réservation NON garantie : si vous ne vous présentez pas le jour prévu, la chambre est libérée automatiquement.'},
-      {q:'Quelle est la réduction BookZzz ?',a:'Chaque client bénéficie d\'une réduction de 33% sur la commission BookZzz. Si la commission est de 25%, vous bénéficiez de 8,25% de réduction sur le prix de la chambre — uniquement via notre application !'},
-      {q:'Comment fonctionne l\'arrivée à l\'hôtel ?',a:'Quand vous arrivez, appuyez sur le bouton "Je suis arrivé(e)" dans votre réservation. Cela envoie un signal à l\'hôtel et à BookZzz pour confirmer votre présence. L\'hôtel vérifie votre réservation et vous donne accès à votre chambre.'},
-      {q:'Puis-je modifier la durée de mon séjour ?',a:'Oui ! Dans l\'onglet Réservations, utilisez les boutons "Prolonger" ou "Raccourcir" pour ajuster votre séjour. Le montant est recalculé automatiquement.'},
-      {q:'Comment appeler un taxi vers mon hôtel ?',a:'Après confirmation de votre réservation, un bouton "Appeler un taxi" apparaît dans votre réservation. Il envoie l\'adresse exacte de l\'hôtel au chauffeur automatiquement.'}
+      {q:'Comment fonctionne BookZzz ?',a:'BookZzz vous permet de réserver une chambre avant votre arrivée. La réservation est gratuite. Vous payez le prix de la chambre soit en ligne, soit directement à l\'hôtel à votre arrivée.'},
+      {q:'La réservation est-elle gratuite ?',a:'Oui ! Réserver via BookZzz est entièrement gratuit. Vous payez uniquement le prix de la chambre — pas de frais supplémentaires de notre part.'},
+      {q:'Quelle est la réduction BookZzz ?',a:'En réservant via BookZzz, vous bénéficiez d\'une réduction exclusive sur le prix de la chambre. Cette réduction est affichée sur chaque hôtel.'},
+      {q:'Réservation garantie vs non garantie ?',a:'Une réservation garantie = vous payez en ligne (Mobile Money ou carte). Une réservation non garantie = vous choisissez de payer en espèces à l\'arrivée. Dans ce cas, si vous ne vous présentez pas le jour prévu, la chambre est libérée automatiquement.'},
+      {q:'Comment signaler mon arrivée ?',a:'Dans l\'onglet Réservations, appuyez sur "Je suis arrivé(e)". L\'hôtel reçoit confirmation et vous donne accès à votre chambre.'},
+      {q:'Puis-je modifier la durée de mon séjour ?',a:'Oui ! Dans l\'onglet Réservations, utilisez "Prolonger" ou "Raccourcir". Le prix est recalculé automatiquement.'}
     ]},
-  en:{back:'Back',step:'STEP 3 / 3',pty:'you',pt:'Tell us about ',ps:'Quick setup — 10 seconds.',
-    fl:'FIRST NAME *',ll:'LAST NAME',gl:'GUESTS PER ROOM',gh:'Min 1 · Max 2',cta:'Explore Hotels →',
-    htag:'Best Hotels Near You',h1:'Find your perfect\nnights rest',
-    hs:'Book before you arrive. No stress.\nJust arrive and sleep easy.',
-    sp:'Search hotel, city...',sb:'Search',sh:'Available ',shsp:'Hotels',
-    ss:'Tap a card to see rooms & reserve',rb:'Reserve',
-    verified:'Verified',rooms:'rooms',meal:'Meal',ac:'AC',elev:'Elevator',
+  en:{back:'Back',step:'STEP 3 / 3',pty:'you',pt:'Tell us about ',ps:'Quick setup — 10 seconds.',fl:'FIRST NAME *',ll:'LAST NAME',gl:'GUESTS PER ROOM',gh:'Min 1 · Max 2',cta:'Explore Hotels →',
+    htag:'Best Hotels Near You',h1:'Find your perfect\nnights rest',hs:'Book before you arrive. No stress.\nJust arrive and sleep easy.',
+    sp:'Search hotel, city...',sb:'Search',sh:'Available ',shsp:'Hotels',ss:'Tap a card to see rooms & book',
+    rb:'See Rooms',verified:'Verified',rooms:'rooms',meal:'Meal',ac:'AC',elev:'Elevator',
+    perNight:'/ night',discountLabel:'Discount ',discountWith:'with BookZzz',
     f_all:'🏨 All',f_ac:'❄️ AC',f_meal:'🍽️ Meal incl.',f_elev:'🛗 Elevator',f_vrf:'✅ Verified',
     nr:'No hotels found',ns:'Try another filter',
     n1:'Home',n2:'Bookings',n3:'Map',n4:'Profile',
     bkTitle:'My bookings',bkSub:'Manage your reservations and arrival',bkEmpty:'No reservations yet',
+    arrivedBtn:'✅ I have arrived',extendBtn:'➕ Extend',shortenBtn:'➖ Shorten',
+    guaranteed:'Guaranteed booking',notGuaranteed:'Non-guaranteed booking',
+    adjTitle:'Modify stay',adjLabel:'NEW NUMBER OF NIGHTS',
     pirL1:'First name',pirL2:'Last name',pirL3:'Guests / room',pirL4:'Language',pirL5:'Destination',
-    changeLang:'🌐 Change language',
-    ccTitle:'Which country are you visiting?',ccSub:'Choose your destination country',
+    changeLang:'🌐 Change language',ccTitle:'Which country are you visiting?',ccSub:'Choose your destination country',
     ccNotice:'This is not your home country — it\'s where you want to book a hotel via BookZzz.',
     cityTitle:'Choose your city',citySub:'Select the city where you are looking for a hotel',
-    soon:'Soon',prTitle:'My profile',prSub:'Your personal information',
-    faqTitle:'FAQ — Help',langSub:'Choose your language',
-    reductionWith:'with BookZzz',guaranteed:'Guaranteed reservation',notGuaranteed:'Non-guaranteed reservation',
-    arrivedBtn:'✅ I have arrived',extendBtn:'➕ Extend',shortenBtn:'➖ Shorten',
-    adjTitle:'Modify stay',adjLabel:'NEW NUMBER OF NIGHTS',
-    cashWarning:'⚠️ Non-guaranteed reservation',cashWarnBody:'By choosing to pay cash on arrival, your reservation is NOT guaranteed.\n\nIf you do not show up on the scheduled day, the room will be released and the reservation automatically cancelled.',
-    cashWarnBtn:'I understand',
+    soon:'Soon',prTitle:'My profile',prSub:'Your personal information',faqTitle:'FAQ — Help',langSub:'Choose your language',
     faqs:[
-      {q:'How does BookZzz work?',a:'BookZzz lets you reserve a hotel room before arriving. Choose a hotel, pick a room, pay the reservation fee and your spot is guaranteed.'},
-      {q:'What is a guaranteed reservation?',a:'A reservation is guaranteed only if you pay online via BookZzz (Mobile Money or card). Paying cash on arrival is a NON-guaranteed reservation: if you don\'t show up on the scheduled day, the room is automatically released.'},
-      {q:'What is the BookZzz discount?',a:'Every client gets a 33% discount on the BookZzz commission. If commission is 25%, you get 8.25% off the room price — only via our app!'},
-      {q:'How does hotel check-in work?',a:'When you arrive, tap "I have arrived" in your reservation. This sends a signal to the hotel and BookZzz to confirm your presence. The hotel verifies your booking and gives you room access.'},
-      {q:'Can I change my stay duration?',a:'Yes! In the Bookings tab, use "Extend" or "Shorten" to adjust your stay. The amount is recalculated automatically.'},
-      {q:'How do I get a taxi to my hotel?',a:'After confirming your reservation, a "Call a taxi" button appears in your booking. It automatically sends the hotel\'s exact address to the driver.'}
+      {q:'How does BookZzz work?',a:'BookZzz lets you reserve a room before arriving. Booking is free. You pay the room price either online or directly at the hotel on arrival.'},
+      {q:'Is booking free?',a:'Yes! Booking through BookZzz is completely free. You only pay the room price — no extra charges from us.'},
+      {q:'What is the BookZzz discount?',a:'By booking via BookZzz, you get an exclusive discount on the room price. The discount is shown on each hotel.'},
+      {q:'Guaranteed vs non-guaranteed booking?',a:'A guaranteed booking = you pay online (Mobile Money or card). A non-guaranteed booking = you choose to pay cash on arrival. If you don\'t show up on the scheduled day, the room is automatically released.'},
+      {q:'How do I signal my arrival?',a:'In the Bookings tab, tap "I have arrived". The hotel receives confirmation and gives you room access.'},
+      {q:'Can I change my stay duration?',a:'Yes! In the Bookings tab, use "Extend" or "Shorten". The price is recalculated automatically.'}
     ]},
-  sw:{back:'Rudi',step:'HATUA 3 / 3',pty:'wewe',pt:'Tuambie kuhusu ',ps:'Usanidi wa haraka — sekunde 10.',
-    fl:'JINA LA KWANZA *',ll:'JINA LA UKOO',gl:'WAGENI KWA CHUMBA',gh:'Kiwango 1 · Upeo 2',cta:'Tazama Mahoteli →',
-    htag:'Mahoteli Bora Karibu Nawe',h1:'Pata usiku wako\nkamili',
-    hs:'Hifadhi kabla ya kuwasili.\nFika na ulale vizuri.',
-    sp:'Tafuta hoteli, jiji...',sb:'Tafuta',sh:'Mahoteli ',shsp:'Yanayopatikana',
-    ss:'Gusa kadi kuona vyumba',rb:'Hifadhi',
-    verified:'Imethibitishwa',rooms:'vyumba',meal:'Chakula',ac:'AC',elev:'Lifti',
+  sw:{back:'Rudi',step:'HATUA 3 / 3',pty:'wewe',pt:'Tuambie kuhusu ',ps:'Usanidi wa haraka — sekunde 10.',fl:'JINA LA KWANZA *',ll:'JINA LA UKOO',gl:'WAGENI KWA CHUMBA',gh:'Kiwango 1 · Upeo 2',cta:'Tazama Mahoteli →',
+    htag:'Mahoteli Bora Karibu Nawe',h1:'Pata usiku wako\nkamili',hs:'Hifadhi kabla ya kuwasili.\nFika na ulale vizuri.',
+    sp:'Tafuta hoteli, jiji...',sb:'Tafuta',sh:'Mahoteli ',shsp:'Yanayopatikana',ss:'Gusa kadi kuona vyumba',
+    rb:'Ona Vyumba',verified:'Imethibitishwa',rooms:'vyumba',meal:'Chakula',ac:'AC',elev:'Lifti',
+    perNight:'/ usiku',discountLabel:'Punguzo la ',discountWith:'na BookZzz',
     f_all:'🏨 Yote',f_ac:'❄️ AC',f_meal:'🍽️ Chakula',f_elev:'🛗 Lifti',f_vrf:'✅ Imethibitishwa',
     nr:'Hakuna hoteli',ns:'Jaribu kichujio kingine',
     n1:'Nyumbani',n2:'Uhifadhi',n3:'Ramani',n4:'Profaili',
     bkTitle:'Uhifadhi wangu',bkSub:'Simamia uhifadhi wako na kuwasili',bkEmpty:'Hakuna uhifadhi bado',
+    arrivedBtn:'✅ Nimefika',extendBtn:'➕ Ongeza',shortenBtn:'➖ Punguza',
+    guaranteed:'Uhifadhi uliohakikishwa',notGuaranteed:'Uhifadhi usio na uhakika',
+    adjTitle:'Badilisha kukaa',adjLabel:'IDADI MPYA YA USIKU',
     pirL1:'Jina la kwanza',pirL2:'Jina la ukoo',pirL3:'Wageni / chumba',pirL4:'Lugha',pirL5:'Nchi ya safari',
-    changeLang:'🌐 Badilisha lugha',
-    ccTitle:'Unasafiri nchi gani?',ccSub:'Chagua nchi yako ya marudio',
+    changeLang:'🌐 Badilisha lugha',ccTitle:'Unasafiri nchi gani?',ccSub:'Chagua nchi yako ya marudio',
     ccNotice:'Hii si nchi yako ya asili — ni nchi unayotaka kuhifadhi hoteli kupitia BookZzz.',
     cityTitle:'Chagua mji wako',citySub:'Chagua mji unaotafuta hoteli',
-    soon:'Hivi karibuni',prTitle:'Profaili yangu',prSub:'Maelezo yako ya kibinafsi',
-    faqTitle:'Maswali — Msaada',langSub:'Chagua lugha yako',
-    reductionWith:'na BookZzz',guaranteed:'Uhifadhi uliohakikishwa',notGuaranteed:'Uhifadhi usio na uhakika',
-    arrivedBtn:'✅ Nimefika',extendBtn:'➕ Ongeza',shortenBtn:'➖ Punguza',
-    adjTitle:'Badilisha kukaa',adjLabel:'IDADI MPYA YA USIKU',
-    cashWarning:'⚠️ Uhifadhi usio na uhakika',cashWarnBody:'Kwa kuchagua kulipa pesa taslimu ukifika, uhifadhi wako HAUHAKIKISHWI.\n\nUsipofika siku uliyopanga, chumba kitatolewa na uhifadhi utafutwa kiotomatiki.',
-    cashWarnBtn:'Nimeelewa',
+    soon:'Hivi karibuni',prTitle:'Profaili yangu',prSub:'Maelezo yako ya kibinafsi',faqTitle:'Maswali — Msaada',langSub:'Chagua lugha yako',
     faqs:[
-      {q:'BookZzz inafanyaje kazi?',a:'BookZzz inakuruhusu kuhifadhi chumba cha hoteli kabla ya kuwasili. Chagua hoteli, chumba, lipa ada ya uhifadhi na nafasi yako inahakikishiwa.'},
-      {q:'Uhifadhi uliohakikishwa ni nini?',a:'Uhifadhi unahakikishiwa tu ukilipia mtandaoni kupitia BookZzz. Kulipa pesa taslimu ukifika ni uhifadhi USIO NA UHAKIKA: usipofika siku uliyopanga, chumba kitatolewa kiotomatiki.'},
-      {q:'Punguzo la BookZzz ni nini?',a:'Kila mteja anapata punguzo la 33% la tume ya BookZzz. Tume ikiwa 25%, unapata punguzo la 8.25% kwa bei ya chumba — kupitia programu yetu tu!'},
-      {q:'Kuwasili hotelini kunafanyaje kazi?',a:'Ukifika, bonyeza "Nimefika" kwenye uhifadhi wako. Hii inatuma ishara kwa hoteli na BookZzz kuthibitisha uwepo wako. Hoteli inakagua uhifadhi wako na kukupa ufikiaji wa chumba.'},
-      {q:'Ninaweza kubadilisha muda wa kukaa kwangu?',a:'Ndiyo! Kwenye kichupo cha Uhifadhi, tumia "Ongeza" au "Punguza" kubadilisha kukaa kwako. Kiasi kinakokotolewa upya kiotomatiki.'},
-      {q:'Ninapata teksi kwenda hotelini vipi?',a:'Baada ya kuthibitisha uhifadhi wako, kitufe cha "Piga teksi" kinaonekana kwenye uhifadhi wako. Kinatuma anwani halisi ya hoteli kwa dereva kiotomatiki.'}
+      {q:'BookZzz inafanyaje kazi?',a:'BookZzz inakuruhusu kuhifadhi chumba kabla ya kuwasili. Uhifadhi ni bure. Unalipa bei ya chumba mtandaoni au moja kwa moja hotelini ukifika.'},
+      {q:'Je, uhifadhi ni wa bure?',a:'Ndiyo! Kuhifadhi kupitia BookZzz ni bure kabisa. Unalipa bei ya chumba tu — hakuna malipo ya ziada kutoka kwetu.'},
+      {q:'Punguzo la BookZzz ni nini?',a:'Kwa kuhifadhi kupitia BookZzz, unapata punguzo la kipekee kwa bei ya chumba. Punguzo linaonyeshwa kwenye kila hoteli.'},
+      {q:'Uhifadhi uliohakikishwa dhidi ya usio na uhakika?',a:'Uhifadhi uliohakikishwa = unalipa mtandaoni. Uhifadhi usio na uhakika = unachagua kulipa pesa taslimu ukifika. Usipofika siku uliyopanga, chumba kitatolewa kiotomatiki.'},
+      {q:'Jinsi ya kutangaza kuwasili kwangu?',a:'Katika kichupo cha Uhifadhi, bonyeza "Nimefika". Hoteli inapokea uthibitisho na kukupa ufikiaji wa chumba.'},
+      {q:'Ninaweza kubadilisha muda wa kukaa kwangu?',a:'Ndiyo! Katika kichupo cha Uhifadhi, tumia "Ongeza" au "Punguza". Bei inakokotolewa upya kiotomatiki.'}
     ]}
 };
 
-/* ══════════ DEMO HOTELS ══════════ */
 var DEMO={
   CD:[
     {id:'d1',name:'Azure Sky Hotel',address:'Avenue Kasa-Vubu',city:'Kinshasa',country:'RDC',has_ac:true,has_elevator:true,meal_included:'breakfast',is_verified:true,status:'active',commission_rate:25,discount_rate:33,emoji:'🏙️',rooms_available:3,min_price:45000,currency:'CDF'},
@@ -773,105 +675,43 @@ var DEMO={
   ]
 };
 
-/* ══════════ STARS ══════════ */
-(function(){
-  var s=document.getElementById('stars');
-  for(var i=0;i<95;i++){
-    var e=document.createElement('div');e.className='star';
-    var sz=Math.random()*2+0.3;
-    e.style.cssText='width:'+sz+'px;height:'+sz+'px;top:'+Math.random()*75+'vh;left:'+Math.random()*100+'vw;animation-duration:'+(Math.random()*4+2)+'s;animation-delay:'+(Math.random()*6)+'s;';
-    s.appendChild(e);
-  }
-})();
+/* STARS */
+(function(){var s=document.getElementById('stars');for(var i=0;i<95;i++){var e=document.createElement('div');e.className='star';var sz=Math.random()*2+0.3;e.style.cssText='width:'+sz+'px;height:'+sz+'px;top:'+Math.random()*75+'vh;left:'+Math.random()*100+'vw;animation-duration:'+(Math.random()*4+2)+'s;animation-delay:'+(Math.random()*6)+'s;';s.appendChild(e);}})();
 
-/* ══════════ 3D TILT ══════════ */
-function tilt(el,e){
-  var r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
-  el.style.transform='perspective(900px) rotateY('+(x*10)+'deg) rotateX('+(-y*7)+'deg) scale3d(1.018,1.018,1.018)';
-}
+/* 3D TILT */
+function tilt(el,e){if(window.innerWidth<768)return;var r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;el.style.transform='perspective(900px) rotateY('+(x*10)+'deg) rotateX('+(-y*7)+'deg) scale3d(1.018,1.018,1.018)';}
 function uTilt(el){el.style.transform='perspective(900px) rotateY(0) rotateX(0) scale3d(1,1,1)';}
-function addTilt(el){
-  if(!el||window.innerWidth<768)return; /* no tilt on mobile */
-  el.addEventListener('mousemove',function(e){tilt(el,e);});
-  el.addEventListener('mouseleave',function(){uTilt(el);});
-}
+function addTilt(el){if(!el||window.innerWidth<768)return;el.addEventListener('mousemove',function(e){tilt(el,e);});el.addEventListener('mouseleave',function(){uTilt(el);});}
 
-/* ══════════ SCREENS ══════════ */
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(function(x){x.classList.remove('active');});
-  document.getElementById(id).classList.add('active');
-}
+/* SCREENS */
+function showScreen(id){document.querySelectorAll('.screen').forEach(function(x){x.classList.remove('active');});document.getElementById(id).classList.add('active');}
 
-/* ══════════ BACK NAVIGATION (FIX #1) ══════════ */
+/* BACK NAV */
 function goBack(target){
-  /* Always go to specified target — never to login if profile already done */
-  if(S.profileSetup&&(target==='lang'||target==='country'||target==='city'||target==='profile')){
-    /* User already set up — just go home */
-    showScreen('home');
-  } else {
-    showScreen(target);
-    if(target==='country')renderCountries();
-    if(target==='city'&&S.country)renderCities();
-  }
+  if(S.profileSetup){showScreen('home');return;}
+  showScreen(target);
+  if(target==='country')renderCountries();
+  if(target==='city'&&S.country)renderCities();
 }
 
-/* ══════════ SPLASH ══════════ */
+/* SPLASH */
 setTimeout(function(){
-  /* Check if user already set up */
-  var savedUser=localStorage.getItem('bz_user');
-  var savedLang=localStorage.getItem('bz_lang');
-  var savedCountry=localStorage.getItem('bz_country');
-  var savedCity=localStorage.getItem('bz_city');
-
-  var sp=document.getElementById('splash');
-  sp.style.transition='opacity .7s ease';
-  sp.style.opacity='0';
-
+  var saved=localStorage.getItem('bz_user'),lang=localStorage.getItem('bz_lang'),country=localStorage.getItem('bz_country'),city=localStorage.getItem('bz_city');
+  var sp=document.getElementById('splash');sp.style.transition='opacity .7s ease';sp.style.opacity='0';
   setTimeout(function(){
-    if(savedUser&&savedLang&&savedCountry){
-      /* Restore session */
-      try{
-        S.user=JSON.parse(savedUser);
-        S.lang=savedLang;
-        S.country=COUNTRIES.find(function(c){return c.code===savedCountry;})||COUNTRIES[0];
-        S.city=savedCity?{name:savedCity,icon:'🏙️'}:null;
-        S.gc=S.user.guests||1;
-        S.profileSetup=true;
-        applyHomeUI();
-        showScreen('home');
-        addTilt(document.getElementById('heroCard'));
-        loadHotels();
-      }catch(e){showScreen('lang');}
-    } else {
-      showScreen('lang');
-      addTilt(document.getElementById('langCard'));
-    }
+    if(saved&&lang&&country){
+      try{S.user=JSON.parse(saved);S.lang=lang;S.country=COUNTRIES.find(function(c){return c.code===country;})||COUNTRIES[0];S.city=city?{name:city,icon:'🏙️'}:null;S.gc=S.user.guests||1;S.profileSetup=true;applyHomeUI();showScreen('home');addTilt(document.getElementById('heroCard'));loadHotels();}
+      catch(e){showScreen('lang');}
+    } else {showScreen('lang');addTilt(document.getElementById('langCard'));}
   },700);
 },3400);
 
-/* ══════════ LANGUAGE ══════════ */
-function setLang(l){
-  S.lang=l;
-  applyLangUI(l);
-  showScreen('country');
-  renderCountries();
-  addTilt(document.getElementById('countryCard'));
-}
-
-/* FIX #2 — Change language from home without logout */
+/* LANGUAGE */
+function setLang(l){S.lang=l;applyLangUI(l);showScreen('country');renderCountries();addTilt(document.getElementById('countryCard'));}
 function openLangOverlay(){document.getElementById('langOverlay').classList.add('open');}
 function closeLangOverlay(){document.getElementById('langOverlay').classList.remove('open');}
 function closeLangOverlayOutside(e){if(e.target===document.getElementById('langOverlay'))closeLangOverlay();}
-function changeLangTo(l){
-  S.lang=l;
-  localStorage.setItem('bz_lang',l);
-  applyLangUI(l);
-  applyHomeUI();
-  renderH(S.hotels);
-  closeLangOverlay();
-  /* Stay on current tab — do NOT redirect to login */
-  showToast({fr:'Langue changée',en:'Language changed',sw:'Lugha imebadilishwa'}[l]||'Done');
-}
+function changeLangTo(l){S.lang=l;localStorage.setItem('bz_lang',l);applyLangUI(l);applyHomeUI();renderH(S.hotels);closeLangOverlay();showToast({fr:'Langue changée ✓',en:'Language changed ✓',sw:'Lugha imebadilishwa ✓'}[l]||'Done');}
 
 function applyLangUI(l){
   var t=T[l];
@@ -883,43 +723,29 @@ function applyLangUI(l){
   document.getElementById('sLbl').textContent=t.step;
   document.getElementById('pTit').innerHTML=t.pt+'<span>'+t.pty+'</span>';
   document.getElementById('pSub').textContent=t.ps;
-  document.getElementById('fLbl').textContent=t.fl;
-  document.getElementById('lLbl').textContent=t.ll;
-  document.getElementById('gLbl').textContent=t.gl;
-  document.getElementById('gHint').textContent=t.gh;
+  document.getElementById('fLbl').textContent=t.fl;document.getElementById('lLbl').textContent=t.ll;
+  document.getElementById('gLbl').textContent=t.gl;document.getElementById('gHint').textContent=t.gh;
   document.getElementById('ctaTxt').textContent=t.cta;
-  /* Country screen */
-  document.getElementById('ccTitle').innerHTML=t.ccTitle;
+  document.getElementById('ccTitle').textContent=t.ccTitle;
   document.getElementById('ccSub').textContent=t.ccSub;
   document.getElementById('ccNotice').innerHTML='<strong>ℹ️</strong> '+t.ccNotice;
-  /* City screen */
   document.getElementById('cityTitle').innerHTML=t.cityTitle.replace('ville','<span>ville</span>').replace('city','<span>city</span>').replace('mji','<span>mji</span>');
   document.getElementById('citySub').textContent=t.citySub;
 }
 
-/* ══════════ RENDER COUNTRIES ══════════ */
+/* COUNTRIES */
 function renderCountries(){
-  var t=T[S.lang];
-  var nk=S.lang==='en'?'name_en':S.lang==='sw'?'name_sw':'name_fr';
+  var t=T[S.lang];var nk=S.lang==='en'?'name_en':S.lang==='sw'?'name_sw':'name_fr';
   document.getElementById('countriesGrid').innerHTML=COUNTRIES.map(function(c){
     var nm=c[nk]||c.name_fr;
-    if(c.active){
-      return '<button class="cbtn" onclick="setCountry(\''+c.code+'\')"><span class="cflag">'+c.flag+'</span><span class="cname">'+nm+'</span></button>';
-    } else {
-      return '<div class="cbtn cbtn-soon"><span class="soon-tag">'+t.soon+'</span><span class="cflag" style="opacity:.5">'+c.flag+'</span><span class="cname">'+nm+'</span></div>';
-    }
+    return c.active
+      ?'<button class="cbtn" onclick="setCountry(\''+c.code+'\')"><span class="cflag">'+c.flag+'</span><span class="cname">'+nm+'</span></button>'
+      :'<div class="cbtn cbtn-soon"><span class="soon-tag">'+t.soon+'</span><span class="cflag" style="opacity:.5">'+c.flag+'</span><span class="cname">'+nm+'</span></div>';
   }).join('');
 }
 
-/* ══════════ SET COUNTRY ══════════ */
-function setCountry(code){
-  S.country=COUNTRIES.find(function(c){return c.code===code;});
-  renderCities();
-  showScreen('city');
-  addTilt(document.getElementById('cityCard'));
-}
-
-/* ══════════ RENDER CITIES ══════════ */
+/* COUNTRY & CITY */
+function setCountry(code){S.country=COUNTRIES.find(function(c){return c.code===code;});renderCities();showScreen('city');addTilt(document.getElementById('cityCard'));}
 function renderCities(){
   var t=T[S.lang];var c=S.country;if(!c)return;
   var dk='desc_'+(S.lang==='sw'?'fr':S.lang);
@@ -932,34 +758,23 @@ function renderCities(){
       return '<div class="city-btn city-btn-soon"><span class="city-icon" style="opacity:.5">'+city.icon+'</span><div class="city-info"><div class="city-name-txt">'+city.name+'</div><div class="city-desc">'+(city[dk]||city.desc_fr)+'</div></div><span style="font-size:9px;color:var(--azure);opacity:.6">'+t.soon+'</span></div>';
     }).join('');
 }
+function setCity(name,icon){S.city={name:name,icon:icon};showScreen('profile');addTilt(document.getElementById('profileCard'));}
 
-/* ══════════ SET CITY ══════════ */
-function setCity(name,icon){
-  S.city={name:name,icon:icon};
-  showScreen('profile');
-  addTilt(document.getElementById('profileCard'));
-}
-
-/* ══════════ GUESTS ══════════ */
+/* GUESTS */
 function chG(d){S.gc=Math.max(1,Math.min(2,S.gc+d));document.getElementById('gCnt').textContent=S.gc;}
 
-/* ══════════ SAVE PROFILE ══════════ */
+/* SAVE PROFILE */
 function savePro(){
   var fn=document.getElementById('fname').value.trim();
   if(!fn){showToast(S.lang==='fr'?'Veuillez entrer votre prénom':S.lang==='sw'?'Ingiza jina lako':'Please enter your first name');return;}
   S.user={firstName:fn,lastName:document.getElementById('lname').value.trim(),guests:S.gc};
   S.profileSetup=true;
-  localStorage.setItem('bz_user',JSON.stringify(S.user));
-  localStorage.setItem('bz_lang',S.lang);
-  localStorage.setItem('bz_country',S.country?S.country.code:'CD');
-  localStorage.setItem('bz_city',S.city?S.city.name:'');
-  applyHomeUI();
-  showScreen('home');
-  addTilt(document.getElementById('heroCard'));
-  loadHotels();
+  localStorage.setItem('bz_user',JSON.stringify(S.user));localStorage.setItem('bz_lang',S.lang);
+  localStorage.setItem('bz_country',S.country?S.country.code:'CD');localStorage.setItem('bz_city',S.city?S.city.name:'');
+  applyHomeUI();showScreen('home');addTilt(document.getElementById('heroCard'));loadHotels();
 }
 
-/* ══════════ APPLY HOME UI ══════════ */
+/* APPLY HOME UI */
 function applyHomeUI(){
   var t=T[S.lang];
   var cName=S.lang==='en'?S.country.name_en:S.lang==='sw'?S.country.name_sw:S.country.name_fr;
@@ -969,8 +784,7 @@ function applyHomeUI(){
   document.getElementById('hTagT').textContent=t.htag;
   document.getElementById('hH1').innerHTML=t.h1.replace('\n','<br>').replace("nights","night's");
   document.getElementById('hSub').innerHTML=t.hs.replace('\n','<br>');
-  document.getElementById('sInp').placeholder=t.sp;
-  document.getElementById('sBtnT').textContent=t.sb;
+  document.getElementById('sInp').placeholder=t.sp;document.getElementById('sBtnT').textContent=t.sb;
   document.getElementById('f-all').textContent=t.f_all;document.getElementById('f-ac').textContent=t.f_ac;
   document.getElementById('f-meal').textContent=t.f_meal;document.getElementById('f-elevator').textContent=t.f_elev;
   document.getElementById('f-verified').textContent=t.f_vrf;
@@ -978,8 +792,7 @@ function applyHomeUI(){
   document.getElementById('secS').textContent=t.ss;
   document.getElementById('n1').textContent=t.n1;document.getElementById('n2').textContent=t.n2;
   document.getElementById('n3').textContent=t.n3;document.getElementById('n4').textContent=t.n4;
-  document.getElementById('bkTitle').innerHTML=t.bkTitle;
-  document.getElementById('bkSub').textContent=t.bkSub;
+  document.getElementById('bkTitle').innerHTML=t.bkTitle;document.getElementById('bkSub').textContent=t.bkSub;
   document.getElementById('prTitle').innerHTML=t.prTitle;document.getElementById('prSub').textContent=t.prSub;
   document.getElementById('pirL1').textContent=t.pirL1;document.getElementById('pirV1').textContent=S.user.firstName||'—';
   document.getElementById('pirL2').textContent=t.pirL2;document.getElementById('pirV2').textContent=S.user.lastName||'—';
@@ -990,37 +803,34 @@ function applyHomeUI(){
   document.getElementById('profCountryD').textContent=S.country.flag+' '+cName+(cityName?' · '+cityName:'');
   document.getElementById('changeLangBtn').textContent=t.changeLang;
   document.getElementById('faqTitle').innerHTML=t.faqTitle;
-  renderFAQ(t.faqs);
-  loadBookings();
+  renderFAQ(t.faqs);loadBookings();
 }
 
-/* ══════════ FAQ ══════════ */
-function renderFAQ(faqs){
-  document.getElementById('faqList').innerHTML=faqs.map(function(f,i){
-    return '<div class="faq-item" id="faq'+i+'"><div class="faq-q" onclick="toggleFAQ('+i+')"><span class="faq-q-txt">'+f.q+'</span><span class="faq-arr">›</span></div><div class="faq-a">'+f.a+'</div></div>';
-  }).join('');
-}
+/* FAQ */
+function renderFAQ(faqs){document.getElementById('faqList').innerHTML=faqs.map(function(f,i){return '<div class="faq-item" id="faq'+i+'"><div class="faq-q" onclick="toggleFAQ('+i+')"><span class="faq-q-txt">'+f.q+'</span><span class="faq-arr">›</span></div><div class="faq-a">'+f.a+'</div></div>';}).join('');}
 function toggleFAQ(i){document.getElementById('faq'+i).classList.toggle('open');}
 
-/* ══════════ DISCOUNT CALC ══════════ */
-function calcDiscount(price,commission,discountPct){
-  /* commission % of price = base fee, then discount is discountPct% of that commission */
-  var commAmt=price*(commission/100);
-  var discAmt=commAmt*(discountPct/100);
-  var originalFee=Math.round(commAmt);
-  var discountedFee=Math.round(commAmt-discAmt);
-  var discountDisplay=Math.round(discAmt*100/price)/100; /* % of original price */
-  return {originalFee:originalFee,discountedFee:discountedFee,discountDisplay:discountDisplay};
+/* ═══════════════════════════════════════
+   DISCOUNT CALC — for display only
+   discountPct = (commission_rate * discount_rate / 100)
+   This is the % reduction on the room price
+   Example: room 45000, comm 25%, disc 33%
+   → client saves 45000 * 25% * 33% = 3712.5 CDF
+   → discount shown = 8.25% of room price
+   We show the discountPct as "Réduction de X%"
+═══════════════════════════════════════ */
+function calcDiscount(price,comm,disc){
+  var discPct=Math.round((comm/100)*(disc/100)*1000)/10; /* e.g. 8.25% */
+  var discAmt=Math.round(price*(discPct/100));
+  return {pct:discPct,amount:discAmt};
 }
 
-/* ══════════ LOAD HOTELS ══════════ */
+/* LOAD HOTELS */
 function loadHotels(){
   var cc=S.country?S.country.code:'CD';
   var cn=S.city?S.city.name:null;
-  var url=SB+'/rest/v1/hotels?select=*&status=eq.active&order=created_at.desc';
-  if(cn)url+='&city=eq.'+encodeURIComponent(cn);
-  fetch(url,{headers:HDR})
-  .then(function(r){return r.json();})
+  var url=SB+'/rest/v1/hotels?select=*&status=eq.active&order=created_at.desc'+(cn?'&city=eq.'+encodeURIComponent(cn):'');
+  fetch(url,{headers:HDR}).then(function(r){return r.json();})
   .then(function(d){
     if(d&&Array.isArray(d)&&d.length>0){S.hotels=d;enrichWithPrices(d);}
     else{var dm=DEMO[cc]||DEMO.CD;S.hotels=dm;renderH(dm);}
@@ -1039,7 +849,7 @@ function enrichWithPrices(hotels){
   }).catch(function(){renderH(hotels);});
 }
 
-/* ══════════ RENDER HOTELS ══════════ */
+/* RENDER HOTELS — shows room price + discount badge only */
 function renderH(list){
   var t=T[S.lang];var g=document.getElementById('hGrid');
   if(!list||!list.length){g.innerHTML='<div class="empty"><div class="ei">🔍</div><h3>'+t.nr+'</h3><p>'+t.ns+'</p></div>';return;}
@@ -1053,31 +863,37 @@ function renderH(list){
     if(h.has_elevator)amen.push('<span class="atag">🛗 '+t.elev+'</span>');
     if(h.meal_included&&h.meal_included!=='none')amen.push('<span class="atag">🍽️ '+t.meal+'</span>');
     var loc=(h.city||'')+', '+(h.country||'');
-    var priceHtml=price>0
-      ?'<div class="price-original">'+d.originalFee.toLocaleString()+' '+(h.currency||'CDF')+'</div>'
-       +'<div class="price-discounted">'+d.discountedFee.toLocaleString()+' '+(h.currency||'CDF')+'</div>'
-       +'<div class="price-badge">-'+d.discountDisplay+'% '+t.reductionWith+'</div>'
-       +'<div class="plbl">frais de réservation / nuit</div>'
-      :'<div class="price-discounted" style="font-size:13px;color:var(--text-dim)">Sur demande</div>';
-    return '<div class="hc" style="animation:fuA .55s cubic-bezier(.16,1,.3,1) '+(i*0.07)+'s both"'
-      +' onmousemove="tilt(this,event)" onmouseleave="uTilt(this)" onclick="openH(\''+h.id+'\','+i+')">'
+
+    /* Price section — shows room price and discount badge */
+    var priceHtml='<div class="hprice-block">';
+    if(price>0){
+      priceHtml+='<div class="room-price-display">'+price.toLocaleString()+' '+(h.currency||'CDF')+'</div>';
+      priceHtml+='<div class="room-price-night">'+t.perNight+'</div>';
+      if(d.pct>0){
+        priceHtml+='<div class="discount-badge">🎉 '+t.discountLabel+d.pct+'%</div>';
+      }
+    } else {
+      priceHtml+='<div class="room-price-display" style="font-size:13px;color:var(--text-dim)">Sur demande</div>';
+    }
+    priceHtml+='</div>';
+
+    return '<div class="hc" style="animation:fuA .55s cubic-bezier(.16,1,.3,1) '+(i*0.07)+'s both" onmousemove="tilt(this,event)" onmouseleave="uTilt(this)" onclick="openH(\''+h.id+'\','+i+')">'
       +'<div class="himg">'+(h.main_photo_url?'<img src="'+h.main_photo_url+'" alt="'+h.name+'" loading="lazy">':'<div class="hph">'+(h.emoji||'🏨')+'</div>')
       +(h.is_verified?'<div class="hvrf">✓ '+t.verified+'</div>':'')
-      +'<div class="hbadge-top">'+(h.rooms_available||'?')+' '+t.rooms+'</div></div>'
-      +'<div class="hbody"><div class="hname">'+h.name+'</div>'
+      +'<div class="hbadge-top">'+(h.rooms_available||'?')+' '+t.rooms+'</div>'
+      +'</div>'
+      +'<div class="hbody">'
+      +'<div class="hname">'+h.name+'</div>'
       +'<div class="hloc">📍 '+loc+'</div>'
       +(amen.length?'<div class="hamen-row">'+amen.join('')+'</div>':'')
-      +'<div class="hpr"><div class="price-wrap">'+priceHtml+'</div>'
-      +'<button class="rbtn" onclick="event.stopPropagation();openH(\''+h.id+'\','+i+')">'+t.rb+'</button></div></div></div>';
+      +'<div class="hpr">'+priceHtml
+      +'<button class="rbtn" onclick="event.stopPropagation();openH(\''+h.id+'\','+i+')">'+t.rb+'</button>'
+      +'</div></div></div>';
   }).join('');
 }
 
-/* ══════════ FILTER ══════════ */
-function setFilter(el,type){
-  S.activeFilter=type;
-  document.querySelectorAll('.ftag').forEach(function(x){x.classList.remove('on');});
-  el.classList.add('on');applyFilters();
-}
+/* FILTER */
+function setFilter(el,type){S.activeFilter=type;document.querySelectorAll('.ftag').forEach(function(x){x.classList.remove('on');});el.classList.add('on');applyFilters();}
 function filterH(){applyFilters();}
 function applyFilters(){
   var q=document.getElementById('sInp').value.toLowerCase().trim();
@@ -1088,41 +904,39 @@ function applyFilters(){
   }));
 }
 
-/* ══════════ OPEN HOTEL ══════════ */
+/* OPEN HOTEL */
 function openH(id,idx){
   var h=S.hotels.find(function(x){return x.id==id;})||S.hotels[idx];
   if(h){localStorage.setItem('bz_hotel',JSON.stringify(h));localStorage.setItem('bz_lang',S.lang);localStorage.setItem('bz_user',JSON.stringify(S.user));}
   window.location.href=BASE+'hotel.html?id='+id;
 }
 
-/* ══════════ TABS ══════════ */
+/* TABS */
 function setTab(el,tab){
-  document.querySelectorAll('.ni').forEach(function(x){x.classList.remove('active');});
-  el.classList.add('active');
+  document.querySelectorAll('.ni').forEach(function(x){x.classList.remove('active');});el.classList.add('active');
   document.querySelectorAll('.tab-panel').forEach(function(x){x.classList.remove('active');});
   document.getElementById('panel-'+tab).classList.add('active');
   if(tab==='bookings')loadBookings();
 }
 
-/* ══════════ LOAD BOOKINGS ══════════ */
+/* BOOKINGS */
 function loadBookings(){
   var t=T[S.lang];
   var saved=JSON.parse(localStorage.getItem('bz_bookings')||'[]');
   var list=document.getElementById('bookingsList');
   if(!saved.length){list.innerHTML='<div class="booking-empty"><div class="ei">🔖</div><p>'+t.bkEmpty+'</p></div>';return;}
   list.innerHTML=saved.map(function(b,i){
-    var isGuaranteed=b.payMethod!=='cash';
-    var statusClass='status-'+( b.status||'pending');
-    var statusTxt={pending:t.n2,confirmed:t.guaranteed,arrived:t.arrivedBtn.replace('✅ ',''),cancelled:'Annulée'}[b.status]||t.n2;
+    var isG=b.guaranteed!==false&&b.payMethod!=='cash';
+    var sc='status-'+(b.status||'pending');
     var arrivedDisabled=b.status==='arrived'||b.status==='cancelled';
     return '<div class="booking-card">'
       +'<div class="bc-top"><div class="bc-icon">🏨</div>'
       +'<div class="bc-info"><div class="bc-name">'+b.hotel+'</div>'
-      +'<div class="bc-detail">'+b.room+' · '+b.days+' nuit(s) · '+b.checkin+'</div>'
+      +'<div class="bc-detail">'+b.room+' · '+b.days+' nuit(s) · Arrivée : '+b.checkin+'</div>'
       +'<div class="bc-ref">RÉF #'+b.ref+'</div></div></div>'
       +'<div class="bc-status-row">'
-      +'<span class="bc-status '+statusClass+'">'+statusTxt+'</span>'
-      +(isGuaranteed?'<span class="guaranteed-badge">✅ '+t.guaranteed+'</span>':'<span class="not-guaranteed-badge">⚠️ '+t.notGuaranteed+'</span>')
+      +'<span class="bc-status '+sc+'">'+(b.status==='arrived'?t.arrivedBtn.replace('✅ ',''):b.status==='pending'?'En attente':'Confirmé')+'</span>'
+      +(isG?'<span class="guaranteed-badge">✅ '+t.guaranteed+'</span>':'<span class="not-guaranteed-badge">⚠️ '+t.notGuaranteed+'</span>')
       +'</div>'
       +'<div class="bc-actions">'
       +'<button class="bc-action-btn btn-arrived"'+(arrivedDisabled?' disabled':' onclick="markArrived('+i+')"')+'>'+t.arrivedBtn+'</button>'
@@ -1132,67 +946,49 @@ function loadBookings(){
   }).join('');
 }
 
-/* ══════════ MARK ARRIVED ══════════ */
+/* ARRIVED */
 function markArrived(idx){
   var t=T[S.lang];
   var bookings=JSON.parse(localStorage.getItem('bz_bookings')||'[]');
   if(!bookings[idx])return;
   bookings[idx].status='arrived';
   localStorage.setItem('bz_bookings',JSON.stringify(bookings));
-  /* Notify Supabase */
   if(bookings[idx].reservationId){
-    fetch(SB+'/rest/v1/reservations?id=eq.'+bookings[idx].reservationId,{
-      method:'PATCH',headers:Object.assign({},HDR,{'Prefer':'return=minimal'}),
-      body:JSON.stringify({status:'arrived',arrived_at:new Date().toISOString()})
-    }).catch(function(){});
+    fetch(SB+'/rest/v1/reservations?id=eq.'+bookings[idx].reservationId,{method:'PATCH',headers:Object.assign({},HDR,{'Prefer':'return=minimal'}),body:JSON.stringify({status:'arrived',arrived_at:new Date().toISOString()})}).catch(function(){});
   }
-  loadBookings();
-  showToast(t.arrivedBtn+' ✓');
+  loadBookings();showToast(t.arrivedBtn+' ✓');
 }
 
-/* ══════════ ADJUST STAY ══════════ */
+/* ADJUST */
 function openAdjust(idx,dir){
   var t=T[S.lang];
   var bookings=JSON.parse(localStorage.getItem('bz_bookings')||'[]');
   var b=bookings[idx];if(!b)return;
-  S.adjustTarget=idx;
-  S.adjustDays=b.days+(dir>0?1:dir<0?-1:0);
-  if(S.adjustDays<1)S.adjustDays=1;
+  S.adjustTarget=idx;S.adjustDays=Math.max(1,b.days+(dir>0?1:-1));
   document.getElementById('adjTitle').innerHTML=t.adjTitle;
   document.getElementById('adjLabel').textContent=t.adjLabel;
   document.getElementById('adjCnt').textContent=S.adjustDays;
-  updateAdjTotal(b);
+  var newPrice=Math.round((b.pricePerNight||0)*S.adjustDays);
+  document.getElementById('adjTotal').innerHTML='Total : <strong>'+newPrice.toLocaleString()+' '+(b.currency||'CDF')+'</strong>';
   document.getElementById('adjustModal').classList.add('open');
 }
 function chAdj(d){
-  var bookings=JSON.parse(localStorage.getItem('bz_bookings')||'[]');
-  var b=bookings[S.adjustTarget];
-  S.adjustDays=Math.max(1,S.adjustDays+d);
-  document.getElementById('adjCnt').textContent=S.adjustDays;
-  if(b)updateAdjTotal(b);
-}
-function updateAdjTotal(b){
-  var fee=Math.round((b.pricePerNight||0)*S.adjustDays*0.25);
-  document.getElementById('adjTotal').innerHTML='Nouveau total : <strong>'+fee.toLocaleString()+' '+(b.currency||'CDF')+'</strong>';
+  var bookings=JSON.parse(localStorage.getItem('bz_bookings')||'[]');var b=bookings[S.adjustTarget];
+  S.adjustDays=Math.max(1,S.adjustDays+d);document.getElementById('adjCnt').textContent=S.adjustDays;
+  if(b){var np=Math.round((b.pricePerNight||0)*S.adjustDays);document.getElementById('adjTotal').innerHTML='Total : <strong>'+np.toLocaleString()+' '+(b.currency||'CDF')+'</strong>';}
 }
 function closeAdjust(){document.getElementById('adjustModal').classList.remove('open');}
 function closeAdjustOutside(e){if(e.target===document.getElementById('adjustModal'))closeAdjust();}
 function confirmAdjust(){
   var bookings=JSON.parse(localStorage.getItem('bz_bookings')||'[]');
-  if(bookings[S.adjustTarget]){
-    bookings[S.adjustTarget].days=S.adjustDays;
-    localStorage.setItem('bz_bookings',JSON.stringify(bookings));
-  }
-  closeAdjust();loadBookings();
-  showToast('Séjour mis à jour ✓');
+  if(bookings[S.adjustTarget])bookings[S.adjustTarget].days=S.adjustDays;
+  localStorage.setItem('bz_bookings',JSON.stringify(bookings));
+  closeAdjust();loadBookings();showToast('Séjour mis à jour ✓');
 }
 
-/* ══════════ TOAST ══════════ */
+/* TOAST */
 var tT;
-function showToast(msg){
-  var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
-  clearTimeout(tT);tT=setTimeout(function(){t.classList.remove('show');},3000);
-}
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(tT);tT=setTimeout(function(){t.classList.remove('show');},3000);}
 </script>
 </body>
 </html>
