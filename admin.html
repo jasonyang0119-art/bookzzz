@@ -727,39 +727,85 @@ function editHotel(id){var h=G.hotels.find(function(x){return x.id==id;});if(h)o
 function saveHotel(){
   var name=document.getElementById('hName').value.trim();
   if(!name){showToast('Le nom est requis','error');return;}
+  /* Only send columns that exist in your Supabase hotels table */
   var payload={
-    name:name,description:document.getElementById('hDesc').value,
-    address:document.getElementById('hAddress').value,city:document.getElementById('hCity').value,
-    country:document.getElementById('hCountry').value,stars:parseInt(document.getElementById('hStars').value)||3,
+    name:name,
+    description:document.getElementById('hDesc').value||null,
+    address:document.getElementById('hAddress').value||null,
+    city:document.getElementById('hCity').value||null,
+    country:document.getElementById('hCountry').value||null,
+    stars:parseInt(document.getElementById('hStars').value)||3,
     main_photo_url:document.getElementById('hPhoto').value||null,
-    status:document.getElementById('hStatus').value,
+    status:document.getElementById('hStatus').value||'active',
     commission_rate:parseFloat(document.getElementById('hComm').value)||25,
-    discount_rate:parseFloat(document.getElementById('hDisc').value)||33,
-    total_rooms:parseInt(document.getElementById('hTotalRooms').value)||0,
-    meal_included:document.getElementById('hMeal').value,
-    latitude:parseFloat(document.getElementById('hLat').value)||null,
-    longitude:parseFloat(document.getElementById('hLng').value)||null,
+    is_verified:document.getElementById('hVerified').checked,
     has_ac:document.getElementById('hAc').checked,
     has_elevator:document.getElementById('hElev').checked,
     has_ventilation:document.getElementById('hVent').checked,
-    has_wifi:document.getElementById('hWifi').checked,
-    has_parking:document.getElementById('hParking').checked,
-    is_verified:document.getElementById('hVerified').checked
+    meal_included:document.getElementById('hMeal').value||'none',
+    latitude:parseFloat(document.getElementById('hLat').value)||null,
+    longitude:parseFloat(document.getElementById('hLng').value)||null
   };
+  /* Add extra columns only if they exist — won't break if missing */
+  var discVal=parseFloat(document.getElementById('hDisc').value);
+  if(!isNaN(discVal))payload.discount_rate=discVal;
+  var totalRooms=parseInt(document.getElementById('hTotalRooms').value);
+  if(!isNaN(totalRooms)&&totalRooms>0)payload.total_rooms=totalRooms;
   var isEdit=!!G.editHotelId;
   var url=SB+'/rest/v1/hotels'+(isEdit?'?id=eq.'+G.editHotelId:'');
   var method=isEdit?'PATCH':'POST';
-  if(!isEdit)payload.created_at=new Date().toISOString();
-  fetch(url,{method:method,headers:Object.assign({},HDR,{'Prefer':'return=minimal'}),body:JSON.stringify(payload)})
-  .then(function(){showToast(isEdit?'Hôtel modifié ✓':'Hôtel ajouté ✓','success');closeModal('hotelModal');loadHotels();})
-  .catch(function(){showToast('Erreur lors de la sauvegarde','error');});
+  /* Show loading state */
+  var saveBtn=document.querySelector('#hotelModal .btn-save');
+  if(saveBtn){saveBtn.textContent='⏳ Sauvegarde...';saveBtn.disabled=true;}
+  fetch(url,{
+    method:method,
+    headers:Object.assign({},HDR,{'Prefer':'return=representation'}),
+    body:JSON.stringify(payload)
+  })
+  .then(function(r){
+    if(saveBtn){saveBtn.textContent='💾 Sauvegarder';saveBtn.disabled=false;}
+    if(r.ok||r.status===201||r.status===204||r.status===200){
+      showToast(isEdit?'Hôtel modifié ✓':'Hôtel ajouté ✓','success');
+      closeModal('hotelModal');
+      loadHotels();
+    } else {
+      return r.text().then(function(txt){
+        var msg='Erreur '+r.status;
+        try{var j=JSON.parse(txt);msg=j.message||j.error||msg;}catch(e){}
+        if(r.status===403||r.status===401){
+          showToast('❌ Accès refusé (RLS). Exécutez le SQL de désactivation RLS dans Supabase.','error');
+          showRLSHelp();
+        } else if(r.status===400){
+          showToast('❌ Erreur données: '+msg,'error');
+        } else {
+          showToast('❌ Erreur: '+msg,'error');
+        }
+      });
+    }
+  })
+  .catch(function(err){
+    if(saveBtn){saveBtn.textContent='💾 Sauvegarder';saveBtn.disabled=false;}
+    showToast('❌ Erreur réseau. Vérifiez votre connexion.','error');
+  });
+}
+
+function showRLSHelp(){
+  var msg='⚠️ SUPABASE RLS BLOQUE L\'ACCÈS\n\nAllez dans Supabase → SQL Editor et exécutez:\n\nALTER TABLE hotels DISABLE ROW LEVEL SECURITY;\nGRANT ALL ON hotels TO anon;\n\nFaites de même pour toutes les tables.';
+  if(confirm(msg+'\n\nCliquez OK pour copier le SQL complet.')){
+    var sql='ALTER TABLE hotels DISABLE ROW LEVEL SECURITY;\nALTER TABLE rooms DISABLE ROW LEVEL SECURITY;\nALTER TABLE reservations DISABLE ROW LEVEL SECURITY;\nALTER TABLE room_photos DISABLE ROW LEVEL SECURITY;\nALTER TABLE hotel_admin DISABLE ROW LEVEL SECURITY;\nALTER TABLE transactions DISABLE ROW LEVEL SECURITY;\nALTER TABLE users DISABLE ROW LEVEL SECURITY;\nGRANT ALL ON hotels TO anon;\nGRANT ALL ON rooms TO anon;\nGRANT ALL ON reservations TO anon;\nGRANT ALL ON room_photos TO anon;\nGRANT ALL ON hotel_admin TO anon;\nGRANT ALL ON transactions TO anon;\nGRANT ALL ON users TO anon;\nGRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO anon;';
+    navigator.clipboard.writeText(sql).then(function(){alert('SQL copié ! Collez-le dans Supabase → SQL Editor → Run');}).catch(function(){alert('SQL:\n\n'+sql);});
+  }
 }
 
 function deleteHotel(id){
   if(!confirm('Supprimer cet hôtel ? Cette action est irréversible.'))return;
   fetch(SB+'/rest/v1/hotels?id=eq.'+id,{method:'DELETE',headers:HDR})
-  .then(function(){showToast('Hôtel supprimé','success');loadHotels();})
-  .catch(function(){showToast('Erreur','error');});
+  .then(function(r){
+    if(r.ok||r.status===204){showToast('Hôtel supprimé','success');loadHotels();}
+    else if(r.status===403){showToast('❌ Accès refusé — désactivez RLS dans Supabase','error');showRLSHelp();}
+    else{showToast('Erreur '+r.status,'error');}
+  })
+  .catch(function(){showToast('Erreur réseau','error');});
 }
 
 /* ══════════ ROOMS ══════════ */
@@ -830,30 +876,37 @@ function saveRoom(){
   if(!hotel||!name){showToast('Hôtel et nom requis','error');return;}
   var payload={
     hotel_id:hotel,name:name,
-    room_number:document.getElementById('rNum').value,
+    room_number:document.getElementById('rNum').value||null,
     floor:parseInt(document.getElementById('rFloor').value)||null,
     price:parseFloat(document.getElementById('rPrice').value)||0,
     capacity:parseInt(document.getElementById('rCap').value)||2,
     currency:document.getElementById('rCurrency').value||'CDF',
-    description:document.getElementById('rDesc').value,
-    discount_rate:parseFloat(document.getElementById('rDisc').value)||33,
-    meal_included:document.getElementById('rMeal').value,
+    description:document.getElementById('rDesc').value||null,
+    meal_included:document.getElementById('rMeal').value||'none',
     available:document.getElementById('rAvail').value==='true',
     has_ac:document.getElementById('rAc').checked,
     has_wifi:document.getElementById('rWifi').checked,
     has_ventilation:document.getElementById('rVent').checked
   };
+  var discVal=parseFloat(document.getElementById('rDisc').value);
+  if(!isNaN(discVal))payload.discount_rate=discVal;
   var isEdit=!!G.editRoomId;
   var url=SB+'/rest/v1/rooms'+(isEdit?'?id=eq.'+G.editRoomId:'');
   var method=isEdit?'PATCH':'POST';
-  fetch(url,{method:method,headers:Object.assign({},HDR,{'Prefer':'return=minimal'}),body:JSON.stringify(payload)})
-  .then(function(){
-    showToast(isEdit?'Chambre modifiée ✓':'Chambre ajoutée ✓','success');
-    closeModal('roomModal');
-    var hf=document.getElementById('roomHotelFilter').value;
-    loadRooms(hf);
-    loadHotels();
-  }).catch(function(){showToast('Erreur','error');});
+  fetch(url,{method:method,headers:Object.assign({},HDR,{'Prefer':'return=representation'}),body:JSON.stringify(payload)})
+  .then(function(r){
+    if(r.ok||r.status===201||r.status===200||r.status===204){
+      showToast(isEdit?'Chambre modifiée ✓':'Chambre ajoutée ✓','success');
+      closeModal('roomModal');
+      var hf=document.getElementById('roomHotelFilter').value;
+      loadRooms(hf);loadHotels();
+    } else if(r.status===403){
+      showToast('❌ Accès refusé — désactivez RLS dans Supabase','error');showRLSHelp();
+    } else {
+      return r.text().then(function(t){showToast('Erreur '+r.status+': '+t.slice(0,80),'error');});
+    }
+  })
+  .catch(function(){showToast('Erreur réseau','error');});
 }
 
 function deleteRoom(id){
