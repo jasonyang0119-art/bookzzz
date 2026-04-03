@@ -8,9 +8,9 @@
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{
-  --bg:#060e1a;--bg2:#091628;--bg3:#0d2040;--navy:#0d2d5e;
+  --bg:#060e1a;--bg2:#091628;--bg3:#0d2040;
   --azure:#5DADE2;--azure2:#85C1E9;--blue:#1a7fd4;
-  --white:#f0f7ff;--glass:rgba(13,32,64,0.6);--glass2:rgba(6,14,26,0.9);
+  --white:#f0f7ff;--glass:rgba(13,32,64,0.6);--glass2:rgba(6,14,26,0.92);
   --border:rgba(93,173,226,0.18);--border2:rgba(26,127,212,0.3);
   --text:#e8f4fd;--dim:rgba(220,240,255,0.5);
   --green:#2ecc71;--red:#e74c3c;--yellow:#f39c12;--purple:#9b59b6;
@@ -18,85 +18,64 @@
 }
 html,body{min-height:100%;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);}
 body{display:flex;min-height:100vh;}
-button,input,select,textarea{font-family:'DM Sans',sans-serif;}
+button,input,select,textarea{font-family:'DM Sans',sans-serif;cursor:pointer;}
 input,select,textarea{background:rgba(13,32,64,.6);border:1px solid var(--border);border-radius:var(--r);color:var(--text);padding:10px 14px;font-size:13px;outline:none;transition:all .3s;width:100%;}
 input:focus,select:focus,textarea:focus{border-color:rgba(93,173,226,.55);box-shadow:0 0 0 3px rgba(93,173,226,.07);}
 input::placeholder,textarea::placeholder{color:rgba(220,240,255,.22);}
 select option{background:var(--bg2);}
 label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--azure2);display:block;margin-bottom:5px;}
 
-/* ═══ LOGIN SCREEN ═══ */
-#loginScreen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:1000;
-  background:radial-gradient(ellipse 100% 55% at 50% 100%,rgba(26,127,212,.22) 0%,transparent 60%),
-  linear-gradient(180deg,#04080f 0%,#060e1a 40%,#091628 70%,#060e1a 100%);}
-.login-card{background:var(--glass2);border:1px solid var(--border2);border-radius:var(--r3);
-  padding:52px 56px 48px;width:90%;max-width:420px;position:relative;
-  box-shadow:0 40px 90px rgba(0,0,0,.6);text-align:center;}
-.login-card::before{content:'';position:absolute;top:0;left:14%;right:14%;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(93,173,226,.5),rgba(26,127,212,.9),rgba(93,173,226,.5),transparent);}
-.login-logo{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:700;color:var(--white);margin-bottom:4px;}
+/* LOGIN */
+#loginScreen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:1000;background:radial-gradient(ellipse 100% 55% at 50% 100%,rgba(26,127,212,.22) 0%,transparent 60%),linear-gradient(180deg,#04080f 0%,#060e1a 40%,#091628 70%,#060e1a 100%);}
+.login-card{background:var(--glass2);border:1px solid var(--border2);border-radius:var(--r3);padding:48px 52px 44px;width:90%;max-width:400px;position:relative;box-shadow:0 40px 90px rgba(0,0,0,.6);text-align:center;}
+.login-card::before{content:'';position:absolute;top:0;left:14%;right:14%;height:1px;background:linear-gradient(90deg,transparent,rgba(93,173,226,.5),rgba(26,127,212,.9),rgba(93,173,226,.5),transparent);}
+.login-logo{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:var(--white);margin-bottom:4px;}
 .login-logo span{color:var(--azure);font-style:italic;}
-.login-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(93,173,226,.09);border:1px solid rgba(93,173,226,.22);border-radius:40px;padding:4px 14px;margin-bottom:28px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--azure);}
-.login-field{text-align:left;margin-bottom:16px;}
-.login-field input{font-size:14px;padding:14px 16px;}
-.login-btn{width:100%;padding:15px;background:linear-gradient(135deg,var(--azure),var(--blue));border:none;border-radius:var(--r2);color:#fff;font-size:15px;font-weight:700;cursor:pointer;margin-top:6px;transition:all .3s;}
+.login-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(93,173,226,.09);border:1px solid rgba(93,173,226,.22);border-radius:40px;padding:4px 14px;margin-bottom:24px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--azure);}
+.login-field{text-align:left;margin-bottom:14px;}
+.login-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--azure),var(--blue));border:none;border-radius:var(--r2);color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-top:4px;transition:all .3s;}
 .login-btn:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(93,173,226,.35);}
-.login-err{font-size:12px;color:var(--red);margin-top:10px;display:none;}
+.login-err{font-size:12px;color:var(--red);margin-top:8px;display:none;}
 
-/* ═══ LAYOUT ═══ */
+/* LAYOUT */
 #app{display:none;width:100%;min-height:100vh;}
 #app.visible{display:flex;}
-
-/* SIDEBAR */
-.sidebar{width:240px;min-height:100vh;background:var(--glass2);border-right:1px solid var(--border);
-  display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;
-  transition:transform .3s;}
+.sidebar{width:240px;min-height:100vh;background:var(--glass2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;transition:transform .3s;}
 .sidebar.collapsed{transform:translateX(-240px);}
-.sb-logo{padding:24px 20px 20px;border-bottom:1px solid var(--border);}
-.sb-logo-txt{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--white);}
+.sb-logo{padding:22px 20px 18px;border-bottom:1px solid var(--border);}
+.sb-logo-txt{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--white);}
 .sb-logo-txt span{color:var(--azure);font-style:italic;}
 .sb-badge{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--azure);opacity:.6;margin-top:2px;}
-.sb-nav{flex:1;padding:16px 12px;overflow-y:auto;}
+.sb-nav{flex:1;padding:14px 12px;overflow-y:auto;}
 .sb-nav::-webkit-scrollbar{width:0;}
 .sb-section{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);padding:8px 10px 4px;margin-top:8px;}
-.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r);cursor:pointer;
-  transition:all .3s;color:var(--dim);font-size:13px;font-weight:500;margin-bottom:2px;border:none;background:none;width:100%;text-align:left;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r);cursor:pointer;transition:all .3s;color:var(--dim);font-size:13px;font-weight:500;margin-bottom:2px;border:none;background:none;width:100%;text-align:left;}
 .nav-item:hover{background:rgba(93,173,226,.08);color:var(--azure2);}
 .nav-item.active{background:rgba(93,173,226,.12);color:var(--azure);border-left:3px solid var(--azure);padding-left:9px;}
 .nav-item .ni-icon{font-size:16px;flex-shrink:0;width:20px;text-align:center;}
 .sb-bottom{padding:16px 12px;border-top:1px solid var(--border);}
-.logout-btn{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:var(--r);cursor:pointer;
-  color:var(--red);font-size:13px;font-weight:500;background:rgba(231,76,60,.08);border:1px solid rgba(231,76,60,.2);width:100%;transition:all .3s;}
+.logout-btn{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:var(--r);cursor:pointer;color:var(--red);font-size:13px;font-weight:500;background:rgba(231,76,60,.08);border:1px solid rgba(231,76,60,.2);width:100%;transition:all .3s;}
 .logout-btn:hover{background:rgba(231,76,60,.15);}
 
-/* MAIN */
-.main-content{flex:1;margin-left:240px;min-height:100vh;padding:0;transition:margin .3s;}
+.main-content{flex:1;margin-left:240px;min-height:100vh;transition:margin .3s;}
 .main-content.expanded{margin-left:0;}
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;
-  background:rgba(6,14,26,.9);border-bottom:1px solid var(--border);
-  position:sticky;top:0;z-index:50;backdrop-filter:blur(20px);}
-.topbar-left{display:flex;align-items:center;gap:14px;}
-.menu-toggle{width:36px;height:36px;border:none;background:rgba(93,173,226,.1);border-radius:var(--r);
-  color:var(--azure);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
-.menu-toggle:hover{background:rgba(93,173,226,.18);}
-.page-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--white);}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;background:rgba(6,14,26,.9);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;backdrop-filter:blur(20px);}
+.topbar-left{display:flex;align-items:center;gap:12px;}
+.menu-toggle{width:34px;height:34px;border:none;background:rgba(93,173,226,.1);border-radius:var(--r);color:var(--azure);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--white);}
 .page-title span{color:var(--azure);font-style:italic;}
-.topbar-right{display:flex;align-items:center;gap:10px;}
-.notif-btn{position:relative;width:36px;height:36px;border:1px solid var(--border);border-radius:var(--r);
-  background:rgba(13,32,64,.5);color:var(--dim);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
-.notif-btn:hover{color:var(--azure);border-color:rgba(93,173,226,.4);}
-.notif-dot{position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:var(--red);}
 .admin-pill{display:flex;align-items:center;gap:7px;padding:7px 14px;background:rgba(93,173,226,.1);border:1px solid rgba(93,173,226,.25);border-radius:40px;font-size:12px;font-weight:600;color:var(--azure);}
+.notif-btn{position:relative;width:36px;height:36px;border:1px solid var(--border);border-radius:var(--r);background:rgba(13,32,64,.5);color:var(--dim);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.notif-btn:hover{color:var(--azure);}
+.notif-dot{position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:var(--red);}
 
-/* CONTENT */
-.content{padding:24px 28px;}
+.content{padding:22px 24px;}
 .content-section{display:none;}
 .content-section.active{display:block;}
 
-/* ═══ STATS CARDS ═══ */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:28px;}
-.stat-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:20px 22px;
-  position:relative;overflow:hidden;transition:all .3s;}
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px;margin-bottom:24px;}
+.stat-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:18px 20px;position:relative;overflow:hidden;transition:all .3s;}
 .stat-card:hover{border-color:var(--border2);transform:translateY(-2px);}
 .stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
 .stat-card.blue::before{background:linear-gradient(90deg,var(--azure),var(--blue));}
@@ -104,27 +83,34 @@ label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--azu
 .stat-card.yellow::before{background:linear-gradient(90deg,var(--yellow),#e67e22);}
 .stat-card.red::before{background:linear-gradient(90deg,var(--red),#c0392b);}
 .stat-card.purple::before{background:linear-gradient(90deg,var(--purple),#8e44ad);}
-.stat-icon{font-size:28px;margin-bottom:10px;}
-.stat-val{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--white);line-height:1;}
-.stat-lbl{font-size:11px;color:var(--dim);margin-top:4px;}
-.stat-sub{font-size:10px;color:var(--azure);margin-top:6px;}
+.stat-icon{font-size:26px;margin-bottom:8px;}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:var(--white);line-height:1;}
+.stat-lbl{font-size:11px;color:var(--dim);margin-top:3px;}
 
-/* ═══ SECTION HEADERS ═══ */
-.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:gap;gap:10px;}
-.sec-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--white);}
+/* DEBUG PANEL */
+.debug-panel{background:rgba(231,76,60,.06);border:1px solid rgba(231,76,60,.25);border-radius:var(--r2);padding:16px 18px;margin-bottom:20px;display:none;}
+.debug-panel.show{display:block;}
+.debug-title{font-size:12px;font-weight:700;color:var(--red);margin-bottom:8px;}
+.debug-msg{font-size:11px;color:var(--dim);font-family:monospace;white-space:pre-wrap;max-height:120px;overflow-y:auto;}
+
+/* SEC HEADERS */
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:10px;flex-wrap:wrap;}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--white);}
 .sec-title span{color:var(--azure);font-style:italic;}
-.add-btn{display:flex;align-items:center;gap:7px;padding:10px 18px;background:linear-gradient(135deg,var(--azure),var(--blue));border:none;border-radius:var(--r);color:#fff;font-size:13px;font-weight:700;cursor:pointer;transition:all .3s;flex-shrink:0;}
+.add-btn{display:flex;align-items:center;gap:7px;padding:9px 16px;background:linear-gradient(135deg,var(--azure),var(--blue));border:none;border-radius:var(--r);color:#fff;font-size:12px;font-weight:700;cursor:pointer;transition:all .3s;flex-shrink:0;}
 .add-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(93,173,226,.3);}
 
-/* ═══ TABLE ═══ */
-.tbl-wrap{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;margin-bottom:24px;}
-.tbl-search{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:center;}
-.tbl-search input{max-width:280px;padding:9px 14px;font-size:13px;}
-table{width:100%;border-collapse:collapse;}
-th{padding:11px 16px;text-align:left;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);background:rgba(13,32,64,.4);border-bottom:1px solid var(--border);}
-td{padding:13px 16px;font-size:13px;border-bottom:1px solid rgba(93,173,226,.06);vertical-align:middle;}
+/* TABLES */
+.tbl-wrap{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;margin-bottom:22px;overflow-x:auto;}
+.tbl-search{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;gap:10px;}
+.tbl-search input{max-width:260px;padding:8px 12px;font-size:12px;}
+table{width:100%;border-collapse:collapse;min-width:500px;}
+th{padding:10px 14px;text-align:left;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);background:rgba(13,32,64,.4);border-bottom:1px solid var(--border);}
+td{padding:12px 14px;font-size:13px;border-bottom:1px solid rgba(93,173,226,.06);vertical-align:middle;}
 tr:last-child td{border-bottom:none;}
 tr:hover td{background:rgba(93,173,226,.04);}
+.tbl-empty{text-align:center;padding:40px;color:var(--dim);}
+.tbl-empty-icon{font-size:36px;margin-bottom:8px;}
 .tbl-badge{display:inline-flex;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;}
 .badge-active{background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.3);color:var(--green);}
 .badge-pending{background:rgba(243,156,18,.12);border:1px solid rgba(243,156,18,.3);color:var(--yellow);}
@@ -132,112 +118,97 @@ tr:hover td{background:rgba(93,173,226,.04);}
 .badge-arrived{background:rgba(93,173,226,.12);border:1px solid rgba(93,173,226,.3);color:var(--azure);}
 .badge-guaranteed{background:rgba(46,204,113,.1);border:1px solid rgba(46,204,113,.25);color:var(--green);}
 .badge-notguaranteed{background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.25);color:var(--red);}
-.tbl-actions{display:flex;gap:6px;align-items:center;}
-.act-btn{padding:5px 11px;border:none;border-radius:var(--r);font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;}
+.tbl-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+.act-btn{padding:5px 10px;border:none;border-radius:var(--r);font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;}
 .act-edit{background:rgba(93,173,226,.12);color:var(--azure);}
 .act-edit:hover{background:rgba(93,173,226,.22);}
 .act-del{background:rgba(231,76,60,.1);color:var(--red);}
 .act-del:hover{background:rgba(231,76,60,.22);}
-.act-view{background:rgba(46,204,113,.1);color:var(--green);}
-.act-view:hover{background:rgba(46,204,113,.2);}
 .act-access{background:rgba(155,89,182,.12);color:var(--purple);}
 .act-access:hover{background:rgba(155,89,182,.22);}
 .act-link{background:rgba(243,156,18,.1);color:var(--yellow);}
 .act-link:hover{background:rgba(243,156,18,.2);}
 
-/* Empty table */
-.tbl-empty{text-align:center;padding:50px 20px;color:var(--dim);}
-.tbl-empty-icon{font-size:40px;margin-bottom:10px;}
-
-/* ═══ MODAL ═══ */
-.modal-overlay{position:fixed;inset:0;background:rgba(4,8,20,.88);z-index:500;
-  display:flex;align-items:center;justify-content:center;
-  opacity:0;pointer-events:none;transition:opacity .3s ease;backdrop-filter:blur(8px);padding:16px;}
-.modal-overlay.open{opacity:1;pointer-events:all;}
-.modal{background:var(--glass2);border:1px solid var(--border2);border-radius:var(--r3);
-  width:100%;max-width:580px;max-height:88vh;overflow-y:auto;
-  box-shadow:0 40px 90px rgba(0,0,0,.6);position:relative;}
-.modal::-webkit-scrollbar{width:0;}
-.modal-head{padding:24px 26px 0;position:sticky;top:0;background:var(--glass2);z-index:10;padding-bottom:16px;border-bottom:1px solid var(--border);}
-.modal-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--white);}
-.modal-title span{color:var(--azure);font-style:italic;}
-.modal-close{position:absolute;top:20px;right:20px;width:30px;height:30px;border-radius:50%;
-  background:rgba(93,173,226,.1);border:1px solid var(--border);color:var(--dim);font-size:13px;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;}
-.modal-close:hover{color:var(--white);}
-.modal-body{padding:20px 26px 26px;}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-.form-grid.full{grid-template-columns:1fr;}
-.field{display:flex;flex-direction:column;gap:5px;margin-bottom:2px;}
-.field.full{grid-column:1/-1;}
-.modal-footer{display:flex;gap:10px;justify-content:flex-end;padding-top:16px;border-top:1px solid var(--border);margin-top:6px;}
-.btn-save{padding:11px 24px;background:linear-gradient(135deg,var(--azure),var(--blue));border:none;border-radius:var(--r);color:#fff;font-size:13px;font-weight:700;cursor:pointer;transition:all .3s;}
-.btn-save:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(93,173,226,.3);}
-.btn-cancel{padding:11px 20px;background:rgba(13,32,64,.5);border:1px solid var(--border);border-radius:var(--r);color:var(--dim);font-size:13px;cursor:pointer;transition:all .3s;}
-.btn-cancel:hover{color:var(--white);}
-
-/* Toggle switch */
-.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);}
-.toggle-row:last-child{border-bottom:none;}
-.toggle-info{flex:1;}
-.toggle-label{font-size:13px;font-weight:600;color:var(--white);}
-.toggle-sub{font-size:11px;color:var(--dim);margin-top:2px;}
-.toggle{position:relative;width:44px;height:24px;flex-shrink:0;}
-.toggle input{opacity:0;width:0;height:0;}
-.toggle-slider{position:absolute;inset:0;background:rgba(13,32,64,.8);border:1px solid var(--border);border-radius:12px;cursor:pointer;transition:all .3s;}
-.toggle-slider::before{content:'';position:absolute;width:18px;height:18px;left:2px;bottom:2px;background:var(--dim);border-radius:50%;transition:all .3s;}
-.toggle input:checked+.toggle-slider{background:rgba(93,173,226,.2);border-color:rgba(93,173,226,.5);}
-.toggle input:checked+.toggle-slider::before{transform:translateX(20px);background:var(--azure);}
-
-/* ═══ ARRIVALS / NOTIFICATIONS ═══ */
-.arrival-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);
-  padding:16px 18px;margin-bottom:12px;display:flex;align-items:flex-start;gap:14px;
-  transition:all .3s;}
+/* ARRIVAL CARDS */
+.arrival-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:16px 18px;margin-bottom:12px;display:flex;align-items:flex-start;gap:14px;}
 .arrival-card.new{border-color:rgba(46,204,113,.3);background:rgba(46,204,113,.04);}
 .arrival-card.cash{border-color:rgba(243,156,18,.3);}
-.arr-ico{font-size:28px;flex-shrink:0;}
+.arr-ico{font-size:26px;flex-shrink:0;}
 .arr-info{flex:1;min-width:0;}
 .arr-name{font-size:14px;font-weight:600;color:var(--white);margin-bottom:3px;}
 .arr-detail{font-size:11px;color:var(--dim);line-height:1.5;}
 .arr-time{font-size:10px;color:var(--azure);margin-top:4px;}
 .arr-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
 
-/* ═══ COUNTRY/CITY CONTROL ═══ */
-.country-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:20px 22px;margin-bottom:14px;}
-.country-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
-.country-flag{font-size:28px;}
-.country-name{font-size:15px;font-weight:600;color:var(--white);}
-.city-rows{display:flex;flex-direction:column;gap:8px;padding-left:4px;}
-.city-row{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;
-  background:rgba(13,32,64,.4);border:1px solid var(--border);border-radius:var(--r);}
+/* COMMISSION */
+.commission-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:18px 20px;margin-bottom:14px;}
+.comm-hotel-name{font-size:14px;font-weight:600;color:var(--white);margin-bottom:12px;}
+.comm-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.comm-label{font-size:12px;color:var(--dim);width:160px;flex-shrink:0;}
+.comm-input{width:80px;flex-shrink:0;padding:7px 12px;text-align:center;font-size:14px;font-weight:600;}
+.comm-result{font-size:11px;color:var(--green);margin-top:4px;}
+.save-comm-btn{padding:7px 16px;background:linear-gradient(135deg,var(--azure),var(--blue));border:none;border-radius:var(--r);color:#fff;font-size:12px;font-weight:700;cursor:pointer;margin-top:8px;}
+
+/* COUNTRY TOGGLES */
+.country-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:18px 20px;margin-bottom:12px;}
+.country-header{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.country-flag{font-size:26px;}
+.country-name{font-size:14px;font-weight:600;color:var(--white);}
+.city-rows{display:flex;flex-direction:column;gap:7px;padding-left:4px;}
+.city-row{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:rgba(13,32,64,.4);border:1px solid var(--border);border-radius:var(--r);}
 .city-row-name{font-size:13px;color:var(--text);display:flex;align-items:center;gap:8px;}
 
-/* ═══ COMMISSION CARD ═══ */
-.commission-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:20px 22px;margin-bottom:16px;}
-.comm-hotel-name{font-size:14px;font-weight:600;color:var(--white);margin-bottom:14px;}
-.comm-row{display:flex;align-items:center;gap:14px;margin-bottom:12px;}
-.comm-label{font-size:12px;color:var(--dim);width:140px;flex-shrink:0;}
-.comm-input{width:80px;flex-shrink:0;padding:7px 12px;text-align:center;font-size:14px;font-weight:600;}
-.comm-pct{font-size:12px;color:var(--azure);}
-.comm-result{font-size:11px;color:var(--green);margin-top:6px;}
-.save-comm-btn{padding:8px 18px;background:linear-gradient(135deg,var(--azure),var(--blue));border:none;border-radius:var(--r);color:#fff;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:8px;}
-.save-comm-btn:hover{box-shadow:0 4px 14px rgba(93,173,226,.3);}
+/* TOGGLE */
+.toggle{position:relative;width:42px;height:22px;flex-shrink:0;}
+.toggle input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;inset:0;background:rgba(13,32,64,.8);border:1px solid var(--border);border-radius:11px;cursor:pointer;transition:all .3s;}
+.toggle-slider::before{content:'';position:absolute;width:16px;height:16px;left:2px;bottom:2px;background:var(--dim);border-radius:50%;transition:all .3s;}
+.toggle input:checked+.toggle-slider{background:rgba(93,173,226,.2);border-color:rgba(93,173,226,.5);}
+.toggle input:checked+.toggle-slider::before{transform:translateX(20px);background:var(--azure);}
 
-/* ═══ HOTEL ADMIN ACCESS ═══ */
-.access-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:18px 20px;margin-bottom:12px;display:flex;align-items:center;gap:14px;}
+/* ACCESS */
+.access-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:16px 18px;margin-bottom:10px;display:flex;align-items:center;gap:12px;}
 .access-info{flex:1;}
-.access-hotel{font-size:14px;font-weight:600;color:var(--white);margin-bottom:3px;}
+.access-hotel{font-size:13px;font-weight:600;color:var(--white);margin-bottom:2px;}
 .access-email{font-size:11px;color:var(--dim);}
-.access-link{font-size:10px;color:var(--azure);margin-top:4px;word-break:break-all;}
-.access-btns{display:flex;gap:7px;flex-direction:column;flex-shrink:0;}
+.access-link{font-size:10px;color:var(--azure);margin-top:3px;word-break:break-all;}
+.access-btns{display:flex;gap:6px;flex-direction:column;flex-shrink:0;}
 
-/* ═══ TOAST ═══ */
-.toast{position:fixed;top:20px;right:20px;background:rgba(13,32,64,.97);border:1px solid rgba(93,173,226,.4);border-radius:var(--r);padding:12px 20px;color:var(--white);font-size:13px;z-index:999;opacity:0;pointer-events:none;transition:all .35s cubic-bezier(.16,1,.3,1);box-shadow:0 12px 40px rgba(0,0,0,.4);max-width:320px;}
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(4,8,20,.88);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s ease;backdrop-filter:blur(8px);padding:16px;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{background:var(--glass2);border:1px solid var(--border2);border-radius:var(--r3);width:100%;max-width:580px;max-height:88vh;overflow-y:auto;box-shadow:0 40px 90px rgba(0,0,0,.6);position:relative;}
+.modal::-webkit-scrollbar{width:0;}
+.modal-head{padding:22px 24px 0;position:sticky;top:0;background:var(--glass2);z-index:10;padding-bottom:14px;border-bottom:1px solid var(--border);}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--white);}
+.modal-title span{color:var(--azure);font-style:italic;}
+.modal-close{position:absolute;top:18px;right:18px;width:28px;height:28px;border-radius:50%;background:rgba(93,173,226,.1);border:1px solid var(--border);color:var(--dim);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.modal-close:hover{color:var(--white);}
+.modal-body{padding:18px 24px 24px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.field{display:flex;flex-direction:column;gap:4px;}
+.field.full{grid-column:1/-1;}
+.modal-footer{display:flex;gap:10px;justify-content:flex-end;padding-top:14px;border-top:1px solid var(--border);margin-top:4px;}
+.btn-save{padding:10px 22px;background:linear-gradient(135deg,var(--azure),var(--blue));border:none;border-radius:var(--r);color:#fff;font-size:13px;font-weight:700;cursor:pointer;transition:all .3s;}
+.btn-save:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(93,173,226,.3);}
+.btn-save:disabled{background:rgba(13,32,64,.5);color:var(--dim);cursor:not-allowed;transform:none;box-shadow:none;}
+.btn-cancel{padding:10px 18px;background:rgba(13,32,64,.5);border:1px solid var(--border);border-radius:var(--r);color:var(--dim);font-size:13px;cursor:pointer;}
+.btn-cancel:hover{color:var(--white);}
+
+/* SETTINGS */
+.settings-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:18px 20px;margin-bottom:14px;}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);}
+.toggle-row:last-child{border-bottom:none;}
+.toggle-info{flex:1;}
+.toggle-label{font-size:13px;font-weight:600;color:var(--white);}
+.toggle-sub{font-size:11px;color:var(--dim);margin-top:1px;}
+
+/* TOAST */
+.toast{position:fixed;top:20px;right:20px;background:rgba(13,32,64,.97);border:1px solid rgba(93,173,226,.4);border-radius:var(--r);padding:12px 20px;color:var(--white);font-size:13px;z-index:999;opacity:0;pointer-events:none;transition:all .35s cubic-bezier(.16,1,.3,1);box-shadow:0 12px 40px rgba(0,0,0,.4);max-width:360px;line-height:1.5;}
 .toast.show{opacity:1;}
 .toast.success{border-color:rgba(46,204,113,.4);}
 .toast.error{border-color:rgba(231,76,60,.4);}
 
-/* ═══ RESPONSIVE ═══ */
 @media(max-width:900px){
   .sidebar{transform:translateX(-240px);}
   .sidebar.open{transform:translateX(0);}
@@ -246,17 +217,17 @@ tr:hover td{background:rgba(93,173,226,.04);}
   .stats-grid{grid-template-columns:repeat(2,1fr);}
 }
 @media(max-width:600px){
+  .content{padding:14px;}
+  .topbar{padding:12px 14px;}
   .stats-grid{grid-template-columns:1fr 1fr;}
-  .content{padding:16px;}
-  .topbar{padding:14px 16px;}
   table{font-size:12px;}
-  td,th{padding:10px 12px;}
+  td,th{padding:9px 10px;}
 }
 </style>
 </head>
 <body>
 
-<!-- ═══ LOGIN ═══ -->
+<!-- LOGIN -->
 <div id="loginScreen">
   <div class="login-card">
     <div class="login-logo">Book<span>Zzz</span></div>
@@ -270,10 +241,8 @@ tr:hover td{background:rgba(93,173,226,.04);}
   </div>
 </div>
 
-<!-- ═══ APP ═══ -->
+<!-- APP -->
 <div id="app">
-
-  <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <div class="sb-logo">
       <div class="sb-logo-txt">Book<span>Zzz</span></div>
@@ -282,16 +251,14 @@ tr:hover td{background:rgba(93,173,226,.04);}
     <nav class="sb-nav">
       <div class="sb-section">PRINCIPAL</div>
       <button class="nav-item active" onclick="goSection('dashboard',this)"><span class="ni-icon">📊</span>Dashboard</button>
-      <button class="nav-item" onclick="goSection('arrivals',this)"><span class="ni-icon">🔔</span>Arrivées <span id="arrivalBadge" style="margin-left:auto;background:rgba(231,76,60,.2);color:var(--red);border-radius:20px;padding:2px 7px;font-size:10px;font-weight:700;display:none">0</span></button>
+      <button class="nav-item" onclick="goSection('arrivals',this)"><span class="ni-icon">🔔</span>Arrivées <span id="arrBadge" style="margin-left:auto;background:rgba(231,76,60,.2);color:var(--red);border-radius:20px;padding:2px 7px;font-size:10px;font-weight:700;display:none">0</span></button>
       <button class="nav-item" onclick="goSection('reservations',this)"><span class="ni-icon">🔖</span>Réservations</button>
-
       <div class="sb-section">HÔTELS</div>
       <button class="nav-item" onclick="goSection('hotels',this)"><span class="ni-icon">🏨</span>Gérer les hôtels</button>
       <button class="nav-item" onclick="goSection('rooms',this)"><span class="ni-icon">🛏️</span>Gérer les chambres</button>
-      <button class="nav-item" onclick="goSection('commission',this)"><span class="ni-icon">💰</span>Commissions & réductions</button>
+      <button class="nav-item" onclick="goSection('commission',this)"><span class="ni-icon">💰</span>Commissions</button>
       <button class="nav-item" onclick="goSection('hotel-access',this)"><span class="ni-icon">🔑</span>Accès hôteliers</button>
-
-      <div class="sb-section">CONFIGURATION</div>
+      <div class="sb-section">CONFIG</div>
       <button class="nav-item" onclick="goSection('geography',this)"><span class="ni-icon">🌍</span>Pays & Villes</button>
       <button class="nav-item" onclick="goSection('settings',this)"><span class="ni-icon">⚙️</span>Paramètres</button>
     </nav>
@@ -300,159 +267,135 @@ tr:hover td{background:rgba(93,173,226,.04);}
     </div>
   </aside>
 
-  <!-- MAIN -->
   <div class="main-content" id="mainContent">
     <div class="topbar">
       <div class="topbar-left">
         <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
         <div class="page-title" id="pageTitle">Tableau de <span>bord</span></div>
       </div>
-      <div class="topbar-right">
-        <button class="notif-btn" onclick="goSection('arrivals',null)" title="Arrivées">🔔<span class="notif-dot" id="notifDot" style="display:none"></span></button>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button class="notif-btn" onclick="goSection('arrivals',null)">🔔<span class="notif-dot" id="notifDot" style="display:none"></span></button>
         <div class="admin-pill">👑 Super Admin</div>
       </div>
     </div>
 
     <div class="content">
 
-      <!-- ═══ DASHBOARD ═══ -->
-      <div class="content-section active" id="sec-dashboard">
-        <div class="stats-grid" id="statsGrid">
-          <div class="stat-card blue"><div class="stat-icon">🏨</div><div class="stat-val" id="statHotels">—</div><div class="stat-lbl">Hôtels actifs</div></div>
-          <div class="stat-card green"><div class="stat-icon">🛏️</div><div class="stat-val" id="statRooms">—</div><div class="stat-lbl">Chambres au total</div></div>
-          <div class="stat-card yellow"><div class="stat-icon">🔖</div><div class="stat-val" id="statReservations">—</div><div class="stat-lbl">Réservations</div></div>
-          <div class="stat-card red"><div class="stat-icon">✅</div><div class="stat-val" id="statArrivals">—</div><div class="stat-lbl">Arrivées confirmées</div></div>
-          <div class="stat-card purple"><div class="stat-icon">💰</div><div class="stat-val" id="statRevenue">—</div><div class="stat-lbl">Revenus totaux (CDF)</div></div>
-        </div>
-
-        <div class="sec-header"><div class="sec-title">Arrivées <span>récentes</span></div></div>
-        <div id="dashArrivals"><div class="tbl-empty"><div class="tbl-empty-icon">🔔</div><p>Aucune arrivée récente</p></div></div>
-
-        <div class="sec-header" style="margin-top:24px"><div class="sec-title">Dernières <span>réservations</span></div></div>
-        <div class="tbl-wrap"><table><thead><tr><th>Référence</th><th>Client</th><th>Hôtel / Chambre</th><th>Nuits</th><th>Montant</th><th>Statut</th><th>Garantie</th></tr></thead><tbody id="dashResTbody"><tr><td colspan="7" class="tbl-empty"><div class="tbl-empty-icon">📋</div>Chargement...</td></tr></tbody></table></div>
+      <!-- DEBUG PANEL — visible only when errors occur -->
+      <div class="debug-panel" id="debugPanel">
+        <div class="debug-title">⚠️ Erreur détectée — Informations de diagnostic</div>
+        <div class="debug-msg" id="debugMsg"></div>
+        <button onclick="document.getElementById('debugPanel').classList.remove('show')" style="margin-top:8px;padding:6px 14px;background:rgba(231,76,60,.15);border:1px solid rgba(231,76,60,.3);border-radius:var(--r);color:var(--red);font-size:11px;font-weight:700;cursor:pointer;">Fermer</button>
       </div>
 
-      <!-- ═══ ARRIVALS ═══ -->
-      <div class="content-section" id="sec-arrivals">
-        <div class="sec-header">
-          <div class="sec-title">Signaux <span>d'arrivée</span></div>
-          <span style="font-size:12px;color:var(--dim)">Lecture seule — non modifiable</span>
+      <!-- DASHBOARD -->
+      <div class="content-section active" id="sec-dashboard">
+        <div class="stats-grid">
+          <div class="stat-card blue"><div class="stat-icon">🏨</div><div class="stat-val" id="statHotels">0</div><div class="stat-lbl">Hôtels actifs</div></div>
+          <div class="stat-card green"><div class="stat-icon">🛏️</div><div class="stat-val" id="statRooms">0</div><div class="stat-lbl">Chambres total</div></div>
+          <div class="stat-card yellow"><div class="stat-icon">🔖</div><div class="stat-val" id="statRes">0</div><div class="stat-lbl">Réservations</div></div>
+          <div class="stat-card red"><div class="stat-icon">✅</div><div class="stat-val" id="statArr">0</div><div class="stat-lbl">Arrivées confirmées</div></div>
+          <div class="stat-card purple"><div class="stat-icon">💰</div><div class="stat-val" id="statRev">0</div><div class="stat-lbl">Revenus CDF</div></div>
         </div>
+        <div class="sec-header"><div class="sec-title">Arrivées <span>récentes</span></div></div>
+        <div id="dashArrivals"><div class="tbl-empty"><div class="tbl-empty-icon">🔔</div><p>Aucune arrivée récente</p></div></div>
+        <div class="sec-header" style="margin-top:20px"><div class="sec-title">Dernières <span>réservations</span></div></div>
+        <div class="tbl-wrap"><table><thead><tr><th>Réf.</th><th>Client</th><th>Nuits</th><th>Montant</th><th>Paiement</th><th>Statut</th><th>Garantie</th></tr></thead><tbody id="dashResTbody"><tr><td colspan="7" class="tbl-empty">Chargement...</td></tr></tbody></table></div>
+      </div>
+
+      <!-- ARRIVALS -->
+      <div class="content-section" id="sec-arrivals">
+        <div class="sec-header"><div class="sec-title">Signaux <span>d'arrivée</span></div><span style="font-size:11px;color:var(--dim)">🔒 Lecture seule</span></div>
         <div id="arrivalsList"><div class="tbl-empty"><div class="tbl-empty-icon">🔔</div><p>Aucune arrivée signalée</p></div></div>
       </div>
 
-      <!-- ═══ RESERVATIONS ═══ -->
+      <!-- RESERVATIONS -->
       <div class="content-section" id="sec-reservations">
         <div class="sec-header"><div class="sec-title">Toutes les <span>réservations</span></div></div>
         <div class="tbl-wrap">
-          <div class="tbl-search">
-            <input id="resSearch" placeholder="🔍 Rechercher par référence, client..." oninput="filterTable('resTbody',this.value)">
-          </div>
+          <div class="tbl-search"><input id="resSearch" placeholder="🔍 Rechercher..." oninput="filterTbl('resTbody',this.value)"></div>
           <table><thead><tr><th>Réf.</th><th>Client</th><th>Chambre</th><th>Nuits</th><th>Arrivée</th><th>Montant</th><th>Paiement</th><th>Statut</th><th>Garantie</th></tr></thead>
           <tbody id="resTbody"><tr><td colspan="9" class="tbl-empty">Chargement...</td></tr></tbody></table>
         </div>
       </div>
 
-      <!-- ═══ HOTELS ═══ -->
+      <!-- HOTELS -->
       <div class="content-section" id="sec-hotels">
         <div class="sec-header">
           <div class="sec-title">Gestion des <span>hôtels</span></div>
-          <button class="add-btn" onclick="openHotelModal()">+ Ajouter un hôtel</button>
+          <button class="add-btn" onclick="openHotelModal(null)">+ Ajouter un hôtel</button>
         </div>
         <div class="tbl-wrap">
-          <div class="tbl-search">
-            <input id="hotelSearch" placeholder="🔍 Rechercher un hôtel..." oninput="filterTable('hotelTbody',this.value)">
-          </div>
-          <table><thead><tr><th>Hôtel</th><th>Ville</th><th>Pays</th><th>Étoiles</th><th>Chambres</th><th>Commission</th><th>Statut</th><th>Actions</th></tr></thead>
-          <tbody id="hotelTbody"><tr><td colspan="8" class="tbl-empty">Chargement...</td></tr></tbody></table>
+          <div class="tbl-search"><input id="hotelSearch" placeholder="🔍 Rechercher..." oninput="filterTbl('hotelTbody',this.value)"></div>
+          <table><thead><tr><th>Hôtel</th><th>Ville</th><th>Pays</th><th>Étoiles</th><th>Commission</th><th>Statut</th><th>Actions</th></tr></thead>
+          <tbody id="hotelTbody"><tr><td colspan="7" class="tbl-empty">Chargement...</td></tr></tbody></table>
         </div>
       </div>
 
-      <!-- ═══ ROOMS ═══ -->
+      <!-- ROOMS -->
       <div class="content-section" id="sec-rooms">
         <div class="sec-header">
           <div class="sec-title">Gestion des <span>chambres</span></div>
-          <button class="add-btn" onclick="openRoomModal()">+ Ajouter une chambre</button>
+          <button class="add-btn" onclick="openRoomModal(null)">+ Ajouter une chambre</button>
         </div>
-        <div style="margin-bottom:14px;">
+        <div style="margin-bottom:12px;">
           <label>FILTRER PAR HÔTEL</label>
-          <select id="roomHotelFilter" onchange="loadRooms(this.value)" style="max-width:280px;">
-            <option value="">— Tous les hôtels —</option>
-          </select>
+          <select id="roomHotelFilter" onchange="loadRooms(this.value)" style="max-width:280px;"></select>
         </div>
         <div class="tbl-wrap">
-          <table><thead><tr><th>Chambre</th><th>Hôtel</th><th>Étage</th><th>N°</th><th>Capacité</th><th>Prix/nuit</th><th>Équipements</th><th>Disponible</th><th>Actions</th></tr></thead>
-          <tbody id="roomTbody"><tr><td colspan="9" class="tbl-empty">Sélectionnez un hôtel</td></tr></tbody></table>
+          <table><thead><tr><th>Chambre</th><th>Hôtel</th><th>Étage</th><th>N°</th><th>Capacité</th><th>Prix/nuit</th><th>Dispo</th><th>Actions</th></tr></thead>
+          <tbody id="roomTbody"><tr><td colspan="8" class="tbl-empty">Sélectionnez un hôtel</td></tr></tbody></table>
         </div>
       </div>
 
-      <!-- ═══ COMMISSION ═══ -->
+      <!-- COMMISSION -->
       <div class="content-section" id="sec-commission">
         <div class="sec-header"><div class="sec-title">Commissions & <span>Réductions</span></div></div>
-        <div style="background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:18px 20px;margin-bottom:20px;">
-          <div style="font-size:13px;color:var(--dim);line-height:1.7;">
-            <strong style="color:var(--white)">Comment ça fonctionne :</strong><br>
-            • La commission est le % que BookZzz prélève sur le prix de la chambre par nuit<br>
-            • La réduction client = X% de la commission (par défaut 33%)<br>
-            • Exemple : Prix chambre 10 000 CDF · Commission 25% = 2 500 CDF · Réduction 33% = 825 CDF · Client paie 1 675 CDF de frais de réservation
-          </div>
+        <div style="background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:16px 18px;margin-bottom:18px;font-size:13px;color:var(--dim);line-height:1.7;">
+          <strong style="color:var(--white)">Calcul :</strong> Commission × % réduction = réduction client.<br>
+          Ex: 45 000 CDF · 25% commission → 11 250 CDF · 33% réduction → client paie <strong style="color:var(--azure)">10 418 CDF</strong> de moins
         </div>
         <div id="commissionList"><div class="tbl-empty"><div class="tbl-empty-icon">💰</div><p>Chargement...</p></div></div>
       </div>
 
-      <!-- ═══ HOTEL ACCESS ═══ -->
+      <!-- HOTEL ACCESS -->
       <div class="content-section" id="sec-hotel-access">
         <div class="sec-header">
           <div class="sec-title">Accès <span>hôteliers</span></div>
           <button class="add-btn" onclick="openAccessModal()">+ Créer un accès</button>
         </div>
-        <p style="font-size:13px;color:var(--dim);margin-bottom:20px;line-height:1.6;">Créez un lien unique pour chaque hôtel. L'hôtelier accède à son propre dashboard via ce lien. Vous pouvez aussi accéder directement à leur compte pour les aider.</p>
         <div id="accessList"><div class="tbl-empty"><div class="tbl-empty-icon">🔑</div><p>Chargement...</p></div></div>
       </div>
 
-      <!-- ═══ GEOGRAPHY ═══ -->
+      <!-- GEOGRAPHY -->
       <div class="content-section" id="sec-geography">
-        <div class="sec-header">
-          <div class="sec-title">Pays & <span>Villes</span></div>
-          <button class="add-btn" onclick="openGeoModal()">+ Ajouter un pays/ville</button>
-        </div>
-        <p style="font-size:13px;color:var(--dim);margin-bottom:20px;line-height:1.6;">Activez ou désactivez les pays et villes disponibles dans l'application. Les changements sont appliqués immédiatement pour tous les utilisateurs.</p>
+        <div class="sec-header"><div class="sec-title">Pays & <span>Villes</span></div></div>
+        <p style="font-size:13px;color:var(--dim);margin-bottom:18px;line-height:1.6;">Activez ou désactivez les pays et villes disponibles. Les changements s'appliquent immédiatement dans l'application.</p>
         <div id="geoList"></div>
       </div>
 
-      <!-- ═══ SETTINGS ═══ -->
+      <!-- SETTINGS -->
       <div class="content-section" id="sec-settings">
         <div class="sec-header"><div class="sec-title">Paramètres <span>généraux</span></div></div>
-        <div style="background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:20px 22px;margin-bottom:16px;">
-          <div class="toggle-row">
-            <div class="toggle-info"><div class="toggle-label">Application en ligne</div><div class="toggle-sub">Rendre BookZzz accessible aux utilisateurs</div></div>
-            <label class="toggle"><input type="checkbox" id="appOnline" checked><span class="toggle-slider"></span></label>
-          </div>
-          <div class="toggle-row">
-            <div class="toggle-info"><div class="toggle-label">Réservations cash autorisées</div><div class="toggle-sub">Permettre le paiement en espèces à l'arrivée</div></div>
-            <label class="toggle"><input type="checkbox" id="cashAllowed" checked><span class="toggle-slider"></span></label>
-          </div>
-          <div class="toggle-row">
-            <div class="toggle-info"><div class="toggle-label">Notifications d'arrivée</div><div class="toggle-sub">Recevoir les signaux "Je suis arrivé(e)"</div></div>
-            <label class="toggle"><input type="checkbox" id="arrivalNotifs" checked><span class="toggle-slider"></span></label>
-          </div>
+        <div class="settings-card">
+          <div class="toggle-row"><div class="toggle-info"><div class="toggle-label">Application en ligne</div><div class="toggle-sub">Rendre BookZzz accessible aux utilisateurs</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+          <div class="toggle-row"><div class="toggle-info"><div class="toggle-label">Réservations cash autorisées</div><div class="toggle-sub">Permettre le paiement en espèces</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
         </div>
-        <div style="background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:20px 22px;">
-          <div style="font-size:14px;font-weight:600;color:var(--white);margin-bottom:14px;">Commission & Réduction par défaut</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
-            <div class="field"><label>COMMISSION PAR DÉFAUT (%)</label><input type="number" id="defaultComm" value="25" min="0" max="100"></div>
-            <div class="field"><label>RÉDUCTION CLIENT PAR DÉFAUT (%)</label><input type="number" id="defaultDisc" value="33" min="0" max="100"></div>
+        <div class="settings-card">
+          <div style="font-size:13px;font-weight:600;color:var(--white);margin-bottom:14px;">Défauts globaux</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div><label>COMMISSION PAR DÉFAUT (%)</label><input type="number" id="defComm" value="25" min="0" max="100"></div>
+            <div><label>RÉDUCTION CLIENT PAR DÉFAUT (%)</label><input type="number" id="defDisc" value="33" min="0" max="100"></div>
           </div>
-          <div style="font-size:11px;color:var(--dim);margin-top:8px;" id="settingsCalc">Ces valeurs s'appliquent aux nouveaux hôtels. Vous pouvez les personnaliser par hôtel dans "Commissions".</div>
-          <button class="btn-save" style="margin-top:14px;" onclick="saveSettings()">Sauvegarder les paramètres</button>
+          <button class="btn-save" style="margin-top:12px;" onclick="saveSettings()">Sauvegarder</button>
         </div>
       </div>
 
-    </div><!-- /content -->
-  </div><!-- /main-content -->
-</div><!-- /app -->
+    </div>
+  </div>
+</div>
 
-<!-- ═══ HOTEL MODAL ═══ -->
+<!-- HOTEL MODAL -->
 <div class="modal-overlay" id="hotelModal" onclick="closeModalOutside(event,'hotelModal')">
   <div class="modal">
     <div class="modal-head">
@@ -463,41 +406,35 @@ tr:hover td{background:rgba(93,173,226,.04);}
       <input type="hidden" id="hotelId">
       <div class="form-grid">
         <div class="field full"><label>NOM DE L'HÔTEL *</label><input id="hName" placeholder="Ex: Azure Sky Hotel"></div>
-        <div class="field full"><label>DESCRIPTION</label><textarea id="hDesc" rows="3" placeholder="Description de l'hôtel..."></textarea></div>
+        <div class="field full"><label>DESCRIPTION</label><textarea id="hDesc" rows="3" placeholder="Description..."></textarea></div>
         <div class="field"><label>ADRESSE</label><input id="hAddress" placeholder="Avenue Kasa-Vubu"></div>
-        <div class="field"><label>VILLE</label><input id="hCity" placeholder="Kinshasa"></div>
-        <div class="field"><label>PAYS</label><input id="hCountry" placeholder="RDC"></div>
+        <div class="field"><label>VILLE *</label><input id="hCity" placeholder="Kinshasa"></div>
+        <div class="field"><label>PAYS *</label><input id="hCountry" placeholder="RDC"></div>
         <div class="field"><label>ÉTOILES (1-5)</label><input type="number" id="hStars" min="1" max="5" value="3"></div>
-        <div class="field"><label>URL PHOTO PRINCIPALE</label><input id="hPhoto" placeholder="https://..."></div>
-        <div class="field"><label>STATUT</label>
-          <select id="hStatus"><option value="active">✅ Actif</option><option value="pending">⏳ En attente</option><option value="inactive">❌ Inactif</option></select>
-        </div>
+        <div class="field"><label>URL PHOTO (optionnel)</label><input id="hPhoto" placeholder="https://..."></div>
+        <div class="field"><label>STATUT</label><select id="hStatus"><option value="active">✅ Actif</option><option value="pending">⏳ En attente</option><option value="inactive">❌ Inactif</option></select></div>
         <div class="field"><label>COMMISSION (%)</label><input type="number" id="hComm" value="25" min="0" max="100"></div>
         <div class="field"><label>RÉDUCTION CLIENT (%)</label><input type="number" id="hDisc" value="33" min="0" max="100"></div>
-        <div class="field"><label>NB TOTAL DE CHAMBRES</label><input type="number" id="hTotalRooms" value="0" min="0" placeholder="Ex: 12"></div>
-        <div class="field"><label>REPAS</label>
-          <select id="hMeal"><option value="none">Pas de repas</option><option value="breakfast">Petit-déjeuner</option><option value="full">Pension complète</option></select>
-        </div>
+        <div class="field"><label>REPAS</label><select id="hMeal"><option value="none">Aucun</option><option value="breakfast">Petit-déjeuner</option><option value="full">Pension complète</option></select></div>
         <div class="field"><label>LATITUDE</label><input type="number" id="hLat" step="any" placeholder="-4.3217"></div>
         <div class="field"><label>LONGITUDE</label><input type="number" id="hLng" step="any" placeholder="15.3222"></div>
       </div>
-      <div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:14px;">
+      <div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:12px;">
         <label style="display:flex;align-items:center;gap:7px;font-size:13px;color:var(--text);text-transform:none;letter-spacing:0;cursor:pointer;"><input type="checkbox" id="hAc" style="width:auto"> ❄️ Climatisation</label>
         <label style="display:flex;align-items:center;gap:7px;font-size:13px;color:var(--text);text-transform:none;letter-spacing:0;cursor:pointer;"><input type="checkbox" id="hElev" style="width:auto"> 🛗 Ascenseur</label>
         <label style="display:flex;align-items:center;gap:7px;font-size:13px;color:var(--text);text-transform:none;letter-spacing:0;cursor:pointer;"><input type="checkbox" id="hVent" style="width:auto"> 🌀 Ventilation</label>
         <label style="display:flex;align-items:center;gap:7px;font-size:13px;color:var(--text);text-transform:none;letter-spacing:0;cursor:pointer;"><input type="checkbox" id="hWifi" style="width:auto" checked> 📶 WiFi</label>
-        <label style="display:flex;align-items:center;gap:7px;font-size:13px;color:var(--text);text-transform:none;letter-spacing:0;cursor:pointer;"><input type="checkbox" id="hParking" style="width:auto"> 🚗 Parking</label>
         <label style="display:flex;align-items:center;gap:7px;font-size:13px;color:var(--text);text-transform:none;letter-spacing:0;cursor:pointer;"><input type="checkbox" id="hVerified" style="width:auto"> ✅ Vérifié</label>
       </div>
       <div class="modal-footer">
         <button class="btn-cancel" onclick="closeModal('hotelModal')">Annuler</button>
-        <button class="btn-save" onclick="saveHotel()">💾 Sauvegarder</button>
+        <button class="btn-save" id="hotelSaveBtn" onclick="saveHotel()">💾 Sauvegarder</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ═══ ROOM MODAL ═══ -->
+<!-- ROOM MODAL -->
 <div class="modal-overlay" id="roomModal" onclick="closeModalOutside(event,'roomModal')">
   <div class="modal">
     <div class="modal-head">
@@ -507,34 +444,32 @@ tr:hover td{background:rgba(93,173,226,.04);}
     <div class="modal-body">
       <input type="hidden" id="roomId">
       <div class="form-grid">
-        <div class="field"><label>HÔTEL *</label>
-          <select id="rHotelId"><option value="">— Sélectionner —</option></select>
-        </div>
-        <div class="field"><label>NOM DE LA CHAMBRE *</label><input id="rName" placeholder="Ex: Chambre Double"></div>
-        <div class="field"><label>NUMÉRO DE CHAMBRE</label><input id="rNum" placeholder="Ex: 201"></div>
+        <div class="field"><label>HÔTEL *</label><select id="rHotelId"><option value="">— Sélectionner —</option></select></div>
+        <div class="field"><label>NOM *</label><input id="rName" placeholder="Ex: Chambre Double"></div>
+        <div class="field"><label>NUMÉRO</label><input id="rNum" placeholder="Ex: 201"></div>
         <div class="field"><label>ÉTAGE</label><input type="number" id="rFloor" min="0" placeholder="Ex: 2"></div>
-        <div class="field"><label>PRIX PAR NUIT (CDF)</label><input type="number" id="rPrice" min="0" placeholder="Ex: 25000"></div>
+        <div class="field"><label>PRIX / NUIT *</label><input type="number" id="rPrice" min="0" placeholder="Ex: 25000"></div>
+        <div class="field"><label>DEVISE</label><input id="rCurrency" value="CDF"></div>
         <div class="field"><label>CAPACITÉ</label><select id="rCap"><option value="1">1 personne</option><option value="2" selected>2 personnes</option></select></div>
-        <div class="field"><label>DEVISE</label><input id="rCurrency" value="CDF" placeholder="CDF"></div>
         <div class="field"><label>DISPONIBLE</label><select id="rAvail"><option value="true">✅ Disponible</option><option value="false">❌ Indisponible</option></select></div>
-        <div class="field full"><label>DESCRIPTION</label><textarea id="rDesc" rows="3" placeholder="Description de la chambre..."></textarea></div>
-        <div class="field"><label>RÉDUCTION CLIENT (%)</label><input type="number" id="rDisc" value="33" min="0" max="100" placeholder="33"></div>
-        <div class="field"><label>REPAS</label><select id="rMeal"><option value="none">Pas de repas</option><option value="breakfast">Petit-déjeuner</option><option value="full">Pension complète</option></select></div>
+        <div class="field full"><label>DESCRIPTION</label><textarea id="rDesc" rows="3" placeholder="Description..."></textarea></div>
+        <div class="field"><label>REPAS</label><select id="rMeal"><option value="none">Aucun</option><option value="breakfast">Petit-déjeuner</option><option value="full">Pension complète</option></select></div>
+        <div class="field"><label>RÉDUCTION (%)</label><input type="number" id="rDisc" value="33" min="0" max="100"></div>
       </div>
-      <div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:14px;">
-        <label style="display:flex;align-items:center;gap:7px;font-size:13px;color:var(--text);text-transform:none;letter-spacing:0;cursor:pointer;"><input type="checkbox" id="rAc" style="width:auto"> ❄️ Climatisation</label>
+      <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:12px;">
+        <label style="display:flex;align-items:center;gap:7px;font-size:13px;color:var(--text);text-transform:none;letter-spacing:0;cursor:pointer;"><input type="checkbox" id="rAc" style="width:auto"> ❄️ Clim.</label>
         <label style="display:flex;align-items:center;gap:7px;font-size:13px;color:var(--text);text-transform:none;letter-spacing:0;cursor:pointer;"><input type="checkbox" id="rWifi" style="width:auto" checked> 📶 WiFi</label>
         <label style="display:flex;align-items:center;gap:7px;font-size:13px;color:var(--text);text-transform:none;letter-spacing:0;cursor:pointer;"><input type="checkbox" id="rVent" style="width:auto"> 🌀 Ventilation</label>
       </div>
       <div class="modal-footer">
         <button class="btn-cancel" onclick="closeModal('roomModal')">Annuler</button>
-        <button class="btn-save" onclick="saveRoom()">💾 Sauvegarder</button>
+        <button class="btn-save" id="roomSaveBtn" onclick="saveRoom()">💾 Sauvegarder</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ═══ ACCESS MODAL ═══ -->
+<!-- ACCESS MODAL -->
 <div class="modal-overlay" id="accessModal" onclick="closeModalOutside(event,'accessModal')">
   <div class="modal">
     <div class="modal-head">
@@ -542,10 +477,10 @@ tr:hover td{background:rgba(93,173,226,.04);}
       <button class="modal-close" onclick="closeModal('accessModal')">✕</button>
     </div>
     <div class="modal-body">
-      <div class="form-grid full">
+      <div class="form-grid" style="grid-template-columns:1fr;">
         <div class="field"><label>HÔTEL</label><select id="accessHotelId"><option value="">— Sélectionner —</option></select></div>
         <div class="field"><label>EMAIL DE L'HÔTELIER</label><input id="accessEmail" type="email" placeholder="hotel@example.com"></div>
-        <div class="field"><label>MOT DE PASSE (généré automatiquement)</label><input id="accessPwd" placeholder="Laissez vide pour auto-générer"></div>
+        <div class="field"><label>MOT DE PASSE (vide = auto-généré)</label><input id="accessPwd" placeholder="Laissez vide pour générer automatiquement"></div>
       </div>
       <div class="modal-footer">
         <button class="btn-cancel" onclick="closeModal('accessModal')">Annuler</button>
@@ -555,71 +490,91 @@ tr:hover td{background:rgba(93,173,226,.04);}
   </div>
 </div>
 
-<!-- ═══ GEO MODAL ═══ -->
-<div class="modal-overlay" id="geoModal" onclick="closeModalOutside(event,'geoModal')">
-  <div class="modal">
-    <div class="modal-head">
-      <div class="modal-title">Ajouter pays / <span>ville</span></div>
-      <button class="modal-close" onclick="closeModal('geoModal')">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="form-grid">
-        <div class="field"><label>TYPE</label><select id="geoType" onchange="toggleGeoType()"><option value="city">Ville (dans un pays existant)</option><option value="country">Nouveau pays</option></select></div>
-        <div class="field" id="geoCountryField"><label>PAYS</label><select id="geoCountryCode"></select></div>
-        <div class="field full"><label>NOM (Français)</label><input id="geoNameFr" placeholder="Ex: Bujumbura"></div>
-        <div class="field"><label>NOM (Anglais)</label><input id="geoNameEn" placeholder="Ex: Bujumbura"></div>
-        <div class="field"><label>EMOJI ICÔNE</label><input id="geoIcon" placeholder="🏙️"></div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn-cancel" onclick="closeModal('geoModal')">Annuler</button>
-        <button class="btn-save" onclick="saveGeo()">✅ Ajouter</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <div class="toast" id="toast"></div>
 
 <script>
-/* ══════════ CONFIG ══════════ */
+/* ═══════════════════════════════════════════
+   SUPABASE CONFIG
+═══════════════════════════════════════════ */
 var SB='https://dgxgpvxyrimpppjvvwto.supabase.co';
 var SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRneGdwdnh5cmltcHBwanZ2d3RvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4NDc1NTMsImV4cCI6MjA4OTQyMzU1M30.Ccr7orHXHiVJJiXzdxIcF0bP9Kkj3PxQM-hZQQ4Mg2w';
-var HDR={'apikey':SK,'Authorization':'Bearer '+SK,'Content-Type':'application/json'};
 var BASE='https://jasonyang0119-art.github.io/bookzzz/';
 var ADMIN_PWD='BookZzz527664@Jgy';
 
-/* ══════════ STATE ══════════ */
+/* Headers — CRITICAL: these must be exact */
+function getHeaders(extra){
+  var h={'apikey':SK,'Authorization':'Bearer '+SK,'Content-Type':'application/json'};
+  if(extra)Object.keys(extra).forEach(function(k){h[k]=extra[k];});
+  return h;
+}
+
+/* ═══════════════════════════════════════════
+   CORE API FUNCTION — handles all errors
+═══════════════════════════════════════════ */
+function api(method,table,data,filter,prefer){
+  var url=SB+'/rest/v1/'+table;
+  if(filter)url+='?'+filter;
+  var headers=getHeaders({});
+  if(prefer)headers['Prefer']=prefer;
+  else if(method==='POST')headers['Prefer']='return=representation';
+  else if(method==='PATCH'||method==='DELETE')headers['Prefer']='return=minimal';
+  var opts={method:method,headers:headers};
+  if(data)opts.body=JSON.stringify(data);
+  return fetch(url,opts).then(function(r){
+    /* Read body regardless */
+    return r.text().then(function(txt){
+      var parsed=null;
+      try{parsed=JSON.parse(txt);}catch(e){parsed=txt;}
+      if(r.ok||r.status===201||r.status===204||r.status===200){
+        return {ok:true,data:parsed,status:r.status};
+      } else {
+        var errMsg='HTTP '+r.status;
+        if(parsed&&typeof parsed==='object'){
+          errMsg=parsed.message||parsed.error||parsed.hint||JSON.stringify(parsed);
+        } else if(typeof parsed==='string'){
+          errMsg=parsed;
+        }
+        return {ok:false,error:errMsg,status:r.status,raw:txt};
+      }
+    });
+  }).catch(function(err){
+    return {ok:false,error:'Erreur réseau: '+err.message,status:0};
+  });
+}
+
+/* ═══════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════ */
 var G={hotels:[],rooms:[],reservations:[],arrivals:[],hotelAdmins:[],editHotelId:null,editRoomId:null};
 
-/* Countries for admin geo management */
-var GEO_COUNTRIES=[
-  {code:'CD',flag:'🇨🇩',name_fr:'RDC / Congo-Kinshasa',name_en:'DRC / Congo-Kinshasa',active:true,
+/* GEO DATA */
+var GEO=[
+  {code:'CD',flag:'🇨🇩',name:'RDC / Congo-Kinshasa',active:true,
    cities:[{name:'Kinshasa',icon:'🏙️',active:true},{name:'Goma',icon:'🌋',active:true},{name:'Lubumbashi',icon:'⛏️',active:true},{name:'Bukavu',icon:'🏞️',active:false},{name:'Mbuji-Mayi',icon:'💎',active:false}]},
-  {code:'TZ',flag:'🇹🇿',name_fr:'Tanzanie',name_en:'Tanzania',active:true,
-   cities:[{name:'Dar es Salaam',icon:'🌊',active:true},{name:'Dodoma',icon:'🏛️',active:true},{name:'Zanzibar',icon:'🏝️',active:false},{name:'Arusha',icon:'🦁',active:false}]},
-  {code:'RW',flag:'🇷🇼',name_fr:'Rwanda',name_en:'Rwanda',active:false,cities:[{name:'Kigali',icon:'🏙️',active:false}]},
-  {code:'BI',flag:'🇧🇮',name_fr:'Burundi',name_en:'Burundi',active:false,cities:[{name:'Bujumbura',icon:'🏙️',active:false}]},
-  {code:'KE',flag:'🇰🇪',name_fr:'Kenya',name_en:'Kenya',active:false,cities:[{name:'Nairobi',icon:'🏙️',active:false},{name:'Mombasa',icon:'🏖️',active:false}]},
-  {code:'CI',flag:'🇨🇮',name_fr:"Côte d'Ivoire",name_en:'Ivory Coast',active:false,cities:[{name:'Abidjan',icon:'🏙️',active:false}]}
+  {code:'TZ',flag:'🇹🇿',name:'Tanzanie',active:true,
+   cities:[{name:'Dar es Salaam',icon:'🌊',active:true},{name:'Dodoma',icon:'🏛️',active:true},{name:'Zanzibar',icon:'🏝️',active:false}]},
+  {code:'RW',flag:'🇷🇼',name:'Rwanda',active:false,cities:[{name:'Kigali',icon:'🏙️',active:false}]},
+  {code:'BI',flag:'🇧🇮',name:'Burundi',active:false,cities:[{name:'Bujumbura',icon:'🏙️',active:false}]},
+  {code:'KE',flag:'🇰🇪',name:'Kenya',active:false,cities:[{name:'Nairobi',icon:'🏙️',active:false}]},
+  {code:'CI',flag:'🇨🇮',name:"Côte d'Ivoire",active:false,cities:[{name:'Abidjan',icon:'🏙️',active:false}]}
 ];
 
-/* ══════════ LOGIN ══════════ */
+/* ═══════════════════════════════════════════
+   LOGIN
+═══════════════════════════════════════════ */
 function doLogin(){
-  var pwd=document.getElementById('loginPwd').value;
-  if(pwd===ADMIN_PWD){
+  if(document.getElementById('loginPwd').value===ADMIN_PWD){
     document.getElementById('loginScreen').style.display='none';
     document.getElementById('app').classList.add('visible');
     sessionStorage.setItem('bz_admin','1');
     initApp();
   } else {
     document.getElementById('loginErr').style.display='block';
-    document.getElementById('loginPwd').style.borderColor='rgba(231,76,60,.5)';
-    setTimeout(function(){document.getElementById('loginErr').style.display='none';document.getElementById('loginPwd').style.borderColor='';},3000);
+    setTimeout(function(){document.getElementById('loginErr').style.display='none';},3000);
   }
 }
 function doLogout(){sessionStorage.removeItem('bz_admin');location.reload();}
-
-/* Auto-login if session active */
+/* Auto-login */
 if(sessionStorage.getItem('bz_admin')==='1'){
   document.getElementById('loginScreen').style.display='none';
   document.getElementById('app').classList.add('visible');
@@ -627,245 +582,220 @@ if(sessionStorage.getItem('bz_admin')==='1'){
 }
 document.getElementById('loginPwd').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
 
-/* ══════════ INIT ══════════ */
-function initApp(){
-  loadHotels();
-  loadReservations();
-  loadArrivals();
-  loadHotelAdmins();
-  renderGeo();
-}
+/* ═══════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════ */
+function initApp(){loadHotels();loadReservations();loadArrivals();loadHotelAdmins();renderGeo();}
 
-/* ══════════ SIDEBAR ══════════ */
+/* ═══════════════════════════════════════════
+   SIDEBAR & SECTIONS
+═══════════════════════════════════════════ */
 function toggleSidebar(){
-  var sb=document.getElementById('sidebar');
-  var mc=document.getElementById('mainContent');
-  if(window.innerWidth<=900){sb.classList.toggle('open');}
+  var sb=document.getElementById('sidebar'),mc=document.getElementById('mainContent');
+  if(window.innerWidth<=900)sb.classList.toggle('open');
   else{sb.classList.toggle('collapsed');mc.classList.toggle('expanded');}
 }
-
-/* ══════════ SECTION NAV ══════════ */
 var TITLES={'dashboard':'Tableau de bord','arrivals':'Arrivées','reservations':'Réservations','hotels':'Hôtels','rooms':'Chambres','commission':'Commissions','hotel-access':'Accès hôteliers','geography':'Pays & Villes','settings':'Paramètres'};
 function goSection(id,btn){
   document.querySelectorAll('.content-section').forEach(function(x){x.classList.remove('active');});
   document.getElementById('sec-'+id).classList.add('active');
   if(btn){document.querySelectorAll('.nav-item').forEach(function(x){x.classList.remove('active');});btn.classList.add('active');}
-  var t=TITLES[id]||id;
-  document.getElementById('pageTitle').innerHTML=t.replace(/(.*)\s(\S+)$/,'$1 <span>$2</span>');
-  if(id==='rooms')populateHotelSelects();
+  var t=TITLES[id]||id;document.getElementById('pageTitle').innerHTML=t.replace(/(.*)\s(\S+)$/,'$1 <span>$2</span>');
+  if(id==='rooms')populateSelects();
   if(id==='commission')renderCommission();
   if(id==='hotel-access')renderAccessList();
   if(id==='arrivals')renderArrivals();
   if(id==='reservations')renderReservations();
 }
 
-/* ══════════ SUPABASE FETCH ══════════ */
-function sbFetch(path,opts){
-  return fetch(SB+path,Object.assign({headers:HDR},opts)).then(function(r){
-    if(!r.ok)throw new Error('HTTP '+r.status);
-    return r.text().then(function(t){try{return JSON.parse(t);}catch(e){return {};}});
-  });
+/* ═══════════════════════════════════════════
+   SHOW DEBUG INFO
+═══════════════════════════════════════════ */
+function showDebug(msg){
+  document.getElementById('debugPanel').classList.add('show');
+  document.getElementById('debugMsg').textContent=msg;
 }
 
-/* ══════════ LOAD HOTELS ══════════ */
+/* ═══════════════════════════════════════════
+   LOAD HOTELS — reads ALL hotels, no filter
+═══════════════════════════════════════════ */
 function loadHotels(){
-  sbFetch('/rest/v1/hotels?select=*&order=created_at.desc')
-  .then(function(d){
-    G.hotels=Array.isArray(d)?d:[];
-    renderHotelsTable();
-    updateStats();
-    populateHotelSelects();
-    renderCommission();
-  }).catch(function(){G.hotels=[];renderHotelsTable();});
+  api('GET','hotels',null,'select=*&order=created_at.desc').then(function(res){
+    if(res.ok){
+      G.hotels=Array.isArray(res.data)?res.data:[];
+      renderHotelsTable();
+      updateStats();
+      populateSelects();
+      renderCommission();
+    } else {
+      showDebug('LOAD HOTELS ERROR:\n'+res.error+'\nStatus: '+res.status);
+      G.hotels=[];renderHotelsTable();
+    }
+  });
 }
 
 function renderHotelsTable(){
   var tbody=document.getElementById('hotelTbody');
-  if(!G.hotels.length){tbody.innerHTML='<tr><td colspan="8"><div class="tbl-empty"><div class="tbl-empty-icon">🏨</div>Aucun hôtel. Cliquez "+ Ajouter"</div></td></tr>';return;}
+  if(!G.hotels.length){
+    tbody.innerHTML='<tr><td colspan="7"><div class="tbl-empty"><div class="tbl-empty-icon">🏨</div><p>Aucun hôtel. Cliquez "+ Ajouter un hôtel"</p></div></td></tr>';
+    return;
+  }
   tbody.innerHTML=G.hotels.map(function(h){
-    var statusCls=h.status==='active'?'badge-active':h.status==='pending'?'badge-pending':'badge-inactive';
-    var statusTxt=h.status==='active'?'Actif':h.status==='pending'?'En attente':'Inactif';
+    var sc=h.status==='active'?'badge-active':h.status==='pending'?'badge-pending':'badge-inactive';
+    var st=h.status==='active'?'Actif':h.status==='pending'?'En attente':'Inactif';
     return '<tr>'
-      +'<td><strong>'+h.name+'</strong><div style="font-size:10px;color:var(--dim)">'+( h.is_verified?'✅ Vérifié':'')+'</div></td>'
-      +'<td>'+( h.city||'—')+'</td>'
+      +'<td><strong>'+h.name+'</strong>'+(h.is_verified?'<div style="font-size:10px;color:var(--green)">✅ Vérifié</div>':'')+'</td>'
+      +'<td>'+(h.city||'—')+'</td>'
       +'<td>'+(h.country||'—')+'</td>'
       +'<td>'+'⭐'.repeat(Math.min(h.stars||3,5))+'</td>'
-      +'<td><strong style="color:var(--azure)">'+(h.total_rooms||'?')+'</strong></td>'
       +'<td>'+(h.commission_rate||25)+'%</td>'
-      +'<td><span class="tbl-badge '+statusCls+'">'+statusTxt+'</span></td>'
+      +'<td><span class="tbl-badge '+sc+'">'+st+'</span></td>'
       +'<td><div class="tbl-actions">'
       +'<button class="act-btn act-edit" onclick="editHotel(\''+h.id+'\')">✏️ Modifier</button>'
       +'<button class="act-btn act-del" onclick="deleteHotel(\''+h.id+'\')">🗑️</button>'
       +'<button class="act-btn act-access" onclick="accessHotelAdmin(\''+h.id+'\')">🔑</button>'
-      +'</div></td>'
-      +'</tr>';
+      +'</div></td></tr>';
   }).join('');
 }
 
-/* ══════════ HOTEL MODAL ══════════ */
+/* ═══════════════════════════════════════════
+   SAVE HOTEL — the fixed version
+═══════════════════════════════════════════ */
 function openHotelModal(hotel){
   G.editHotelId=hotel?hotel.id:null;
   document.getElementById('hotelModalTitle').innerHTML=(hotel?'Modifier':'Ajouter')+' un <span>hôtel</span>';
-  var f=function(id,val){var el=document.getElementById(id);if(el)el.value=val||'';};
-  var fc=function(id,val){var el=document.getElementById(id);if(el)el.checked=!!val;};
-  f('hotelId',hotel?hotel.id:'');
-  f('hName',hotel?hotel.name:'');f('hDesc',hotel?hotel.description:'');
-  f('hAddress',hotel?hotel.address:'');f('hCity',hotel?hotel.city:'');
-  f('hCountry',hotel?hotel.country:'');f('hStars',hotel?hotel.stars:3);
-  f('hPhoto',hotel?hotel.main_photo_url:'');f('hStatus',hotel?hotel.status:'active');
-  f('hComm',hotel?hotel.commission_rate:25);f('hDisc',hotel?hotel.discount_rate:33);
-  f('hTotalRooms',hotel?hotel.total_rooms:0);
-  f('hMeal',hotel?hotel.meal_included:'none');
-  f('hLat',hotel?hotel.latitude:'');f('hLng',hotel?hotel.longitude:'');
-  fc('hAc',hotel?hotel.has_ac:false);fc('hElev',hotel?hotel.has_elevator:false);
-  fc('hVent',hotel?hotel.has_ventilation:false);fc('hWifi',hotel?hotel.has_wifi:true);
-  fc('hParking',hotel?hotel.has_parking:false);fc('hVerified',hotel?hotel.is_verified:false);
+  var fv=function(id,v){var e=document.getElementById(id);if(e)e.value=(v==null?'':v);};
+  var fc=function(id,v){var e=document.getElementById(id);if(e)e.checked=!!v;};
+  fv('hotelId',hotel?hotel.id:'');
+  fv('hName',hotel?hotel.name:'');fv('hDesc',hotel?hotel.description:'');
+  fv('hAddress',hotel?hotel.address:'');fv('hCity',hotel?hotel.city:'');
+  fv('hCountry',hotel?hotel.country:'');fv('hStars',hotel?hotel.stars:3);
+  fv('hPhoto',hotel?hotel.main_photo_url:'');fv('hStatus',hotel?hotel.status:'active');
+  fv('hComm',hotel?hotel.commission_rate:25);fv('hDisc',hotel?hotel.discount_rate:33);
+  fv('hMeal',hotel?hotel.meal_included:'none');
+  fv('hLat',hotel?hotel.latitude:'');fv('hLng',hotel?hotel.longitude:'');
+  fc('hAc',hotel&&hotel.has_ac);fc('hElev',hotel&&hotel.has_elevator);
+  fc('hVent',hotel&&hotel.has_ventilation);fc('hWifi',hotel?hotel.has_wifi:true);
+  fc('hVerified',hotel&&hotel.is_verified);
   openModal('hotelModal');
 }
 function editHotel(id){var h=G.hotels.find(function(x){return x.id==id;});if(h)openHotelModal(h);}
 
 function saveHotel(){
   var name=document.getElementById('hName').value.trim();
-  if(!name){showToast('Le nom est requis','error');return;}
-  /* Only send columns that exist in your Supabase hotels table */
+  if(!name){showToast('Le nom de l\'hôtel est requis','error');return;}
+
+  /* Build payload with ONLY the columns that exist in your hotels table */
   var payload={
     name:name,
-    description:document.getElementById('hDesc').value||null,
-    address:document.getElementById('hAddress').value||null,
-    city:document.getElementById('hCity').value||null,
-    country:document.getElementById('hCountry').value||null,
+    description:document.getElementById('hDesc').value.trim()||null,
+    address:document.getElementById('hAddress').value.trim()||null,
+    city:document.getElementById('hCity').value.trim()||null,
+    country:document.getElementById('hCountry').value.trim()||null,
     stars:parseInt(document.getElementById('hStars').value)||3,
-    main_photo_url:document.getElementById('hPhoto').value||null,
+    main_photo_url:document.getElementById('hPhoto').value.trim()||null,
     status:document.getElementById('hStatus').value||'active',
     commission_rate:parseFloat(document.getElementById('hComm').value)||25,
-    is_verified:document.getElementById('hVerified').checked,
     has_ac:document.getElementById('hAc').checked,
     has_elevator:document.getElementById('hElev').checked,
     has_ventilation:document.getElementById('hVent').checked,
-    meal_included:document.getElementById('hMeal').value||'none',
-    latitude:parseFloat(document.getElementById('hLat').value)||null,
-    longitude:parseFloat(document.getElementById('hLng').value)||null
+    has_wifi:document.getElementById('hWifi').checked,
+    is_verified:document.getElementById('hVerified').checked,
+    meal_included:document.getElementById('hMeal').value||'none'
   };
-  /* Add extra columns only if they exist — won't break if missing */
-  var discVal=parseFloat(document.getElementById('hDisc').value);
-  if(!isNaN(discVal))payload.discount_rate=discVal;
-  var totalRooms=parseInt(document.getElementById('hTotalRooms').value);
-  if(!isNaN(totalRooms)&&totalRooms>0)payload.total_rooms=totalRooms;
+  /* Optional columns — add only if value entered */
+  var lat=parseFloat(document.getElementById('hLat').value);
+  var lng=parseFloat(document.getElementById('hLng').value);
+  if(!isNaN(lat)&&lat!==0)payload.latitude=lat;
+  if(!isNaN(lng)&&lng!==0)payload.longitude=lng;
+  var disc=parseFloat(document.getElementById('hDisc').value);
+  if(!isNaN(disc))payload.discount_rate=disc;
+
   var isEdit=!!G.editHotelId;
-  var url=SB+'/rest/v1/hotels'+(isEdit?'?id=eq.'+G.editHotelId:'');
+  var btn=document.getElementById('hotelSaveBtn');
+  btn.disabled=true;btn.textContent='⏳ Sauvegarde...';
+
+  var table='hotels';
+  var filter=isEdit?'id=eq.'+G.editHotelId:null;
   var method=isEdit?'PATCH':'POST';
-  /* Show loading state */
-  var saveBtn=document.querySelector('#hotelModal .btn-save');
-  if(saveBtn){saveBtn.textContent='⏳ Sauvegarde...';saveBtn.disabled=true;}
-  fetch(url,{
-    method:method,
-    headers:Object.assign({},HDR,{'Prefer':'return=representation'}),
-    body:JSON.stringify(payload)
-  })
-  .then(function(r){
-    if(saveBtn){saveBtn.textContent='💾 Sauvegarder';saveBtn.disabled=false;}
-    if(r.ok||r.status===201||r.status===204||r.status===200){
-      showToast(isEdit?'Hôtel modifié ✓':'Hôtel ajouté ✓','success');
+
+  api(method,table,payload,filter).then(function(res){
+    btn.disabled=false;btn.textContent='💾 Sauvegarder';
+    if(res.ok){
+      showToast(isEdit?'✅ Hôtel modifié avec succès !':'✅ Hôtel ajouté avec succès !','success');
       closeModal('hotelModal');
       loadHotels();
     } else {
-      return r.text().then(function(txt){
-        var msg='Erreur '+r.status;
-        try{var j=JSON.parse(txt);msg=j.message||j.error||msg;}catch(e){}
-        if(r.status===403||r.status===401){
-          showToast('❌ Accès refusé (RLS). Exécutez le SQL de désactivation RLS dans Supabase.','error');
-          showRLSHelp();
-        } else if(r.status===400){
-          showToast('❌ Erreur données: '+msg,'error');
-        } else {
-          showToast('❌ Erreur: '+msg,'error');
-        }
-      });
+      /* Show detailed error */
+      var errDetail='Erreur '+res.status+': '+res.error;
+      showToast('❌ '+errDetail,'error');
+      showDebug('SAVE HOTEL ERROR:\nMethod: '+method+'\nTable: '+table+'\nFilter: '+(filter||'none')+'\nError: '+errDetail+'\n\nPayload envoyé:\n'+JSON.stringify(payload,null,2)+'\n\nRéponse brute:\n'+res.raw);
     }
-  })
-  .catch(function(err){
-    if(saveBtn){saveBtn.textContent='💾 Sauvegarder';saveBtn.disabled=false;}
-    showToast('❌ Erreur réseau. Vérifiez votre connexion.','error');
   });
 }
 
-function showRLSHelp(){
-  var msg='⚠️ SUPABASE RLS BLOQUE L\'ACCÈS\n\nAllez dans Supabase → SQL Editor et exécutez:\n\nALTER TABLE hotels DISABLE ROW LEVEL SECURITY;\nGRANT ALL ON hotels TO anon;\n\nFaites de même pour toutes les tables.';
-  if(confirm(msg+'\n\nCliquez OK pour copier le SQL complet.')){
-    var sql='ALTER TABLE hotels DISABLE ROW LEVEL SECURITY;\nALTER TABLE rooms DISABLE ROW LEVEL SECURITY;\nALTER TABLE reservations DISABLE ROW LEVEL SECURITY;\nALTER TABLE room_photos DISABLE ROW LEVEL SECURITY;\nALTER TABLE hotel_admin DISABLE ROW LEVEL SECURITY;\nALTER TABLE transactions DISABLE ROW LEVEL SECURITY;\nALTER TABLE users DISABLE ROW LEVEL SECURITY;\nGRANT ALL ON hotels TO anon;\nGRANT ALL ON rooms TO anon;\nGRANT ALL ON reservations TO anon;\nGRANT ALL ON room_photos TO anon;\nGRANT ALL ON hotel_admin TO anon;\nGRANT ALL ON transactions TO anon;\nGRANT ALL ON users TO anon;\nGRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO anon;';
-    navigator.clipboard.writeText(sql).then(function(){alert('SQL copié ! Collez-le dans Supabase → SQL Editor → Run');}).catch(function(){alert('SQL:\n\n'+sql);});
-  }
-}
-
 function deleteHotel(id){
-  if(!confirm('Supprimer cet hôtel ? Cette action est irréversible.'))return;
-  fetch(SB+'/rest/v1/hotels?id=eq.'+id,{method:'DELETE',headers:HDR})
-  .then(function(r){
-    if(r.ok||r.status===204){showToast('Hôtel supprimé','success');loadHotels();}
-    else if(r.status===403){showToast('❌ Accès refusé — désactivez RLS dans Supabase','error');showRLSHelp();}
-    else{showToast('Erreur '+r.status,'error');}
-  })
-  .catch(function(){showToast('Erreur réseau','error');});
+  if(!confirm('Supprimer cet hôtel définitivement ?'))return;
+  api('DELETE','hotels',null,'id=eq.'+id).then(function(res){
+    if(res.ok){showToast('Hôtel supprimé','success');loadHotels();}
+    else{showToast('❌ Erreur: '+res.error,'error');showDebug('DELETE HOTEL:\n'+res.error);}
+  });
 }
 
-/* ══════════ ROOMS ══════════ */
-function populateHotelSelects(){
-  ['rHotelId','roomHotelFilter','accessHotelId','geoCountryCode'].forEach(function(id){
+/* ═══════════════════════════════════════════
+   ROOMS
+═══════════════════════════════════════════ */
+function populateSelects(){
+  ['rHotelId','roomHotelFilter','accessHotelId'].forEach(function(id){
     var el=document.getElementById(id);if(!el)return;
-    if(id==='geoCountryCode'){
-      el.innerHTML=GEO_COUNTRIES.map(function(c){return '<option value="'+c.code+'">'+c.flag+' '+c.name_fr+'</option>';}).join('');
-      return;
-    }
-    var first=id==='roomHotelFilter'?'<option value="">— Tous les hôtels —</option>':'<option value="">— Sélectionner —</option>';
+    var first=id==='roomHotelFilter'?'<option value="">— Tous —</option>':'<option value="">— Sélectionner —</option>';
     el.innerHTML=first+G.hotels.map(function(h){return '<option value="'+h.id+'">'+h.name+'</option>';}).join('');
   });
 }
 
 function loadRooms(hotelId){
-  var url='/rest/v1/rooms?select=*&order=room_number.asc'+(hotelId?'&hotel_id=eq.'+hotelId:'');
-  sbFetch(url).then(function(d){
-    G.rooms=Array.isArray(d)?d:[];renderRoomsTable();
-  }).catch(function(){G.rooms=[];renderRoomsTable();});
+  var filter='select=*&order=room_number.asc'+(hotelId?'&hotel_id=eq.'+hotelId:'');
+  api('GET','rooms',null,filter).then(function(res){
+    G.rooms=res.ok&&Array.isArray(res.data)?res.data:[];
+    renderRoomsTable();
+    if(!res.ok)showDebug('LOAD ROOMS:\n'+res.error);
+  });
 }
 
 function renderRoomsTable(){
   var tbody=document.getElementById('roomTbody');
-  if(!G.rooms.length){tbody.innerHTML='<tr><td colspan="9"><div class="tbl-empty"><div class="tbl-empty-icon">🛏️</div>Aucune chambre trouvée</div></td></tr>';return;}
+  if(!G.rooms.length){tbody.innerHTML='<tr><td colspan="8"><div class="tbl-empty"><div class="tbl-empty-icon">🛏️</div><p>Aucune chambre</p></div></td></tr>';return;}
   tbody.innerHTML=G.rooms.map(function(r){
     var hotel=G.hotels.find(function(h){return h.id==r.hotel_id;});
-    var amenIcons='';
-    if(r.has_ac)amenIcons+='❄️ ';if(r.has_wifi)amenIcons+='📶 ';if(r.has_ventilation)amenIcons+='🌀 ';
+    var amen='';if(r.has_ac)amen+='❄️ ';if(r.has_wifi)amen+='📶 ';if(r.has_ventilation)amen+='🌀 ';
     return '<tr>'
       +'<td><strong>'+r.name+'</strong></td>'
       +'<td>'+(hotel?hotel.name:'—')+'</td>'
-      +'<td>'+( r.floor||'—')+'</td>'
+      +'<td>'+(r.floor||'—')+'</td>'
       +'<td>'+(r.room_number||'—')+'</td>'
-      +'<td>'+( r.capacity||2)+' pers.</td>'
+      +'<td>'+(r.capacity||2)+' pers.</td>'
       +'<td><strong style="color:var(--azure)">'+(r.price?parseFloat(r.price).toLocaleString()+' '+(r.currency||'CDF'):'—')+'</strong></td>'
-      +'<td style="font-size:16px">'+(amenIcons||'—')+'</td>'
-      +'<td><span class="tbl-badge '+(r.available!==false?'badge-active':'badge-inactive')+'">'+(r.available!==false?'✅ Oui':'❌ Non')+'</span></td>'
+      +'<td><span class="tbl-badge '+(r.available!==false?'badge-active':'badge-inactive')+'">'+(r.available!==false?'✅':'❌')+'</span></td>'
       +'<td><div class="tbl-actions">'
       +'<button class="act-btn act-edit" onclick="editRoom(\''+r.id+'\')">✏️</button>'
       +'<button class="act-btn act-del" onclick="deleteRoom(\''+r.id+'\')">🗑️</button>'
-      +'</div></td>'
-      +'</tr>';
+      +'</div></td></tr>';
   }).join('');
 }
 
 function openRoomModal(room){
   G.editRoomId=room?room.id:null;
   document.getElementById('roomModalTitle').innerHTML=(room?'Modifier':'Ajouter')+' une <span>chambre</span>';
-  populateHotelSelects();
-  var f=function(id,val){var el=document.getElementById(id);if(el)el.value=val||'';};
-  var fc=function(id,val){var el=document.getElementById(id);if(el)el.checked=!!val;};
-  f('roomId',room?room.id:'');
-  f('rHotelId',room?room.hotel_id:'');f('rName',room?room.name:'');
-  f('rNum',room?room.room_number:'');f('rFloor',room?room.floor:'');
-  f('rPrice',room?room.price:'');f('rCap',room?room.capacity:2);
-  f('rCurrency',room?room.currency:'CDF');f('rDesc',room?room.description:'');
-  f('rDisc',room?room.discount_rate||33:33);f('rMeal',room?room.meal_included:'none');
-  f('rAvail',room?(room.available!==false?'true':'false'):'true');
-  fc('rAc',room?room.has_ac:false);fc('rWifi',room?room.has_wifi:true);fc('rVent',room?room.has_ventilation:false);
+  populateSelects();
+  var fv=function(id,v){var e=document.getElementById(id);if(e)e.value=(v==null?'':v);};
+  var fc=function(id,v){var e=document.getElementById(id);if(e)e.checked=!!v;};
+  fv('roomId',room?room.id:'');fv('rHotelId',room?room.hotel_id:'');
+  fv('rName',room?room.name:'');fv('rNum',room?room.room_number:'');fv('rFloor',room?room.floor:'');
+  fv('rPrice',room?room.price:'');fv('rCurrency',room?room.currency:'CDF');
+  fv('rCap',room?room.capacity:2);fv('rDesc',room?room.description:'');
+  fv('rMeal',room?room.meal_included:'none');fv('rAvail',room?(room.available!==false?'true':'false'):'true');
+  fv('rDisc',room?room.discount_rate||33:33);
+  fc('rAc',room&&room.has_ac);fc('rWifi',room?room.has_wifi:true);fc('rVent',room&&room.has_ventilation);
   openModal('roomModal');
 }
 function editRoom(id){var r=G.rooms.find(function(x){return x.id==id;});if(r)openRoomModal(r);}
@@ -886,99 +816,88 @@ function saveRoom(){
     available:document.getElementById('rAvail').value==='true',
     has_ac:document.getElementById('rAc').checked,
     has_wifi:document.getElementById('rWifi').checked,
-    has_ventilation:document.getElementById('rVent').checked
+    has_ventilation:document.getElementById('rVent').checked,
+    discount_rate:parseFloat(document.getElementById('rDisc').value)||33
   };
-  var discVal=parseFloat(document.getElementById('rDisc').value);
-  if(!isNaN(discVal))payload.discount_rate=discVal;
   var isEdit=!!G.editRoomId;
-  var url=SB+'/rest/v1/rooms'+(isEdit?'?id=eq.'+G.editRoomId:'');
-  var method=isEdit?'PATCH':'POST';
-  fetch(url,{method:method,headers:Object.assign({},HDR,{'Prefer':'return=representation'}),body:JSON.stringify(payload)})
-  .then(function(r){
-    if(r.ok||r.status===201||r.status===200||r.status===204){
+  var btn=document.getElementById('roomSaveBtn');
+  btn.disabled=true;btn.textContent='⏳...';
+  api(isEdit?'PATCH':'POST','rooms',payload,isEdit?'id=eq.'+G.editRoomId:null).then(function(res){
+    btn.disabled=false;btn.textContent='💾 Sauvegarder';
+    if(res.ok){
       showToast(isEdit?'Chambre modifiée ✓':'Chambre ajoutée ✓','success');
       closeModal('roomModal');
-      var hf=document.getElementById('roomHotelFilter').value;
-      loadRooms(hf);loadHotels();
-    } else if(r.status===403){
-      showToast('❌ Accès refusé — désactivez RLS dans Supabase','error');showRLSHelp();
+      var hf=document.getElementById('roomHotelFilter').value;loadRooms(hf);loadHotels();
     } else {
-      return r.text().then(function(t){showToast('Erreur '+r.status+': '+t.slice(0,80),'error');});
+      showToast('❌ '+res.error,'error');
+      showDebug('SAVE ROOM:\n'+res.error+'\nPayload:\n'+JSON.stringify(payload,null,2));
     }
-  })
-  .catch(function(){showToast('Erreur réseau','error');});
+  });
 }
 
 function deleteRoom(id){
-  if(!confirm('Supprimer cette chambre ?'))return;
-  fetch(SB+'/rest/v1/rooms?id=eq.'+id,{method:'DELETE',headers:HDR})
-  .then(function(){showToast('Chambre supprimée','success');var hf=document.getElementById('roomHotelFilter').value;loadRooms(hf);})
-  .catch(function(){showToast('Erreur','error');});
+  if(!confirm('Supprimer ?'))return;
+  api('DELETE','rooms',null,'id=eq.'+id).then(function(res){
+    if(res.ok){showToast('Chambre supprimée','success');var hf=document.getElementById('roomHotelFilter').value;loadRooms(hf);}
+    else showToast('❌ '+res.error,'error');
+  });
 }
 
-/* ══════════ RESERVATIONS ══════════ */
+/* ═══════════════════════════════════════════
+   RESERVATIONS
+═══════════════════════════════════════════ */
 function loadReservations(){
-  sbFetch('/rest/v1/reservations?select=*&order=created_at.desc&limit=100')
-  .then(function(d){G.reservations=Array.isArray(d)?d:[];renderReservations();updateStats();})
-  .catch(function(){G.reservations=[];});
+  api('GET','reservations',null,'select=*&order=created_at.desc&limit=100').then(function(res){
+    G.reservations=res.ok&&Array.isArray(res.data)?res.data:[];
+    renderReservations();updateStats();
+  });
 }
 
 function renderReservations(){
-  var tbody=document.getElementById('resTbody');
-  var dashTbody=document.getElementById('dashResTbody');
-  var rows=G.reservations.slice(0,50);
-  if(!rows.length){
-    var empty='<tr><td colspan="9"><div class="tbl-empty"><div class="tbl-empty-icon">📋</div>Aucune réservation</div></td></tr>';
-    if(tbody)tbody.innerHTML=empty;if(dashTbody)dashTbody.innerHTML=empty;return;
+  var tbody=document.getElementById('resTbody');var dash=document.getElementById('dashResTbody');
+  if(!G.reservations.length){
+    var e='<tr><td colspan="9" class="tbl-empty">Aucune réservation</td></tr>';
+    if(tbody)tbody.innerHTML=e;if(dash)dash.innerHTML='<tr><td colspan="7" class="tbl-empty">Aucune réservation</td></tr>';return;
   }
-  var html=rows.map(function(r){
-    var sc=r.status==='arrived'?'badge-arrived':r.status==='confirmed'?'badge-active':r.status==='pending'?'badge-pending':'badge-inactive';
-    var st=r.status==='arrived'?'✅ Arrivé':r.status==='confirmed'?'Confirmé':r.status==='pending'?'En attente':'Annulé';
-    var isGuaranteed=r.payment_method!=='cash';
+  var html=G.reservations.map(function(r){
+    var isG=r.payment_method!=='cash';
+    var sc=r.status==='arrived'?'badge-arrived':r.status==='pending'?'badge-pending':'badge-active';
+    var st={arrived:'✅ Arrivé',pending:'En attente',confirmed:'Confirmé',cancelled:'Annulé'}[r.status]||r.status;
     return '<tr>'
       +'<td><strong style="color:var(--azure)">'+r.reference+'</strong></td>'
       +'<td>'+(r.guest_name||'—')+'</td>'
-      +'<td>'+(r.room_id||'—')+'</td>'
-      +'<td>'+(r.days||1)+' nuit(s)</td>'
+      +'<td>'+(r.room_id||'—').toString().slice(0,8)+'...</td>'
+      +'<td>'+(r.days||1)+'</td>'
       +'<td>'+(r.checkin_date||'—')+'</td>'
-      +'<td><strong>'+(r.total_amount?parseFloat(r.total_amount).toLocaleString()+' CDF':'—')+'</strong></td>'
+      +'<td>'+(r.total_amount?parseFloat(r.total_amount).toLocaleString()+' CDF':'—')+'</td>'
       +'<td>'+(r.payment_method||'—')+'</td>'
       +'<td><span class="tbl-badge '+sc+'">'+st+'</span></td>'
-      +'<td><span class="tbl-badge '+(isGuaranteed?'badge-guaranteed':'badge-notguaranteed')+'">'+(isGuaranteed?'✅ Garantie':'⚠️ Non garantie')+'</span></td>'
+      +'<td><span class="tbl-badge '+(isG?'badge-guaranteed':'badge-notguaranteed')+'">'+(isG?'✅':'⚠️')+'</span></td>'
       +'</tr>';
   }).join('');
   if(tbody)tbody.innerHTML=html;
-  if(dashTbody)dashTbody.innerHTML=rows.slice(0,5).map(function(r){
+  if(dash)dash.innerHTML=G.reservations.slice(0,5).map(function(r){
     var sc=r.status==='arrived'?'badge-arrived':r.status==='pending'?'badge-pending':'badge-active';
-    var st=r.status==='arrived'?'✅ Arrivé':r.status==='pending'?'En attente':'Confirmé';
+    var st={arrived:'✅ Arrivé',pending:'En attente',confirmed:'Confirmé'}[r.status]||r.status;
     var isG=r.payment_method!=='cash';
-    return '<tr><td><strong style="color:var(--azure)">'+r.reference+'</strong></td><td>'+(r.guest_name||'—')+'</td><td>—</td><td>'+(r.days||1)+'</td><td>'+(r.total_amount?parseFloat(r.total_amount).toLocaleString()+' CDF':'—')+'</td><td><span class="tbl-badge '+sc+'">'+st+'</span></td><td><span class="tbl-badge '+(isG?'badge-guaranteed':'badge-notguaranteed')+'">'+(isG?'✅':'⚠️')+'</span></td></tr>';
+    return '<tr><td><strong style="color:var(--azure)">'+r.reference+'</strong></td><td>'+(r.guest_name||'—')+'</td><td>'+(r.days||1)+'</td><td>'+(r.total_amount?parseFloat(r.total_amount).toLocaleString()+' CDF':'—')+'</td><td>'+(r.payment_method||'—')+'</td><td><span class="tbl-badge '+sc+'">'+st+'</span></td><td><span class="tbl-badge '+(isG?'badge-guaranteed':'badge-notguaranteed')+'">'+(isG?'✅':'⚠️')+'</span></td></tr>';
   }).join('');
 }
 
-function filterTable(tbodyId,q){
-  var rows=document.getElementById(tbodyId).querySelectorAll('tr');
-  rows.forEach(function(r){r.style.display=q&&!r.textContent.toLowerCase().includes(q.toLowerCase())?'none':'';});
-}
-
-/* ══════════ ARRIVALS ══════════ */
+/* ═══════════════════════════════════════════
+   ARRIVALS
+═══════════════════════════════════════════ */
 function loadArrivals(){
-  sbFetch('/rest/v1/reservations?status=eq.arrived&select=*&order=arrived_at.desc')
-  .then(function(d){
-    G.arrivals=Array.isArray(d)?d:[];
+  api('GET','reservations',null,'status=eq.arrived&select=*&order=arrived_at.desc').then(function(res){
+    G.arrivals=res.ok&&Array.isArray(res.data)?res.data:[];
     var n=G.arrivals.length;
-    if(n>0){
-      document.getElementById('arrivalBadge').textContent=n;
-      document.getElementById('arrivalBadge').style.display='inline';
-      document.getElementById('notifDot').style.display='block';
-    }
+    if(n>0){document.getElementById('arrBadge').textContent=n;document.getElementById('arrBadge').style.display='inline';document.getElementById('notifDot').style.display='block';}
     renderArrivals();updateStats();
-  }).catch(function(){G.arrivals=[];});
+  });
 }
 
 function renderArrivals(){
-  var list=document.getElementById('arrivalsList');
-  var dash=document.getElementById('dashArrivals');
+  var list=document.getElementById('arrivalsList');var dash=document.getElementById('dashArrivals');
   if(!G.arrivals.length){
     var e='<div class="tbl-empty"><div class="tbl-empty-icon">🔔</div><p>Aucune arrivée signalée</p></div>';
     if(list)list.innerHTML=e;if(dash)dash.innerHTML=e;return;
@@ -987,92 +906,92 @@ function renderArrivals(){
     var isCash=r.payment_method==='cash';
     return '<div class="arrival-card '+(isCash?'cash':'new')+'">'
       +'<div class="arr-ico">'+(isCash?'💵':'✅')+'</div>'
-      +'<div class="arr-info">'
-      +'<div class="arr-name">'+( r.guest_name||'Client anonyme')+'</div>'
-      +'<div class="arr-detail">Réf: <strong>'+r.reference+'</strong> · '+r.days+' nuit(s) · Arrivée : '+(r.checkin_date||'—')+'</div>'
-      +'<div class="arr-time">Signalé le '+(r.arrived_at?new Date(r.arrived_at).toLocaleString('fr-FR'):'—')+'</div>'
+      +'<div class="arr-info"><div class="arr-name">'+(r.guest_name||'Client anonyme')+'</div>'
+      +'<div class="arr-detail">Réf: <strong>'+r.reference+'</strong> · '+(r.days||1)+' nuit(s) · Arrivée: '+(r.checkin_date||'—')+'</div>'
+      +'<div class="arr-time">'+(r.arrived_at?new Date(r.arrived_at).toLocaleString('fr-FR'):'—')+'</div>'
       +'<div class="arr-badges">'
       +'<span class="tbl-badge badge-arrived">✅ Arrivé</span>'
-      +(isCash?'<span class="tbl-badge badge-notguaranteed">⚠️ Paiement cash</span>':'<span class="tbl-badge badge-guaranteed">✅ Paiement en ligne</span>')
-      +'<span style="font-size:10px;color:var(--dim);padding:3px 8px;background:rgba(13,32,64,.5);border-radius:20px;">🔒 Non modifiable</span>'
+      +(isCash?'<span class="tbl-badge badge-pending">⚠️ Cash</span>':'<span class="tbl-badge badge-guaranteed">✅ En ligne</span>')
+      +'<span style="font-size:10px;padding:3px 8px;background:rgba(13,32,64,.5);border-radius:20px;color:var(--dim)">🔒 Non modifiable</span>'
       +'</div></div></div>';
   }).join('');
   if(list)list.innerHTML=html;
-  if(dash)dash.innerHTML=html.split('</div></div></div>').slice(0,3).join('</div></div></div>')+(G.arrivals.length>3?'</div></div></div>':'');
+  if(dash)dash.innerHTML=G.arrivals.slice(0,3).map(function(r){
+    var isCash=r.payment_method==='cash';
+    return '<div class="arrival-card '+(isCash?'cash':'new')+'" style="margin-bottom:10px">'
+      +'<div class="arr-ico">'+(isCash?'💵':'✅')+'</div>'
+      +'<div class="arr-info"><div class="arr-name">'+(r.guest_name||'Client')+'</div>'
+      +'<div class="arr-detail">Réf: '+r.reference+' · '+(r.arrived_at?new Date(r.arrived_at).toLocaleString('fr-FR'):'—')+'</div></div></div>';
+  }).join('');
 }
 
-/* ══════════ COMMISSION ══════════ */
+/* ═══════════════════════════════════════════
+   COMMISSION
+═══════════════════════════════════════════ */
 function renderCommission(){
   var list=document.getElementById('commissionList');
   if(!G.hotels.length){list.innerHTML='<div class="tbl-empty"><div class="tbl-empty-icon">💰</div><p>Ajoutez des hôtels d\'abord</p></div>';return;}
   list.innerHTML=G.hotels.map(function(h){
-    var comm=h.commission_rate||25;
-    var disc=h.discount_rate||33;
-    var ex=10000;
-    var commAmt=ex*(comm/100);var discAmt=commAmt*(disc/100);var clientPays=Math.round(commAmt-discAmt);
+    var comm=h.commission_rate||25;var disc=h.discount_rate||33;
+    var ex=50000;var commAmt=ex*(comm/100);var discAmt=commAmt*(disc/100);var clientPays=Math.round(commAmt-discAmt);
     return '<div class="commission-card">'
       +'<div class="comm-hotel-name">🏨 '+h.name+'</div>'
-      +'<div class="comm-row"><span class="comm-label">Commission BookZzz (%)</span><input class="comm-input" type="number" id="comm-'+h.id+'" value="'+comm+'" min="0" max="100"><span class="comm-pct">%</span></div>'
-      +'<div class="comm-row"><span class="comm-label">Réduction client (%)</span><input class="comm-input" type="number" id="disc-'+h.id+'" value="'+disc+'" min="0" max="100"><span class="comm-pct">% de la commission</span></div>'
-      +'<div class="comm-result">💡 Pour une chambre à 10 000 CDF/nuit — Frais avant réduction : '+Math.round(commAmt).toLocaleString()+' CDF · Client paie : '+clientPays.toLocaleString()+' CDF</div>'
-      +'<button class="save-comm-btn" onclick="saveCommission(\''+h.id+'\')">💾 Sauvegarder</button>'
-      +'</div>';
+      +'<div class="comm-row"><span class="comm-label">Commission BookZzz (%)</span><input class="comm-input" type="number" id="comm-'+h.id+'" value="'+comm+'" min="0" max="100"></div>'
+      +'<div class="comm-row"><span class="comm-label">Réduction client (%)</span><input class="comm-input" type="number" id="disc-'+h.id+'" value="'+disc+'" min="0" max="100"></div>'
+      +'<div class="comm-result">💡 Sur 50 000 CDF : frais avt réduction = '+Math.round(commAmt).toLocaleString()+' · Client économise = '+Math.round(discAmt).toLocaleString()+' · Total final = '+clientPays.toLocaleString()+' CDF</div>'
+      +'<button class="save-comm-btn" onclick="saveCommission(\''+h.id+'\')">💾 Sauvegarder</button></div>';
   }).join('');
 }
 
 function saveCommission(hotelId){
   var comm=parseFloat(document.getElementById('comm-'+hotelId).value)||25;
   var disc=parseFloat(document.getElementById('disc-'+hotelId).value)||33;
-  fetch(SB+'/rest/v1/hotels?id=eq.'+hotelId,{
-    method:'PATCH',headers:Object.assign({},HDR,{'Prefer':'return=minimal'}),
-    body:JSON.stringify({commission_rate:comm,discount_rate:disc})
-  }).then(function(){showToast('Commission sauvegardée ✓','success');loadHotels();})
-  .catch(function(){showToast('Erreur','error');});
+  api('PATCH','hotels',{commission_rate:comm,discount_rate:disc},'id=eq.'+hotelId).then(function(res){
+    if(res.ok){showToast('Commission sauvegardée ✓','success');loadHotels();}
+    else showToast('❌ '+res.error,'error');
+  });
 }
 
-/* ══════════ HOTEL ADMIN ACCESS ══════════ */
+/* ═══════════════════════════════════════════
+   HOTEL ADMIN ACCESS
+═══════════════════════════════════════════ */
 function loadHotelAdmins(){
-  sbFetch('/rest/v1/hotel_admin?select=*').then(function(d){G.hotelAdmins=Array.isArray(d)?d:[];}).catch(function(){G.hotelAdmins=[];});
+  api('GET','hotel_admin',null,'select=*').then(function(res){G.hotelAdmins=res.ok&&Array.isArray(res.data)?res.data:[];});
 }
 
 function renderAccessList(){
   var list=document.getElementById('accessList');
-  if(!G.hotelAdmins.length&&!G.hotels.length){list.innerHTML='<div class="tbl-empty"><div class="tbl-empty-icon">🔑</div><p>Aucun accès hôtelier créé</p></div>';return;}
+  if(!G.hotels.length){list.innerHTML='<div class="tbl-empty"><div class="tbl-empty-icon">🔑</div><p>Ajoutez des hôtels d\'abord</p></div>';return;}
   list.innerHTML=G.hotels.map(function(h){
     var admin=G.hotelAdmins.find(function(a){return a.hotel_id==h.id;});
-    var link=BASE+'hotel-admin.html?token='+(admin?admin.token||h.id:h.id);
+    var link=BASE+'hotel-admin.html?token='+h.id;
     return '<div class="access-card">'
-      +'<div style="font-size:28px">🏨</div>'
-      +'<div class="access-info">'
-      +'<div class="access-hotel">'+h.name+'</div>'
-      +'<div class="access-email">'+(admin&&admin.email?admin.email:'Aucun email configuré')+'</div>'
-      +'<div class="access-link">🔗 '+link+'</div>'
-      +'</div>'
+      +'<div style="font-size:26px">🏨</div>'
+      +'<div class="access-info"><div class="access-hotel">'+h.name+'</div>'
+      +'<div class="access-email">'+(admin&&admin.email?admin.email:'Pas d\'email configuré')+'</div>'
+      +'<div class="access-link">🔗 '+link+'</div></div>'
       +'<div class="access-btns">'
-      +'<button class="act-btn act-link" onclick="copyLink(\''+link+'\')">📋 Copier lien</button>'
+      +'<button class="act-btn act-link" onclick="copyLink(\''+link+'\')">📋 Copier</button>'
       +'<button class="act-btn act-access" onclick="accessHotelAdmin(\''+h.id+'\')">👑 Accéder</button>'
       +'</div></div>';
   }).join('');
 }
 
-function copyLink(link){navigator.clipboard.writeText(link).then(function(){showToast('Lien copié ✓','success');}).catch(function(){showToast(link);});}
+function copyLink(link){
+  navigator.clipboard.writeText(link).then(function(){showToast('Lien copié ✓','success');}).catch(function(){showToast(link);});
+}
 
 function accessHotelAdmin(hotelId){
   var hotel=G.hotels.find(function(h){return h.id==hotelId;});
   var name=hotel?hotel.name:'cet hôtel';
-  if(confirm('Accéder au dashboard de '+name+' ?\n\nVous aurez accès à leur interface pour les aider à configurer leurs informations.')){
+  if(confirm('Accéder au dashboard de '+name+' ?\n\nVous pourrez gérer leurs informations directement.')){
     sessionStorage.setItem('bz_admin_hotel_id',hotelId);
     sessionStorage.setItem('bz_admin_hotel_name',name);
     window.open(BASE+'hotel-admin.html?token='+hotelId+'&superadmin=1','_blank');
   }
 }
 
-function openAccessModal(){
-  populateHotelSelects();
-  document.getElementById('accessEmail').value='';
-  document.getElementById('accessPwd').value='';
-  openModal('accessModal');
-}
+function openAccessModal(){populateSelects();document.getElementById('accessEmail').value='';document.getElementById('accessPwd').value='';openModal('accessModal');}
 
 function createAccess(){
   var hotelId=document.getElementById('accessHotelId').value;
@@ -1080,80 +999,77 @@ function createAccess(){
   if(!hotelId){showToast('Sélectionnez un hôtel','error');return;}
   var pwd=document.getElementById('accessPwd').value.trim()||('BZ'+Math.random().toString(36).slice(2,10).toUpperCase());
   var token=Math.random().toString(36).slice(2,18).toUpperCase();
-  var payload={hotel_id:hotelId,email:email,password:pwd,token:token,created_at:new Date().toISOString()};
-  fetch(SB+'/rest/v1/hotel_admin',{method:'POST',headers:Object.assign({},HDR,{'Prefer':'return=minimal'}),body:JSON.stringify(payload)})
-  .then(function(){
-    showToast('Accès créé ✓ — MDP: '+pwd,'success');
-    closeModal('accessModal');loadHotelAdmins();renderAccessList();
-  }).catch(function(){showToast('Erreur','error');});
+  api('POST','hotel_admin',{hotel_id:hotelId,email:email,password:pwd,token:token}).then(function(res){
+    if(res.ok){
+      showToast('Accès créé ✓ — MDP: '+pwd,'success');
+      closeModal('accessModal');loadHotelAdmins();renderAccessList();
+    } else showToast('❌ '+res.error,'error');
+  });
 }
 
-/* ══════════ GEOGRAPHY ══════════ */
+/* ═══════════════════════════════════════════
+   GEOGRAPHY
+═══════════════════════════════════════════ */
 function renderGeo(){
   var list=document.getElementById('geoList');
-  list.innerHTML=GEO_COUNTRIES.map(function(c,ci){
+  list.innerHTML=GEO.map(function(c,ci){
     return '<div class="country-card">'
-      +'<div class="country-header">'
-      +'<span class="country-flag">'+c.flag+'</span>'
-      +'<div style="flex:1"><div class="country-name">'+c.name_fr+'</div><div style="font-size:10px;color:var(--dim)">'+c.code+'</div></div>'
-      +'<label class="toggle"><input type="checkbox" '+(c.active?'checked':'')
-      +' onchange="toggleCountry('+ci+',this.checked)"><span class="toggle-slider"></span></label>'
-      +'</div>'
-      +'<div class="city-rows">'
-      +c.cities.map(function(city,cj){
-        return '<div class="city-row">'
-          +'<div class="city-row-name">'+city.icon+' '+city.name+'</div>'
-          +'<label class="toggle"><input type="checkbox" '+(city.active?'checked':'')
-          +' onchange="toggleCity('+ci+','+cj+',this.checked)"><span class="toggle-slider"></span></label>'
-          +'</div>';
-      }).join('')
-      +'</div></div>';
+      +'<div class="country-header"><span class="country-flag">'+c.flag+'</span><div style="flex:1"><div class="country-name">'+c.name+'</div><div style="font-size:10px;color:var(--dim)">'+c.code+'</div></div>'
+      +'<label class="toggle"><input type="checkbox" '+(c.active?'checked':'')+' onchange="toggleCountry('+ci+',this.checked)"><span class="toggle-slider"></span></label></div>'
+      +'<div class="city-rows">'+c.cities.map(function(city,cj){
+        return '<div class="city-row"><div class="city-row-name">'+city.icon+' '+city.name+'</div>'
+          +'<label class="toggle"><input type="checkbox" '+(city.active?'checked':'')+' onchange="toggleCity('+ci+','+cj+',this.checked)"><span class="toggle-slider"></span></label></div>';
+      }).join('')+'</div></div>';
   }).join('');
 }
 
-function toggleCountry(ci,val){GEO_COUNTRIES[ci].active=val;showToast(GEO_COUNTRIES[ci].name_fr+' '+(val?'activé ✓':'désactivé'),'success');}
-function toggleCity(ci,cj,val){GEO_COUNTRIES[ci].cities[cj].active=val;showToast(GEO_COUNTRIES[ci].cities[cj].name+' '+(val?'activée ✓':'désactivée'),'success');}
+function toggleCountry(ci,val){GEO[ci].active=val;showToast(GEO[ci].name+' '+(val?'activé ✓':'désactivé'),'success');}
+function toggleCity(ci,cj,val){GEO[ci].cities[cj].active=val;showToast(GEO[ci].cities[cj].name+' '+(val?'activée ✓':'désactivée'),'success');}
 
-function openGeoModal(){populateHotelSelects();openModal('geoModal');}
-function toggleGeoType(){var t=document.getElementById('geoType').value;document.getElementById('geoCountryField').style.display=t==='country'?'none':'block';}
-function saveGeo(){showToast('Fonctionnalité en développement','success');closeModal('geoModal');}
-
-/* ══════════ STATS ══════════ */
+/* ═══════════════════════════════════════════
+   STATS
+═══════════════════════════════════════════ */
 function updateStats(){
   document.getElementById('statHotels').textContent=G.hotels.filter(function(h){return h.status==='active';}).length;
-  var totalRooms=G.hotels.reduce(function(s,h){return s+(h.total_rooms||0);},0);
-  document.getElementById('statRooms').textContent=totalRooms;
-  document.getElementById('statReservations').textContent=G.reservations.length;
-  document.getElementById('statArrivals').textContent=G.arrivals.length;
-  var revenue=G.reservations.reduce(function(s,r){return s+(parseFloat(r.total_amount)||0);},0);
-  document.getElementById('statRevenue').textContent=Math.round(revenue).toLocaleString();
+  document.getElementById('statRooms').textContent=G.rooms.length||0;
+  document.getElementById('statRes').textContent=G.reservations.length;
+  document.getElementById('statArr').textContent=G.arrivals.length;
+  var rev=G.reservations.reduce(function(s,r){return s+(parseFloat(r.total_amount)||0);},0);
+  document.getElementById('statRev').textContent=Math.round(rev).toLocaleString();
 }
 
-/* ══════════ SETTINGS ══════════ */
-function saveSettings(){
-  var comm=document.getElementById('defaultComm').value;
-  var disc=document.getElementById('defaultDisc').value;
-  localStorage.setItem('bz_default_comm',comm);localStorage.setItem('bz_default_disc',disc);
-  showToast('Paramètres sauvegardés ✓','success');
+/* ═══════════════════════════════════════════
+   SETTINGS
+═══════════════════════════════════════════ */
+function saveSettings(){localStorage.setItem('bz_defComm',document.getElementById('defComm').value);localStorage.setItem('bz_defDisc',document.getElementById('defDisc').value);showToast('Paramètres sauvegardés ✓','success');}
+
+/* ═══════════════════════════════════════════
+   FILTER TABLE
+═══════════════════════════════════════════ */
+function filterTbl(tbodyId,q){
+  document.getElementById(tbodyId).querySelectorAll('tr').forEach(function(r){
+    r.style.display=q&&!r.textContent.toLowerCase().includes(q.toLowerCase())?'none':'';
+  });
 }
 
-/* ══════════ MODAL UTILS ══════════ */
+/* ═══════════════════════════════════════════
+   MODAL UTILS
+═══════════════════════════════════════════ */
 function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 function closeModalOutside(e,id){if(e.target===document.getElementById(id))closeModal(id);}
 
-/* ══════════ TOAST ══════════ */
+/* ═══════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════ */
 var tT;
 function showToast(msg,type){
-  var t=document.getElementById('toast');
-  t.textContent=msg;t.className='toast '+(type||'');t.classList.add('show');
-  clearTimeout(tT);tT=setTimeout(function(){t.classList.remove('show');},3500);
+  var t=document.getElementById('toast');t.textContent=msg;t.className='toast '+(type||'');t.classList.add('show');
+  clearTimeout(tT);tT=setTimeout(function(){t.classList.remove('show');},4000);
 }
 
-/* ══════════ AUTO REFRESH ══════════ */
-setInterval(function(){
-  if(sessionStorage.getItem('bz_admin')==='1'){loadArrivals();}
-},30000); /* Check arrivals every 30s */
+/* Auto refresh arrivals every 30s */
+setInterval(function(){if(sessionStorage.getItem('bz_admin')==='1')loadArrivals();},30000);
 </script>
 </body>
 </html>

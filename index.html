@@ -490,11 +490,23 @@ button,input{font-family:'DM Sans',sans-serif;cursor:pointer;}
     <div class="tab-panel" id="panel-map">
       <div class="panel-wrap">
         <div class="panel-title">Carte <span>des hôtels</span></div>
-        <div class="panel-sub" id="mapSub">Localisation GPS de tous les hôtels</div>
-        <div class="map-placeholder">
-          <div style="font-size:clamp(44px,10vw,64px)">🗺️</div>
-          <div style="font-size:clamp(14px,4vw,16px);font-weight:600;color:var(--white)">Carte interactive</div>
-          <div style="font-size:clamp(11px,3vw,13px);text-align:center;max-width:260px;line-height:1.6;color:var(--text-dim)">La carte interactive avec GPS de chaque hôtel arrive bientôt.</div>
+        <div class="panel-sub" id="mapSub">Localisation GPS de tous les hôtels disponibles</div>
+        <!-- Map preview with open button -->
+        <div style="background:var(--glass);border:1px solid var(--border2);border-radius:var(--r-xl);overflow:hidden;margin-bottom:16px;">
+          <div style="height:clamp(200px,40vw,280px);background:linear-gradient(135deg,#091628,#0d2040);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;position:relative;">
+            <div style="font-size:clamp(44px,10vw,64px)">🗺️</div>
+            <div style="font-size:clamp(14px,4vw,16px);font-weight:600;color:var(--white)" id="mapCardTitle">Carte interactive des hôtels</div>
+            <div style="font-size:clamp(11px,3vw,13px);text-align:center;max-width:260px;line-height:1.6;color:var(--text-dim)" id="mapCardSub">Voir tous les hôtels sur la carte avec GPS, filtres et réservation directe</div>
+            <button onclick="openMap()" style="padding:clamp(11px,2.5vw,13px) clamp(22px,5vw,32px);background:linear-gradient(135deg,var(--azure),var(--blue-dark));border:none;border-radius:var(--r-lg);color:#fff;font-size:clamp(13px,3vw,14px);font-weight:700;cursor:pointer;transition:all .3s;margin-top:4px;" id="openMapBtn">🗺️ Ouvrir la carte</button>
+          </div>
+        </div>
+        <!-- Taxi feature -->
+        <div style="background:var(--glass);border:1px solid var(--border2);border-radius:var(--r-xl);padding:clamp(18px,4vw,24px);">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(20px,5vw,24px);font-weight:700;color:var(--white);margin-bottom:6px;" id="taxiTitle">🚖 Taxi vers <span style="color:var(--azure);font-style:italic">mon hôtel</span></div>
+          <div style="font-size:clamp(12px,3vw,13px);color:var(--text-dim);line-height:1.7;margin-bottom:18px;" id="taxiSub">Vous êtes arrivé(e) dans la ville ? Appelez un taxi qui connaît déjà l'adresse exacte de votre hôtel.</div>
+          <div id="taxiContent">
+            <div style="padding:20px;text-align:center;background:rgba(13,32,64,.4);border:1px solid var(--border);border-radius:var(--r-lg);color:var(--text-dim);font-size:13px;" id="taxiNoBooking">Réservez un hôtel d'abord pour utiliser cette fonctionnalité.</div>
+          </div>
         </div>
       </div>
     </div>
@@ -986,7 +998,52 @@ function confirmAdjust(){
   closeAdjust();loadBookings();showToast('Séjour mis à jour ✓');
 }
 
-/* TOAST */
+/* ══ OPEN MAP ══ */
+function openMap(){
+  localStorage.setItem('bz_lang',S.lang);
+  if(S.city)localStorage.setItem('bz_city',S.city.name);
+  if(S.country)localStorage.setItem('bz_country',S.country.code);
+  window.location.href=BASE+'map.html';
+}
+
+/* ══ TAXI FEATURE ══ */
+function loadTaxiSection(){
+  var t=T[S.lang];
+  var bookings=JSON.parse(localStorage.getItem('bz_bookings')||'[]');
+  var active=bookings.filter(function(b){return b.status!=='cancelled';});
+  var content=document.getElementById('taxiContent');
+  if(!content)return;
+  if(!active.length){
+    content.innerHTML='<div style="padding:20px;text-align:center;background:rgba(13,32,64,.4);border:1px solid var(--border);border-radius:var(--r-lg);color:var(--text-dim);font-size:13px;">'+(t.taxiNoBooking||'Réservez un hôtel d\'abord pour utiliser cette fonctionnalité.')+'</div>';
+    return;
+  }
+  content.innerHTML=active.map(function(b,i){
+    var hotel=S.hotels.find(function(h){return h.name===b.hotel;})||null;
+    var addr=hotel?((hotel.address||'')+', '+(hotel.city||'')):b.hotel;
+    var lat=hotel?hotel.latitude:null;var lng=hotel?hotel.longitude:null;
+    /* WhatsApp message */
+    var msg=encodeURIComponent('Bonjour, je viens d\'arriver et j\'ai besoin d\'un taxi pour aller à l\'hôtel '+b.hotel+(hotel&&hotel.address?', situé au '+hotel.address+', '+( hotel.city||''):'')+'.\nMa référence BookZzz: #'+b.ref);
+    var waUrl='https://wa.me/?text='+msg;
+    /* GPS link */
+    var gpsUrl=lat&&lng?'https://www.google.com/maps/search/?api=1&query='+lat+','+lng:'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(addr);
+    return '<div style="background:rgba(13,32,64,.5);border:1px solid var(--border2);border-radius:var(--r-lg);padding:clamp(14px,3vw,18px);margin-bottom:10px;">'
+      +'<div style="font-size:clamp(13px,3vw,14px);font-weight:600;color:var(--white);margin-bottom:4px;">🏨 '+b.hotel+'</div>'
+      +'<div style="font-size:11px;color:var(--text-dim);margin-bottom:14px;">📍 '+addr+' · Réf: <strong style="color:var(--azure)">#'+b.ref+'</strong></div>'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">'
+      +'<a href="'+waUrl+'" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 12px;background:linear-gradient(135deg,#25d366,#1ebe57);border-radius:var(--r-md);color:#fff;font-size:clamp(11px,2.5vw,13px);font-weight:700;text-decoration:none;transition:all .3s;">📱 WhatsApp Taxi</a>'
+      +'<a href="'+gpsUrl+'" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 12px;background:linear-gradient(135deg,var(--azure),var(--blue-dark));border-radius:var(--r-md);color:#fff;font-size:clamp(11px,2.5vw,13px);font-weight:700;text-decoration:none;transition:all .3s;">🗺️ Voir GPS</a>'
+      +'</div></div>';
+  }).join('');
+}
+
+/* Call taxi section when switching to map tab */
+var _origSetTab=setTab;
+function setTab(el,tab){
+  _origSetTab(el,tab);
+  if(tab==='map')loadTaxiSection();
+}
+
+/* Toast */
 var tT;
 function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(tT);tT=setTimeout(function(){t.classList.remove('show');},3000);}
 </script>
