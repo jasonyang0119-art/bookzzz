@@ -252,8 +252,8 @@ tr:hover td{background:rgba(93,173,226,.04);}
       <label class="field-lbl">MOT DE PASSE</label>
       <input type="password" id="loginPwd" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
     </div>
-    <button class="login-btn" onclick="doLogin()">Accéder à mon espace →</button>
-    <div class="login-err" id="loginErr">❌ Mot de passe incorrect</div>
+    <button class="login-btn" id="loginBtn" onclick="doLogin()">Accéder à mon espace →</button>
+    <div class="login-err" id="loginErr" style="display:none;font-size:12px;color:var(--red);margin-top:10px;padding:8px 12px;background:rgba(231,76,60,.08);border:1px solid rgba(231,76,60,.2);border-radius:var(--r);line-height:1.5;"></div>
     <div class="login-note">🔒 Votre accès est sécurisé et unique.<br>En cas de problème, contactez BookZzz.</div>
   </div>
 </div>
@@ -568,85 +568,262 @@ var BASE='https://jasonyang0119-art.github.io/bookzzz/';
 var ADMIN_URL=BASE+'admin.html';
 
 /* ══ STATE ══ */
-var G={hotel:null,rooms:[],reservations:[],arrivals:[],promos:[],token:null,isSuperAdmin:false,editRoomId:null};
+var G={hotel:null,rooms:[],reservations:[],arrivals:[],promos:[],token:null,hotelId:null,isSuperAdmin:false,editRoomId:null,adminRecord:null};
+
+/* ══════════════════════════════════════════
+   LOCKOUT SYSTEM
+   - 3 wrong attempts → blocked for 150s (2min30)
+   - Each new series of 3 wrong → duration doubles
+   Key stored in localStorage: bz_lock_<token>
+══════════════════════════════════════════ */
+var LOCK={
+  attempts:0,        /* wrong attempts in current series */
+  blockedUntil:0,    /* timestamp when block expires */
+  blockDuration:150, /* seconds — starts at 150, doubles each series */
+  lockKey:''
+};
+
+function lockLoad(){
+  /* Load state from localStorage */
+  if(!LOCK.lockKey)return;
+  try{
+    var s=JSON.parse(localStorage.getItem(LOCK.lockKey)||'{}');
+    LOCK.attempts=s.attempts||0;
+    LOCK.blockedUntil=s.blockedUntil||0;
+    LOCK.blockDuration=s.blockDuration||150;
+  }catch(e){}
+}
+
+function lockSave(){
+  if(!LOCK.lockKey)return;
+  localStorage.setItem(LOCK.lockKey,JSON.stringify({
+    attempts:LOCK.attempts,
+    blockedUntil:LOCK.blockedUntil,
+    blockDuration:LOCK.blockDuration
+  }));
+}
+
+function lockCheck(){
+  /* Returns seconds remaining if blocked, 0 if free */
+  var now=Math.floor(Date.now()/1000);
+  if(LOCK.blockedUntil>now)return LOCK.blockedUntil-now;
+  return 0;
+}
+
+function lockFail(){
+  /* Called on wrong password */
+  LOCK.attempts++;
+  if(LOCK.attempts>=3){
+    /* Block */
+    var now=Math.floor(Date.now()/1000);
+    LOCK.blockedUntil=now+LOCK.blockDuration;
+    LOCK.blockDuration=LOCK.blockDuration*2; /* double for next time */
+    LOCK.attempts=0;
+    lockSave();
+    startLockTimer();
+    return true; /* is now blocked */
+  }
+  lockSave();
+  return false;
+}
+
+function lockSuccess(){
+  /* Reset on successful login */
+  LOCK.attempts=0;LOCK.blockedUntil=0;LOCK.blockDuration=150;
+  lockSave();
+}
+
+var lockTimerInterval=null;
+function startLockTimer(){
+  var btn=document.getElementById('loginBtn');
+  var pwdInput=document.getElementById('loginPwd');
+  var err=document.getElementById('loginErr');
+  if(lockTimerInterval)clearInterval(lockTimerInterval);
+  lockTimerInterval=setInterval(function(){
+    var remaining=lockCheck();
+    if(remaining>0){
+      var min=Math.floor(remaining/60);var sec=remaining%60;
+      var timeStr=(min>0?min+'min ':'')+sec+'s';
+      err.style.display='block';
+      err.textContent='🔒 Trop de tentatives. Réessayez dans '+timeStr;
+      if(btn){btn.disabled=true;btn.textContent='🔒 Bloqué ('+timeStr+')';}
+      if(pwdInput)pwdInput.disabled=true;
+    } else {
+      clearInterval(lockTimerInterval);lockTimerInterval=null;
+      err.style.display='none';
+      if(btn){btn.disabled=false;btn.textContent='Accéder à mon espace →';}
+      if(pwdInput){pwdInput.disabled=false;pwdInput.value='';}
+    }
+  },1000);
+}
 
 /* ══ INIT ══ */
 window.addEventListener('DOMContentLoaded',function(){
   var params=new URLSearchParams(window.location.search);
-  G.token=params.get('token');
+  G.token=params.get('token'); /* could be hotel_id or random token */
   G.isSuperAdmin=params.get('superadmin')==='1';
 
   /* SuperAdmin bypass — no password needed */
   if(G.isSuperAdmin&&sessionStorage.getItem('bz_admin')==='1'){
     var savedName=sessionStorage.getItem('bz_admin_hotel_name')||'Hôtel';
+    var savedId=sessionStorage.getItem('bz_admin_hotel_id')||G.token;
     document.getElementById('superAdminBanner').classList.add('show');
     document.getElementById('bannerHotelName').textContent=savedName;
-    loginSuccess({id:G.token,name:savedName});
+    /* Load full hotel data then go in */
+    loadHotelById(savedId,function(hotel){
+      loginSuccess(hotel||{id:savedId,name:savedName});
+    });
     return;
   }
 
-  /* Normal hotel admin flow */
-  if(G.token){
-    loadHotelByToken(G.token);
-  } else {
-    document.getElementById('loginHotelName').textContent='Lien invalide. Contactez BookZzz.';
-  }
-
-  /* Check saved session */
+  /* Check saved session first */
   var savedSession=sessionStorage.getItem('bz_hotel_session');
   if(savedSession){
-    try{var s=JSON.parse(savedSession);if(s.token===G.token){loginSuccess(s.hotel);}}catch(e){}
+    try{
+      var s=JSON.parse(savedSession);
+      if(s.token===G.token&&s.hotel){loginSuccess(s.hotel);return;}
+    }catch(e){}
+  }
+
+  /* Load hotel info by token */
+  if(G.token){
+    LOCK.lockKey='bz_lock_'+G.token;
+    lockLoad();
+    /* Check if currently locked */
+    var remaining=lockCheck();
+    if(remaining>0)startLockTimer();
+    /* Try to find hotel — token can be either hotel UUID or custom token */
+    resolveToken(G.token);
+  } else {
+    document.getElementById('loginHotelName').textContent='⚠️ Lien invalide — contactez BookZzz';
   }
 });
 
-function loadHotelByToken(token){
-  /* Fetch hotel by id (token = hotel id) */
-  fetch(SB+'/rest/v1/hotels?id=eq.'+token+'&select=id,name',{headers:HDR})
+/* Resolve token: first try as hotel UUID, then as hotel_admin.token */
+function resolveToken(token){
+  /* Step 1: try as hotel_admin token */
+  fetch(SB+'/rest/v1/hotel_admin?token=eq.'+encodeURIComponent(token)+'&select=hotel_id,token,password',{headers:HDR})
   .then(function(r){return r.json();})
   .then(function(d){
     if(d&&d.length>0){
-      G.hotel=d[0];
-      document.getElementById('loginHotelName').textContent='🏨 '+d[0].name;
+      /* Found in hotel_admin by token field */
+      G.adminRecord=d[0];
+      G.hotelId=d[0].hotel_id;
+      loadHotelById(G.hotelId,function(hotel){
+        G.hotel=hotel;
+        document.getElementById('loginHotelName').textContent=hotel?('🏨 '+hotel.name):'Hôtel';
+      });
     } else {
-      document.getElementById('loginHotelName').textContent='Hôtel non trouvé';
+      /* Step 2: try token as hotel UUID directly */
+      loadHotelById(token,function(hotel){
+        if(hotel){
+          G.hotel=hotel;
+          G.hotelId=hotel.id;
+          /* Also look for admin record by hotel_id */
+          fetch(SB+'/rest/v1/hotel_admin?hotel_id=eq.'+hotel.id+'&select=*',{headers:HDR})
+          .then(function(r){return r.json();})
+          .then(function(da){if(da&&da.length>0)G.adminRecord=da[0];})
+          .catch(function(){});
+          document.getElementById('loginHotelName').textContent='🏨 '+hotel.name;
+        } else {
+          document.getElementById('loginHotelName').textContent='⚠️ Hôtel introuvable';
+        }
+      });
     }
-  }).catch(function(){document.getElementById('loginHotelName').textContent='Hôtel — Connexion';});
+  }).catch(function(){
+    /* Fallback: use token as hotel UUID */
+    loadHotelById(token,function(hotel){
+      G.hotel=hotel;G.hotelId=token;
+      document.getElementById('loginHotelName').textContent=hotel?('🏨 '+hotel.name):'Hôtel';
+    });
+  });
+}
+
+function loadHotelById(id,cb){
+  fetch(SB+'/rest/v1/hotels?id=eq.'+encodeURIComponent(id)+'&select=*',{headers:HDR})
+  .then(function(r){return r.json();})
+  .then(function(d){cb(d&&d.length>0?d[0]:null);})
+  .catch(function(){cb(null);});
 }
 
 /* ══ LOGIN ══ */
 function doLogin(){
-  var pwd=document.getElementById('loginPwd').value;
-  /* Fetch admin credentials from hotel_admin table */
-  fetch(SB+'/rest/v1/hotel_admin?token=eq.'+G.token+'&select=*',{headers:HDR})
-  .then(function(r){return r.json();})
-  .then(function(d){
-    if(d&&d.length>0&&d[0].password===pwd){
+  var pwd=document.getElementById('loginPwd').value.trim();
+  if(!pwd){return;}
+
+  /* Check lockout */
+  var remaining=lockCheck();
+  if(remaining>0){startLockTimer();return;}
+
+  /* Show loading */
+  var btn=document.getElementById('loginBtn');
+  if(btn){btn.disabled=true;btn.textContent='⏳ Vérification...';}
+
+  /* Check password */
+  checkPassword(pwd,function(ok){
+    if(btn){btn.disabled=false;btn.textContent='Accéder à mon espace →';}
+    if(ok){
+      lockSuccess();
       sessionStorage.setItem('bz_hotel_session',JSON.stringify({token:G.token,hotel:G.hotel}));
-      loginSuccess(G.hotel||d[0]);
-    } else if(!d||!d.length){
-      /* No admin record — allow any pwd for demo, fetch hotel */
-      if(G.hotel){loginSuccess(G.hotel);}
-      else{showLoginErr();}
+      loginSuccess(G.hotel);
     } else {
-      showLoginErr();
+      var nowBlocked=lockFail();
+      var attemptsLeft=3-LOCK.attempts;
+      if(nowBlocked){
+        startLockTimer();
+      } else {
+        showLoginErr('❌ Mot de passe incorrect. '+(attemptsLeft>0?attemptsLeft+' tentative(s) restante(s).':''));
+      }
     }
-  }).catch(function(){
-    /* Fallback: if no hotel_admin table, accept any non-empty password */
-    if(pwd.length>0&&G.hotel){loginSuccess(G.hotel);}
-    else{showLoginErr();}
   });
 }
 
-function showLoginErr(){
+function checkPassword(pwd,cb){
+  /* Strategy: check against hotel_admin record */
+  if(G.adminRecord){
+    /* We have the admin record — compare directly */
+    cb(G.adminRecord.password===pwd);
+    return;
+  }
+  /* Fetch fresh from DB using hotel_id */
+  var hotelId=G.hotelId||G.token;
+  fetch(SB+'/rest/v1/hotel_admin?hotel_id=eq.'+encodeURIComponent(hotelId)+'&select=password,token',{headers:HDR})
+  .then(function(r){return r.json();})
+  .then(function(d){
+    if(d&&d.length>0){
+      G.adminRecord=d[0];
+      cb(d[0].password===pwd);
+    } else {
+      /* No admin record in DB at all — this means access was shared via link only
+         In this case, there's no password set. Show helpful message. */
+      cb(false);
+      var err=document.getElementById('loginErr');
+      err.style.display='block';
+      err.textContent='⚠️ Aucun mot de passe configuré. Contactez BookZzz pour obtenir votre accès.';
+      setTimeout(function(){err.style.display='none';},6000);
+    }
+  }).catch(function(){
+    /* Network error — can't verify */
+    cb(false);
+    showLoginErr('❌ Erreur réseau. Vérifiez votre connexion.');
+  });
+}
+
+function showLoginErr(msg){
   var err=document.getElementById('loginErr');
   err.style.display='block';
+  err.textContent=msg||'❌ Mot de passe incorrect';
   document.getElementById('loginPwd').style.borderColor='rgba(231,76,60,.5)';
-  setTimeout(function(){err.style.display='none';document.getElementById('loginPwd').style.borderColor='';},3000);
+  setTimeout(function(){
+    err.style.display='none';
+    document.getElementById('loginPwd').style.borderColor='';
+  },4000);
 }
 
 function loginSuccess(hotel){
   G.hotel=hotel||G.hotel;
-  var name=G.hotel?G.hotel.name:'Mon Hôtel';
+  if(!G.hotel){return;}
+  var name=G.hotel.name||'Mon Hôtel';
   document.getElementById('loginScreen').style.display='none';
   document.getElementById('app').classList.add('visible');
   document.getElementById('sidebarHotelName').textContent=name;
@@ -654,7 +831,10 @@ function loginSuccess(hotel){
   loadAll();
 }
 
-function doLogout(){sessionStorage.removeItem('bz_hotel_session');location.reload();}
+function doLogout(){
+  sessionStorage.removeItem('bz_hotel_session');
+  location.reload();
+}
 function goBackToAdmin(){window.location.href=ADMIN_URL;}
 
 /* ══ LOAD ALL ══ */

@@ -703,13 +703,11 @@ function saveHotel(){
     is_verified:document.getElementById('hVerified').checked,
     meal_included:document.getElementById('hMeal').value||'none'
   };
-  /* Optional columns — add only if value entered */
+  /* Optional columns — only add if value entered */
   var lat=parseFloat(document.getElementById('hLat').value);
   var lng=parseFloat(document.getElementById('hLng').value);
   if(!isNaN(lat)&&lat!==0)payload.latitude=lat;
   if(!isNaN(lng)&&lng!==0)payload.longitude=lng;
-  var disc=parseFloat(document.getElementById('hDisc').value);
-  if(!isNaN(disc))payload.discount_rate=disc;
 
   var isEdit=!!G.editHotelId;
   var btn=document.getElementById('hotelSaveBtn');
@@ -964,14 +962,19 @@ function renderAccessList(){
   if(!G.hotels.length){list.innerHTML='<div class="tbl-empty"><div class="tbl-empty-icon">🔑</div><p>Ajoutez des hôtels d\'abord</p></div>';return;}
   list.innerHTML=G.hotels.map(function(h){
     var admin=G.hotelAdmins.find(function(a){return a.hotel_id==h.id;});
+    /* Link always uses hotel UUID as token — simple and reliable */
     var link=BASE+'hotel-admin.html?token='+h.id;
+    var hasPwd=admin&&admin.password;
     return '<div class="access-card">'
       +'<div style="font-size:26px">🏨</div>'
-      +'<div class="access-info"><div class="access-hotel">'+h.name+'</div>'
-      +'<div class="access-email">'+(admin&&admin.email?admin.email:'Pas d\'email configuré')+'</div>'
-      +'<div class="access-link">🔗 '+link+'</div></div>'
+      +'<div class="access-info">'
+      +'<div class="access-hotel">'+h.name+'</div>'
+      +'<div class="access-email">'+(admin&&admin.email?'📧 '+admin.email:'Pas d\'email configuré')+'</div>'
+      +(hasPwd?'<div style="font-size:10px;color:var(--yellow);margin-top:2px;">🔑 MDP: <strong>'+admin.password+'</strong></div>':'<div style="font-size:10px;color:var(--red);margin-top:2px;">⚠️ Aucun mot de passe — créez un accès</div>')
+      +'<div class="access-link" style="margin-top:4px;">🔗 '+link+'</div>'
+      +'</div>'
       +'<div class="access-btns">'
-      +'<button class="act-btn act-link" onclick="copyLink(\''+link+'\')">📋 Copier</button>'
+      +'<button class="act-btn act-link" onclick="copyLink(\''+link+'\')">📋 Copier lien</button>'
       +'<button class="act-btn act-access" onclick="accessHotelAdmin(\''+h.id+'\')">👑 Accéder</button>'
       +'</div></div>';
   }).join('');
@@ -997,13 +1000,43 @@ function createAccess(){
   var hotelId=document.getElementById('accessHotelId').value;
   var email=document.getElementById('accessEmail').value.trim();
   if(!hotelId){showToast('Sélectionnez un hôtel','error');return;}
-  var pwd=document.getElementById('accessPwd').value.trim()||('BZ'+Math.random().toString(36).slice(2,10).toUpperCase());
-  var token=Math.random().toString(36).slice(2,18).toUpperCase();
-  api('POST','hotel_admin',{hotel_id:hotelId,email:email,password:pwd,token:token}).then(function(res){
-    if(res.ok){
-      showToast('Accès créé ✓ — MDP: '+pwd,'success');
-      closeModal('accessModal');loadHotelAdmins();renderAccessList();
-    } else showToast('❌ '+res.error,'error');
+  /* Password: use what admin entered, or generate a simple memorable one */
+  var rawPwd=document.getElementById('accessPwd').value.trim();
+  var pwd=rawPwd||('Hotel'+Math.floor(1000+Math.random()*9000));
+  /* Token = same as hotel ID for simplicity — link uses hotel_id directly */
+  var token=hotelId;
+  /* Check if record already exists for this hotel */
+  api('GET','hotel_admin',null,'hotel_id=eq.'+hotelId+'&select=id').then(function(existing){
+    var hasRecord=existing.ok&&Array.isArray(existing.data)&&existing.data.length>0;
+    var p;
+    if(hasRecord){
+      /* Update existing */
+      p=api('PATCH','hotel_admin',{email:email,password:pwd,token:token},'hotel_id=eq.'+hotelId);
+    } else {
+      /* Create new */
+      p=api('POST','hotel_admin',{hotel_id:hotelId,email:email,password:pwd,token:token});
+    }
+    p.then(function(res){
+      if(res.ok){
+        var link=BASE+'hotel-admin.html?token='+hotelId;
+        showToast('✅ Accès '+(hasRecord?'mis à jour':'créé')+' — MDP: '+pwd,'success');
+        closeModal('accessModal');
+        loadHotelAdmins();
+        renderAccessList();
+        /* Show full details in an alert so admin can copy */
+        setTimeout(function(){
+          alert('✅ ACCÈS HÔTELIER CRÉÉ\n\n'
+            +'Hôtel ID: '+hotelId+'\n'
+            +'Email: '+(email||'non défini')+'\n'
+            +'Mot de passe: '+pwd+'\n\n'
+            +'Lien à envoyer à l\'hôtelier:\n'+link+'\n\n'
+            +'⚠️ Notez bien le mot de passe — il ne sera plus affiché après fermeture de cette fenêtre.');
+        },300);
+      } else {
+        showToast('❌ '+res.error,'error');
+        showDebug('CREATE ACCESS:\n'+res.error+'\nPwd: '+pwd+'\nHotelId: '+hotelId);
+      }
+    });
   });
 }
 
