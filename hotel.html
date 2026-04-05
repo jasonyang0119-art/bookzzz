@@ -573,10 +573,26 @@ function goToSlide(i){S.galleryIdx=i;updateGalleryUI();}
 function updateGalleryUI(){document.getElementById('galleryTrack').style.transform='translateX(-'+(S.galleryIdx*100)+'%)';document.getElementById('galleryCount').textContent=(S.galleryIdx+1)+' / '+S.slides.length;document.querySelectorAll('.g-dot').forEach(function(d,i){d.classList.toggle('on',i===S.galleryIdx);});}
 
 function loadRooms(id){
-  fetch(SB+'/rest/v1/rooms?hotel_id=eq.'+id+'&select=*&order=price.asc',{headers:HDR})
-  .then(function(r){return r.json();})
-  .then(function(d){if(d&&Array.isArray(d)&&d.length>0){S.rooms=d;renderRooms(d);}else{S.rooms=DEMO_ROOMS;renderRooms(DEMO_ROOMS);}})
-  .catch(function(){S.rooms=DEMO_ROOMS;renderRooms(DEMO_ROOMS);});
+  document.getElementById('roomsList').innerHTML='<div class="skel"></div><div class="skel"></div>';
+  fetch(SB+'/rest/v1/rooms?hotel_id=eq.'+encodeURIComponent(id)+'&select=*&order=price.asc',{headers:HDR})
+  .then(function(r){
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    return r.json();
+  })
+  .then(function(d){
+    if(d&&Array.isArray(d)&&d.length>0){
+      S.rooms=d;
+      renderRooms(d);
+    } else {
+      /* No rooms yet — show message instead of fake demo rooms */
+      S.rooms=[];
+      document.getElementById('roomsList').innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--text-dim);background:rgba(13,32,64,.3);border-radius:var(--r-lg);border:1px dashed rgba(93,173,226,.2)"><div style="font-size:40px;margin-bottom:12px">🛏️</div><div style="font-size:14px;font-weight:600;color:var(--white);margin-bottom:6px">Chambres bientôt disponibles</div><div style="font-size:12px;line-height:1.6">L\'hôtel est en cours de configuration.<br>Revenez bientôt pour découvrir les chambres.</div></div>';
+    }
+  })
+  .catch(function(){
+    S.rooms=[];
+    document.getElementById('roomsList').innerHTML='<div style="text-align:center;padding:30px;color:var(--text-dim)">Erreur de chargement. Réessayez.</div>';
+  });
 }
 
 function renderRooms(rooms){

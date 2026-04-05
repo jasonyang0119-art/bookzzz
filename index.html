@@ -839,26 +839,75 @@ function calcDiscount(price,comm,disc){
 
 /* LOAD HOTELS */
 function loadHotels(){
-  var cc=S.country?S.country.code:'CD';
-  var cn=S.city?S.city.name:null;
-  var url=SB+'/rest/v1/hotels?select=*&status=eq.active&order=created_at.desc'+(cn?'&city=eq.'+encodeURIComponent(cn):'');
-  fetch(url,{headers:HDR}).then(function(r){return r.json();})
+  /* Load ALL active hotels — no city filter to avoid missing hotels */
+  var url=SB+'/rest/v1/hotels?select=*&status=eq.active&order=created_at.desc';
+  document.getElementById('hGrid').innerHTML='<div class="skel"><div class="skel-img"></div><div class="skel-body"><div class="skel-line w70"></div><div class="skel-line w50"></div><div class="skel-line w40"></div></div></div><div class="skel"><div class="skel-img"></div><div class="skel-body"><div class="skel-line w70"></div><div class="skel-line w50"></div><div class="skel-line w40"></div></div></div>';
+  fetch(url,{headers:HDR})
+  .then(function(r){
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    return r.json();
+  })
   .then(function(d){
-    if(d&&Array.isArray(d)&&d.length>0){S.hotels=d;enrichWithPrices(d);}
-    else{var dm=DEMO[cc]||DEMO.CD;S.hotels=dm;renderH(dm);}
-  }).catch(function(){var dm=DEMO[cc]||DEMO.CD;S.hotels=dm;renderH(dm);});
+    var hotels=d&&Array.isArray(d)?d:[];
+    /* Filter by city if user selected one — case insensitive */
+    var cn=S.city?S.city.name.toLowerCase():null;
+    if(cn&&hotels.length>0){
+      var filtered=hotels.filter(function(h){return (h.city||'').toLowerCase()===cn;});
+      /* If city filter gives results use them, otherwise show all */
+      if(filtered.length>0)hotels=filtered;
+    }
+    if(hotels.length>0){
+      S.hotels=hotels;
+      enrichWithPrices(hotels);
+    } else {
+      /* No hotels in Supabase yet — show demo */
+      var cc=S.country?S.country.code:'CD';
+      var dm=DEMO[cc]||DEMO.CD;
+      S.hotels=dm;
+      renderH(dm);
+    }
+  })
+  .catch(function(err){
+    /* Network error or Supabase error — show demo */
+    var cc=S.country?S.country.code:'CD';
+    var dm=DEMO[cc]||DEMO.CD;
+    S.hotels=dm;
+    renderH(dm);
+  });
 }
 
 function enrichWithPrices(hotels){
+  if(!hotels||!hotels.length){renderH(hotels);return;}
   var ids=hotels.map(function(h){return h.id;}).join(',');
-  fetch(SB+'/rest/v1/rooms?select=hotel_id,price,available&hotel_id=in.('+ids+')',{headers:HDR})
+  fetch(SB+'/rest/v1/rooms?select=hotel_id,price,available,currency&hotel_id=in.('+ids+')',{headers:HDR})
   .then(function(r){return r.json();})
   .then(function(rooms){
     var pm={};
-    if(rooms&&Array.isArray(rooms)){rooms.forEach(function(r){if(!pm[r.hotel_id]){pm[r.hotel_id]={min:Infinity,count:0};}if(r.available!==false){if(r.price<pm[r.hotel_id].min)pm[r.hotel_id].min=r.price;pm[r.hotel_id].count++;}});}
-    hotels.forEach(function(h){if(pm[h.id]){h.min_price=pm[h.id].min===Infinity?0:pm[h.id].min;h.rooms_available=pm[h.id].count;}else{h.min_price=0;h.rooms_available=0;}});
+    if(rooms&&Array.isArray(rooms)){
+      rooms.forEach(function(r){
+        if(!pm[r.hotel_id]){pm[r.hotel_id]={min:Infinity,count:0,currency:'CDF'};}
+        if(r.available!==false&&parseFloat(r.price)>0){
+          if(parseFloat(r.price)<pm[r.hotel_id].min){
+            pm[r.hotel_id].min=parseFloat(r.price);
+            pm[r.hotel_id].currency=r.currency||'CDF';
+          }
+          pm[r.hotel_id].count++;
+        }
+      });
+    }
+    hotels.forEach(function(h){
+      if(pm[h.id]&&pm[h.id].min!==Infinity){
+        h.min_price=pm[h.id].min;
+        h.rooms_available=pm[h.id].count;
+        h.currency=pm[h.id].currency;
+      } else {
+        h.min_price=0;
+        h.rooms_available=0;
+      }
+    });
     renderH(hotels);
-  }).catch(function(){renderH(hotels);});
+  })
+  .catch(function(){renderH(hotels);});
 }
 
 /* RENDER HOTELS — shows room price + discount badge only */

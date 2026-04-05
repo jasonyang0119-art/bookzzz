@@ -585,7 +585,30 @@ document.getElementById('loginPwd').addEventListener('keydown',function(e){if(e.
 /* ═══════════════════════════════════════════
    INIT
 ═══════════════════════════════════════════ */
-function initApp(){loadHotels();loadReservations();loadArrivals();loadHotelAdmins();renderGeo();}
+function initApp(){
+  /* Load hotels first, then rooms (so rooms can cross-reference hotel names) */
+  api('GET','hotels',null,'select=*&order=created_at.desc').then(function(res){
+    G.hotels=res.ok&&Array.isArray(res.data)?res.data:[];
+    renderHotelsTable();
+    updateStats();
+    populateSelects();
+    renderCommission();
+    renderAccessList();
+    /* Now load ALL rooms */
+    api('GET','rooms',null,'select=*&order=price.asc').then(function(rres){
+      G.rooms=rres.ok&&Array.isArray(rres.data)?rres.data:[];
+      updateStats();
+      /* Load reservations after rooms so hotel names resolve */
+      loadReservations();
+    });
+    /* Load arrivals & hotel admins in parallel */
+    loadArrivals();
+    loadHotelAdmins();
+    renderGeo();
+  }).catch(function(){
+    showDebug('INIT APP: Impossible de charger les données Supabase.\nVérifiez votre connexion et les politiques RLS.');
+  });
+}
 
 /* ═══════════════════════════════════════════
    SIDEBAR & SECTIONS
@@ -617,7 +640,7 @@ function showDebug(msg){
 }
 
 /* ═══════════════════════════════════════════
-   LOAD HOTELS — reads ALL hotels, no filter
+   LOAD HOTELS — used after save/delete
 ═══════════════════════════════════════════ */
 function loadHotels(){
   api('GET','hotels',null,'select=*&order=created_at.desc').then(function(res){
@@ -627,6 +650,7 @@ function loadHotels(){
       updateStats();
       populateSelects();
       renderCommission();
+      renderAccessList();
     } else {
       showDebug('LOAD HOTELS ERROR:\n'+res.error+'\nStatus: '+res.status);
       G.hotels=[];renderHotelsTable();
@@ -752,28 +776,42 @@ function populateSelects(){
 }
 
 function loadRooms(hotelId){
-  var filter='select=*&order=room_number.asc'+(hotelId?'&hotel_id=eq.'+hotelId:'');
+  var filter='select=*&order=price.asc'+(hotelId?'&hotel_id=eq.'+hotelId:'');
+  document.getElementById('roomTbody').innerHTML='<tr><td colspan="8" style="text-align:center;padding:20px;color:var(--dim)">⏳ Chargement...</td></tr>';
   api('GET','rooms',null,filter).then(function(res){
-    G.rooms=res.ok&&Array.isArray(res.data)?res.data:[];
-    renderRoomsTable();
-    if(!res.ok)showDebug('LOAD ROOMS:\n'+res.error);
+    if(res.ok){
+      G.rooms=Array.isArray(res.data)?res.data:[];
+      renderRoomsTable();
+      updateStats();
+    } else {
+      showDebug('LOAD ROOMS:\n'+res.error);
+      G.rooms=[];renderRoomsTable();
+    }
   });
 }
 
 function renderRoomsTable(){
   var tbody=document.getElementById('roomTbody');
-  if(!G.rooms.length){tbody.innerHTML='<tr><td colspan="8"><div class="tbl-empty"><div class="tbl-empty-icon">🛏️</div><p>Aucune chambre</p></div></td></tr>';return;}
+  if(!G.rooms.length){
+    tbody.innerHTML='<tr><td colspan="8"><div class="tbl-empty"><div class="tbl-empty-icon">🛏️</div><p>Aucune chambre. Cliquez "+ Ajouter une chambre"</p></div></td></tr>';
+    return;
+  }
   tbody.innerHTML=G.rooms.map(function(r){
-    var hotel=G.hotels.find(function(h){return h.id==r.hotel_id;});
-    var amen='';if(r.has_ac)amen+='❄️ ';if(r.has_wifi)amen+='📶 ';if(r.has_ventilation)amen+='🌀 ';
+    var hotel=G.hotels.find(function(h){return String(h.id)===String(r.hotel_id);});
+    var amen='';
+    if(r.has_ac)amen+='❄️ ';
+    if(r.has_wifi!==false)amen+='📶 ';
+    if(r.has_ventilation)amen+='🌀 ';
+    var mealLabel=r.meal_included==='breakfast'?'🍳':r.meal_included==='full'?'🍽️':'';
+    if(mealLabel)amen+=mealLabel;
     return '<tr>'
-      +'<td><strong>'+r.name+'</strong></td>'
+      +'<td><strong>'+r.name+'</strong>'+(r.description?'<div style="font-size:10px;color:var(--dim);margin-top:2px">'+r.description.slice(0,40)+'...</div>':'')+'</td>'
       +'<td>'+(hotel?hotel.name:'—')+'</td>'
-      +'<td>'+(r.floor||'—')+'</td>'
+      +'<td>'+(r.floor!=null?r.floor:'—')+'</td>'
       +'<td>'+(r.room_number||'—')+'</td>'
       +'<td>'+(r.capacity||2)+' pers.</td>'
       +'<td><strong style="color:var(--azure)">'+(r.price?parseFloat(r.price).toLocaleString()+' '+(r.currency||'CDF'):'—')+'</strong></td>'
-      +'<td><span class="tbl-badge '+(r.available!==false?'badge-active':'badge-inactive')+'">'+(r.available!==false?'✅':'❌')+'</span></td>'
+      +'<td><span class="tbl-badge '+(r.available!==false?'badge-active':'badge-inactive')+'">'+(r.available!==false?'✅ Oui':'❌ Non')+'</span></td>'
       +'<td><div class="tbl-actions">'
       +'<button class="act-btn act-edit" onclick="editRoom(\''+r.id+'\')">✏️</button>'
       +'<button class="act-btn act-del" onclick="deleteRoom(\''+r.id+'\')">🗑️</button>'
@@ -845,41 +883,66 @@ function deleteRoom(id){
    RESERVATIONS
 ═══════════════════════════════════════════ */
 function loadReservations(){
-  api('GET','reservations',null,'select=*&order=created_at.desc&limit=100').then(function(res){
+  api('GET','reservations',null,'select=*&order=created_at.desc&limit=200').then(function(res){
     G.reservations=res.ok&&Array.isArray(res.data)?res.data:[];
-    renderReservations();updateStats();
+    renderReservations();
+    updateStats();
   });
 }
 
+function getRoomInfo(roomId){
+  var r=G.rooms.find(function(x){return String(x.id)===String(roomId);});
+  if(r){
+    var h=G.hotels.find(function(x){return String(x.id)===String(r.hotel_id);});
+    return {roomName:r.name,hotelName:h?h.name:'—',floor:r.floor||'',num:r.room_number||''};
+  }
+  return {roomName:'—',hotelName:'—',floor:'',num:''};
+}
+
 function renderReservations(){
-  var tbody=document.getElementById('resTbody');var dash=document.getElementById('dashResTbody');
+  var tbody=document.getElementById('resTbody');
+  var dash=document.getElementById('dashResTbody');
   if(!G.reservations.length){
     var e='<tr><td colspan="9" class="tbl-empty">Aucune réservation</td></tr>';
-    if(tbody)tbody.innerHTML=e;if(dash)dash.innerHTML='<tr><td colspan="7" class="tbl-empty">Aucune réservation</td></tr>';return;
+    if(tbody)tbody.innerHTML=e;
+    if(dash)dash.innerHTML='<tr><td colspan="7" class="tbl-empty">Aucune réservation</td></tr>';
+    return;
   }
   var html=G.reservations.map(function(r){
     var isG=r.payment_method!=='cash';
     var sc=r.status==='arrived'?'badge-arrived':r.status==='pending'?'badge-pending':'badge-active';
     var st={arrived:'✅ Arrivé',pending:'En attente',confirmed:'Confirmé',cancelled:'Annulé'}[r.status]||r.status;
+    var ri=getRoomInfo(r.room_id);
     return '<tr>'
       +'<td><strong style="color:var(--azure)">'+r.reference+'</strong></td>'
-      +'<td>'+(r.guest_name||'—')+'</td>'
-      +'<td>'+(r.room_id||'—').toString().slice(0,8)+'...</td>'
+      +'<td><strong>'+( r.guest_name||'—')+'</strong></td>'
+      +'<td>'+ri.hotelName+'<div style="font-size:10px;color:var(--dim)">'+ri.roomName+(ri.num?' · N°'+ri.num:'')+'</div></td>'
       +'<td>'+(r.days||1)+'</td>'
       +'<td>'+(r.checkin_date||'—')+'</td>'
       +'<td>'+(r.total_amount?parseFloat(r.total_amount).toLocaleString()+' CDF':'—')+'</td>'
       +'<td>'+(r.payment_method||'—')+'</td>'
       +'<td><span class="tbl-badge '+sc+'">'+st+'</span></td>'
-      +'<td><span class="tbl-badge '+(isG?'badge-guaranteed':'badge-notguaranteed')+'">'+(isG?'✅':'⚠️')+'</span></td>'
+      +'<td><span class="tbl-badge '+(isG?'badge-guaranteed':'badge-notguaranteed')+'">'+(isG?'✅ Garantie':'⚠️ Cash')+'</span></td>'
       +'</tr>';
   }).join('');
   if(tbody)tbody.innerHTML=html;
-  if(dash)dash.innerHTML=G.reservations.slice(0,5).map(function(r){
-    var sc=r.status==='arrived'?'badge-arrived':r.status==='pending'?'badge-pending':'badge-active';
-    var st={arrived:'✅ Arrivé',pending:'En attente',confirmed:'Confirmé'}[r.status]||r.status;
-    var isG=r.payment_method!=='cash';
-    return '<tr><td><strong style="color:var(--azure)">'+r.reference+'</strong></td><td>'+(r.guest_name||'—')+'</td><td>'+(r.days||1)+'</td><td>'+(r.total_amount?parseFloat(r.total_amount).toLocaleString()+' CDF':'—')+'</td><td>'+(r.payment_method||'—')+'</td><td><span class="tbl-badge '+sc+'">'+st+'</span></td><td><span class="tbl-badge '+(isG?'badge-guaranteed':'badge-notguaranteed')+'">'+(isG?'✅':'⚠️')+'</span></td></tr>';
-  }).join('');
+  if(dash){
+    dash.innerHTML=G.reservations.slice(0,5).map(function(r){
+      var isG=r.payment_method!=='cash';
+      var sc=r.status==='arrived'?'badge-arrived':r.status==='pending'?'badge-pending':'badge-active';
+      var st={arrived:'✅ Arrivé',pending:'En attente',confirmed:'Confirmé'}[r.status]||r.status;
+      var ri=getRoomInfo(r.room_id);
+      return '<tr>'
+        +'<td><strong style="color:var(--azure)">'+r.reference+'</strong></td>'
+        +'<td>'+( r.guest_name||'—')+'</td>'
+        +'<td>'+(r.days||1)+'</td>'
+        +'<td>'+(r.total_amount?parseFloat(r.total_amount).toLocaleString()+' CDF':'—')+'</td>'
+        +'<td>'+(r.payment_method||'—')+'</td>'
+        +'<td><span class="tbl-badge '+sc+'">'+st+'</span></td>'
+        +'<td><span class="tbl-badge '+(isG?'badge-guaranteed':'badge-notguaranteed')+'">'+(isG?'✅':'⚠️')+'</span></td>'
+        +'</tr>';
+    }).join('');
+  }
 }
 
 /* ═══════════════════════════════════════════

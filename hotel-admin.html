@@ -840,7 +840,14 @@ function goBackToAdmin(){window.location.href=ADMIN_URL;}
 /* ══ LOAD ALL ══ */
 function loadAll(){
   if(!G.hotel)return;
-  loadRooms();loadReservations();loadArrivals();loadPromos();
+  /* Load rooms first, then reservations (so room names can be shown) */
+  loadRooms(function(){
+    loadReservations();
+  });
+  loadArrivals();
+  loadPromos();
+  /* Populate photo room select */
+  populateRoomSelect();
 }
 
 /* ══ SIDEBAR ══ */
@@ -864,30 +871,56 @@ function goSection(id,btn){
 
 /* ══ SUPABASE FETCH ══ */
 function sbFetch(path,opts){
-  return fetch(SB+path,Object.assign({headers:HDR},opts)).then(function(r){return r.text().then(function(t){try{return JSON.parse(t);}catch(e){return {};}});});
+  return fetch(SB+path,Object.assign({headers:HDR},opts))
+  .then(function(r){
+    return r.text().then(function(t){
+      try{return JSON.parse(t);}catch(e){return [];}
+    });
+  })
+  .catch(function(){return [];});
 }
 
 /* ══ LOAD ROOMS ══ */
-function loadRooms(){
-  if(!G.hotel)return;
-  sbFetch('/rest/v1/rooms?hotel_id=eq.'+G.hotel.id+'&select=*&order=room_number.asc')
-  .then(function(d){G.rooms=Array.isArray(d)?d:[];renderRooms();updateStats();populateRoomSelect();}).catch(function(){G.rooms=[];renderRooms();});
+function loadRooms(callback){
+  if(!G.hotel){if(callback)callback();return;}
+  fetch(SB+'/rest/v1/rooms?hotel_id=eq.'+encodeURIComponent(G.hotel.id)+'&select=*&order=price.asc',{headers:HDR})
+  .then(function(r){return r.json();})
+  .then(function(d){
+    G.rooms=Array.isArray(d)?d:[];
+    renderRooms();
+    updateStats();
+    populateRoomSelect();
+    if(callback)callback();
+  })
+  .catch(function(){
+    G.rooms=[];
+    renderRooms();
+    if(callback)callback();
+  });
 }
 
 function renderRooms(){
   var tbody=document.getElementById('roomTbody');
-  if(!G.rooms.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--dim)">Aucune chambre. Cliquez "+ Ajouter une chambre"</td></tr>';return;}
+  if(!G.rooms.length){
+    tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--dim)">Aucune chambre. Cliquez "+ Ajouter une chambre"</td></tr>';
+    return;
+  }
   tbody.innerHTML=G.rooms.map(function(r){
     var avail=r.available!==false;
-    var amen='';if(r.has_ac)amen+='❄️ ';if(r.has_wifi)amen+='📶 ';if(r.has_ventilation)amen+='🌀 ';
+    var amen='';
+    if(r.has_ac)amen+='❄️ ';
+    if(r.has_wifi!==false)amen+='📶 ';
+    if(r.has_ventilation)amen+='🌀 ';
+    if(r.meal_included==='breakfast')amen+='🍳 ';
+    if(r.meal_included==='full')amen+='🍽️ ';
     return '<tr>'
-      +'<td><strong>'+r.name+'</strong></td>'
-      +'<td>'+(r.floor||'—')+'</td>'
+      +'<td><strong>'+r.name+'</strong>'+(r.description?'<div style="font-size:10px;color:var(--dim);margin-top:2px">'+r.description.slice(0,50)+'</div>':'')+'</td>'
+      +'<td>'+(r.floor!=null?'Étage '+r.floor:'—')+'</td>'
       +'<td>'+(r.room_number||'—')+'</td>'
       +'<td>'+(r.capacity||2)+' pers.</td>'
       +'<td><strong style="color:var(--white)">'+(r.price?parseFloat(r.price).toLocaleString()+' '+(r.currency||'CDF'):'—')+'</strong></td>'
-      +'<td style="font-size:16px">'+(amen||'—')+'</td>'
-      +'<td><span class="tbl-badge '+(avail?'badge-active':'badge-inactive')+'">'+(avail?'✅ Oui':'❌ Non')+'</span></td>'
+      +'<td style="font-size:15px">'+(amen.trim()||'—')+'</td>'
+      +'<td><span class="tbl-badge '+(avail?'badge-active':'badge-inactive')+'">'+(avail?'✅ Disponible':'❌ Indisponible')+'</span></td>'
       +'<td><div class="tbl-actions">'
       +'<button class="act-btn act-edit" onclick="editRoom(\''+r.id+'\')">✏️ Modifier</button>'
       +'<button class="act-btn act-toggle '+(avail?'off':'')+'" onclick="toggleRoom(\''+r.id+'\','+avail+')">'+(avail?'🔴 Fermer':'🟢 Ouvrir')+'</button>'
@@ -897,6 +930,7 @@ function renderRooms(){
 
 function populateRoomSelect(){
   var sel=document.getElementById('photoRoomSelect');
+  if(!sel)return;
   sel.innerHTML='<option value="">— Toutes les chambres —</option>'+G.rooms.map(function(r){return '<option value="'+r.id+'">'+r.name+(r.room_number?' (N°'+r.room_number+')':'')+'</option>';}).join('');
 }
 
@@ -904,45 +938,91 @@ function populateRoomSelect(){
 function openRoomModal(room){
   G.editRoomId=room?room.id:null;
   document.getElementById('roomModalTitle').innerHTML=(room?'Modifier':'Ajouter')+' une <span>chambre</span>';
-  var f=function(id,v){var e=document.getElementById(id);if(e)e.value=v||'';};
+  var f=function(id,v){var e=document.getElementById(id);if(e)e.value=(v==null?'':v);};
   var fc=function(id,v){var e=document.getElementById(id);if(e)e.checked=!!v;};
   f('rId',room?room.id:'');f('rName',room?room.name:'');f('rNum',room?room.room_number:'');
   f('rFloor',room?room.floor:'');f('rPrice',room?room.price:'');f('rCap',room?room.capacity:2);
   f('rCur',room?room.currency:'CDF');f('rDesc',room?room.description:'');
   f('rMeal',room?room.meal_included:'none');f('rAvail',room?(room.available!==false?'true':'false'):'true');
-  fc('rAc',room?room.has_ac:false);fc('rWifi',room?room.has_wifi:true);fc('rVent',room?room.has_ventilation:false);
+  fc('rAc',room&&room.has_ac);fc('rWifi',room?room.has_wifi!==false:true);fc('rVent',room&&room.has_ventilation);
   openModal('roomModal');
 }
-function editRoom(id){var r=G.rooms.find(function(x){return x.id==id;});if(r)openRoomModal(r);}
+function editRoom(id){var r=G.rooms.find(function(x){return String(x.id)===String(id);});if(r)openRoomModal(r);}
 
 function saveRoom(){
-  var name=document.getElementById('rName').value.trim();var price=document.getElementById('rPrice').value;
+  var name=document.getElementById('rName').value.trim();
+  var price=document.getElementById('rPrice').value;
   if(!name){showToast('Le nom est requis','error');return;}
-  var payload={hotel_id:G.hotel.id,name:name,room_number:document.getElementById('rNum').value,floor:parseInt(document.getElementById('rFloor').value)||null,price:parseFloat(price)||0,capacity:parseInt(document.getElementById('rCap').value)||2,currency:document.getElementById('rCur').value||'CDF',description:document.getElementById('rDesc').value,meal_included:document.getElementById('rMeal').value,available:document.getElementById('rAvail').value==='true',has_ac:document.getElementById('rAc').checked,has_wifi:document.getElementById('rWifi').checked,has_ventilation:document.getElementById('rVent').checked};
+  if(!G.hotel){showToast('Erreur: hôtel non chargé','error');return;}
+  var payload={
+    hotel_id:G.hotel.id,
+    name:name,
+    room_number:document.getElementById('rNum').value.trim()||null,
+    floor:document.getElementById('rFloor').value!==''?parseInt(document.getElementById('rFloor').value):null,
+    price:parseFloat(price)||0,
+    capacity:parseInt(document.getElementById('rCap').value)||2,
+    currency:document.getElementById('rCur').value||'CDF',
+    description:document.getElementById('rDesc').value.trim()||null,
+    meal_included:document.getElementById('rMeal').value||'none',
+    available:document.getElementById('rAvail').value==='true',
+    has_ac:document.getElementById('rAc').checked,
+    has_wifi:document.getElementById('rWifi').checked,
+    has_ventilation:document.getElementById('rVent').checked
+  };
   var isEdit=!!G.editRoomId;
   var url=SB+'/rest/v1/rooms'+(isEdit?'?id=eq.'+G.editRoomId:'');
-  fetch(url,{method:isEdit?'PATCH':'POST',headers:Object.assign({},HDR,{'Prefer':'return=minimal'}),body:JSON.stringify(payload)})
-  .then(function(){
-    showToast(isEdit?'Chambre modifiée ✓':'Chambre ajoutée ✓ — Prix soumis à validation BookZzz','success');
-    closeModal('roomModal');loadRooms();
-  }).catch(function(){showToast('Erreur lors de la sauvegarde','error');});
+  var headers=Object.assign({},HDR,{'Prefer':'return=representation'});
+  fetch(url,{method:isEdit?'PATCH':'POST',headers:headers,body:JSON.stringify(payload)})
+  .then(function(r){
+    if(r.ok||r.status===201||r.status===200){
+      showToast(isEdit?'Chambre modifiée ✓':'Chambre ajoutée ✓','success');
+      closeModal('roomModal');loadRooms();
+    } else {
+      return r.text().then(function(t){
+        var msg='Erreur '+r.status;
+        try{var j=JSON.parse(t);msg=j.message||j.error||msg;}catch(e){}
+        showToast('❌ '+msg,'error');
+      });
+    }
+  })
+  .catch(function(){showToast('Erreur réseau','error');});
 }
 
 function toggleRoom(id,currentAvail){
-  fetch(SB+'/rest/v1/rooms?id=eq.'+id,{method:'PATCH',headers:Object.assign({},HDR,{'Prefer':'return=minimal'}),body:JSON.stringify({available:!currentAvail})})
-  .then(function(){showToast(currentAvail?'Chambre fermée':'Chambre ouverte ✓','success');loadRooms();}).catch(function(){showToast('Erreur','error');});
+  fetch(SB+'/rest/v1/rooms?id=eq.'+id,{
+    method:'PATCH',
+    headers:Object.assign({},HDR,{'Prefer':'return=minimal'}),
+    body:JSON.stringify({available:!currentAvail})
+  })
+  .then(function(r){
+    if(r.ok||r.status===204){
+      showToast(currentAvail?'Chambre fermée aux réservations':'Chambre ouverte ✓','success');
+      loadRooms();
+    } else showToast('Erreur','error');
+  })
+  .catch(function(){showToast('Erreur réseau','error');});
 }
 
 /* ══ RESERVATIONS ══ */
 function loadReservations(){
-  if(!G.hotel)return;
-  /* Get rooms for this hotel first, then filter reservations */
-  sbFetch('/rest/v1/rooms?hotel_id=eq.'+G.hotel.id+'&select=id')
-  .then(function(rooms){
-    if(!rooms||!rooms.length){G.reservations=[];renderReservations();return;}
-    var ids=rooms.map(function(r){return r.id;}).join(',');
-    return sbFetch('/rest/v1/reservations?room_id=in.('+ids+')&select=*&order=created_at.desc');
-  })
+  if(!G.hotel||!G.rooms.length){
+    /* Try reloading rooms first if empty */
+    if(!G.hotel)return;
+    fetch(SB+'/rest/v1/rooms?hotel_id=eq.'+encodeURIComponent(G.hotel.id)+'&select=id',{headers:HDR})
+    .then(function(r){return r.json();})
+    .then(function(rooms){
+      if(!rooms||!rooms.length){G.reservations=[];renderReservations();return;}
+      var ids=rooms.map(function(r){return r.id;}).join(',');
+      return fetch(SB+'/rest/v1/reservations?room_id=in.('+ids+')&select=*&order=created_at.desc',{headers:HDR}).then(function(r){return r.json();});
+    })
+    .then(function(d){G.reservations=Array.isArray(d)?d:[];renderReservations();updateStats();})
+    .catch(function(){G.reservations=[];});
+    return;
+  }
+  var ids=G.rooms.map(function(r){return r.id;}).join(',');
+  if(!ids){G.reservations=[];renderReservations();return;}
+  fetch(SB+'/rest/v1/reservations?room_id=in.('+ids+')&select=*&order=created_at.desc',{headers:HDR})
+  .then(function(r){return r.json();})
   .then(function(d){G.reservations=Array.isArray(d)?d:[];renderReservations();updateStats();})
   .catch(function(){G.reservations=[];});
 }
@@ -950,30 +1030,57 @@ function loadReservations(){
 function renderReservations(){
   var tbody=document.getElementById('resTbody');
   var dash=document.getElementById('dashResTbody');
+  var today=new Date().toISOString().split('T')[0];
   if(!G.reservations.length){
     var e='<tr><td colspan="9" style="text-align:center;padding:30px;color:var(--dim)">Aucune réservation</td></tr>';
-    if(tbody)tbody.innerHTML=e;if(dash)dash.innerHTML='<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--dim)">Aucune réservation pour le moment</td></tr>';return;
+    if(tbody)tbody.innerHTML=e;
+    if(dash)dash.innerHTML='<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--dim)">Aucune réservation prévue</td></tr>';
+    return;
   }
-  var today=new Date().toISOString().split('T')[0];
   var mkRow=function(r,short){
     var isG=r.payment_method!=='cash';
     var sc=r.status==='arrived'?'badge-arrived':r.status==='pending'?'badge-pending':'badge-active';
-    var st=r.status==='arrived'?'✅ Arrivé':r.status==='pending'?'En attente':'Confirmé';
-    if(short)return '<tr><td><strong style="color:var(--azure)">'+r.reference+'</strong></td><td>'+(r.guest_name||'—')+'</td><td>—</td><td>'+(r.days||1)+'</td><td>'+(r.checkin_date||'—')+'</td><td>'+(r.payment_method||'—')+'</td><td><span class="tbl-badge '+sc+'">'+st+'</span></td></tr>';
-    return '<tr><td><strong style="color:var(--azure)">'+r.reference+'</strong></td><td>'+(r.guest_name||'—')+'</td><td>—</td><td>'+(r.days||1)+'</td><td>'+(r.checkin_date||'—')+'</td><td>'+(r.total_amount?parseFloat(r.total_amount).toLocaleString()+' CDF':'—')+'</td><td>'+(r.payment_method||'—')+'</td><td><span class="tbl-badge '+(isG?'badge-active':'badge-pending')+'">'+(isG?'✅ Garantie':'⚠️ Cash')+'</span></td><td><span class="tbl-badge '+sc+'">'+st+'</span></td></tr>';
+    var st={arrived:'✅ Arrivé',pending:'En attente',confirmed:'Confirmé',cancelled:'Annulé'}[r.status]||r.status;
+    /* Find room name */
+    var room=G.rooms.find(function(x){return String(x.id)===String(r.room_id);});
+    var roomInfo=room?(room.name+(room.room_number?' · N°'+room.room_number:'')+(room.floor!=null?' · Étage '+room.floor:'')):'—';
+    if(short){
+      return '<tr>'
+        +'<td><strong style="color:var(--azure)">'+r.reference+'</strong></td>'
+        +'<td><strong>'+(r.guest_name||'—')+'</strong></td>'
+        +'<td>'+roomInfo+'</td>'
+        +'<td>'+(r.days||1)+'</td>'
+        +'<td>'+(r.checkin_date||'—')+'</td>'
+        +'<td>'+(r.payment_method||'—')+'</td>'
+        +'<td><span class="tbl-badge '+sc+'">'+st+'</span></td>'
+        +'</tr>';
+    }
+    return '<tr>'
+      +'<td><strong style="color:var(--azure)">'+r.reference+'</strong></td>'
+      +'<td><strong>'+(r.guest_name||'—')+'</strong></td>'
+      +'<td>'+roomInfo+'</td>'
+      +'<td>'+(r.days||1)+' nuit(s)</td>'
+      +'<td>'+(r.checkin_date||'—')+'</td>'
+      +'<td><strong>'+(r.total_amount?parseFloat(r.total_amount).toLocaleString()+' CDF':'—')+'</strong></td>'
+      +'<td>'+(r.payment_method||'—')+'</td>'
+      +'<td><span class="tbl-badge '+(isG?'badge-active':'badge-pending')+'">'+(isG?'✅ Garantie':'⚠️ Cash')+'</span></td>'
+      +'<td><span class="tbl-badge '+sc+'">'+st+'</span></td>'
+      +'</tr>';
   };
   if(tbody)tbody.innerHTML=G.reservations.map(function(r){return mkRow(r,false);}).join('');
-  if(dash)dash.innerHTML=G.reservations.filter(function(r){return r.checkin_date===today;}).slice(0,5).map(function(r){return mkRow(r,true);}).join('')||'<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--dim)">Aucune arrivée prévue aujourd\'hui</td></tr>';
+  var todayRes=G.reservations.filter(function(r){return r.checkin_date===today;}).slice(0,5);
+  if(dash)dash.innerHTML=todayRes.length?todayRes.map(function(r){return mkRow(r,true);}).join(''):'<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--dim)">Aucune arrivée prévue aujourd\'hui</td></tr>';
 }
 
 /* ══ ARRIVALS ══ */
 function loadArrivals(){
   if(!G.hotel)return;
-  sbFetch('/rest/v1/rooms?hotel_id=eq.'+G.hotel.id+'&select=id')
+  fetch(SB+'/rest/v1/rooms?hotel_id=eq.'+encodeURIComponent(G.hotel.id)+'&select=id',{headers:HDR})
+  .then(function(r){return r.json();})
   .then(function(rooms){
     if(!rooms||!rooms.length){G.arrivals=[];renderArrivals();return;}
     var ids=rooms.map(function(r){return r.id;}).join(',');
-    return sbFetch('/rest/v1/reservations?room_id=in.('+ids+')&status=eq.arrived&select=*&order=arrived_at.desc');
+    return fetch(SB+'/rest/v1/reservations?room_id=in.('+ids+')&status=eq.arrived&select=*&order=arrived_at.desc',{headers:HDR}).then(function(r){return r.json();});
   })
   .then(function(d){
     G.arrivals=Array.isArray(d)?d:[];
