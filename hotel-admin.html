@@ -386,19 +386,25 @@ tr:hover td{background:rgba(93,173,226,.04);}
         <!-- Hotel photos -->
         <div class="info-section">
           <div class="info-section-title">🏨 Photos générales de l'hôtel</div>
-          <div class="photo-grid" id="hotelPhotoGrid">
-            <div class="photo-slot" onclick="addPhoto('hotel','exterior')"><div class="photo-slot-ph"><div class="ph-ico">🏨</div><div>Extérieur</div></div></div>
-            <div class="photo-slot" onclick="addPhoto('hotel','reception')"><div class="photo-slot-ph"><div class="ph-ico">🛎️</div><div>Réception</div></div></div>
-            <div class="photo-slot" onclick="addPhoto('hotel','restaurant')"><div class="photo-slot-ph"><div class="ph-ico">🍽️</div><div>Restaurant</div></div></div>
-            <div class="photo-slot" onclick="addPhoto('hotel','common')"><div class="photo-slot-ph"><div class="ph-ico">🛋️</div><div>Espaces communs</div></div></div>
-            <div class="photo-slot" onclick="addPhoto('hotel','pool')"><div class="photo-slot-ph"><div class="ph-ico">🏊</div><div>Piscine / Extérieur</div></div></div>
-            <div class="photo-slot" onclick="addPhoto('hotel','other')"><div class="photo-slot-ph"><div class="ph-ico">➕</div><div>Autre</div></div></div>
+          <div class="notice" style="margin-bottom:12px;">
+            <div class="notice-icon">📸</div>
+            <div class="notice-txt">Uploadez des photos directement depuis votre appareil ou collez une URL. Les photos sont publiées immédiatement.</div>
           </div>
-          <div style="display:flex;gap:10px;margin-top:4px;">
-            <input type="url" id="photoUrl" placeholder="https://... (URL de la photo)" style="flex:1;">
-            <button class="add-btn" onclick="submitPhotoUrl()">Soumettre</button>
+          <!-- Upload depuis appareil -->
+          <div style="border:2px dashed rgba(93,173,226,.3);border-radius:var(--r);padding:20px;text-align:center;cursor:pointer;transition:all .3s;background:rgba(13,32,64,.4);margin-bottom:12px;" onclick="document.getElementById('hotelPhotoInput').click()" id="photoUploadZone">
+            <div style="font-size:32px;margin-bottom:8px;">📸</div>
+            <div style="font-size:14px;font-weight:600;color:var(--white);margin-bottom:4px;">Cliquez pour choisir une photo</div>
+            <div style="font-size:12px;color:var(--dim);">Depuis votre téléphone ou ordinateur · JPG, PNG · Max 5MB</div>
           </div>
-          <div class="upload-hint" style="margin-top:8px;">💡 Collez l'URL de votre photo (hébergée sur Imgur, Google Drive, etc.) ou demandez à BookZzz de vous aider à uploader vos photos.</div>
+          <input type="file" id="hotelPhotoInput" accept="image/*" multiple style="display:none;" onchange="handleHotelPhotos(this)">
+          <!-- Preview uploaded photos -->
+          <div id="uploadedPhotosPreview" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin-bottom:12px;"></div>
+          <!-- OR URL -->
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><div style="flex:1;height:1px;background:var(--border);"></div><span style="font-size:11px;color:var(--dim);">OU coller une URL</span><div style="flex:1;height:1px;background:var(--border);"></div></div>
+          <div style="display:flex;gap:8px;">
+            <input type="url" id="photoUrl" placeholder="https://..." style="flex:1;font-size:12px;">
+            <button class="add-btn" onclick="submitPhotoUrl()" style="white-space:nowrap;">📤 Ajouter</button>
+          </div>
         </div>
 
         <!-- Room photos -->
@@ -1148,15 +1154,71 @@ function savePromo(){
 function deletePromo(i){if(!confirm('Supprimer cette annonce ?'))return;G.promos.splice(i,1);localStorage.setItem('bz_promos_'+G.hotel.id,JSON.stringify(G.promos));renderPromos();}
 
 /* ══ PHOTOS ══ */
-function addPhoto(type,label){showToast('Pour uploader des photos, collez l\'URL ci-dessous ou contactez BookZzz','info');}
-function loadRoomPhotos(rid){/* In production: load photos from room_photos table */}
-function submitPhotoUrl(){
-  var url=document.getElementById('photoUrl').value.trim();
-  if(!url){showToast('Entrez une URL de photo','error');return;}
-  /* Save to Supabase hotel main_photo_url or room_photos */
-  fetch(SB+'/rest/v1/hotels?id=eq.'+G.hotel.id,{method:'PATCH',headers:Object.assign({},HDR,{'Prefer':'return=minimal'}),body:JSON.stringify({main_photo_url:url})})
-  .then(function(){showToast('Photo soumise pour validation ✓','success');document.getElementById('photoUrl').value='';}).catch(function(){showToast('Erreur','error');});
+var _hotelPhotos=[];
+
+function handleHotelPhotos(input){
+  var files=Array.from(input.files);
+  var zone=document.getElementById('photoUploadZone');
+  var preview=document.getElementById('uploadedPhotosPreview');
+  files.forEach(function(file){
+    if(file.size>5*1024*1024){showToast('❌ Photo trop lourde: '+file.name,'error');return;}
+    var reader=new FileReader();
+    reader.onload=function(e){
+      var b64=e.target.result;
+      _hotelPhotos.push({url:b64,name:file.name,type:'upload'});
+      renderPhotoPreview();
+      /* Save first photo as main_photo_url immediately */
+      if(_hotelPhotos.length===1&&G.hotel){
+        saveMainPhoto(b64);
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+  if(zone){zone.style.borderColor='rgba(46,204,113,.5)';zone.style.background='rgba(46,204,113,.04)';}
 }
+
+function renderPhotoPreview(){
+  var preview=document.getElementById('uploadedPhotosPreview');
+  if(!preview)return;
+  preview.innerHTML=_hotelPhotos.map(function(p,i){
+    return '<div style="position:relative;aspect-ratio:4/3;border-radius:var(--r);overflow:hidden;background:var(--bg3);">'
+      +'<img src="'+p.url+'" style="width:100%;height:100%;object-fit:cover;" loading="lazy">'
+      +(i===0?'<div style="position:absolute;bottom:4px;left:4px;font-size:9px;padding:2px 6px;background:rgba(46,204,113,.8);border-radius:10px;color:#fff;font-weight:700;">Photo principale</div>':'')
+      +'<button onclick="removePhoto('+i+')" style="position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:rgba(231,76,60,.8);border:none;color:#fff;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>'
+      +'</div>';
+  }).join('');
+}
+
+function removePhoto(i){
+  _hotelPhotos.splice(i,1);
+  renderPhotoPreview();
+}
+
+function saveMainPhoto(url){
+  if(!G.hotel)return;
+  fetch(SB+'/rest/v1/hotels?id=eq.'+G.hotel.id,{
+    method:'PATCH',
+    headers:Object.assign({},HDR,{'Prefer':'return=minimal'}),
+    body:JSON.stringify({main_photo_url:url})
+  }).then(function(r){
+    if(r.ok||r.status===204)showToast('✅ Photo principale mise à jour !','success');
+    else showToast('❌ Erreur sauvegarde photo','error');
+  }).catch(function(){showToast('Erreur réseau','error');});
+}
+
+function submitPhotoUrl(){
+  var url=(document.getElementById('photoUrl').value||'').trim();
+  if(!url){showToast('Entrez une URL de photo','error');return;}
+  /* Validate URL */
+  if(!url.startsWith('http')){showToast('❌ URL invalide — doit commencer par https://','error');return;}
+  _hotelPhotos.unshift({url:url,name:'URL',type:'url'});
+  renderPhotoPreview();
+  saveMainPhoto(url);
+  document.getElementById('photoUrl').value='';
+}
+
+function addPhoto(type,label){showToast('Cliquez sur la zone d\'upload ci-dessus pour ajouter une photo','info');}
+function loadRoomPhotos(rid){}
 
 /* ══ INFO & HOURS ══ */
 function saveHours(){

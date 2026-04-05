@@ -595,56 +595,137 @@ function loadRooms(id){
   });
 }
 
+/* ═══════════════════════════════════════════════════════
+   ROOM CATEGORIES — group rooms by name+price combination
+   Each unique (name, price) = one category card
+   Shows count of available rooms per category
+═══════════════════════════════════════════════════════ */
 function renderRooms(rooms){
-  var t=T[S.lang];var list=document.getElementById('roomsList');
-  if(!rooms||!rooms.length){list.innerHTML='<div style="text-align:center;padding:40px;color:var(--text-dim)">Aucune chambre disponible</div>';return;}
-  list.innerHTML=rooms.map(function(r,i){
-    var avail=r.available!==false;
+  var t=T[S.lang];
+  var list=document.getElementById('roomsList');
+  if(!rooms||!rooms.length){
+    list.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--text-dim);background:rgba(13,32,64,.3);border-radius:var(--r-lg);border:1px dashed rgba(93,173,226,.2)"><div style="font-size:40px;margin-bottom:12px">🛏️</div><div style="font-size:14px;font-weight:600;color:var(--white);margin-bottom:6px">Chambres bientôt disponibles</div><div style="font-size:12px;line-height:1.6">L\'hôtel est en cours de configuration.</div></div>';
+    return;
+  }
+  /* Build categories: group rooms with same name AND same price */
+  var cats=[];
+  rooms.forEach(function(r){
     var price=parseFloat(r.price||0);
-    var comm=S.hotel?S.hotel.commission_rate||DEFAULT_COMMISSION:DEFAULT_COMMISSION;
-    var disc=S.hotel?S.hotel.discount_rate||DEFAULT_DISCOUNT:DEFAULT_DISCOUNT;
-    /* Discount = (commission% × discount%) of room price */
+    var key=r.name.trim().toLowerCase()+'__'+price;
+    var existing=cats.find(function(c){return c.key===key;});
+    if(existing){
+      existing.total++;
+      if(r.available!==false)existing.available++;
+      /* Keep a representative room for details */
+    } else {
+      cats.push({
+        key:key,
+        name:r.name,
+        price:price,
+        currency:r.currency||getCurrencyForHotel(),
+        capacity:r.capacity||1,
+        has_ac:r.has_ac,
+        has_wifi:r.has_wifi!==false,
+        has_ventilation:r.has_ventilation,
+        meal_included:r.meal_included,
+        description:r.description,
+        photos:r.photos||[],
+        emoji:r.emoji||'🛏️',
+        total:1,
+        available:r.available!==false?1:0,
+        /* Keep one room id to use for booking */
+        representativeRooms:[r]
+      });
+    }
+    if(existing)existing.representativeRooms.push(r);
+  });
+  /* Sort categories by price ascending */
+  cats.sort(function(a,b){return a.price-b.price;});
+  var comm=S.hotel?S.hotel.commission_rate||DEFAULT_COMMISSION:DEFAULT_COMMISSION;
+  var disc=S.hotel?S.hotel.discount_rate||DEFAULT_DISCOUNT:DEFAULT_DISCOUNT;
+  list.innerHTML=cats.map(function(cat,i){
     var discPct=Math.round((comm/100)*(disc/100)*1000)/10;
-    var discAmt=Math.round(price*discPct/100);
-    var cur=r.currency||'CDF';
-    var photos=r.photos&&r.photos.length?r.photos:[{url:null,emoji:r.emoji||'🛏️'}];
-    var tags='<span class="rtag">👥 '+r.capacity+' '+t.capacity+'</span>';
-    if(r.has_ac)tags+='<span class="rtag">❄️ '+t.ac+'</span>';
-    if(r.has_wifi!==false)tags+='<span class="rtag">📶 WiFi</span>';
-    if(r.has_ventilation)tags+='<span class="rtag">🌀 '+t.ventil+'</span>';
-    var mLabel=r.meal_included==='breakfast'?t.meal_breakfast:r.meal_included==='full'?t.meal_full:null;
+    var discAmt=cat.price>0?Math.round(cat.price*discPct/100):0;
+    var isAvail=cat.available>0;
+    /* Photo */
+    var photoHtml='';
+    if(cat.photos&&cat.photos.length&&cat.photos[0].url){
+      photoHtml='<img src="'+cat.photos[0].url+'" alt="'+cat.name+'" style="width:100%;height:100%;object-fit:cover;" loading="lazy">';
+    } else {
+      photoHtml='<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:clamp(32px,8vw,44px)">'+cat.emoji+'</div>';
+    }
+    /* Amenity tags */
+    var tags='<span class="rtag">👥 '+cat.capacity+' '+(cat.capacity>1?t.capacity:t.capacity.replace('s',''))+'</span>';
+    if(cat.has_ac)tags+='<span class="rtag">❄️ '+t.ac+'</span>';
+    if(cat.has_wifi)tags+='<span class="rtag">📶 WiFi</span>';
+    if(cat.has_ventilation)tags+='<span class="rtag">🌀 '+t.ventil+'</span>';
+    var mLabel=cat.meal_included==='breakfast'?t.meal_breakfast:cat.meal_included==='full'?t.meal_full:null;
     if(mLabel)tags+='<span class="rtag">🍽️ '+mLabel+'</span>';
-    /* Price block — shows actual room price, not commission */
+    /* Price */
     var priceHtml='<div class="room-price-col">';
-    if(price>0){
-      priceHtml+='<div class="rprice">'+price.toLocaleString()+' '+cur+'</div>';
+    if(cat.price>0){
+      priceHtml+='<div class="rprice">'+cat.price.toLocaleString()+' '+cat.currency+'</div>';
       priceHtml+='<div class="rprice-night">'+t.perNight+'</div>';
       if(discPct>0)priceHtml+='<div class="rdiscount-badge">🎉 '+t.discountLabel+discPct+'%</div>';
     } else {
       priceHtml+='<div class="rprice" style="font-size:13px;color:var(--text-dim)">'+t.priceOnReq+'</div>';
     }
     priceHtml+='</div>';
-    var slidesHtml=photos.map(function(p){return '<div class="room-photo-slide">'+(p.url?'<img src="'+p.url+'" alt="'+r.name+'" loading="lazy">':'<div class="room-photo-ph">'+(p.emoji||r.emoji||'🛏️')+'</div>')+'</div>';}).join('');
-    return '<div class="room-card'+(avail?'':' unavail')+'" style="animation:fuA .5s cubic-bezier(.16,1,.3,1) '+(i*0.08)+'s both">'
-      +'<div class="room-photos"><div class="room-photo-track" id="rpt-'+i+'">'+slidesHtml+'</div>'
-      +(photos.length>1?'<button class="room-ph-nav room-ph-prev" onclick="slideRoom('+i+',-1,'+photos.length+')">‹</button><button class="room-ph-nav room-ph-next" onclick="slideRoom('+i+',1,'+photos.length+')">›</button>':'')
-      +'<div class="room-avail-badge '+(avail?'avail-yes':'avail-no')+'">● '+(avail?t.avail:t.unavail)+'</div></div>'
-      +'<div class="room-body"><div class="room-name">'+r.name+'</div>'
-      +'<div class="room-location-info">'+(r.floor?'<span class="room-loc-tag">🏢 '+t.floor+' '+r.floor+'</span>':'')+(r.room_number?'<span class="room-loc-tag">🚪 '+t.roomNum+' '+r.room_number+'</span>':'')+'</div>'
+    /* Availability badge */
+    var availBadge=isAvail
+      ?'<span style="display:inline-flex;align-items:center;gap:5px;padding:4px 11px;background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.3);border-radius:20px;font-size:11px;font-weight:700;color:var(--green)">✅ '+cat.available+' '+t.avail+'</span>'
+      :'<span style="display:inline-flex;align-items:center;gap:5px;padding:4px 11px;background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.3);border-radius:20px;font-size:11px;font-weight:700;color:var(--red)">❌ '+t.unavail+'</span>';
+    return '<div class="room-card'+(isAvail?'':' unavail')+'" style="animation:fuA .5s cubic-bezier(.16,1,.3,1) '+(i*0.08)+'s both">'
+      /* Photo */
+      +'<div class="room-photos" style="height:clamp(130px,22vw,155px);position:relative;overflow:hidden;background:linear-gradient(135deg,var(--bg-mid),var(--navy))">'+photoHtml+'</div>'
+      /* Body */
+      +'<div class="room-body">'
+      +'<div class="room-name">'+cat.name+'</div>'
+      +'<div style="margin-bottom:8px;">'+availBadge+'</div>'
       +'<div class="room-tags">'+tags+'</div>'
-      +(r.description?'<div class="room-desc">'+r.description+'</div>':'')
+      +(cat.description?'<div class="room-desc">'+cat.description+'</div>':'')
       +'<div class="room-price-row">'+priceHtml
-      +(avail?'<button class="room-sel-btn" onclick="selectRoom(\''+r.id+'\')">'+t.avail+' →</button>':'<button class="room-sel-btn" disabled>'+t.unavail+'</button>')
+      +(isAvail
+        ?'<button class="room-sel-btn" onclick="selectCategory('+i+')">'+t.avail+' →</button>'
+        :'<button class="room-sel-btn" disabled>'+t.unavail+'</button>')
       +'</div></div></div>';
   }).join('');
-  window._rSlides={};rooms.forEach(function(_,i){window._rSlides[i]=0;});
+  /* Store categories for booking */
+  window._roomCats=cats;
 }
 
-function slideRoom(ri,dir,total){
-  if(!window._rSlides)window._rSlides={};
-  var n=((window._rSlides[ri]||0)+dir+total)%total;
-  window._rSlides[ri]=n;
-  var tr=document.getElementById('rpt-'+ri);if(tr)tr.style.transform='translateX(-'+(n*100)+'%)';
+function getCurrencyForHotel(){
+  if(!S.hotel)return 'CDF';
+  /* Use hotel's currency if set, otherwise derive from country */
+  if(S.hotel.currency)return S.hotel.currency;
+  var countryCurrencies={
+    'RDC':'CDF','Congo':'CDF','Congo-Kinshasa':'CDF','DRC':'CDF',
+    'Tanzanie':'TZS','Tanzania':'TZS',
+    'Rwanda':'RWF','Burundi':'BIF',
+    'Kenya':'KES',"Côte d'Ivoire":'XOF','Ivory Coast':'XOF'
+  };
+  var country=S.hotel.country||'';
+  for(var k in countryCurrencies){
+    if(country.toLowerCase().indexOf(k.toLowerCase())>=0)return countryCurrencies[k];
+  }
+  return 'CDF';
+}
+
+/* Select a room category — picks first available room from that category */
+function selectCategory(catIdx){
+  var t=T[S.lang];
+  var cat=window._roomCats&&window._roomCats[catIdx];
+  if(!cat||cat.available===0){showToast(t.unavail);return;}
+  /* Find first available room in this category */
+  var room=cat.representativeRooms.find(function(r){return r.available!==false;});
+  if(!room){showToast(t.unavail);return;}
+  S.selectedRoom=room;
+  /* Show category name in popup */
+  document.getElementById('rsIco').textContent=cat.emoji||'🛏️';
+  document.getElementById('rsName').textContent=cat.name+' ('+cat.available+' disponible'+(cat.available>1?'s':'')+ ')';
+  document.getElementById('rsPr').textContent=parseFloat(room.price||0).toLocaleString()+' '+(room.currency||getCurrencyForHotel())+' '+t.perNight;
+  updateTotal();
+  openPopup();
 }
 
 function selectRoom(rid){
@@ -654,7 +735,7 @@ function selectRoom(rid){
   S.selectedRoom=r;
   document.getElementById('rsIco').textContent=r.emoji||'🛏️';
   document.getElementById('rsName').textContent=r.name+(r.room_number?' (N°'+r.room_number+')':'');
-  document.getElementById('rsPr').textContent=parseFloat(r.price||0).toLocaleString()+' '+(r.currency||'CDF')+' '+t.perNight;
+  document.getElementById('rsPr').textContent=parseFloat(r.price||0).toLocaleString()+' '+(r.currency||getCurrencyForHotel())+' '+t.perNight;
   updateTotal();openPopup();
 }
 

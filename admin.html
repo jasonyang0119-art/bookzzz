@@ -409,9 +409,34 @@ tr:hover td{background:rgba(93,173,226,.04);}
         <div class="field full"><label>DESCRIPTION</label><textarea id="hDesc" rows="3" placeholder="Description..."></textarea></div>
         <div class="field"><label>ADRESSE</label><input id="hAddress" placeholder="Avenue Kasa-Vubu"></div>
         <div class="field"><label>VILLE *</label><input id="hCity" placeholder="Kinshasa"></div>
-        <div class="field"><label>PAYS *</label><input id="hCountry" placeholder="RDC"></div>
+        <div class="field"><label>PAYS *</label><input id="hCountry" placeholder="RDC" oninput="autoDetectCurrency()"></div>
+        <div class="field"><label>DEVISE (auto-détectée)</label>
+          <select id="hCurrency">
+            <option value="CDF">CDF — Franc Congolais (RDC)</option>
+            <option value="TZS">TZS — Shilling Tanzanien</option>
+            <option value="RWF">RWF — Franc Rwandais</option>
+            <option value="BIF">BIF — Franc Burundais</option>
+            <option value="KES">KES — Shilling Kenyan</option>
+            <option value="XOF">XOF — Franc CFA (Côte d'Ivoire)</option>
+            <option value="USD">USD — Dollar Américain</option>
+            <option value="EUR">EUR — Euro</option>
+          </select>
+        </div>
         <div class="field"><label>ÉTOILES (1-5)</label><input type="number" id="hStars" min="1" max="5" value="3"></div>
-        <div class="field"><label>URL PHOTO (optionnel)</label><input id="hPhoto" placeholder="https://..."></div>
+        <div class="field full"><label>PHOTO PRINCIPALE</label>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <!-- Upload depuis appareil -->
+            <div style="border:2px dashed rgba(93,173,226,.3);border-radius:var(--r);padding:16px;text-align:center;cursor:pointer;transition:all .3s;background:rgba(13,32,64,.4);" onclick="document.getElementById('hPhotoFile').click()" id="photoDropZone">
+              <div style="font-size:28px;margin-bottom:6px;">📸</div>
+              <div style="font-size:13px;font-weight:600;color:var(--white);margin-bottom:3px;">Cliquez pour choisir une photo</div>
+              <div style="font-size:11px;color:var(--dim);">Depuis votre appareil · JPG, PNG, WEBP · Max 5MB</div>
+              <div id="photoPreview" style="margin-top:10px;display:none;"><img id="photoPreviewImg" style="max-height:120px;border-radius:var(--r);max-width:100%;object-fit:cover;" alt="Aperçu"></div>
+            </div>
+            <input type="file" id="hPhotoFile" accept="image/*" style="display:none;" onchange="handlePhotoFile(this)">
+            <div style="display:flex;align-items:center;gap:8px;"><div style="flex:1;height:1px;background:var(--border);"></div><span style="font-size:11px;color:var(--dim);">OU</span><div style="flex:1;height:1px;background:var(--border);"></div></div>
+            <input id="hPhoto" placeholder="https://... URL d'une photo en ligne (optionnel)" style="font-size:12px;" oninput="if(this.value){document.getElementById('hPhotoFile').value='';clearPhotoPreview();}">
+          </div>
+        </div>
         <div class="field"><label>STATUT</label><select id="hStatus"><option value="active">✅ Actif</option><option value="pending">⏳ En attente</option><option value="inactive">❌ Inactif</option></select></div>
         <div class="field"><label>COMMISSION (%)</label><input type="number" id="hComm" value="25" min="0" max="100"></div>
         <div class="field"><label>RÉDUCTION CLIENT (%)</label><input type="number" id="hDisc" value="33" min="0" max="100"></div>
@@ -640,20 +665,74 @@ function showDebug(msg){
 }
 
 /* ═══════════════════════════════════════════
-   LOAD HOTELS — used after save/delete
+   CURRENCY AUTO-DETECTION
+═══════════════════════════════════════════ */
+var COUNTRY_CURRENCIES={
+  'rdc':'CDF','congo':'CDF','kinshasa':'CDF','goma':'CDF','lubumbashi':'CDF',
+  'tanzanie':'TZS','tanzania':'TZS','dar es salaam':'TZS','dodoma':'TZS',
+  'rwanda':'RWF','kigali':'RWF',
+  'burundi':'BIF','bujumbura':'BIF',
+  'kenya':'KES','nairobi':'KES',
+  "côte d'ivoire":'XOF','ivory coast':'XOF','abidjan':'XOF'
+};
+function autoDetectCurrency(){
+  var country=(document.getElementById('hCountry').value||'').toLowerCase().trim();
+  if(!country)return;
+  var sel=document.getElementById('hCurrency');
+  for(var k in COUNTRY_CURRENCIES){
+    if(country.indexOf(k)>=0){sel.value=COUNTRY_CURRENCIES[k];break;}
+  }
+}
+
+/* ═══════════════════════════════════════════
+   PHOTO UPLOAD FROM DEVICE
+═══════════════════════════════════════════ */
+var _uploadedPhotoBase64=null;
+
+function handlePhotoFile(input){
+  var file=input.files[0];
+  if(!file)return;
+  if(file.size>5*1024*1024){showToast('❌ Photo trop lourde (max 5MB)','error');return;}
+  var reader=new FileReader();
+  reader.onload=function(e){
+    _uploadedPhotoBase64=e.target.result;
+    document.getElementById('photoPreviewImg').src=e.target.result;
+    document.getElementById('photoPreview').style.display='block';
+    document.getElementById('hPhoto').value='';
+    document.getElementById('photoDropZone').style.borderColor='rgba(46,204,113,.5)';
+    document.getElementById('photoDropZone').style.background='rgba(46,204,113,.05)';
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearPhotoPreview(){
+  _uploadedPhotoBase64=null;
+  document.getElementById('photoPreview').style.display='none';
+  document.getElementById('hPhotoFile').value='';
+  document.getElementById('photoDropZone').style.borderColor='rgba(93,173,226,.3)';
+  document.getElementById('photoDropZone').style.background='rgba(13,32,64,.4)';
+}
+
+/* Upload photo to Supabase Storage or use base64 directly */
+async function resolvePhotoUrl(){
+  /* If URL entered manually, use it */
+  var urlInput=document.getElementById('hPhoto').value.trim();
+  if(urlInput)return urlInput;
+  /* If file selected, use base64 (stored directly for now) */
+  if(_uploadedPhotoBase64)return _uploadedPhotoBase64;
+  return null;
+}
+
+/* ═══════════════════════════════════════════
+   LOAD HOTELS
 ═══════════════════════════════════════════ */
 function loadHotels(){
   api('GET','hotels',null,'select=*&order=created_at.desc').then(function(res){
     if(res.ok){
       G.hotels=Array.isArray(res.data)?res.data:[];
-      renderHotelsTable();
-      updateStats();
-      populateSelects();
-      renderCommission();
-      renderAccessList();
+      renderHotelsTable();updateStats();populateSelects();renderCommission();renderAccessList();
     } else {
-      showDebug('LOAD HOTELS ERROR:\n'+res.error+'\nStatus: '+res.status);
-      G.hotels=[];renderHotelsTable();
+      showDebug('LOAD HOTELS:\n'+res.error);G.hotels=[];renderHotelsTable();
     }
   });
 }
@@ -687,6 +766,7 @@ function renderHotelsTable(){
 ═══════════════════════════════════════════ */
 function openHotelModal(hotel){
   G.editHotelId=hotel?hotel.id:null;
+  _uploadedPhotoBase64=null;
   document.getElementById('hotelModalTitle').innerHTML=(hotel?'Modifier':'Ajouter')+' un <span>hôtel</span>';
   var fv=function(id,v){var e=document.getElementById(id);if(e)e.value=(v==null?'':v);};
   var fc=function(id,v){var e=document.getElementById(id);if(e)e.checked=!!v;};
@@ -694,22 +774,40 @@ function openHotelModal(hotel){
   fv('hName',hotel?hotel.name:'');fv('hDesc',hotel?hotel.description:'');
   fv('hAddress',hotel?hotel.address:'');fv('hCity',hotel?hotel.city:'');
   fv('hCountry',hotel?hotel.country:'');fv('hStars',hotel?hotel.stars:3);
-  fv('hPhoto',hotel?hotel.main_photo_url:'');fv('hStatus',hotel?hotel.status:'active');
+  fv('hPhoto',hotel&&hotel.main_photo_url?hotel.main_photo_url:'');
+  fv('hStatus',hotel?hotel.status:'active');
   fv('hComm',hotel?hotel.commission_rate:25);fv('hDisc',hotel?hotel.discount_rate:33);
   fv('hMeal',hotel?hotel.meal_included:'none');
   fv('hLat',hotel?hotel.latitude:'');fv('hLng',hotel?hotel.longitude:'');
+  /* Currency */
+  var sel=document.getElementById('hCurrency');
+  if(sel){
+    if(hotel&&hotel.currency)sel.value=hotel.currency;
+    else autoDetectCurrency();
+  }
   fc('hAc',hotel&&hotel.has_ac);fc('hElev',hotel&&hotel.has_elevator);
-  fc('hVent',hotel&&hotel.has_ventilation);fc('hWifi',hotel?hotel.has_wifi:true);
+  fc('hVent',hotel&&hotel.has_ventilation);fc('hWifi',hotel?hotel.has_wifi!==false:true);
   fc('hVerified',hotel&&hotel.is_verified);
+  /* Reset photo preview */
+  var prev=document.getElementById('photoPreview');
+  var prevImg=document.getElementById('photoPreviewImg');
+  var dz=document.getElementById('photoDropZone');
+  if(prev&&prevImg&&hotel&&hotel.main_photo_url){
+    prevImg.src=hotel.main_photo_url;prev.style.display='block';
+  } else if(prev){prev.style.display='none';}
+  if(dz){dz.style.borderColor='rgba(93,173,226,.3)';dz.style.background='rgba(13,32,64,.4)';}
   openModal('hotelModal');
 }
 function editHotel(id){var h=G.hotels.find(function(x){return x.id==id;});if(h)openHotelModal(h);}
 
-function saveHotel(){
+async function saveHotel(){
   var name=document.getElementById('hName').value.trim();
   if(!name){showToast('Le nom de l\'hôtel est requis','error');return;}
-
-  /* Build payload with ONLY the columns that exist in your hotels table */
+  var btn=document.getElementById('hotelSaveBtn');
+  btn.disabled=true;btn.textContent='⏳ Sauvegarde...';
+  /* Resolve photo */
+  var urlInput=(document.getElementById('hPhoto').value||'').trim();
+  var photoUrl=urlInput||_uploadedPhotoBase64||null;
   var payload={
     name:name,
     description:document.getElementById('hDesc').value.trim()||null,
@@ -717,9 +815,10 @@ function saveHotel(){
     city:document.getElementById('hCity').value.trim()||null,
     country:document.getElementById('hCountry').value.trim()||null,
     stars:parseInt(document.getElementById('hStars').value)||3,
-    main_photo_url:document.getElementById('hPhoto').value.trim()||null,
+    main_photo_url:photoUrl,
     status:document.getElementById('hStatus').value||'active',
     commission_rate:parseFloat(document.getElementById('hComm').value)||25,
+    currency:document.getElementById('hCurrency')?document.getElementById('hCurrency').value||'CDF':'CDF',
     has_ac:document.getElementById('hAc').checked,
     has_elevator:document.getElementById('hElev').checked,
     has_ventilation:document.getElementById('hVent').checked,
@@ -727,35 +826,24 @@ function saveHotel(){
     is_verified:document.getElementById('hVerified').checked,
     meal_included:document.getElementById('hMeal').value||'none'
   };
-  /* Optional columns — only add if value entered */
   var lat=parseFloat(document.getElementById('hLat').value);
   var lng=parseFloat(document.getElementById('hLng').value);
   if(!isNaN(lat)&&lat!==0)payload.latitude=lat;
   if(!isNaN(lng)&&lng!==0)payload.longitude=lng;
-
+  var disc=parseFloat(document.getElementById('hDisc').value);
+  if(!isNaN(disc))payload.discount_rate=disc;
   var isEdit=!!G.editHotelId;
-  var btn=document.getElementById('hotelSaveBtn');
-  btn.disabled=true;btn.textContent='⏳ Sauvegarde...';
-
-  var table='hotels';
-  var filter=isEdit?'id=eq.'+G.editHotelId:null;
-  var method=isEdit?'PATCH':'POST';
-
-  api(method,table,payload,filter).then(function(res){
+  api(isEdit?'PATCH':'POST','hotels',payload,isEdit?'id=eq.'+G.editHotelId:null).then(function(res){
     btn.disabled=false;btn.textContent='💾 Sauvegarder';
     if(res.ok){
-      showToast(isEdit?'✅ Hôtel modifié avec succès !':'✅ Hôtel ajouté avec succès !','success');
-      closeModal('hotelModal');
-      loadHotels();
+      showToast(isEdit?'✅ Hôtel modifié !':'✅ Hôtel ajouté !','success');
+      closeModal('hotelModal');_uploadedPhotoBase64=null;loadHotels();
     } else {
-      /* Show detailed error */
-      var errDetail='Erreur '+res.status+': '+res.error;
-      showToast('❌ '+errDetail,'error');
-      showDebug('SAVE HOTEL ERROR:\nMethod: '+method+'\nTable: '+table+'\nFilter: '+(filter||'none')+'\nError: '+errDetail+'\n\nPayload envoyé:\n'+JSON.stringify(payload,null,2)+'\n\nRéponse brute:\n'+res.raw);
+      showToast('❌ '+res.error,'error');
+      showDebug('SAVE HOTEL:\nStatus: '+res.status+'\nError: '+res.error+'\nPayload:\n'+JSON.stringify(payload,null,2));
     }
   });
 }
-
 function deleteHotel(id){
   if(!confirm('Supprimer cet hôtel définitivement ?'))return;
   api('DELETE','hotels',null,'id=eq.'+id).then(function(res){
