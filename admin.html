@@ -425,16 +425,30 @@ tr:hover td{background:rgba(93,173,226,.04);}
         <div class="field"><label>ÉTOILES (1-5)</label><input type="number" id="hStars" min="1" max="5" value="3"></div>
         <div class="field full"><label>PHOTO PRINCIPALE</label>
           <div style="display:flex;flex-direction:column;gap:8px;">
-            <!-- Upload depuis appareil -->
-            <div style="border:2px dashed rgba(93,173,226,.3);border-radius:var(--r);padding:16px;text-align:center;cursor:pointer;transition:all .3s;background:rgba(13,32,64,.4);" onclick="document.getElementById('hPhotoFile').click()" id="photoDropZone">
-              <div style="font-size:28px;margin-bottom:6px;">📸</div>
-              <div style="font-size:13px;font-weight:600;color:var(--white);margin-bottom:3px;">Cliquez pour choisir une photo</div>
-              <div style="font-size:11px;color:var(--dim);">Depuis votre appareil · JPG, PNG, WEBP · Max 5MB</div>
-              <div id="photoPreview" style="margin-top:10px;display:none;"><img id="photoPreviewImg" style="max-height:120px;border-radius:var(--r);max-width:100%;object-fit:cover;" alt="Aperçu"></div>
+            <!-- Zone upload appareil → Supabase Storage -->
+            <div id="photoDropZone" style="border:2px dashed rgba(93,173,226,.3);border-radius:var(--r);padding:16px;text-align:center;cursor:pointer;transition:all .3s;background:rgba(13,32,64,.4);position:relative;" onclick="document.getElementById('hPhotoFile').click()">
+              <div id="photoDropContent">
+                <div style="font-size:28px;margin-bottom:6px;">📸</div>
+                <div style="font-size:13px;font-weight:600;color:var(--white);margin-bottom:3px;">Cliquez pour choisir une photo</div>
+                <div style="font-size:11px;color:var(--dim);">Depuis votre téléphone ou ordinateur · JPG, PNG · Max 5MB</div>
+              </div>
+              <div id="photoUploadProgress" style="display:none;padding:10px 0;">
+                <div style="font-size:24px;margin-bottom:6px;">⏳</div>
+                <div style="font-size:12px;color:var(--azure);">Upload en cours...</div>
+              </div>
+              <div id="photoPreview" style="margin-top:10px;display:none;">
+                <img id="photoPreviewImg" style="max-height:110px;border-radius:var(--r);max-width:100%;object-fit:cover;" alt="Aperçu">
+                <div id="photoPreviewName" style="font-size:10px;color:var(--green);margin-top:4px;">✅ Photo uploadée</div>
+              </div>
             </div>
-            <input type="file" id="hPhotoFile" accept="image/*" style="display:none;" onchange="handlePhotoFile(this)">
-            <div style="display:flex;align-items:center;gap:8px;"><div style="flex:1;height:1px;background:var(--border);"></div><span style="font-size:11px;color:var(--dim);">OU</span><div style="flex:1;height:1px;background:var(--border);"></div></div>
-            <input id="hPhoto" placeholder="https://... URL d'une photo en ligne (optionnel)" style="font-size:12px;" oninput="if(this.value){document.getElementById('hPhotoFile').value='';clearPhotoPreview();}">
+            <input type="file" id="hPhotoFile" accept="image/jpeg,image/png,image/webp,image/gif" style="display:none;" onchange="handlePhotoUpload(this,'hPhoto','photoDropZone','photoPreview','photoPreviewImg','photoUploadProgress','photoDropContent')">
+            <!-- Séparateur -->
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div style="flex:1;height:1px;background:var(--border);"></div>
+              <span style="font-size:11px;color:var(--dim);">OU coller une URL</span>
+              <div style="flex:1;height:1px;background:var(--border);"></div>
+            </div>
+            <input id="hPhoto" placeholder="https://... lien direct vers une image" style="font-size:12px;" oninput="previewUrlPhoto(this.value)">
           </div>
         </div>
         <div class="field"><label>STATUT</label><select id="hStatus"><option value="active">✅ Actif</option><option value="pending">⏳ En attente</option><option value="inactive">❌ Inactif</option></select></div>
@@ -678,50 +692,107 @@ var COUNTRY_CURRENCIES={
 function autoDetectCurrency(){
   var country=(document.getElementById('hCountry').value||'').toLowerCase().trim();
   if(!country)return;
-  var sel=document.getElementById('hCurrency');
+  var sel=document.getElementById('hCurrency');if(!sel)return;
   for(var k in COUNTRY_CURRENCIES){
     if(country.indexOf(k)>=0){sel.value=COUNTRY_CURRENCIES[k];break;}
   }
 }
 
 /* ═══════════════════════════════════════════
-   PHOTO UPLOAD FROM DEVICE
+   PHOTO UPLOAD → SUPABASE STORAGE
+   Bucket name: "hotel-photos" (public)
 ═══════════════════════════════════════════ */
-var _uploadedPhotoBase64=null;
+var SB_STORAGE=SB+'/storage/v1';
+var BUCKET='hotel-photos';
 
-function handlePhotoFile(input){
+function uploadToSupabase(file,path){
+  /* Upload file to Supabase Storage */
+  return fetch(SB_STORAGE+'/object/'+BUCKET+'/'+path,{
+    method:'POST',
+    headers:{
+      'apikey':SK,
+      'Authorization':'Bearer '+SK,
+      'Content-Type':file.type,
+      'x-upsert':'true'
+    },
+    body:file
+  }).then(function(r){
+    if(r.ok||r.status===200){
+      /* Build public URL */
+      var publicUrl=SB+'/storage/v1/object/public/'+BUCKET+'/'+path;
+      return {ok:true,url:publicUrl};
+    }
+    return r.text().then(function(t){
+      return {ok:false,error:'Storage '+r.status+': '+t};
+    });
+  }).catch(function(e){
+    return {ok:false,error:e.message};
+  });
+}
+
+function handlePhotoUpload(input,urlInputId,zoneId,previewId,previewImgId,progressId,contentId){
   var file=input.files[0];
   if(!file)return;
-  if(file.size>5*1024*1024){showToast('❌ Photo trop lourde (max 5MB)','error');return;}
-  var reader=new FileReader();
-  reader.onload=function(e){
-    _uploadedPhotoBase64=e.target.result;
-    document.getElementById('photoPreviewImg').src=e.target.result;
-    document.getElementById('photoPreview').style.display='block';
-    document.getElementById('hPhoto').value='';
-    document.getElementById('photoDropZone').style.borderColor='rgba(46,204,113,.5)';
-    document.getElementById('photoDropZone').style.background='rgba(46,204,113,.05)';
-  };
-  reader.readAsDataURL(file);
+  if(file.size>5*1024*1024){showToast('❌ Photo trop lourde — max 5MB','error');return;}
+  /* Show progress */
+  var zone=document.getElementById(zoneId);
+  var progress=document.getElementById(progressId);
+  var content=document.getElementById(contentId);
+  var preview=document.getElementById(previewId);
+  var previewImg=document.getElementById(previewImgId);
+  if(content)content.style.display='none';
+  if(progress)progress.style.display='block';
+  if(preview)preview.style.display='none';
+  /* Generate unique filename */
+  var ext=file.name.split('.').pop().toLowerCase()||'jpg';
+  var filename='photo_'+Date.now()+'_'+Math.random().toString(36).slice(2,8)+'.'+ext;
+  uploadToSupabase(file,filename).then(function(res){
+    if(progress)progress.style.display='none';
+    if(res.ok){
+      /* Set URL in input field */
+      var urlInput=document.getElementById(urlInputId);
+      if(urlInput)urlInput.value=res.url;
+      /* Show preview */
+      if(previewImg)previewImg.src=res.url;
+      if(preview)preview.style.display='block';
+      if(zone)zone.style.borderColor='rgba(46,204,113,.5)';
+      showToast('✅ Photo uploadée !','success');
+    } else {
+      /* Upload to Storage failed — show helpful message */
+      if(content)content.style.display='block';
+      if(zone)zone.style.borderColor='rgba(231,76,60,.4)';
+      showToast('❌ Upload échoué — utilisez une URL à la place','error');
+      showDebug('PHOTO UPLOAD FAILED:\n'+res.error+'\n\nSolution: Allez dans Supabase → Storage → Créez un bucket "hotel-photos" en PUBLIC\nOU utilisez une URL externe (Imgur, Google Drive, etc.)');
+      /* Fallback: show local preview using object URL (won't be saved) */
+      var localUrl=URL.createObjectURL(file);
+      if(previewImg)previewImg.src=localUrl;
+      if(preview)preview.style.display='block';
+    }
+  });
+}
+
+function previewUrlPhoto(url){
+  if(!url||!url.startsWith('http'))return;
+  var previewImg=document.getElementById('photoPreviewImg');
+  var preview=document.getElementById('photoPreview');
+  var content=document.getElementById('photoDropContent');
+  if(previewImg)previewImg.src=url;
+  if(preview)preview.style.display='block';
+  if(content)content.style.display='none';
 }
 
 function clearPhotoPreview(){
+  var preview=document.getElementById('photoPreview');
+  var content=document.getElementById('photoDropContent');
+  var zone=document.getElementById('photoDropZone');
+  var fileInput=document.getElementById('hPhotoFile');
+  if(preview)preview.style.display='none';
+  if(content)content.style.display='block';
+  if(zone){zone.style.borderColor='rgba(93,173,226,.3)';zone.style.background='rgba(13,32,64,.4)';}
+  if(fileInput)fileInput.value='';
   _uploadedPhotoBase64=null;
-  document.getElementById('photoPreview').style.display='none';
-  document.getElementById('hPhotoFile').value='';
-  document.getElementById('photoDropZone').style.borderColor='rgba(93,173,226,.3)';
-  document.getElementById('photoDropZone').style.background='rgba(13,32,64,.4)';
 }
-
-/* Upload photo to Supabase Storage or use base64 directly */
-async function resolvePhotoUrl(){
-  /* If URL entered manually, use it */
-  var urlInput=document.getElementById('hPhoto').value.trim();
-  if(urlInput)return urlInput;
-  /* If file selected, use base64 (stored directly for now) */
-  if(_uploadedPhotoBase64)return _uploadedPhotoBase64;
-  return null;
-}
+var _uploadedPhotoBase64=null;
 
 /* ═══════════════════════════════════════════
    LOAD HOTELS
@@ -800,14 +871,13 @@ function openHotelModal(hotel){
 }
 function editHotel(id){var h=G.hotels.find(function(x){return x.id==id;});if(h)openHotelModal(h);}
 
-async function saveHotel(){
+function saveHotel(){
   var name=document.getElementById('hName').value.trim();
   if(!name){showToast('Le nom de l\'hôtel est requis','error');return;}
   var btn=document.getElementById('hotelSaveBtn');
   btn.disabled=true;btn.textContent='⏳ Sauvegarde...';
-  /* Resolve photo */
-  var urlInput=(document.getElementById('hPhoto').value||'').trim();
-  var photoUrl=urlInput||_uploadedPhotoBase64||null;
+  /* Photo URL — set by upload handler OR manual URL input */
+  var photoUrl=(document.getElementById('hPhoto').value||'').trim()||null;
   var payload={
     name:name,
     description:document.getElementById('hDesc').value.trim()||null,
@@ -837,7 +907,7 @@ async function saveHotel(){
     btn.disabled=false;btn.textContent='💾 Sauvegarder';
     if(res.ok){
       showToast(isEdit?'✅ Hôtel modifié !':'✅ Hôtel ajouté !','success');
-      closeModal('hotelModal');_uploadedPhotoBase64=null;loadHotels();
+      closeModal('hotelModal');loadHotels();
     } else {
       showToast('❌ '+res.error,'error');
       showDebug('SAVE HOTEL:\nStatus: '+res.status+'\nError: '+res.error+'\nPayload:\n'+JSON.stringify(payload,null,2));
