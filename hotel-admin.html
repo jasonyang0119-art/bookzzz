@@ -413,14 +413,28 @@ tr:hover td{background:rgba(93,173,226,.04);}
           <div style="margin-bottom:12px;">
             <label class="field-lbl">SÉLECTIONNER UNE CHAMBRE</label>
             <select id="photoRoomSelect" onchange="loadRoomPhotos(this.value)" style="max-width:280px;">
-              <option value="">— Toutes les chambres —</option>
+              <option value="">— Choisir une chambre —</option>
             </select>
           </div>
-          <div class="photo-grid" id="roomPhotoGrid">
-            <div class="photo-slot" onclick="addPhoto('room','bed')"><div class="photo-slot-ph"><div class="ph-ico">🛏️</div><div>Chambre</div></div></div>
-            <div class="photo-slot" onclick="addPhoto('room','bathroom')"><div class="photo-slot-ph"><div class="ph-ico">🚿</div><div>Salle de bain</div></div></div>
-            <div class="photo-slot" onclick="addPhoto('room','view')"><div class="photo-slot-ph"><div class="ph-ico">🪟</div><div>Vue</div></div></div>
-            <div class="photo-slot" onclick="addPhoto('room','other')"><div class="photo-slot-ph"><div class="ph-ico">➕</div><div>Autre</div></div></div>
+          <!-- Zone upload chambre -->
+          <div id="roomPhotoUploadArea" style="display:none;">
+            <div style="border:2px dashed rgba(93,173,226,.3);border-radius:var(--r);padding:20px;text-align:center;cursor:pointer;transition:all .3s;background:rgba(13,32,64,.4);margin-bottom:12px;" onclick="document.getElementById('roomPhotoInput').click()" id="roomPhotoUploadZone">
+              <div style="font-size:32px;margin-bottom:8px;">🛏️</div>
+              <div style="font-size:14px;font-weight:600;color:var(--white);margin-bottom:4px;">Cliquez pour ajouter des photos</div>
+              <div style="font-size:12px;color:var(--dim);">Depuis votre téléphone ou ordinateur · JPG, PNG · Max 5MB</div>
+            </div>
+            <input type="file" id="roomPhotoInput" accept="image/*" multiple style="display:none;" onchange="handleRoomPhotoUpload(this)">
+            <!-- Preview photos chambre -->
+            <div id="roomPhotosPreview" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin-bottom:12px;"></div>
+            <!-- OU URL -->
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><div style="flex:1;height:1px;background:var(--border);"></div><span style="font-size:11px;color:var(--dim);">OU coller une URL</span><div style="flex:1;height:1px;background:var(--border);"></div></div>
+            <div style="display:flex;gap:8px;">
+              <input type="url" id="roomPhotoUrl" placeholder="https://..." style="flex:1;font-size:12px;">
+              <button class="add-btn" onclick="submitRoomPhotoUrl()" style="white-space:nowrap;">📤 Ajouter</button>
+            </div>
+          </div>
+          <div id="roomPhotoPlaceholder" style="text-align:center;padding:30px;color:var(--dim);font-size:13px;">
+            ☝️ Sélectionnez une chambre ci-dessus pour gérer ses photos
           </div>
         </div>
       </div>
@@ -1218,7 +1232,121 @@ function submitPhotoUrl(){
 }
 
 function addPhoto(type,label){showToast('Cliquez sur la zone d\'upload ci-dessus pour ajouter une photo','info');}
-function loadRoomPhotos(rid){}
+
+/* ══ ROOM PHOTOS ══ */
+var _roomPhotos=[];
+var _currentRoomId=null;
+
+function loadRoomPhotos(roomId){
+  var area=document.getElementById('roomPhotoUploadArea');
+  var placeholder=document.getElementById('roomPhotoPlaceholder');
+  if(!roomId){
+    if(area)area.style.display='none';
+    if(placeholder)placeholder.style.display='block';
+    return;
+  }
+  _currentRoomId=roomId;
+  if(area)area.style.display='block';
+  if(placeholder)placeholder.style.display='none';
+  /* Charger les photos existantes depuis Supabase */
+  fetch(SB+'/rest/v1/room_photos?room_id=eq.'+encodeURIComponent(roomId)+'&select=*&order=created_at.asc',{headers:HDR})
+  .then(function(r){return r.json();})
+  .then(function(d){
+    _roomPhotos=Array.isArray(d)?d:[];
+    renderRoomPhotosPreview();
+  })
+  .catch(function(){_roomPhotos=[];renderRoomPhotosPreview();});
+}
+
+function renderRoomPhotosPreview(){
+  var preview=document.getElementById('roomPhotosPreview');
+  if(!preview)return;
+  if(!_roomPhotos.length){
+    preview.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:16px;color:var(--dim);font-size:12px;">Aucune photo pour cette chambre</div>';
+    return;
+  }
+  preview.innerHTML=_roomPhotos.map(function(p,i){
+    return '<div style="position:relative;aspect-ratio:4/3;border-radius:var(--r);overflow:hidden;background:var(--bg3);">'
+      +'<img src="'+(p.url||p)+'" style="width:100%;height:100%;object-fit:cover;" loading="lazy">'
+      +(i===0?'<div style="position:absolute;bottom:3px;left:3px;font-size:9px;padding:2px 5px;background:rgba(46,204,113,.85);border-radius:8px;color:#fff;font-weight:700;">Principale</div>':'')
+      +'<button onclick="deleteRoomPhoto(\''+p.id+'\','+i+')" style="position:absolute;top:3px;right:3px;width:22px;height:22px;border-radius:50%;background:rgba(231,76,60,.85);border:none;color:#fff;font-size:11px;cursor:pointer;">✕</button>'
+      +'</div>';
+  }).join('');
+}
+
+function handleRoomPhotoUpload(input){
+  var files=Array.from(input.files);
+  if(!_currentRoomId){showToast('Sélectionnez une chambre d\'abord','error');return;}
+  var zone=document.getElementById('roomPhotoUploadZone');
+  files.forEach(function(file){
+    if(file.size>5*1024*1024){showToast('❌ Photo trop lourde: '+file.name+' (max 5MB)','error');return;}
+    /* Upload vers Supabase Storage */
+    var ext=file.name.split('.').pop().toLowerCase()||'jpg';
+    var filename='room_'+_currentRoomId+'_'+Date.now()+'_'+Math.random().toString(36).slice(2,6)+'.'+ext;
+    var path='room-photos/'+filename;
+    fetch(SB+'/storage/v1/object/hotel-photos/'+path,{
+      method:'POST',
+      headers:{'apikey':SK,'Authorization':'Bearer '+SK,'Content-Type':file.type,'x-upsert':'true'},
+      body:file
+    }).then(function(r){
+      if(r.ok||r.status===200){
+        var url=SB+'/storage/v1/object/public/hotel-photos/'+path;
+        saveRoomPhotoToDb(url);
+        if(zone)zone.style.borderColor='rgba(46,204,113,.5)';
+      } else {
+        /* Fallback: aperçu local (non sauvegardé côté serveur) */
+        var localUrl=URL.createObjectURL(file);
+        _roomPhotos.push({id:'local_'+Date.now(),url:localUrl});
+        renderRoomPhotosPreview();
+        showToast('⚠️ Upload Storage échoué — créez le bucket "hotel-photos" dans Supabase','error');
+      }
+    }).catch(function(){
+      var localUrl=URL.createObjectURL(file);
+      _roomPhotos.push({id:'local_'+Date.now(),url:localUrl});
+      renderRoomPhotosPreview();
+      showToast('Erreur réseau','error');
+    });
+  });
+  input.value='';
+}
+
+function saveRoomPhotoToDb(url){
+  if(!_currentRoomId||!G.hotel)return;
+  fetch(SB+'/rest/v1/room_photos',{
+    method:'POST',
+    headers:Object.assign({},HDR,{'Prefer':'return=representation'}),
+    body:JSON.stringify({room_id:_currentRoomId,hotel_id:G.hotel.id,url:url})
+  }).then(function(r){return r.json();})
+  .then(function(d){
+    var rec=Array.isArray(d)?d[0]:d;
+    if(rec&&rec.id){_roomPhotos.push(rec);renderRoomPhotosPreview();showToast('✅ Photo de chambre ajoutée !','success');}
+    else showToast('❌ Erreur sauvegarde photo','error');
+  }).catch(function(){showToast('Erreur réseau','error');});
+}
+
+function submitRoomPhotoUrl(){
+  var url=(document.getElementById('roomPhotoUrl').value||'').trim();
+  if(!url){showToast('Entrez une URL','error');return;}
+  if(!url.startsWith('http')){showToast('❌ URL invalide','error');return;}
+  if(!_currentRoomId){showToast('Sélectionnez une chambre d\'abord','error');return;}
+  saveRoomPhotoToDb(url);
+  document.getElementById('roomPhotoUrl').value='';
+}
+
+function deleteRoomPhoto(photoId,idx){
+  if(!confirm('Supprimer cette photo ?'))return;
+  if(photoId&&!photoId.startsWith('local_')){
+    fetch(SB+'/rest/v1/room_photos?id=eq.'+photoId,{method:'DELETE',headers:HDR})
+    .then(function(r){
+      if(r.ok||r.status===204){
+        _roomPhotos=_roomPhotos.filter(function(p){return p.id!==photoId;});
+        renderRoomPhotosPreview();showToast('Photo supprimée','success');
+      } else showToast('Erreur suppression','error');
+    }).catch(function(){showToast('Erreur réseau','error');});
+  } else {
+    _roomPhotos.splice(idx,1);renderRoomPhotosPreview();
+  }
+}
 
 /* ══ INFO & HOURS ══ */
 function saveHours(){
