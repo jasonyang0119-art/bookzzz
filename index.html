@@ -21,7 +21,7 @@ body{overflow:hidden;}
 button,input{font-family:'DM Sans',sans-serif;cursor:pointer;}
 
 /* ── SCREENS ── */
-.screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .45s ease;z-index:10;overflow:hidden;}
+.screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .45s ease;z-index:10;}
 .screen.active{opacity:1;pointer-events:all;}
 #home{align-items:flex-start;overflow-y:auto;overflow-x:hidden;}
 #home::-webkit-scrollbar{width:0;}
@@ -974,10 +974,16 @@ function openH(id,idx){
 
 /* TABS */
 function setTab(el,tab){
-  document.querySelectorAll('.ni').forEach(function(x){x.classList.remove('active');});el.classList.add('active');
+  document.querySelectorAll('.ni').forEach(function(x){x.classList.remove('active');});
+  if(el)el.classList.add('active');
   document.querySelectorAll('.tab-panel').forEach(function(x){x.classList.remove('active');});
-  document.getElementById('panel-'+tab).classList.add('active');
+  var panel=document.getElementById('panel-'+tab);
+  if(panel)panel.classList.add('active');
+  var homeEl=document.getElementById('home');
+  if(homeEl)homeEl.scrollTo(0,0);
   if(tab==='bookings')loadBookings();
+  if(tab==='map')loadTaxiSection();
+  if(tab==='profile')refreshProfilePanel();
 }
 
 /* BOOKINGS */
@@ -1012,26 +1018,12 @@ function markArrived(idx){
   var t=T[S.lang];
   var bookings=JSON.parse(localStorage.getItem('bz_bookings')||'[]');
   if(!bookings[idx])return;
-  var b=bookings[idx];
-  b.status='arrived';
+  bookings[idx].status='arrived';
   localStorage.setItem('bz_bookings',JSON.stringify(bookings));
-  /* Mise à jour Supabase — cherche par référence BZ (plus fiable que reservationId) */
-  var arrivedAt=new Date().toISOString();
-  var patchUrl=null;
-  if(b.reservationId){
-    patchUrl=SB+'/rest/v1/reservations?id=eq.'+b.reservationId;
-  } else if(b.ref){
-    patchUrl=SB+'/rest/v1/reservations?reference=eq.'+encodeURIComponent(b.ref);
+  if(bookings[idx].reservationId){
+    fetch(SB+'/rest/v1/reservations?id=eq.'+bookings[idx].reservationId,{method:'PATCH',headers:Object.assign({},HDR,{'Prefer':'return=minimal'}),body:JSON.stringify({status:'arrived',arrived_at:new Date().toISOString()})}).catch(function(){});
   }
-  if(patchUrl){
-    fetch(patchUrl,{
-      method:'PATCH',
-      headers:Object.assign({},HDR,{'Prefer':'return=minimal'}),
-      body:JSON.stringify({status:'arrived',arrived_at:arrivedAt})
-    }).catch(function(){});
-  }
-  loadBookings();
-  showToast(t.arrivedBtn+' ✓');
+  loadBookings();showToast(t.arrivedBtn+' ✓');
 }
 
 /* ADJUST */
@@ -1099,11 +1091,20 @@ function loadTaxiSection(){
   }).join('');
 }
 
-/* Call taxi section when switching to map tab */
-var _origSetTab=setTab;
-function setTab(el,tab){
-  _origSetTab(el,tab);
-  if(tab==='map')loadTaxiSection();
+/* PROFILE PANEL */
+function refreshProfilePanel(){
+  var t=T[S.lang];
+  var cName=S.country?(S.lang==='en'?S.country.name_en:S.lang==='sw'?S.country.name_sw:S.country.name_fr):'—';
+  var cityName=S.city?S.city.name:null;
+  var el=function(id){return document.getElementById(id);};
+  if(el('profNameD'))el('profNameD').textContent=(S.user.firstName||'')+' '+(S.user.lastName||'');
+  if(el('profCountryD'))el('profCountryD').textContent=(S.country?S.country.flag:'')+' '+cName+(cityName?' · '+cityName:'');
+  if(el('pirV1'))el('pirV1').textContent=S.user.firstName||'—';
+  if(el('pirV2'))el('pirV2').textContent=S.user.lastName||'—';
+  if(el('pirV3'))el('pirV3').textContent=S.gc||1;
+  if(el('pirV4'))el('pirV4').textContent={fr:'Français',en:'English',sw:'Kiswahili'}[S.lang]||S.lang;
+  if(el('pirV5'))el('pirV5').textContent=(S.country?S.country.flag:'')+' '+cName+(cityName?' — '+cityName:'');
+  if(t&&t.faqs)renderFAQ(t.faqs);
 }
 
 /* Toast */
