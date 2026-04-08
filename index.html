@@ -14,7 +14,7 @@
   --border:rgba(93,173,226,0.18);--border2:rgba(26,127,212,0.3);
   --text:#e8f4fd;--text-dim:rgba(220,240,255,0.52);
   --green:#2ecc71;--red:#e74c3c;--yellow:#f39c12;
-  --r-xl:28px;--r-lg:20px;--r-md:14px;--r-sm:10px;
+  --r-xl:40px;--r-lg:28px;--r-md:20px;--r-sm:14px;
 }
 html,body{width:100%;height:100%;font-family:'DM Sans',sans-serif;background:var(--bg-deep);color:var(--text);}
 body{overflow:hidden;}
@@ -974,10 +974,16 @@ function openH(id,idx){
 
 /* TABS */
 function setTab(el,tab){
-  document.querySelectorAll('.ni').forEach(function(x){x.classList.remove('active');});el.classList.add('active');
+  document.querySelectorAll('.ni').forEach(function(x){x.classList.remove('active');});
+  if(el)el.classList.add('active');
   document.querySelectorAll('.tab-panel').forEach(function(x){x.classList.remove('active');});
-  document.getElementById('panel-'+tab).classList.add('active');
+  var panel=document.getElementById('panel-'+tab);
+  if(panel)panel.classList.add('active');
+  var homeEl=document.getElementById('home');
+  if(homeEl)homeEl.scrollTo(0,0);
   if(tab==='bookings')loadBookings();
+  if(tab==='map')loadTaxiSection();
+  if(tab==='profile')refreshProfilePanel();
 }
 
 /* BOOKINGS */
@@ -1085,11 +1091,18 @@ function loadTaxiSection(){
   }).join('');
 }
 
-/* Call taxi section when switching to map tab */
-var _origSetTab=setTab;
-function setTab(el,tab){
-  _origSetTab(el,tab);
-  if(tab==='map')loadTaxiSection();
+/* PROFILE PANEL */
+function refreshProfilePanel(){
+  var t=T[S.lang];
+  var cName=S.country?(S.lang==='en'?S.country.name_en:S.lang==='sw'?S.country.name_sw:S.country.name_fr):'—';
+  var cityName=S.city?S.city.name:null;
+  var profName=document.getElementById('profNameD');
+  var profCountry=document.getElementById('profCountryD');
+  if(profName)profName.textContent=(S.user.firstName||'')+' '+(S.user.lastName||'');
+  if(profCountry)profCountry.textContent=(S.country?S.country.flag:'')+' '+cName+(cityName?' · '+cityName:'');
+  var fields={pirV1:S.user.firstName||'—',pirV2:S.user.lastName||'—',pirV3:S.gc||1,pirV4:{fr:'Français',en:'English',sw:'Kiswahili'}[S.lang]||S.lang,pirV5:(S.country?S.country.flag:'')+' '+cName+(cityName?' — '+cityName:'')};
+  Object.keys(fields).forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=fields[id];});
+  if(t&&t.faqs)renderFAQ(t.faqs);
 }
 
 /* Toast */
