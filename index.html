@@ -815,7 +815,7 @@ function applyHomeUI(){
   document.getElementById('profCountryD').textContent=S.country.flag+' '+cName+(cityName?' · '+cityName:'');
   document.getElementById('changeLangBtn').textContent=t.changeLang;
   document.getElementById('faqTitle').innerHTML=t.faqTitle;
-  renderFAQ(t.faqs);loadBookings();
+  renderFAQ(t.faqs);
 }
 
 /* FAQ */
@@ -1018,11 +1018,14 @@ function markArrived(idx){
   var t=T[S.lang];
   var bookings=JSON.parse(localStorage.getItem('bz_bookings')||'[]');
   if(!bookings[idx])return;
-  bookings[idx].status='arrived';
+  var b=bookings[idx];
+  b.status='arrived';
   localStorage.setItem('bz_bookings',JSON.stringify(bookings));
-  if(bookings[idx].reservationId){
-    fetch(SB+'/rest/v1/reservations?id=eq.'+bookings[idx].reservationId,{method:'PATCH',headers:Object.assign({},HDR,{'Prefer':'return=minimal'}),body:JSON.stringify({status:'arrived',arrived_at:new Date().toISOString()})}).catch(function(){});
-  }
+  var arrivedAt=new Date().toISOString();
+  var patchUrl=null;
+  if(b.reservationId){patchUrl=SB+'/rest/v1/reservations?id=eq.'+b.reservationId;}
+  else if(b.ref){patchUrl=SB+'/rest/v1/reservations?reference=eq.'+encodeURIComponent(b.ref);}
+  if(patchUrl){fetch(patchUrl,{method:'PATCH',headers:Object.assign({},HDR,{'Prefer':'return=minimal'}),body:JSON.stringify({status:'arrived',arrived_at:arrivedAt})}).catch(function(){});}
   loadBookings();showToast(t.arrivedBtn+' ✓');
 }
 
@@ -1090,6 +1093,8 @@ function loadTaxiSection(){
       +'</div></div>';
   }).join('');
 }
+
+
 
 /* PROFILE PANEL */
 function refreshProfilePanel(){
