@@ -8,12 +8,12 @@
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{
-  --bg:#060e1a;--bg2:#091628;--bg3:#0d2040;--navy:#0d2d5e;
+  --bg:#060e1a;--bg2:#091628;--bg3:#0d2040;
   --azure:#5DADE2;--azure2:#85C1E9;--blue:#1a7fd4;
   --white:#f0f7ff;--glass:rgba(13,32,64,0.6);--glass2:rgba(6,14,26,0.92);
   --border:rgba(93,173,226,0.18);--border2:rgba(26,127,212,0.3);
   --text:#e8f4fd;--dim:rgba(220,240,255,0.5);
-  --green:#2ecc71;--red:#e74c3c;--yellow:#f39c12;--orange:#e67e22;
+  --green:#2ecc71;--red:#e74c3c;--yellow:#f39c12;
   --r:14px;--r2:20px;--r3:28px;
 }
 html,body{min-height:100%;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);}
@@ -23,182 +23,159 @@ input,select,textarea{background:rgba(13,32,64,.6);border:1px solid var(--border
 input:focus,select:focus,textarea:focus{border-color:rgba(93,173,226,.55);box-shadow:0 0 0 3px rgba(93,173,226,.07);}
 input::placeholder,textarea::placeholder{color:rgba(220,240,255,.22);}
 select option{background:var(--bg2);}
-label.field-lbl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--azure2);display:block;margin-bottom:5px;}
+.flbl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--azure2);display:block;margin-bottom:5px;}
 
-/* ═══ SUPERADMIN BANNER ═══ */
-.superadmin-banner{position:fixed;top:0;left:0;right:0;z-index:2000;background:linear-gradient(90deg,rgba(155,89,182,.9),rgba(26,127,212,.9));padding:10px 20px;display:none;align-items:center;justify-content:space-between;backdrop-filter:blur(10px);}
-.superadmin-banner.show{display:flex;}
-.sb-txt{font-size:12px;font-weight:700;color:#fff;}
-.sb-back{padding:6px 14px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);border-radius:40px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;transition:all .3s;}
-.sb-back:hover{background:rgba(255,255,255,.3);}
+/* SUPER ADMIN BANNER */
+.sa-banner{position:fixed;top:0;left:0;right:0;z-index:2000;background:linear-gradient(90deg,rgba(155,89,182,.9),rgba(26,127,212,.9));padding:10px 20px;display:none;align-items:center;justify-content:space-between;backdrop-filter:blur(10px);}
+.sa-banner.show{display:flex;}
+.sa-txt{font-size:12px;font-weight:700;color:#fff;}
+.sa-back{padding:6px 14px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);border-radius:40px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;}
+.sa-back:hover{background:rgba(255,255,255,.3);}
 
-/* ═══ LOGIN ═══ */
-#loginScreen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:1000;
-  background:radial-gradient(ellipse 100% 55% at 50% 100%,rgba(26,127,212,.22) 0%,transparent 60%),
-  linear-gradient(180deg,#04080f 0%,#060e1a 40%,#091628 70%,#060e1a 100%);}
-.login-card{background:var(--glass2);border:1px solid var(--border2);border-radius:var(--r3);
-  padding:48px 52px 44px;width:90%;max-width:400px;position:relative;box-shadow:0 40px 90px rgba(0,0,0,.6);text-align:center;}
-.login-card::before{content:'';position:absolute;top:0;left:14%;right:14%;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(93,173,226,.5),rgba(26,127,212,.9),rgba(93,173,226,.5),transparent);}
-.login-logo{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:var(--white);margin-bottom:4px;}
-.login-logo span{color:var(--azure);font-style:italic;}
-.login-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(93,173,226,.09);border:1px solid rgba(93,173,226,.22);border-radius:40px;padding:4px 14px;margin-bottom:24px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--azure);}
-.login-hotel-name{font-size:16px;font-weight:600;color:var(--white);margin-bottom:20px;padding:10px 16px;background:rgba(93,173,226,.07);border:1px solid rgba(93,173,226,.15);border-radius:var(--r);}
-.login-field{text-align:left;margin-bottom:14px;}
-.login-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--azure),var(--blue));border:none;border-radius:var(--r2);color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-top:4px;transition:all .3s;}
-.login-btn:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(93,173,226,.35);}
-.login-err{font-size:12px;color:var(--red);margin-top:8px;display:none;}
-.login-note{font-size:11px;color:var(--dim);margin-top:14px;line-height:1.6;}
+/* LOGIN */
+#loginScreen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:1000;background:radial-gradient(ellipse 100% 55% at 50% 100%,rgba(26,127,212,.22) 0%,transparent 60%),linear-gradient(180deg,#04080f 0%,#060e1a 40%,#091628 70%,#060e1a 100%);}
+.lcard{background:var(--glass2);border:1px solid var(--border2);border-radius:var(--r3);padding:44px 48px 40px;width:90%;max-width:390px;position:relative;box-shadow:0 40px 90px rgba(0,0,0,.6);text-align:center;}
+.lcard::before{content:'';position:absolute;top:0;left:14%;right:14%;height:1px;background:linear-gradient(90deg,transparent,rgba(93,173,226,.5),rgba(26,127,212,.9),rgba(93,173,226,.5),transparent);}
+.llogo{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:700;color:var(--white);margin-bottom:4px;}
+.llogo span{color:var(--azure);font-style:italic;}
+.lbadge{display:inline-flex;align-items:center;gap:6px;background:rgba(93,173,226,.09);border:1px solid rgba(93,173,226,.22);border-radius:40px;padding:4px 14px;margin-bottom:18px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--azure);}
+.lhotel{font-size:15px;font-weight:600;color:var(--white);margin-bottom:18px;padding:10px 14px;background:rgba(93,173,226,.07);border:1px solid rgba(93,173,226,.15);border-radius:var(--r);}
+.lfld{text-align:left;margin-bottom:12px;}
+.lbtn{width:100%;padding:13px;background:linear-gradient(135deg,var(--azure),var(--blue));border:none;border-radius:var(--r2);color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-top:4px;transition:all .3s;}
+.lbtn:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(93,173,226,.35);}
+.lbtn:disabled{background:rgba(13,32,64,.5);color:var(--dim);cursor:not-allowed;transform:none;box-shadow:none;}
+.lerr{font-size:12px;color:var(--red);margin-top:8px;padding:8px 12px;background:rgba(231,76,60,.08);border:1px solid rgba(231,76,60,.2);border-radius:var(--r);line-height:1.5;display:none;}
+.lnote{font-size:11px;color:var(--dim);margin-top:14px;line-height:1.6;}
 
-/* ═══ LAYOUT ═══ */
+/* LAYOUT */
 #app{display:none;width:100%;min-height:100vh;}
 #app.visible{display:flex;}
-
-/* SIDEBAR */
 .sidebar{width:230px;min-height:100vh;background:var(--glass2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;transition:transform .3s;}
 .sidebar.collapsed{transform:translateX(-230px);}
-.sb-logo{padding:22px 18px 18px;border-bottom:1px solid var(--border);}
-.sb-logo-txt{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--white);}
+.sb-logo{padding:20px 18px 16px;border-bottom:1px solid var(--border);}
+.sb-logo-txt{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--white);}
 .sb-logo-txt span{color:var(--azure);font-style:italic;}
-.sb-hotel{font-size:11px;color:var(--azure);margin-top:4px;font-weight:600;}
-.sb-nav{flex:1;padding:14px 10px;overflow-y:auto;}
+.sb-hotel{font-size:11px;color:var(--azure);margin-top:3px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sb-nav{flex:1;padding:12px 10px;overflow-y:auto;}
 .sb-nav::-webkit-scrollbar{width:0;}
 .sb-sec{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);padding:8px 10px 4px;margin-top:6px;}
-.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r);cursor:pointer;transition:all .3s;color:var(--dim);font-size:13px;font-weight:500;margin-bottom:2px;border:none;background:none;width:100%;text-align:left;}
-.nav-item:hover{background:rgba(93,173,226,.08);color:var(--azure2);}
-.nav-item.active{background:rgba(93,173,226,.12);color:var(--azure);border-left:3px solid var(--azure);padding-left:9px;}
-.nav-item .ni{font-size:15px;flex-shrink:0;width:20px;text-align:center;}
-.sb-bottom{padding:14px 10px;border-top:1px solid var(--border);}
-.logout-btn{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:var(--r);cursor:pointer;color:var(--red);font-size:13px;font-weight:500;background:rgba(231,76,60,.08);border:1px solid rgba(231,76,60,.2);width:100%;transition:all .3s;}
-.logout-btn:hover{background:rgba(231,76,60,.15);}
+.ni{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r);cursor:pointer;transition:all .3s;color:var(--dim);font-size:13px;font-weight:500;margin-bottom:2px;border:none;background:none;width:100%;text-align:left;}
+.ni:hover{background:rgba(93,173,226,.08);color:var(--azure2);}
+.ni.active{background:rgba(93,173,226,.12);color:var(--azure);border-left:3px solid var(--azure);padding-left:9px;}
+.ni .ico{font-size:15px;flex-shrink:0;width:20px;text-align:center;}
+.sb-bottom{padding:12px 10px;border-top:1px solid var(--border);}
+.logoutbtn{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:var(--r);cursor:pointer;color:var(--red);font-size:13px;font-weight:500;background:rgba(231,76,60,.08);border:1px solid rgba(231,76,60,.2);width:100%;transition:all .3s;}
+.logoutbtn:hover{background:rgba(231,76,60,.15);}
 
-/* MAIN */
 .main-content{flex:1;margin-left:230px;min-height:100vh;transition:margin .3s;}
 .main-content.expanded{margin-left:0;}
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;background:rgba(6,14,26,.9);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;backdrop-filter:blur(20px);}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;background:rgba(6,14,26,.9);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;backdrop-filter:blur(20px);}
 .topbar-left{display:flex;align-items:center;gap:12px;}
-.menu-toggle{width:34px;height:34px;border:none;background:rgba(93,173,226,.1);border-radius:var(--r);color:var(--azure);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-.page-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--white);}
-.page-title span{color:var(--azure);font-style:italic;}
-.hotel-pill{display:flex;align-items:center;gap:7px;padding:7px 14px;background:rgba(93,173,226,.1);border:1px solid rgba(93,173,226,.25);border-radius:40px;font-size:12px;font-weight:600;color:var(--azure);}
-.notif-badge{position:relative;}
-.notif-btn{width:34px;height:34px;border:1px solid var(--border);border-radius:var(--r);background:rgba(13,32,64,.5);color:var(--dim);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.menu-toggle{width:32px;height:32px;border:none;background:rgba(93,173,226,.1);border-radius:var(--r);color:var(--azure);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.ptitle{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:700;color:var(--white);}
+.ptitle span{color:var(--azure);font-style:italic;}
+.hotel-pill{display:flex;align-items:center;gap:6px;padding:6px 13px;background:rgba(93,173,226,.1);border:1px solid rgba(93,173,226,.25);border-radius:40px;font-size:12px;font-weight:600;color:var(--azure);}
+.notif-wrap{position:relative;}
+.notif-btn{width:32px;height:32px;border:1px solid var(--border);border-radius:var(--r);background:rgba(13,32,64,.5);color:var(--dim);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
 .notif-dot{position:absolute;top:5px;right:5px;width:7px;height:7px;border-radius:50%;background:var(--red);}
 
-/* CONTENT */
-.content{padding:22px 24px;}
-.content-section{display:none;}
-.content-section.active{display:block;}
+.content{padding:20px 22px;}
+.section{display:none;}
+.section.active{display:block;}
 
 /* STATS */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:24px;}
-.stat-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:18px 20px;position:relative;overflow:hidden;transition:all .3s;}
-.stat-card:hover{border-color:var(--border2);transform:translateY(-2px);}
-.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
-.sc-blue::before{background:linear-gradient(90deg,var(--azure),var(--blue));}
-.sc-green::before{background:linear-gradient(90deg,var(--green),#27ae60);}
-.sc-yellow::before{background:linear-gradient(90deg,var(--yellow),var(--orange));}
-.sc-red::before{background:linear-gradient(90deg,var(--red),#c0392b);}
-.stat-icon{font-size:26px;margin-bottom:8px;}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:22px;}
+.stat{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:16px 18px;position:relative;overflow:hidden;transition:all .3s;}
+.stat:hover{border-color:var(--border2);transform:translateY(-2px);}
+.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.stat.blue::before{background:linear-gradient(90deg,var(--azure),var(--blue));}
+.stat.green::before{background:linear-gradient(90deg,var(--green),#27ae60);}
+.stat.yellow::before{background:linear-gradient(90deg,var(--yellow),#e67e22);}
+.stat.red::before{background:linear-gradient(90deg,var(--red),#c0392b);}
+.stat-icon{font-size:24px;margin-bottom:6px;}
 .stat-val{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--white);line-height:1;}
-.stat-lbl{font-size:11px;color:var(--dim);margin-top:3px;}
+.stat-lbl{font-size:10px;color:var(--dim);margin-top:2px;}
 
 /* SECTION HEADERS */
-.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:10px;flex-wrap:wrap;}
-.sec-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--white);}
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px;flex-wrap:wrap;}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--white);}
 .sec-title span{color:var(--azure);font-style:italic;}
-.add-btn{display:flex;align-items:center;gap:7px;padding:9px 16px;background:linear-gradient(135deg,var(--azure),var(--blue));border:none;border-radius:var(--r);color:#fff;font-size:12px;font-weight:700;cursor:pointer;transition:all .3s;flex-shrink:0;}
-.add-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(93,173,226,.3);}
+.add-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;background:linear-gradient(135deg,var(--azure),var(--blue));border:none;border-radius:var(--r);color:#fff;font-size:12px;font-weight:700;cursor:pointer;transition:all .3s;flex-shrink:0;}
+.add-btn:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(93,173,226,.3);}
 
-/* INFO NOTICE */
-.notice{display:flex;align-items:flex-start;gap:10px;padding:14px 16px;background:rgba(93,173,226,.07);border:1px solid rgba(93,173,226,.2);border-radius:var(--r2);margin-bottom:16px;}
-.notice-icon{font-size:18px;flex-shrink:0;}
+/* NOTICE */
+.notice{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;background:rgba(93,173,226,.07);border:1px solid rgba(93,173,226,.2);border-radius:var(--r2);margin-bottom:14px;}
+.notice-ico{font-size:17px;flex-shrink:0;}
 .notice-txt{font-size:12px;color:var(--dim);line-height:1.6;}
 .notice-txt strong{color:var(--azure2);}
 .notice.warn{background:rgba(243,156,18,.07);border-color:rgba(243,156,18,.2);}
 .notice.warn .notice-txt strong{color:var(--yellow);}
 
 /* TABLE */
-.tbl-wrap{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;margin-bottom:20px;overflow-x:auto;}
-table{width:100%;border-collapse:collapse;min-width:500px;}
-th{padding:10px 14px;text-align:left;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);background:rgba(13,32,64,.4);border-bottom:1px solid var(--border);}
-td{padding:12px 14px;font-size:13px;border-bottom:1px solid rgba(93,173,226,.06);vertical-align:middle;}
+.tbl-wrap{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;margin-bottom:18px;overflow-x:auto;}
+table{width:100%;border-collapse:collapse;min-width:480px;}
+th{padding:9px 13px;text-align:left;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);background:rgba(13,32,64,.4);border-bottom:1px solid var(--border);}
+td{padding:11px 13px;font-size:13px;border-bottom:1px solid rgba(93,173,226,.06);vertical-align:middle;}
 tr:last-child td{border-bottom:none;}
 tr:hover td{background:rgba(93,173,226,.04);}
-.tbl-badge{display:inline-flex;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;}
-.badge-active{background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.3);color:var(--green);}
-.badge-pending{background:rgba(243,156,18,.12);border:1px solid rgba(243,156,18,.3);color:var(--yellow);}
-.badge-inactive{background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.25);color:var(--red);}
-.badge-arrived{background:rgba(93,173,226,.12);border:1px solid rgba(93,173,226,.3);color:var(--azure);}
-.badge-review{background:rgba(155,89,182,.12);border:1px solid rgba(155,89,182,.3);color:#9b59b6;}
-.tbl-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
-.act-btn{padding:5px 10px;border:none;border-radius:var(--r);font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;}
-.act-edit{background:rgba(93,173,226,.12);color:var(--azure);}
-.act-edit:hover{background:rgba(93,173,226,.22);}
-.act-toggle{background:rgba(46,204,113,.1);color:var(--green);}
-.act-toggle:hover{background:rgba(46,204,113,.2);}
-.act-toggle.off{background:rgba(231,76,60,.1);color:var(--red);}
-.act-toggle.off:hover{background:rgba(231,76,60,.2);}
-
-/* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(4,8,20,.88);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s ease;backdrop-filter:blur(8px);padding:16px;}
-.modal-overlay.open{opacity:1;pointer-events:all;}
-.modal{background:var(--glass2);border:1px solid var(--border2);border-radius:var(--r3);width:100%;max-width:560px;max-height:88vh;overflow-y:auto;box-shadow:0 40px 90px rgba(0,0,0,.6);position:relative;}
-.modal::-webkit-scrollbar{width:0;}
-.modal-head{padding:22px 24px 0;position:sticky;top:0;background:var(--glass2);z-index:10;padding-bottom:14px;border-bottom:1px solid var(--border);}
-.modal-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--white);}
-.modal-title span{color:var(--azure);font-style:italic;}
-.modal-close{position:absolute;top:18px;right:18px;width:28px;height:28px;border-radius:50%;background:rgba(93,173,226,.1);border:1px solid var(--border);color:var(--dim);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;}
-.modal-close:hover{color:var(--white);}
-.modal-body{padding:18px 24px 24px;}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.form-grid.g1{grid-template-columns:1fr;}
-.field{display:flex;flex-direction:column;gap:4px;}
-.field.full{grid-column:1/-1;}
-.modal-footer{display:flex;gap:10px;justify-content:flex-end;padding-top:14px;border-top:1px solid var(--border);margin-top:4px;}
-.btn-save{padding:10px 22px;background:linear-gradient(135deg,var(--azure),var(--blue));border:none;border-radius:var(--r);color:#fff;font-size:13px;font-weight:700;cursor:pointer;transition:all .3s;}
-.btn-save:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(93,173,226,.3);}
-.btn-review{padding:10px 22px;background:linear-gradient(135deg,var(--yellow),var(--orange));border:none;border-radius:var(--r);color:#fff;font-size:13px;font-weight:700;cursor:pointer;transition:all .3s;}
-.btn-review:hover{transform:translateY(-1px);}
-.btn-cancel{padding:10px 18px;background:rgba(13,32,64,.5);border:1px solid var(--border);border-radius:var(--r);color:var(--dim);font-size:13px;cursor:pointer;transition:all .3s;}
-.btn-cancel:hover{color:var(--white);}
+.badge{display:inline-flex;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;}
+.b-active{background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.3);color:var(--green);}
+.b-pending{background:rgba(243,156,18,.12);border:1px solid rgba(243,156,18,.3);color:var(--yellow);}
+.b-inactive{background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.25);color:var(--red);}
+.b-arrived{background:rgba(93,173,226,.12);border:1px solid rgba(93,173,226,.3);color:var(--azure);}
+.b-gtd{background:rgba(46,204,113,.1);border:1px solid rgba(46,204,113,.25);color:var(--green);}
+.b-cash{background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.25);color:var(--red);}
+.acts{display:flex;gap:5px;flex-wrap:wrap;}
+.abtn{padding:5px 9px;border:none;border-radius:var(--r);font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;}
+.a-edit{background:rgba(93,173,226,.12);color:var(--azure);}
+.a-edit:hover{background:rgba(93,173,226,.22);}
+.a-toggle{background:rgba(46,204,113,.1);color:var(--green);}
+.a-toggle:hover{background:rgba(46,204,113,.2);}
+.a-toggle.off{background:rgba(231,76,60,.1);color:var(--red);}
+.a-toggle.off:hover{background:rgba(231,76,60,.2);}
 
 /* ARRIVAL CARDS */
-.arrival-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:16px 18px;margin-bottom:12px;display:flex;align-items:flex-start;gap:14px;transition:all .3s;}
-.arrival-card.new-arrival{border-color:rgba(46,204,113,.3);background:rgba(46,204,113,.04);}
-.arrival-card.cash-arrival{border-color:rgba(243,156,18,.3);background:rgba(243,156,18,.03);}
-.arr-ico{font-size:26px;flex-shrink:0;}
-.arr-info{flex:1;min-width:0;}
-.arr-name{font-size:14px;font-weight:600;color:var(--white);margin-bottom:3px;}
+.arr-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:14px 16px;margin-bottom:10px;display:flex;align-items:flex-start;gap:12px;}
+.arr-card.new{border-color:rgba(46,204,113,.3);background:rgba(46,204,113,.04);}
+.arr-card.cash{border-color:rgba(243,156,18,.3);}
+.arr-ico{font-size:24px;flex-shrink:0;}
+.arr-info{flex:1;}
+.arr-name{font-size:13px;font-weight:600;color:var(--white);margin-bottom:3px;}
 .arr-detail{font-size:11px;color:var(--dim);line-height:1.5;}
 .arr-ref{font-size:10px;color:var(--azure);margin-top:3px;font-weight:700;}
-.arr-time{font-size:10px;color:var(--dim);margin-top:4px;}
-.arr-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
-.lock-badge{font-size:10px;color:var(--dim);padding:3px 8px;background:rgba(13,32,64,.5);border-radius:20px;}
+.arr-time{font-size:10px;color:var(--dim);margin-top:3px;}
+.arr-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px;}
 
-/* PHOTO UPLOAD */
-.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-bottom:14px;}
-.photo-slot{aspect-ratio:4/3;border:2px dashed rgba(93,173,226,.3);border-radius:var(--r);overflow:hidden;position:relative;cursor:pointer;transition:all .3s;background:rgba(13,32,64,.4);display:flex;align-items:center;justify-content:center;}
-.photo-slot:hover{border-color:rgba(93,173,226,.6);background:rgba(93,173,226,.06);}
-.photo-slot img{width:100%;height:100%;object-fit:cover;}
-.photo-slot-ph{display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--dim);font-size:11px;}
-.photo-slot-ph .ph-ico{font-size:24px;}
-.photo-del{position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:50%;background:rgba(231,76,60,.8);border:none;color:#fff;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-.upload-hint{font-size:11px;color:var(--dim);line-height:1.6;}
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(4,8,20,.88);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(8px);padding:16px;}
+.modal-bg.open{opacity:1;pointer-events:all;}
+.modal{background:var(--glass2);border:1px solid var(--border2);border-radius:var(--r3);width:100%;max-width:540px;max-height:88vh;overflow-y:auto;box-shadow:0 40px 90px rgba(0,0,0,.6);position:relative;}
+.modal::-webkit-scrollbar{width:0;}
+.modal-hd{padding:20px 22px 0;position:sticky;top:0;background:var(--glass2);z-index:10;padding-bottom:12px;border-bottom:1px solid var(--border);}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--white);}
+.modal-title span{color:var(--azure);font-style:italic;}
+.modal-x{position:absolute;top:16px;right:16px;width:26px;height:26px;border-radius:50%;background:rgba(93,173,226,.1);border:1px solid var(--border);color:var(--dim);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.modal-x:hover{color:var(--white);}
+.modal-body{padding:16px 22px 22px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+.fld{display:flex;flex-direction:column;gap:4px;}
+.fld.full{grid-column:1/-1;}
+.modal-ft{display:flex;gap:9px;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--border);margin-top:4px;}
+.btn-save{padding:9px 20px;background:linear-gradient(135deg,var(--azure),var(--blue));border:none;border-radius:var(--r);color:#fff;font-size:13px;font-weight:700;cursor:pointer;transition:all .3s;}
+.btn-save:hover{transform:translateY(-1px);}
+.btn-cancel{padding:9px 16px;background:rgba(13,32,64,.5);border:1px solid var(--border);border-radius:var(--r);color:var(--dim);font-size:13px;cursor:pointer;}
+.btn-cancel:hover{color:var(--white);}
 
-/* PROMOTIONS */
-.promo-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:18px 20px;margin-bottom:12px;}
-.promo-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;}
-.promo-title{font-size:14px;font-weight:600;color:var(--white);}
-.promo-date{font-size:10px;color:var(--dim);margin-top:2px;}
-.promo-body{font-size:12.5px;color:var(--dim);line-height:1.7;}
-.promo-actions{display:flex;gap:8px;margin-top:12px;}
-.promo-del{padding:6px 12px;background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.25);border-radius:var(--r);color:var(--red);font-size:11px;font-weight:600;cursor:pointer;}
+/* PHOTO UPLOAD ZONE */
+.upload-zone{border:2px dashed rgba(93,173,226,.3);border-radius:var(--r);padding:18px;text-align:center;cursor:pointer;transition:all .3s;background:rgba(13,32,64,.4);}
+.upload-zone:hover{border-color:rgba(93,173,226,.6);background:rgba(93,173,226,.05);}
+.upload-zone.success{border-color:rgba(46,204,113,.5);background:rgba(46,204,113,.04);}
+.upload-zone.error{border-color:rgba(231,76,60,.4);}
+.photos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin-bottom:10px;}
 
-/* HOTEL INFO FORM */
-.info-section{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:20px 22px;margin-bottom:16px;}
-.info-section-title{font-size:14px;font-weight:600;color:var(--white);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
-.pending-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;background:rgba(155,89,182,.12);border:1px solid rgba(155,89,182,.3);border-radius:20px;font-size:10px;font-weight:700;color:#9b59b6;margin-left:8px;}
+/* INFO SECTION */
+.info-section{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:18px 20px;margin-bottom:14px;}
+.info-section-title{font-size:13px;font-weight:600;color:var(--white);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
 
 /* TOGGLE */
 .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);}
@@ -208,13 +185,21 @@ tr:hover td{background:rgba(93,173,226,.04);}
 .toggle-sub{font-size:11px;color:var(--dim);margin-top:1px;}
 .toggle{position:relative;width:42px;height:22px;flex-shrink:0;}
 .toggle input{opacity:0;width:0;height:0;}
-.toggle-slider{position:absolute;inset:0;background:rgba(13,32,64,.8);border:1px solid var(--border);border-radius:11px;cursor:pointer;transition:all .3s;}
-.toggle-slider::before{content:'';position:absolute;width:16px;height:16px;left:2px;bottom:2px;background:var(--dim);border-radius:50%;transition:all .3s;}
-.toggle input:checked+.toggle-slider{background:rgba(93,173,226,.2);border-color:rgba(93,173,226,.5);}
-.toggle input:checked+.toggle-slider::before{transform:translateX(20px);background:var(--azure);}
+.tslider{position:absolute;inset:0;background:rgba(13,32,64,.8);border:1px solid var(--border);border-radius:11px;cursor:pointer;transition:all .3s;}
+.tslider::before{content:'';position:absolute;width:16px;height:16px;left:2px;bottom:2px;background:var(--dim);border-radius:50%;transition:all .3s;}
+.toggle input:checked+.tslider{background:rgba(93,173,226,.2);border-color:rgba(93,173,226,.5);}
+.toggle input:checked+.tslider::before{transform:translateX(20px);background:var(--azure);}
+
+/* PROMO CARD */
+.promo-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:16px 18px;margin-bottom:10px;}
+.promo-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px;}
+.promo-title{font-size:13px;font-weight:600;color:var(--white);}
+.promo-date{font-size:10px;color:var(--dim);margin-top:2px;}
+.promo-body{font-size:12px;color:var(--dim);line-height:1.7;}
+.promo-del{padding:5px 10px;background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.25);border-radius:var(--r);color:var(--red);font-size:10px;font-weight:600;cursor:pointer;}
 
 /* TOAST */
-.toast{position:fixed;top:20px;right:20px;background:rgba(13,32,64,.97);border:1px solid rgba(93,173,226,.4);border-radius:var(--r);padding:12px 20px;color:var(--white);font-size:13px;z-index:999;opacity:0;pointer-events:none;transition:all .35s cubic-bezier(.16,1,.3,1);box-shadow:0 12px 40px rgba(0,0,0,.4);max-width:320px;}
+.toast{position:fixed;top:18px;right:18px;background:rgba(13,32,64,.97);border:1px solid rgba(93,173,226,.4);border-radius:var(--r);padding:11px 18px;color:var(--white);font-size:13px;z-index:999;opacity:0;pointer-events:none;transition:all .35s cubic-bezier(.16,1,.3,1);box-shadow:0 12px 40px rgba(0,0,0,.4);max-width:320px;line-height:1.5;}
 .toast.show{opacity:1;}
 .toast.success{border-color:rgba(46,204,113,.4);}
 .toast.error{border-color:rgba(231,76,60,.4);}
@@ -229,75 +214,67 @@ tr:hover td{background:rgba(93,173,226,.04);}
 }
 @media(max-width:600px){
   .content{padding:14px;}
-  .topbar{padding:12px 16px;}
-  .stats-grid{grid-template-columns:1fr 1fr;}
+  .topbar{padding:12px 14px;}
+  table{font-size:12px;}
+  td,th{padding:9px 10px;}
 }
 </style>
 </head>
 <body>
 
-<!-- SUPERADMIN BANNER -->
-<div class="superadmin-banner" id="superAdminBanner">
-  <span class="sb-txt">👑 Mode Super Admin — Vous gérez l'hôtel : <strong id="bannerHotelName">—</strong></span>
-  <button class="sb-back" onclick="goBackToAdmin()">← Retour à mon Admin</button>
+<!-- SUPER ADMIN BANNER -->
+<div class="sa-banner" id="saBanner">
+  <span class="sa-txt">👑 Mode Super Admin — <strong id="saBannerName">—</strong></span>
+  <button class="sa-back" onclick="goBackAdmin()">← Retour Admin</button>
 </div>
 
 <!-- LOGIN -->
 <div id="loginScreen">
-  <div class="login-card">
-    <div class="login-logo">Book<span>Zzz</span></div>
-    <div class="login-badge">🏨 Espace Hôtelier</div>
-    <div class="login-hotel-name" id="loginHotelName">Chargement de l'hôtel...</div>
-    <div class="login-field">
-      <label class="field-lbl">MOT DE PASSE</label>
+  <div class="lcard">
+    <div class="llogo">Book<span>Zzz</span></div>
+    <div class="lbadge">🏨 Espace Hôtelier</div>
+    <div class="lhotel" id="loginHotelName">Chargement...</div>
+    <div class="lfld">
+      <label class="flbl">MOT DE PASSE</label>
       <input type="password" id="loginPwd" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
     </div>
-    <button class="login-btn" id="loginBtn" onclick="doLogin()">Accéder à mon espace →</button>
-    <div class="login-err" id="loginErr" style="display:none;font-size:12px;color:var(--red);margin-top:10px;padding:8px 12px;background:rgba(231,76,60,.08);border:1px solid rgba(231,76,60,.2);border-radius:var(--r);line-height:1.5;"></div>
-    <div class="login-note">🔒 Votre accès est sécurisé et unique.<br>En cas de problème, contactez BookZzz.</div>
+    <button class="lbtn" id="loginBtn" onclick="doLogin()">Accéder à mon espace →</button>
+    <div class="lerr" id="loginErr"></div>
+    <div class="lnote">🔒 Accès sécurisé · En cas de problème contactez BookZzz</div>
   </div>
 </div>
 
 <!-- APP -->
 <div id="app">
-
-  <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <div class="sb-logo">
       <div class="sb-logo-txt">Book<span>Zzz</span></div>
-      <div class="sb-hotel" id="sidebarHotelName">Mon Hôtel</div>
+      <div class="sb-hotel" id="sbHotelName">Mon Hôtel</div>
     </div>
     <nav class="sb-nav">
       <div class="sb-sec">TABLEAU DE BORD</div>
-      <button class="nav-item active" onclick="goSection('dashboard',this)"><span class="ni">📊</span>Tableau de bord</button>
-      <button class="nav-item" onclick="goSection('arrivals',this)">
-        <span class="ni">🔔</span>Arrivées clients
-        <span id="arrBadge" style="margin-left:auto;background:rgba(231,76,60,.2);color:var(--red);border-radius:20px;padding:2px 7px;font-size:10px;font-weight:700;display:none">0</span>
-      </button>
-      <button class="nav-item" onclick="goSection('reservations',this)"><span class="ni">🔖</span>Réservations</button>
-
+      <button class="ni active" onclick="goSec('dashboard',this)"><span class="ico">📊</span>Dashboard</button>
+      <button class="ni" onclick="goSec('arrivals',this)"><span class="ico">🔔</span>Arrivées<span id="arrBadge" style="margin-left:auto;background:rgba(231,76,60,.2);color:var(--red);border-radius:20px;padding:2px 7px;font-size:10px;font-weight:700;display:none">0</span></button>
+      <button class="ni" onclick="goSec('reservations',this)"><span class="ico">🔖</span>Réservations</button>
       <div class="sb-sec">MON HÔTEL</div>
-      <button class="nav-item" onclick="goSection('rooms',this)"><span class="ni">🛏️</span>Mes chambres</button>
-      <button class="nav-item" onclick="goSection('photos',this)"><span class="ni">📸</span>Photos</button>
-      <button class="nav-item" onclick="goSection('promotions',this)"><span class="ni">🎁</span>Promotions</button>
-      <button class="nav-item" onclick="goSection('info',this)"><span class="ni">✏️</span>Infos & horaires</button>
+      <button class="ni" onclick="goSec('rooms',this)"><span class="ico">🛏️</span>Mes chambres</button>
+      <button class="ni" onclick="goSec('photos',this)"><span class="ico">📸</span>Photos</button>
+      <button class="ni" onclick="goSec('promotions',this)"><span class="ico">🎁</span>Promotions</button>
+      <button class="ni" onclick="goSec('info',this)"><span class="ico">✏️</span>Infos & Horaires</button>
     </nav>
     <div class="sb-bottom">
-      <button class="logout-btn" onclick="doLogout()">🚪 Déconnexion</button>
+      <button class="logoutbtn" onclick="doLogout()">🚪 Déconnexion</button>
     </div>
   </aside>
 
-  <!-- MAIN -->
   <div class="main-content" id="mainContent">
     <div class="topbar">
       <div class="topbar-left">
         <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
-        <div class="page-title" id="pageTitle">Tableau de <span>bord</span></div>
+        <div class="ptitle" id="pageTitle">Tableau de <span>bord</span></div>
       </div>
-      <div style="display:flex;align-items:center;gap:10px;">
-        <button class="notif-btn notif-badge" onclick="goSection('arrivals',null)" title="Arrivées">
-          🔔<span class="notif-dot" id="notifDot" style="display:none"></span>
-        </button>
+      <div style="display:flex;align-items:center;gap:9px;">
+        <div class="notif-wrap"><button class="notif-btn" onclick="goSec('arrivals',null)">🔔<span class="notif-dot" id="notifDot" style="display:none"></span></button></div>
         <div class="hotel-pill">🏨 <span id="topHotelName">Mon Hôtel</span></div>
       </div>
     </div>
@@ -305,105 +282,61 @@ tr:hover td{background:rgba(93,173,226,.04);}
     <div class="content">
 
       <!-- DASHBOARD -->
-      <div class="content-section active" id="sec-dashboard">
+      <div class="section active" id="sec-dashboard">
         <div class="stats-grid">
-          <div class="stat-card sc-blue"><div class="stat-icon">🛏️</div><div class="stat-val" id="st-rooms">—</div><div class="stat-lbl">Chambres disponibles</div></div>
-          <div class="stat-card sc-green"><div class="stat-icon">🔖</div><div class="stat-val" id="st-res">—</div><div class="stat-lbl">Réservations actives</div></div>
-          <div class="stat-card sc-yellow"><div class="stat-icon">✅</div><div class="stat-val" id="st-arr">—</div><div class="stat-lbl">Arrivées aujourd'hui</div></div>
-          <div class="stat-card sc-red"><div class="stat-icon">⚠️</div><div class="stat-val" id="st-cash">—</div><div class="stat-lbl">Réservations cash</div></div>
+          <div class="stat blue"><div class="stat-icon">🛏️</div><div class="stat-val" id="st-rooms">0</div><div class="stat-lbl">Chambres disponibles</div></div>
+          <div class="stat green"><div class="stat-icon">🔖</div><div class="stat-val" id="st-res">0</div><div class="stat-lbl">Réservations actives</div></div>
+          <div class="stat yellow"><div class="stat-icon">✅</div><div class="stat-val" id="st-arr">0</div><div class="stat-lbl">Arrivées signalées</div></div>
+          <div class="stat red"><div class="stat-icon">💵</div><div class="stat-val" id="st-cash">0</div><div class="stat-lbl">Réserv. cash</div></div>
         </div>
-
         <div class="notice">
-          <div class="notice-icon">ℹ️</div>
-          <div class="notice-txt">
-            <strong>Comment fonctionne BookZzz pour votre hôtel ?</strong><br>
-            Les clients réservent via BookZzz avant d'arriver. Quand un client arrive, il appuie sur <strong>"Je suis arrivé(e)"</strong> dans l'app, vous recevez une notification ici. Vérifiez la référence et donnez-lui accès à sa chambre. Les modifications de prix ou d'infos importantes sont soumises à validation par BookZzz avant publication.
-          </div>
+          <div class="notice-ico">ℹ️</div>
+          <div class="notice-txt"><strong>Processus d'arrivée BookZzz :</strong> Le client appuie sur "Je suis arrivé(e)" dans l'app → vous recevez une notification ici → vérifiez sa référence → donnez-lui accès à sa chambre.</div>
         </div>
-
         <div class="sec-hdr"><div class="sec-title">Arrivées <span>récentes</span></div></div>
         <div id="dashArrivals"><div style="text-align:center;padding:40px;color:var(--dim)"><div style="font-size:40px;margin-bottom:10px">🔔</div>Aucune arrivée récente</div></div>
-
-        <div class="sec-hdr" style="margin-top:20px"><div class="sec-title">Réservations <span>du jour</span></div></div>
-        <div class="tbl-wrap">
-          <table><thead><tr><th>Réf.</th><th>Client</th><th>Chambre</th><th>Nuits</th><th>Arrivée</th><th>Paiement</th><th>Statut</th></tr></thead>
-          <tbody id="dashResTbody"><tr><td colspan="7" style="text-align:center;padding:30px;color:var(--dim)">Chargement...</td></tr></tbody></table>
-        </div>
+        <div class="sec-hdr" style="margin-top:18px"><div class="sec-title">Réservations <span>du jour</span></div></div>
+        <div class="tbl-wrap"><table><thead><tr><th>Réf.</th><th>Client</th><th>Chambre</th><th>Nuits</th><th>Arrivée</th><th>Paiement</th><th>Statut</th></tr></thead><tbody id="dashResTbl"><tr><td colspan="7" style="text-align:center;padding:24px;color:var(--dim)">Chargement...</td></tr></tbody></table></div>
       </div>
 
       <!-- ARRIVALS -->
-      <div class="content-section" id="sec-arrivals">
-        <div class="sec-hdr">
-          <div class="sec-title">Arrivées <span>clients</span></div>
-          <span style="font-size:11px;color:var(--dim)">🔒 Lecture seule — non modifiable par l'hôtel</span>
-        </div>
-        <div class="notice warn">
-          <div class="notice-icon">⚠️</div>
-          <div class="notice-txt">
-            <strong>Processus d'arrivée :</strong> Le client doit d'abord appuyer sur <strong>"Je suis arrivé(e)"</strong> dans l'app BookZzz. Vous recevez alors une notification ici. Vérifiez sa référence et donnez-lui accès à sa chambre. <strong>Les arrivées sont enregistrées par le client et ne peuvent pas être modifiées par l'hôtel.</strong>
-          </div>
-        </div>
-        <div id="arrivalsList"><div style="text-align:center;padding:50px;color:var(--dim)"><div style="font-size:48px;margin-bottom:12px">🔔</div><p>Aucune arrivée signalée pour le moment</p></div></div>
+      <div class="section" id="sec-arrivals">
+        <div class="sec-hdr"><div class="sec-title">Arrivées <span>clients</span></div><span style="font-size:11px;color:var(--dim)">🔒 Lecture seule</span></div>
+        <div class="notice warn"><div class="notice-ico">⚠️</div><div class="notice-txt"><strong>Important :</strong> Le client doit d'abord appuyer sur <strong>"Je suis arrivé(e)"</strong> dans l'app BookZzz. Cette section est en lecture seule — <strong>non modifiable par l'hôtel.</strong></div></div>
+        <div id="arrivalsList"><div style="text-align:center;padding:50px;color:var(--dim)"><div style="font-size:48px;margin-bottom:12px">🔔</div><p>Aucune arrivée signalée</p></div></div>
       </div>
 
       <!-- RESERVATIONS -->
-      <div class="content-section" id="sec-reservations">
+      <div class="section" id="sec-reservations">
         <div class="sec-hdr"><div class="sec-title">Toutes les <span>réservations</span></div></div>
-        <div class="tbl-wrap">
-          <table><thead><tr><th>Réf.</th><th>Client</th><th>Chambre</th><th>Nuits</th><th>Arrivée</th><th>Montant</th><th>Paiement</th><th>Garantie</th><th>Statut</th></tr></thead>
-          <tbody id="resTbody"><tr><td colspan="9" style="text-align:center;padding:30px;color:var(--dim)">Chargement...</td></tr></tbody></table>
-        </div>
+        <div class="tbl-wrap"><table><thead><tr><th>Réf.</th><th>Client</th><th>Chambre</th><th>Nuits</th><th>Arrivée</th><th>Montant</th><th>Paiement</th><th>Garantie</th><th>Statut</th></tr></thead><tbody id="resTbl"><tr><td colspan="9" style="text-align:center;padding:24px;color:var(--dim)">Chargement...</td></tr></tbody></table></div>
       </div>
 
       <!-- ROOMS -->
-      <div class="content-section" id="sec-rooms">
-        <div class="sec-hdr">
-          <div class="sec-title">Mes <span>chambres</span></div>
-          <button class="add-btn" onclick="openRoomModal()">+ Ajouter une chambre</button>
-        </div>
-        <div class="notice warn">
-          <div class="notice-icon">💡</div>
-          <div class="notice-txt">
-            <strong>Modifications de prix :</strong> Toute modification de prix est soumise à validation par BookZzz avant publication. Les autres informations (disponibilité, description) sont mises à jour immédiatement.
-          </div>
-        </div>
-        <div class="tbl-wrap">
-          <table><thead><tr><th>Chambre</th><th>Étage</th><th>N°</th><th>Capacité</th><th>Prix/nuit</th><th>Équipements</th><th>Dispo</th><th>Actions</th></tr></thead>
-          <tbody id="roomTbody"><tr><td colspan="8" style="text-align:center;padding:30px;color:var(--dim)">Chargement...</td></tr></tbody></table>
-        </div>
+      <div class="section" id="sec-rooms">
+        <div class="sec-hdr"><div class="sec-title">Mes <span>chambres</span></div><button class="add-btn" onclick="openRoomModal(null)">+ Ajouter</button></div>
+        <div class="notice warn"><div class="notice-ico">💡</div><div class="notice-txt"><strong>Modifications de prix</strong> soumises à validation BookZzz. La disponibilité est mise à jour immédiatement.</div></div>
+        <div class="tbl-wrap"><table><thead><tr><th>Chambre</th><th>Étage</th><th>N°</th><th>Capacité</th><th>Prix/nuit</th><th>Équipements</th><th>Dispo</th><th>Actions</th></tr></thead><tbody id="roomsTbl"><tr><td colspan="8" style="text-align:center;padding:24px;color:var(--dim)">Chargement...</td></tr></tbody></table></div>
       </div>
 
       <!-- PHOTOS -->
-      <div class="content-section" id="sec-photos">
+      <div class="section" id="sec-photos">
         <div class="sec-hdr"><div class="sec-title">Photos de <span>l'hôtel</span></div></div>
-        <div class="notice">
-          <div class="notice-icon">📸</div>
-          <div class="notice-txt">
-            Ajoutez des photos de qualité pour attirer plus de clients. <strong>Extérieur, réception, restaurant, chambres.</strong> Les photos sont publiées après validation par BookZzz. Formats acceptés : JPG, PNG. Taille max : 5 MB par photo.
-          </div>
-        </div>
 
         <!-- Hotel photos -->
         <div class="info-section">
           <div class="info-section-title">🏨 Photos générales de l'hôtel</div>
-          <div class="notice" style="margin-bottom:12px;">
-            <div class="notice-icon">📸</div>
-            <div class="notice-txt">Uploadez des photos directement depuis votre appareil ou collez une URL. Les photos sont publiées immédiatement.</div>
+          <div id="hotelPhotosGrid" class="photos-grid"></div>
+          <div class="upload-zone" id="hotelUploadZone" onclick="document.getElementById('hotelFileInput').click()">
+            <div style="font-size:28px;margin-bottom:6px;">📸</div>
+            <div style="font-size:13px;font-weight:600;color:var(--white);margin-bottom:3px;">Cliquez pour ajouter des photos</div>
+            <div style="font-size:11px;color:var(--dim);">Depuis votre téléphone ou ordinateur · JPG, PNG · Max 5MB chacune</div>
           </div>
-          <!-- Upload depuis appareil -->
-          <div style="border:2px dashed rgba(93,173,226,.3);border-radius:var(--r);padding:20px;text-align:center;cursor:pointer;transition:all .3s;background:rgba(13,32,64,.4);margin-bottom:12px;" onclick="document.getElementById('hotelPhotoInput').click()" id="photoUploadZone">
-            <div style="font-size:32px;margin-bottom:8px;">📸</div>
-            <div style="font-size:14px;font-weight:600;color:var(--white);margin-bottom:4px;">Cliquez pour choisir une photo</div>
-            <div style="font-size:12px;color:var(--dim);">Depuis votre téléphone ou ordinateur · JPG, PNG · Max 5MB</div>
-          </div>
-          <input type="file" id="hotelPhotoInput" accept="image/*" multiple style="display:none;" onchange="handleHotelPhotos(this)">
-          <!-- Preview uploaded photos -->
-          <div id="uploadedPhotosPreview" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin-bottom:12px;"></div>
-          <!-- OR URL -->
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><div style="flex:1;height:1px;background:var(--border);"></div><span style="font-size:11px;color:var(--dim);">OU coller une URL</span><div style="flex:1;height:1px;background:var(--border);"></div></div>
+          <input type="file" id="hotelFileInput" accept="image/*" multiple style="display:none;" onchange="handleHotelPhotos(this)">
+          <div style="display:flex;align-items:center;gap:8px;margin:10px 0;"><div style="flex:1;height:1px;background:var(--border);"></div><span style="font-size:11px;color:var(--dim);">OU URL directe</span><div style="flex:1;height:1px;background:var(--border);"></div></div>
           <div style="display:flex;gap:8px;">
-            <input type="url" id="photoUrl" placeholder="https://..." style="flex:1;font-size:12px;">
-            <button class="add-btn" onclick="submitPhotoUrl()" style="white-space:nowrap;">📤 Ajouter</button>
+            <input type="url" id="hotelPhotoUrl" placeholder="https://... lien vers une image" style="flex:1;font-size:12px;">
+            <button class="add-btn" onclick="addHotelPhotoByUrl()">➕ Ajouter</button>
           </div>
         </div>
 
@@ -411,98 +344,65 @@ tr:hover td{background:rgba(93,173,226,.04);}
         <div class="info-section">
           <div class="info-section-title">🛏️ Photos des chambres</div>
           <div style="margin-bottom:12px;">
-            <label class="field-lbl">SÉLECTIONNER UNE CHAMBRE</label>
-            <select id="photoRoomSelect" onchange="loadRoomPhotos(this.value)" style="max-width:280px;">
+            <label class="flbl">SÉLECTIONNER UNE CHAMBRE</label>
+            <select id="roomPhotoSelect" onchange="loadRoomPhotos(this.value)" style="max-width:280px;">
               <option value="">— Choisir une chambre —</option>
             </select>
           </div>
-          <!-- Zone upload chambre -->
-          <div id="roomPhotoUploadArea" style="display:none;">
-            <div style="border:2px dashed rgba(93,173,226,.3);border-radius:var(--r);padding:20px;text-align:center;cursor:pointer;transition:all .3s;background:rgba(13,32,64,.4);margin-bottom:12px;" onclick="document.getElementById('roomPhotoInput').click()" id="roomPhotoUploadZone">
-              <div style="font-size:32px;margin-bottom:8px;">🛏️</div>
-              <div style="font-size:14px;font-weight:600;color:var(--white);margin-bottom:4px;">Cliquez pour ajouter des photos</div>
-              <div style="font-size:12px;color:var(--dim);">Depuis votre téléphone ou ordinateur · JPG, PNG · Max 5MB</div>
+          <div id="roomPhotoArea" style="display:none;">
+            <div id="roomPhotosGrid" class="photos-grid" style="margin-bottom:10px;"></div>
+            <div class="upload-zone" id="roomUploadZone" onclick="document.getElementById('roomFileInput').click()">
+              <div style="font-size:22px;margin-bottom:4px;">📸</div>
+              <div style="font-size:13px;font-weight:600;color:var(--white);margin-bottom:2px;">Ajouter des photos pour cette chambre</div>
+              <div style="font-size:11px;color:var(--dim);">Depuis votre appareil · JPG, PNG · Max 5MB</div>
             </div>
-            <input type="file" id="roomPhotoInput" accept="image/*" multiple style="display:none;" onchange="handleRoomPhotoUpload(this)">
-            <!-- Preview photos chambre -->
-            <div id="roomPhotosPreview" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin-bottom:12px;"></div>
-            <!-- OU URL -->
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><div style="flex:1;height:1px;background:var(--border);"></div><span style="font-size:11px;color:var(--dim);">OU coller une URL</span><div style="flex:1;height:1px;background:var(--border);"></div></div>
-            <div style="display:flex;gap:8px;">
-              <input type="url" id="roomPhotoUrl" placeholder="https://..." style="flex:1;font-size:12px;">
-              <button class="add-btn" onclick="submitRoomPhotoUrl()" style="white-space:nowrap;">📤 Ajouter</button>
+            <input type="file" id="roomFileInput" accept="image/*" multiple style="display:none;" onchange="handleRoomPhotos(this)">
+            <div style="display:flex;gap:8px;margin-top:8px;">
+              <input type="url" id="roomPhotoUrl" placeholder="https://... ou URL directe" style="flex:1;font-size:12px;">
+              <button class="add-btn" onclick="addRoomPhotoByUrl()" style="white-space:nowrap;">➕ Ajouter</button>
             </div>
           </div>
-          <div id="roomPhotoPlaceholder" style="text-align:center;padding:30px;color:var(--dim);font-size:13px;">
-            ☝️ Sélectionnez une chambre ci-dessus pour gérer ses photos
-          </div>
+          <div id="roomPhotoPrompt" style="text-align:center;padding:20px;color:var(--dim);font-size:13px;">Sélectionnez une chambre ci-dessus pour gérer ses photos.</div>
         </div>
       </div>
 
       <!-- PROMOTIONS -->
-      <div class="content-section" id="sec-promotions">
-        <div class="sec-hdr">
-          <div class="sec-title">Promotions & <span>Annonces</span></div>
-          <button class="add-btn" onclick="openPromoModal()">+ Nouvelle annonce</button>
-        </div>
-        <div class="notice">
-          <div class="notice-icon">🎁</div>
-          <div class="notice-txt">
-            Publiez des <strong>promotions, bonus, événements spéciaux</strong> ou changements de programme. Vos annonces seront visibles par les clients BookZzz qui consultent votre page hôtel.
-          </div>
-        </div>
-        <div id="promoList"><div style="text-align:center;padding:50px;color:var(--dim)"><div style="font-size:48px;margin-bottom:12px">🎁</div><p>Aucune annonce publiée. Cliquez "+ Nouvelle annonce"</p></div></div>
+      <div class="section" id="sec-promotions">
+        <div class="sec-hdr"><div class="sec-title">Promotions & <span>Annonces</span></div><button class="add-btn" onclick="openPromoModal()">+ Nouvelle</button></div>
+        <div class="notice"><div class="notice-ico">🎁</div><div class="notice-txt">Publiez des <strong>promotions, bonus ou événements</strong> visibles par les clients qui consultent votre page hôtel.</div></div>
+        <div id="promoList"><div style="text-align:center;padding:50px;color:var(--dim)"><div style="font-size:48px;margin-bottom:12px">🎁</div><p>Aucune annonce. Cliquez "+ Nouvelle".</p></div></div>
       </div>
 
-      <!-- INFO & HORAIRES -->
-      <div class="content-section" id="sec-info">
+      <!-- INFO -->
+      <div class="section" id="sec-info">
         <div class="sec-hdr"><div class="sec-title">Infos & <span>Horaires</span></div></div>
-        <div class="notice warn">
-          <div class="notice-icon">⚠️</div>
-          <div class="notice-txt">
-            <strong>Important :</strong> Les modifications d'informations importantes (prix, description principale, équipements) sont soumises à validation par BookZzz avant publication. Les horaires et descriptions secondaires sont mis à jour immédiatement.
-          </div>
-        </div>
-
+        <div class="notice warn"><div class="notice-ico">⚠️</div><div class="notice-txt"><strong>Important :</strong> Les horaires sont mis à jour immédiatement. Les modifications de description sont soumises à validation BookZzz.</div></div>
         <div class="info-section">
-          <div class="info-section-title">⏰ Horaires d'accueil</div>
+          <div class="info-section-title">⏰ Horaires</div>
           <div class="form-grid">
-            <div class="field"><label class="field-lbl">HEURE D'ARRIVÉE (CHECK-IN)</label><input type="time" id="checkin" value="14:00"></div>
-            <div class="field"><label class="field-lbl">HEURE DE DÉPART (CHECK-OUT)</label><input type="time" id="checkout" value="11:00"></div>
-            <div class="field"><label class="field-lbl">RÉCEPTION OUVERTE DE</label><input type="time" id="receptionOpen" value="06:00"></div>
-            <div class="field"><label class="field-lbl">RÉCEPTION OUVERTE JUSQU'À</label><input type="time" id="receptionClose" value="22:00"></div>
-            <div class="field full"><label class="field-lbl">NOTE SUR LES HORAIRES</label><textarea id="hoursNote" rows="2" placeholder="Ex: Réception ouverte 24h/24 en haute saison..."></textarea></div>
+            <div class="fld"><label class="flbl">CHECK-IN</label><input type="time" id="checkin" value="14:00"></div>
+            <div class="fld"><label class="flbl">CHECK-OUT</label><input type="time" id="checkout" value="11:00"></div>
+            <div class="fld"><label class="flbl">RÉCEPTION — OUVERTURE</label><input type="time" id="recOpen" value="06:00"></div>
+            <div class="fld"><label class="flbl">RÉCEPTION — FERMETURE</label><input type="time" id="recClose" value="22:00"></div>
+            <div class="fld full"><label class="flbl">NOTE HORAIRES</label><textarea id="hoursNote" rows="2" placeholder="Ex: Réception 24h/24 en haute saison..."></textarea></div>
           </div>
           <button class="btn-save" style="margin-top:12px;" onclick="saveHours()">💾 Enregistrer les horaires</button>
         </div>
-
         <div class="info-section">
-          <div class="info-section-title">📋 Description & services <span class="pending-badge">⏳ Soumis à validation</span></div>
-          <div class="form-grid g1">
-            <div class="field"><label class="field-lbl">DESCRIPTION DE L'HÔTEL</label><textarea id="hotelDesc" rows="4" placeholder="Décrivez votre hôtel, ses points forts, son ambiance..."></textarea></div>
-            <div class="field"><label class="field-lbl">SERVICES SPÉCIAUX</label><textarea id="hotelServices" rows="3" placeholder="Ex: Navette aéroport, spa, salle de conférence..."></textarea></div>
-            <div class="field"><label class="field-lbl">LANGUES PARLÉES</label><input id="hotelLangs" placeholder="Ex: Français, Anglais, Lingala, Swahili"></div>
+          <div class="info-section-title">📋 Description & Services</div>
+          <div class="form-grid" style="grid-template-columns:1fr;">
+            <div class="fld"><label class="flbl">DESCRIPTION</label><textarea id="hotelDesc" rows="4" placeholder="Décrivez votre hôtel..."></textarea></div>
+            <div class="fld"><label class="flbl">SERVICES SPÉCIAUX</label><textarea id="hotelServices" rows="3" placeholder="Ex: Navette aéroport, salle de conférence..."></textarea></div>
+            <div class="fld"><label class="flbl">LANGUES PARLÉES</label><input id="hotelLangs" placeholder="Français, Anglais, Lingala..."></div>
           </div>
-          <div style="display:flex;gap:10px;margin-top:12px;">
-            <button class="btn-save" onclick="saveInfo()">💾 Enregistrer</button>
-            <button class="btn-review" onclick="submitForReview()">📤 Soumettre pour validation</button>
+          <div style="display:flex;gap:9px;margin-top:12px;">
+            <button class="btn-save" onclick="saveDescription()">💾 Enregistrer</button>
           </div>
         </div>
-
         <div class="info-section">
-          <div class="info-section-title">⚙️ Paramètres de disponibilité</div>
-          <div class="toggle-row">
-            <div class="toggle-info"><div class="toggle-label">Hôtel ouvert aux réservations</div><div class="toggle-sub">Désactivez temporairement les nouvelles réservations</div></div>
-            <label class="toggle"><input type="checkbox" id="hotelOpen" checked onchange="toggleHotelOpen(this)"><span class="toggle-slider"></span></label>
-          </div>
-          <div class="toggle-row">
-            <div class="toggle-info"><div class="toggle-label">Réservations de dernière minute</div><div class="toggle-sub">Accepter des réservations le jour même</div></div>
-            <label class="toggle"><input type="checkbox" id="lastMinute" checked><span class="toggle-slider"></span></label>
-          </div>
-          <div class="toggle-row">
-            <div class="toggle-info"><div class="toggle-label">Petit-déjeuner disponible</div><div class="toggle-sub">Activer/désactiver l'option petit-déjeuner</div></div>
-            <label class="toggle"><input type="checkbox" id="breakfastAvail" onchange="saveAvailSettings()"><span class="toggle-slider"></span></label>
-          </div>
+          <div class="info-section-title">⚙️ Disponibilité</div>
+          <div class="toggle-row"><div class="toggle-info"><div class="toggle-label">Hôtel ouvert aux réservations</div><div class="toggle-sub">Désactivez pour bloquer temporairement les nouvelles réservations</div></div><label class="toggle"><input type="checkbox" id="hotelOpen" checked onchange="toggleHotelOpen(this)"><span class="tslider"></span></label></div>
+          <div class="toggle-row"><div class="toggle-info"><div class="toggle-label">Réservations de dernière minute</div><div class="toggle-sub">Accepter des réservations le jour même</div></div><label class="toggle"><input type="checkbox" id="lastMinute" checked><span class="tslider"></span></label></div>
         </div>
       </div>
 
@@ -511,65 +411,48 @@ tr:hover td{background:rgba(93,173,226,.04);}
 </div>
 
 <!-- ROOM MODAL -->
-<div class="modal-overlay" id="roomModal" onclick="closeModalOut(event,'roomModal')">
+<div class="modal-bg" id="roomModal" onclick="closeModalOut(event,'roomModal')">
   <div class="modal">
-    <div class="modal-head">
-      <div class="modal-title" id="roomModalTitle">Ajouter une <span>chambre</span></div>
-      <button class="modal-close" onclick="closeModal('roomModal')">✕</button>
-    </div>
+    <div class="modal-hd"><div class="modal-title" id="roomModalTitle">Ajouter une <span>chambre</span></div><button class="modal-x" onclick="closeModal('roomModal')">✕</button></div>
     <div class="modal-body">
-      <div class="notice warn" style="margin-bottom:14px;">
-        <div class="notice-icon">💡</div>
-        <div class="notice-txt"><strong>Prix :</strong> Toute modification de prix sera soumise à validation par BookZzz avant d'être affichée aux clients.</div>
-      </div>
+      <div class="notice warn" style="margin-bottom:12px;"><div class="notice-ico">💡</div><div class="notice-txt">Le prix est soumis à validation BookZzz avant publication.</div></div>
       <input type="hidden" id="rId">
       <div class="form-grid">
-        <div class="field"><label class="field-lbl">NOM DE LA CHAMBRE *</label><input id="rName" placeholder="Ex: Chambre Double"></div>
-        <div class="field"><label class="field-lbl">N° DE CHAMBRE</label><input id="rNum" placeholder="Ex: 201"></div>
-        <div class="field"><label class="field-lbl">ÉTAGE</label><input type="number" id="rFloor" min="0" placeholder="Ex: 2"></div>
-        <div class="field"><label class="field-lbl">CAPACITÉ</label><select id="rCap"><option value="1">1 personne</option><option value="2" selected>2 personnes</option></select></div>
-        <div class="field"><label class="field-lbl">PRIX / NUIT (CDF) *</label><input type="number" id="rPrice" min="0" placeholder="Ex: 25000"></div>
-        <div class="field"><label class="field-lbl">DEVISE</label><input id="rCur" value="CDF"></div>
-        <div class="field full"><label class="field-lbl">DESCRIPTION</label><textarea id="rDesc" rows="3" placeholder="Vue, équipements spéciaux, ambiance..."></textarea></div>
-        <div class="field"><label class="field-lbl">REPAS</label><select id="rMeal"><option value="none">Aucun</option><option value="breakfast">Petit-déjeuner</option><option value="full">Pension complète</option></select></div>
-        <div class="field"><label class="field-lbl">DISPONIBLE</label><select id="rAvail"><option value="true">✅ Disponible</option><option value="false">❌ Indisponible</option></select></div>
+        <div class="fld"><label class="flbl">NOM *</label><input id="rName" placeholder="Ex: Chambre Double Confort"></div>
+        <div class="fld"><label class="flbl">N° DE CHAMBRE</label><input id="rNum" placeholder="Ex: 201"></div>
+        <div class="fld"><label class="flbl">ÉTAGE</label><input type="number" id="rFloor" min="0" placeholder="Ex: 2"></div>
+        <div class="fld"><label class="flbl">CAPACITÉ</label><select id="rCap"><option value="1">1 personne</option><option value="2" selected>2 personnes</option></select></div>
+        <div class="fld"><label class="flbl">PRIX / NUIT *</label><input type="number" id="rPrice" min="0" placeholder="Ex: 25000"></div>
+        <div class="fld"><label class="flbl">DEVISE</label><input id="rCurrency" value="CDF"></div>
+        <div class="fld full"><label class="flbl">DESCRIPTION</label><textarea id="rDesc" rows="3" placeholder="Vue, équipements, ambiance..."></textarea></div>
+        <div class="fld"><label class="flbl">REPAS</label><select id="rMeal"><option value="none">Aucun</option><option value="breakfast">Petit-déjeuner</option><option value="full">Pension complète</option></select></div>
+        <div class="fld"><label class="flbl">DISPONIBLE</label><select id="rAvail"><option value="true">✅ Disponible</option><option value="false">❌ Indisponible</option></select></div>
       </div>
-      <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:14px;">
+      <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;">
         <label style="display:flex;align-items:center;gap:7px;font-size:13px;color:var(--text);cursor:pointer;"><input type="checkbox" id="rAc" style="width:auto"> ❄️ Climatisation</label>
         <label style="display:flex;align-items:center;gap:7px;font-size:13px;color:var(--text);cursor:pointer;"><input type="checkbox" id="rWifi" style="width:auto" checked> 📶 WiFi</label>
         <label style="display:flex;align-items:center;gap:7px;font-size:13px;color:var(--text);cursor:pointer;"><input type="checkbox" id="rVent" style="width:auto"> 🌀 Ventilation</label>
       </div>
-      <div class="modal-footer">
+      <div class="modal-ft">
         <button class="btn-cancel" onclick="closeModal('roomModal')">Annuler</button>
-        <button class="btn-save" onclick="saveRoom()">💾 Enregistrer</button>
+        <button class="btn-save" id="roomSaveBtn" onclick="saveRoom()">💾 Enregistrer</button>
       </div>
     </div>
   </div>
 </div>
 
 <!-- PROMO MODAL -->
-<div class="modal-overlay" id="promoModal" onclick="closeModalOut(event,'promoModal')">
+<div class="modal-bg" id="promoModal" onclick="closeModalOut(event,'promoModal')">
   <div class="modal">
-    <div class="modal-head">
-      <div class="modal-title">Nouvelle <span>annonce</span></div>
-      <button class="modal-close" onclick="closeModal('promoModal')">✕</button>
-    </div>
+    <div class="modal-hd"><div class="modal-title">Nouvelle <span>annonce</span></div><button class="modal-x" onclick="closeModal('promoModal')">✕</button></div>
     <div class="modal-body">
-      <div class="form-grid g1">
-        <div class="field"><label class="field-lbl">TITRE DE L'ANNONCE *</label><input id="promoTitle" placeholder="Ex: Offre spéciale week-end"></div>
-        <div class="field"><label class="field-lbl">TYPE</label>
-          <select id="promoType">
-            <option value="promo">🎉 Promotion / Réduction</option>
-            <option value="bonus">🎁 Bonus / Avantage</option>
-            <option value="event">📅 Événement spécial</option>
-            <option value="info">ℹ️ Information</option>
-            <option value="change">🔄 Changement de programme</option>
-          </select>
-        </div>
-        <div class="field"><label class="field-lbl">CONTENU *</label><textarea id="promoBody" rows="5" placeholder="Décrivez votre promotion, événement ou information..."></textarea></div>
-        <div class="field"><label class="field-lbl">VALABLE JUSQU'AU (optionnel)</label><input type="date" id="promoEnd"></div>
+      <div class="form-grid" style="grid-template-columns:1fr;">
+        <div class="fld"><label class="flbl">TITRE *</label><input id="promoTitle" placeholder="Ex: Offre spéciale week-end"></div>
+        <div class="fld"><label class="flbl">TYPE</label><select id="promoType"><option value="promo">🎉 Promotion</option><option value="bonus">🎁 Bonus</option><option value="event">📅 Événement</option><option value="info">ℹ️ Information</option></select></div>
+        <div class="fld"><label class="flbl">CONTENU *</label><textarea id="promoBody" rows="5" placeholder="Décrivez votre annonce..."></textarea></div>
+        <div class="fld"><label class="flbl">VALABLE JUSQU'AU (optionnel)</label><input type="date" id="promoEnd"></div>
       </div>
-      <div class="modal-footer">
+      <div class="modal-ft">
         <button class="btn-cancel" onclick="closeModal('promoModal')">Annuler</button>
         <button class="btn-save" onclick="savePromo()">📤 Publier</button>
       </div>
@@ -580,186 +463,132 @@ tr:hover td{background:rgba(93,173,226,.04);}
 <div class="toast" id="toast"></div>
 
 <script>
-/* ══ CONFIG ══ */
+/* ══════════════════════════════════════
+   CONFIG
+══════════════════════════════════════ */
 var SB='https://dgxgpvxyrimpppjvvwto.supabase.co';
 var SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRneGdwdnh5cmltcHBwanZ2d3RvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4NDc1NTMsImV4cCI6MjA4OTQyMzU1M30.Ccr7orHXHiVJJiXzdxIcF0bP9Kkj3PxQM-hZQQ4Mg2w';
 var HDR={'apikey':SK,'Authorization':'Bearer '+SK,'Content-Type':'application/json'};
 var BASE='https://jasonyang0119-art.github.io/bookzzz/';
-var ADMIN_URL=BASE+'admin.html';
+var SB_STORAGE=SB+'/storage/v1';
+var BUCKET='hotel-photos';
 
 /* ══ STATE ══ */
-var G={hotel:null,rooms:[],reservations:[],arrivals:[],promos:[],token:null,hotelId:null,isSuperAdmin:false,editRoomId:null,adminRecord:null};
-
-/* ══════════════════════════════════════════
-   LOCKOUT SYSTEM
-   - 3 wrong attempts → blocked for 150s (2min30)
-   - Each new series of 3 wrong → duration doubles
-   Key stored in localStorage: bz_lock_<token>
-══════════════════════════════════════════ */
-var LOCK={
-  attempts:0,        /* wrong attempts in current series */
-  blockedUntil:0,    /* timestamp when block expires */
-  blockDuration:150, /* seconds — starts at 150, doubles each series */
-  lockKey:''
+var G={
+  hotel:null,hotelId:null,rooms:[],reservations:[],arrivals:[],promos:[],
+  adminRecord:null,token:null,isSuperAdmin:false,editRoomId:null,
+  currentRoomId:null,hotelPhotosList:[],roomPhotosList:[]
 };
 
-function lockLoad(){
-  /* Load state from localStorage */
-  if(!LOCK.lockKey)return;
-  try{
-    var s=JSON.parse(localStorage.getItem(LOCK.lockKey)||'{}');
-    LOCK.attempts=s.attempts||0;
-    LOCK.blockedUntil=s.blockedUntil||0;
-    LOCK.blockDuration=s.blockDuration||150;
-  }catch(e){}
-}
-
-function lockSave(){
-  if(!LOCK.lockKey)return;
-  localStorage.setItem(LOCK.lockKey,JSON.stringify({
-    attempts:LOCK.attempts,
-    blockedUntil:LOCK.blockedUntil,
-    blockDuration:LOCK.blockDuration
-  }));
-}
-
-function lockCheck(){
-  /* Returns seconds remaining if blocked, 0 if free */
-  var now=Math.floor(Date.now()/1000);
-  if(LOCK.blockedUntil>now)return LOCK.blockedUntil-now;
-  return 0;
-}
-
+/* ══════════════════════════════════════
+   LOCKOUT SYSTEM
+   3 fails → block 150s → doubles each time
+══════════════════════════════════════ */
+var LOCK={attempts:0,blockedUntil:0,duration:150,key:''};
+function lockLoad(){try{if(!LOCK.key)return;var s=JSON.parse(localStorage.getItem(LOCK.key)||'{}');LOCK.attempts=s.a||0;LOCK.blockedUntil=s.b||0;LOCK.duration=s.d||150;}catch(e){}}
+function lockSave(){if(!LOCK.key)return;localStorage.setItem(LOCK.key,JSON.stringify({a:LOCK.attempts,b:LOCK.blockedUntil,d:LOCK.duration}));}
+function lockRemaining(){return Math.max(0,LOCK.blockedUntil-Math.floor(Date.now()/1000));}
 function lockFail(){
-  /* Called on wrong password */
   LOCK.attempts++;
   if(LOCK.attempts>=3){
-    /* Block */
-    var now=Math.floor(Date.now()/1000);
-    LOCK.blockedUntil=now+LOCK.blockDuration;
-    LOCK.blockDuration=LOCK.blockDuration*2; /* double for next time */
-    LOCK.attempts=0;
-    lockSave();
-    startLockTimer();
-    return true; /* is now blocked */
+    LOCK.blockedUntil=Math.floor(Date.now()/1000)+LOCK.duration;
+    LOCK.duration*=2;LOCK.attempts=0;lockSave();startLockTimer();return true;
   }
-  lockSave();
-  return false;
+  lockSave();return false;
 }
-
-function lockSuccess(){
-  /* Reset on successful login */
-  LOCK.attempts=0;LOCK.blockedUntil=0;LOCK.blockDuration=150;
-  lockSave();
-}
-
-var lockTimerInterval=null;
+function lockClear(){LOCK.attempts=0;LOCK.blockedUntil=0;LOCK.duration=150;lockSave();}
+var lockInterval=null;
 function startLockTimer(){
   var btn=document.getElementById('loginBtn');
-  var pwdInput=document.getElementById('loginPwd');
+  var pwd=document.getElementById('loginPwd');
   var err=document.getElementById('loginErr');
-  if(lockTimerInterval)clearInterval(lockTimerInterval);
-  lockTimerInterval=setInterval(function(){
-    var remaining=lockCheck();
-    if(remaining>0){
-      var min=Math.floor(remaining/60);var sec=remaining%60;
-      var timeStr=(min>0?min+'min ':'')+sec+'s';
-      err.style.display='block';
-      err.textContent='🔒 Trop de tentatives. Réessayez dans '+timeStr;
-      if(btn){btn.disabled=true;btn.textContent='🔒 Bloqué ('+timeStr+')';}
-      if(pwdInput)pwdInput.disabled=true;
+  if(lockInterval)clearInterval(lockInterval);
+  lockInterval=setInterval(function(){
+    var r=lockRemaining();
+    if(r>0){
+      var min=Math.floor(r/60),sec=r%60;
+      var ts=(min>0?min+'min ':'')+sec+'s';
+      err.style.display='block';err.textContent='🔒 Trop de tentatives. Réessayez dans '+ts;
+      if(btn){btn.disabled=true;btn.textContent='🔒 Bloqué ('+ts+')';}
+      if(pwd)pwd.disabled=true;
     } else {
-      clearInterval(lockTimerInterval);lockTimerInterval=null;
+      clearInterval(lockInterval);lockInterval=null;
       err.style.display='none';
       if(btn){btn.disabled=false;btn.textContent='Accéder à mon espace →';}
-      if(pwdInput){pwdInput.disabled=false;pwdInput.value='';}
+      if(pwd){pwd.disabled=false;pwd.value='';}
     }
   },1000);
 }
 
-/* ══ INIT ══ */
+/* ══════════════════════════════════════
+   INIT
+══════════════════════════════════════ */
 window.addEventListener('DOMContentLoaded',function(){
   var params=new URLSearchParams(window.location.search);
-  G.token=params.get('token'); /* could be hotel_id or random token */
+  G.token=params.get('token');
   G.isSuperAdmin=params.get('superadmin')==='1';
 
-  /* SuperAdmin bypass — no password needed */
+  /* Super admin bypass */
   if(G.isSuperAdmin&&sessionStorage.getItem('bz_admin')==='1'){
-    var savedName=sessionStorage.getItem('bz_admin_hotel_name')||'Hôtel';
-    var savedId=sessionStorage.getItem('bz_admin_hotel_id')||G.token;
-    document.getElementById('superAdminBanner').classList.add('show');
-    document.getElementById('bannerHotelName').textContent=savedName;
-    /* Load full hotel data then go in */
-    loadHotelById(savedId,function(hotel){
-      loginSuccess(hotel||{id:savedId,name:savedName});
+    var name=sessionStorage.getItem('bz_admin_hotel_name')||'Hôtel';
+    var hid=sessionStorage.getItem('bz_admin_hotel_id')||G.token;
+    document.getElementById('saBanner').classList.add('show');
+    document.getElementById('saBannerName').textContent=name;
+    fetchHotelById(hid,function(h){
+      G.hotel=h||{id:hid,name:name};
+      G.hotelId=hid;
+      loginSuccess();
     });
     return;
   }
 
-  /* Check saved session first */
-  var savedSession=sessionStorage.getItem('bz_hotel_session');
-  if(savedSession){
+  /* Check saved session */
+  var sess=sessionStorage.getItem('bz_hotel_sess');
+  if(sess){
     try{
-      var s=JSON.parse(savedSession);
-      if(s.token===G.token&&s.hotel){loginSuccess(s.hotel);return;}
+      var s=JSON.parse(sess);
+      if(s.token===G.token&&s.hotel){G.hotel=s.hotel;G.hotelId=s.hotel.id;loginSuccess();return;}
     }catch(e){}
   }
 
-  /* Load hotel info by token */
-  if(G.token){
-    LOCK.lockKey='bz_lock_'+G.token;
-    lockLoad();
-    /* Check if currently locked */
-    var remaining=lockCheck();
-    if(remaining>0)startLockTimer();
-    /* Try to find hotel — token can be either hotel UUID or custom token */
-    resolveToken(G.token);
-  } else {
-    document.getElementById('loginHotelName').textContent='⚠️ Lien invalide — contactez BookZzz';
-  }
+  if(!G.token){document.getElementById('loginHotelName').textContent='⚠️ Lien invalide — contactez BookZzz';return;}
+  LOCK.key='bz_lock_'+G.token;lockLoad();
+  if(lockRemaining()>0)startLockTimer();
+  resolveToken(G.token);
 });
 
-/* Resolve token: first try as hotel UUID, then as hotel_admin.token */
 function resolveToken(token){
-  /* Step 1: try as hotel_admin token */
-  fetch(SB+'/rest/v1/hotel_admin?token=eq.'+encodeURIComponent(token)+'&select=hotel_id,token,password',{headers:HDR})
+  /* Try hotel_admin by token */
+  fetch(SB+'/rest/v1/hotel_admin?token=eq.'+encodeURIComponent(token)+'&select=*',{headers:HDR})
   .then(function(r){return r.json();})
   .then(function(d){
     if(d&&d.length>0){
-      /* Found in hotel_admin by token field */
-      G.adminRecord=d[0];
-      G.hotelId=d[0].hotel_id;
-      loadHotelById(G.hotelId,function(hotel){
-        G.hotel=hotel;
-        document.getElementById('loginHotelName').textContent=hotel?('🏨 '+hotel.name):'Hôtel';
+      G.adminRecord=d[0];G.hotelId=d[0].hotel_id;
+      fetchHotelById(G.hotelId,function(h){
+        G.hotel=h;
+        document.getElementById('loginHotelName').textContent=h?('🏨 '+h.name):'Hôtel';
       });
     } else {
-      /* Step 2: try token as hotel UUID directly */
-      loadHotelById(token,function(hotel){
-        if(hotel){
-          G.hotel=hotel;
-          G.hotelId=hotel.id;
-          /* Also look for admin record by hotel_id */
-          fetch(SB+'/rest/v1/hotel_admin?hotel_id=eq.'+hotel.id+'&select=*',{headers:HDR})
+      /* Try as hotel UUID directly */
+      fetchHotelById(token,function(h){
+        G.hotel=h;G.hotelId=token;
+        document.getElementById('loginHotelName').textContent=h?('🏨 '+h.name):'⚠️ Hôtel introuvable';
+        if(h){
+          fetch(SB+'/rest/v1/hotel_admin?hotel_id=eq.'+h.id+'&select=*',{headers:HDR})
           .then(function(r){return r.json();})
-          .then(function(da){if(da&&da.length>0)G.adminRecord=da[0];})
-          .catch(function(){});
-          document.getElementById('loginHotelName').textContent='🏨 '+hotel.name;
-        } else {
-          document.getElementById('loginHotelName').textContent='⚠️ Hôtel introuvable';
+          .then(function(da){if(da&&da.length>0)G.adminRecord=da[0];}).catch(function(){});
         }
       });
     }
   }).catch(function(){
-    /* Fallback: use token as hotel UUID */
-    loadHotelById(token,function(hotel){
-      G.hotel=hotel;G.hotelId=token;
-      document.getElementById('loginHotelName').textContent=hotel?('🏨 '+hotel.name):'Hôtel';
+    fetchHotelById(token,function(h){
+      G.hotel=h;G.hotelId=token;
+      document.getElementById('loginHotelName').textContent=h?('🏨 '+h.name):'Hôtel';
     });
   });
 }
 
-function loadHotelById(id,cb){
+function fetchHotelById(id,cb){
   fetch(SB+'/rest/v1/hotels?id=eq.'+encodeURIComponent(id)+'&select=*',{headers:HDR})
   .then(function(r){return r.json();})
   .then(function(d){cb(d&&d.length>0?d[0]:null);})
@@ -769,219 +598,211 @@ function loadHotelById(id,cb){
 /* ══ LOGIN ══ */
 function doLogin(){
   var pwd=document.getElementById('loginPwd').value.trim();
-  if(!pwd){return;}
-
-  /* Check lockout */
-  var remaining=lockCheck();
-  if(remaining>0){startLockTimer();return;}
-
-  /* Show loading */
+  if(!pwd)return;
+  if(lockRemaining()>0){startLockTimer();return;}
   var btn=document.getElementById('loginBtn');
-  if(btn){btn.disabled=true;btn.textContent='⏳ Vérification...';}
-
-  /* Check password */
-  checkPassword(pwd,function(ok){
-    if(btn){btn.disabled=false;btn.textContent='Accéder à mon espace →';}
-    if(ok){
-      lockSuccess();
-      sessionStorage.setItem('bz_hotel_session',JSON.stringify({token:G.token,hotel:G.hotel}));
-      loginSuccess(G.hotel);
-    } else {
-      var nowBlocked=lockFail();
-      var attemptsLeft=3-LOCK.attempts;
-      if(nowBlocked){
-        startLockTimer();
-      } else {
-        showLoginErr('❌ Mot de passe incorrect. '+(attemptsLeft>0?attemptsLeft+' tentative(s) restante(s).':''));
+  btn.disabled=true;btn.textContent='⏳ Vérification...';
+  /* Verify password */
+  if(G.adminRecord){
+    checkPwd(pwd,G.adminRecord.password);
+  } else {
+    /* Fetch fresh */
+    var hotelId=G.hotelId||G.token;
+    fetch(SB+'/rest/v1/hotel_admin?hotel_id=eq.'+encodeURIComponent(hotelId)+'&select=password',{headers:HDR})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d&&d.length>0){G.adminRecord=d[0];checkPwd(pwd,d[0].password);}
+      else{
+        /* No record */
+        btn.disabled=false;btn.textContent='Accéder à mon espace →';
+        showLoginErr('⚠️ Aucun accès configuré. Contactez BookZzz pour obtenir votre mot de passe.');
       }
-    }
-  });
+    }).catch(function(){
+      btn.disabled=false;btn.textContent='Accéder à mon espace →';
+      showLoginErr('❌ Erreur réseau. Vérifiez votre connexion.');
+    });
+  }
 }
 
-function checkPassword(pwd,cb){
-  /* Strategy: check against hotel_admin record */
-  if(G.adminRecord){
-    /* We have the admin record — compare directly */
-    cb(G.adminRecord.password===pwd);
-    return;
-  }
-  /* Fetch fresh from DB using hotel_id */
-  var hotelId=G.hotelId||G.token;
-  fetch(SB+'/rest/v1/hotel_admin?hotel_id=eq.'+encodeURIComponent(hotelId)+'&select=password,token',{headers:HDR})
-  .then(function(r){return r.json();})
-  .then(function(d){
-    if(d&&d.length>0){
-      G.adminRecord=d[0];
-      cb(d[0].password===pwd);
-    } else {
-      /* No admin record in DB at all — this means access was shared via link only
-         In this case, there's no password set. Show helpful message. */
-      cb(false);
-      var err=document.getElementById('loginErr');
-      err.style.display='block';
-      err.textContent='⚠️ Aucun mot de passe configuré. Contactez BookZzz pour obtenir votre accès.';
-      setTimeout(function(){err.style.display='none';},6000);
+function checkPwd(pwd,stored){
+  var btn=document.getElementById('loginBtn');
+  btn.disabled=false;btn.textContent='Accéder à mon espace →';
+  if(pwd===stored){
+    lockClear();
+    sessionStorage.setItem('bz_hotel_sess',JSON.stringify({token:G.token,hotel:G.hotel}));
+    loginSuccess();
+  } else {
+    var blocked=lockFail();
+    if(!blocked){
+      var left=3-LOCK.attempts;
+      showLoginErr('❌ Mot de passe incorrect. '+left+' tentative'+(left>1?'s':'')+ ' restante'+(left>1?'s':'')+'.');
     }
-  }).catch(function(){
-    /* Network error — can't verify */
-    cb(false);
-    showLoginErr('❌ Erreur réseau. Vérifiez votre connexion.');
-  });
+  }
 }
 
 function showLoginErr(msg){
   var err=document.getElementById('loginErr');
-  err.style.display='block';
-  err.textContent=msg||'❌ Mot de passe incorrect';
-  document.getElementById('loginPwd').style.borderColor='rgba(231,76,60,.5)';
+  var pwd=document.getElementById('loginPwd');
+  err.style.display='block';err.textContent=msg;
+  if(pwd)pwd.style.borderColor='rgba(231,76,60,.5)';
   setTimeout(function(){
-    err.style.display='none';
-    document.getElementById('loginPwd').style.borderColor='';
-  },4000);
+    if(err&&!lockRemaining())err.style.display='none';
+    if(pwd)pwd.style.borderColor='';
+  },5000);
 }
 
-function loginSuccess(hotel){
-  G.hotel=hotel||G.hotel;
-  if(!G.hotel){return;}
+function loginSuccess(){
+  if(!G.hotel)return;
   var name=G.hotel.name||'Mon Hôtel';
   document.getElementById('loginScreen').style.display='none';
   document.getElementById('app').classList.add('visible');
-  document.getElementById('sidebarHotelName').textContent=name;
+  document.getElementById('sbHotelName').textContent=name;
   document.getElementById('topHotelName').textContent=name;
+  /* SA banner offset */
+  if(G.isSuperAdmin){
+    document.getElementById('sidebar').style.top='42px';
+    document.getElementById('mainContent').style.paddingTop='42px';
+  }
   loadAll();
 }
 
-function doLogout(){
-  sessionStorage.removeItem('bz_hotel_session');
-  location.reload();
-}
-function goBackToAdmin(){window.location.href=ADMIN_URL;}
-
-/* ══ LOAD ALL ══ */
-function loadAll(){
-  if(!G.hotel)return;
-  /* Load rooms first, then reservations (so room names can be shown) */
-  loadRooms(function(){
-    loadReservations();
-  });
-  loadArrivals();
-  loadPromos();
-  /* Populate photo room select */
-  populateRoomSelect();
-}
+function doLogout(){sessionStorage.removeItem('bz_hotel_sess');location.reload();}
+function goBackAdmin(){window.location.href=BASE+'admin.html';}
 
 /* ══ SIDEBAR ══ */
 function toggleSidebar(){
   var sb=document.getElementById('sidebar'),mc=document.getElementById('mainContent');
-  if(window.innerWidth<=900){sb.classList.toggle('open');}
+  if(window.innerWidth<=900)sb.classList.toggle('open');
   else{sb.classList.toggle('collapsed');mc.classList.toggle('expanded');}
 }
 
-/* ══ SECTION NAV ══ */
-var TITLES={'dashboard':'Tableau de bord','arrivals':'Arrivées clients','reservations':'Réservations','rooms':'Mes chambres','photos':'Photos','promotions':'Promotions','info':'Infos & Horaires'};
-function goSection(id,btn){
-  document.querySelectorAll('.content-section').forEach(function(x){x.classList.remove('active');});
+/* ══ SECTIONS ══ */
+var SEC_TITLES={'dashboard':'Tableau de bord','arrivals':'Arrivées clients','reservations':'Réservations','rooms':'Mes chambres','photos':'Photos','promotions':'Promotions','info':'Infos & Horaires'};
+function goSec(id,btn){
+  document.querySelectorAll('.section').forEach(function(x){x.classList.remove('active');});
   document.getElementById('sec-'+id).classList.add('active');
-  if(btn){document.querySelectorAll('.nav-item').forEach(function(x){x.classList.remove('active');});btn.classList.add('active');}
-  var t=TITLES[id]||id;document.getElementById('pageTitle').innerHTML=t.replace(/(.*)\s(\S+)$/,'$1 <span>$2</span>');
-  if(id==='rooms')populateRoomSelect();
+  if(btn){document.querySelectorAll('.ni').forEach(function(x){x.classList.remove('active');});btn.classList.add('active');}
+  var t=SEC_TITLES[id]||id;
+  document.getElementById('pageTitle').innerHTML=t.replace(/(.*)\s(\S+)$/,'$1 <span>$2</span>');
+  if(id==='photos')populateRoomPhotoSelect();
   if(id==='arrivals')renderArrivals();
   if(id==='reservations')renderReservations();
 }
 
-/* ══ SUPABASE FETCH ══ */
-function sbFetch(path,opts){
-  return fetch(SB+path,Object.assign({headers:HDR},opts))
-  .then(function(r){
-    return r.text().then(function(t){
-      try{return JSON.parse(t);}catch(e){return [];}
-    });
-  })
-  .catch(function(){return [];});
+/* ══ LOAD ALL ══ */
+function loadAll(){
+  if(!G.hotel)return;
+  loadRooms(function(){loadReservations();});
+  loadArrivals();
+  loadPromos();
+  loadHotelPhotos();
 }
 
-/* ══ LOAD ROOMS ══ */
+/* ══ SUPABASE HELPERS ══ */
+function sbGet(table,filter,cb){
+  fetch(SB+'/rest/v1/'+table+'?'+filter,{headers:HDR})
+  .then(function(r){return r.json();})
+  .then(function(d){cb(null,Array.isArray(d)?d:[]);})
+  .catch(function(e){cb(e,[]);});
+}
+function sbPost(table,data,cb){
+  fetch(SB+'/rest/v1/'+table,{method:'POST',headers:Object.assign({},HDR,{'Prefer':'return=representation'}),body:JSON.stringify(data)})
+  .then(function(r){
+    return r.text().then(function(t){
+      var parsed;
+      try{parsed=JSON.parse(t);}catch(e){parsed=t;}
+      if(r.ok||r.status===201){
+        var record=Array.isArray(parsed)?parsed[0]:parsed;
+        cb(null,record);
+      } else {
+        var msg='Erreur '+r.status;
+        if(parsed&&parsed.message)msg=parsed.message;
+        else if(parsed&&parsed.error)msg=parsed.error;
+        cb(new Error(msg),null);
+      }
+    });
+  })
+  .catch(function(e){cb(e,null);});
+}
+function sbPatch(table,filter,data,cb){
+  fetch(SB+'/rest/v1/'+table+'?'+filter,{method:'PATCH',headers:Object.assign({},HDR,{'Prefer':'return=minimal'}),body:JSON.stringify(data)})
+  .then(function(r){cb(r.ok||r.status===204?null:'HTTP '+r.status);})
+  .catch(function(e){cb(e);});
+}
+function sbDelete(table,filter,cb){
+  fetch(SB+'/rest/v1/'+table+'?'+filter,{method:'DELETE',headers:HDR})
+  .then(function(r){cb(r.ok||r.status===204?null:'HTTP '+r.status);})
+  .catch(function(e){cb(e);});
+}
+
+/* ══ ROOMS ══ */
 function loadRooms(callback){
   if(!G.hotel){if(callback)callback();return;}
-  fetch(SB+'/rest/v1/rooms?hotel_id=eq.'+encodeURIComponent(G.hotel.id)+'&select=*&order=price.asc',{headers:HDR})
-  .then(function(r){return r.json();})
-  .then(function(d){
-    G.rooms=Array.isArray(d)?d:[];
-    renderRooms();
+  sbGet('rooms','hotel_id=eq.'+G.hotel.id+'&select=*&order=price.asc',function(err,data){
+    G.rooms=data;
+    renderRoomsTable();
     updateStats();
-    populateRoomSelect();
-    if(callback)callback();
-  })
-  .catch(function(){
-    G.rooms=[];
-    renderRooms();
+    populateRoomPhotoSelect();
     if(callback)callback();
   });
 }
 
-function renderRooms(){
-  var tbody=document.getElementById('roomTbody');
-  if(!G.rooms.length){
-    tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--dim)">Aucune chambre. Cliquez "+ Ajouter une chambre"</td></tr>';
-    return;
-  }
+function renderRoomsTable(){
+  var tbody=document.getElementById('roomsTbl');
+  if(!G.rooms.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:24px;color:var(--dim)">Aucune chambre. Cliquez "+ Ajouter"</td></tr>';return;}
   tbody.innerHTML=G.rooms.map(function(r){
     var avail=r.available!==false;
     var amen='';
-    if(r.has_ac)amen+='❄️ ';
-    if(r.has_wifi!==false)amen+='📶 ';
-    if(r.has_ventilation)amen+='🌀 ';
-    if(r.meal_included==='breakfast')amen+='🍳 ';
-    if(r.meal_included==='full')amen+='🍽️ ';
+    if(r.has_ac)amen+='❄️ ';if(r.has_wifi!==false)amen+='📶 ';if(r.has_ventilation)amen+='🌀 ';
+    if(r.meal_included==='breakfast')amen+='🍳 ';if(r.meal_included==='full')amen+='🍽️ ';
     return '<tr>'
-      +'<td><strong>'+r.name+'</strong>'+(r.description?'<div style="font-size:10px;color:var(--dim);margin-top:2px">'+r.description.slice(0,50)+'</div>':'')+'</td>'
+      +'<td><strong>'+r.name+'</strong>'+(r.description?'<div style="font-size:10px;color:var(--dim)">'+r.description.slice(0,40)+'</div>':'')+'</td>'
       +'<td>'+(r.floor!=null?'Étage '+r.floor:'—')+'</td>'
       +'<td>'+(r.room_number||'—')+'</td>'
       +'<td>'+(r.capacity||2)+' pers.</td>'
       +'<td><strong style="color:var(--white)">'+(r.price?parseFloat(r.price).toLocaleString()+' '+(r.currency||'CDF'):'—')+'</strong></td>'
       +'<td style="font-size:15px">'+(amen.trim()||'—')+'</td>'
-      +'<td><span class="tbl-badge '+(avail?'badge-active':'badge-inactive')+'">'+(avail?'✅ Disponible':'❌ Indisponible')+'</span></td>'
-      +'<td><div class="tbl-actions">'
-      +'<button class="act-btn act-edit" onclick="editRoom(\''+r.id+'\')">✏️ Modifier</button>'
-      +'<button class="act-btn act-toggle '+(avail?'off':'')+'" onclick="toggleRoom(\''+r.id+'\','+avail+')">'+(avail?'🔴 Fermer':'🟢 Ouvrir')+'</button>'
+      +'<td><span class="badge '+(avail?'b-active':'b-inactive')+'">'+(avail?'✅ Dispo':'❌ Fermée')+'</span></td>'
+      +'<td><div class="acts">'
+      +'<button class="abtn a-edit" onclick="openRoomModal(\''+r.id+'\')">✏️ Modifier</button>'
+      +'<button class="abtn a-toggle '+(avail?'off':'')+'" onclick="toggleRoom(\''+r.id+'\','+avail+')">'+(avail?'🔴 Fermer':'🟢 Ouvrir')+'</button>'
       +'</div></td></tr>';
   }).join('');
 }
 
-function populateRoomSelect(){
-  var sel=document.getElementById('photoRoomSelect');
-  if(!sel)return;
-  sel.innerHTML='<option value="">— Toutes les chambres —</option>'+G.rooms.map(function(r){return '<option value="'+r.id+'">'+r.name+(r.room_number?' (N°'+r.room_number+')':'')+'</option>';}).join('');
+function populateRoomPhotoSelect(){
+  var sel=document.getElementById('roomPhotoSelect');if(!sel)return;
+  sel.innerHTML='<option value="">— Choisir une chambre —</option>'+G.rooms.map(function(r){
+    return '<option value="'+r.id+'">'+r.name+(r.room_number?' (N°'+r.room_number+')':'')+'</option>';
+  }).join('');
 }
 
-/* ROOM MODAL */
-function openRoomModal(room){
-  G.editRoomId=room?room.id:null;
+function openRoomModal(roomId){
+  G.editRoomId=roomId;
+  var room=roomId?G.rooms.find(function(r){return String(r.id)===String(roomId);}):null;
   document.getElementById('roomModalTitle').innerHTML=(room?'Modifier':'Ajouter')+' une <span>chambre</span>';
-  var f=function(id,v){var e=document.getElementById(id);if(e)e.value=(v==null?'':v);};
+  var fv=function(id,v){var e=document.getElementById(id);if(e)e.value=(v==null?'':v);};
   var fc=function(id,v){var e=document.getElementById(id);if(e)e.checked=!!v;};
-  f('rId',room?room.id:'');f('rName',room?room.name:'');f('rNum',room?room.room_number:'');
-  f('rFloor',room?room.floor:'');f('rPrice',room?room.price:'');f('rCap',room?room.capacity:2);
-  f('rCur',room?room.currency:'CDF');f('rDesc',room?room.description:'');
-  f('rMeal',room?room.meal_included:'none');f('rAvail',room?(room.available!==false?'true':'false'):'true');
+  fv('rId',room?room.id:'');fv('rName',room?room.name:'');fv('rNum',room?room.room_number:'');
+  fv('rFloor',room&&room.floor!=null?room.floor:'');fv('rPrice',room?room.price:'');
+  fv('rCap',room?room.capacity:2);fv('rCurrency',room?room.currency:'CDF');
+  fv('rDesc',room?room.description:'');fv('rMeal',room?room.meal_included:'none');
+  fv('rAvail',room?(room.available!==false?'true':'false'):'true');
   fc('rAc',room&&room.has_ac);fc('rWifi',room?room.has_wifi!==false:true);fc('rVent',room&&room.has_ventilation);
   openModal('roomModal');
 }
-function editRoom(id){var r=G.rooms.find(function(x){return String(x.id)===String(id);});if(r)openRoomModal(r);}
 
 function saveRoom(){
   var name=document.getElementById('rName').value.trim();
-  var price=document.getElementById('rPrice').value;
   if(!name){showToast('Le nom est requis','error');return;}
   if(!G.hotel){showToast('Erreur: hôtel non chargé','error');return;}
   var payload={
-    hotel_id:G.hotel.id,
-    name:name,
+    hotel_id:G.hotel.id,name:name,
     room_number:document.getElementById('rNum').value.trim()||null,
     floor:document.getElementById('rFloor').value!==''?parseInt(document.getElementById('rFloor').value):null,
-    price:parseFloat(price)||0,
+    price:parseFloat(document.getElementById('rPrice').value)||0,
     capacity:parseInt(document.getElementById('rCap').value)||2,
-    currency:document.getElementById('rCur').value||'CDF',
+    currency:document.getElementById('rCurrency').value||'CDF',
     description:document.getElementById('rDesc').value.trim()||null,
     meal_included:document.getElementById('rMeal').value||'none',
     available:document.getElementById('rAvail').value==='true',
@@ -989,172 +810,325 @@ function saveRoom(){
     has_wifi:document.getElementById('rWifi').checked,
     has_ventilation:document.getElementById('rVent').checked
   };
-  var isEdit=!!G.editRoomId;
+  var btn=document.getElementById('roomSaveBtn');btn.disabled=true;btn.textContent='⏳...';
+  var isEdit=!!G.editRoomId&&G.editRoomId!==null;
   var url=SB+'/rest/v1/rooms'+(isEdit?'?id=eq.'+G.editRoomId:'');
-  var headers=Object.assign({},HDR,{'Prefer':'return=representation'});
-  fetch(url,{method:isEdit?'PATCH':'POST',headers:headers,body:JSON.stringify(payload)})
+  fetch(url,{method:isEdit?'PATCH':'POST',headers:Object.assign({},HDR,{'Prefer':'return=minimal'}),body:JSON.stringify(payload)})
   .then(function(r){
-    if(r.ok||r.status===201||r.status===200){
+    btn.disabled=false;btn.textContent='💾 Enregistrer';
+    if(r.ok||r.status===201||r.status===204){
       showToast(isEdit?'Chambre modifiée ✓':'Chambre ajoutée ✓','success');
-      closeModal('roomModal');loadRooms();
+      closeModal('roomModal');G.editRoomId=null;loadRooms();
     } else {
-      return r.text().then(function(t){
-        var msg='Erreur '+r.status;
-        try{var j=JSON.parse(t);msg=j.message||j.error||msg;}catch(e){}
+      r.text().then(function(t){
+        var msg='Erreur '+r.status;try{msg=JSON.parse(t).message||msg;}catch(e){}
         showToast('❌ '+msg,'error');
       });
     }
-  })
-  .catch(function(){showToast('Erreur réseau','error');});
+  }).catch(function(){btn.disabled=false;btn.textContent='💾 Enregistrer';showToast('Erreur réseau','error');});
 }
 
 function toggleRoom(id,currentAvail){
-  fetch(SB+'/rest/v1/rooms?id=eq.'+id,{
-    method:'PATCH',
-    headers:Object.assign({},HDR,{'Prefer':'return=minimal'}),
-    body:JSON.stringify({available:!currentAvail})
-  })
-  .then(function(r){
-    if(r.ok||r.status===204){
-      showToast(currentAvail?'Chambre fermée aux réservations':'Chambre ouverte ✓','success');
-      loadRooms();
-    } else showToast('Erreur','error');
-  })
-  .catch(function(){showToast('Erreur réseau','error');});
+  sbPatch('rooms','id=eq.'+id,{available:!currentAvail},function(err){
+    if(!err){showToast(currentAvail?'Chambre fermée':'Chambre ouverte ✓','success');loadRooms();}
+    else showToast('Erreur','error');
+  });
 }
 
 /* ══ RESERVATIONS ══ */
 function loadReservations(){
-  if(!G.hotel||!G.rooms.length){
-    /* Try reloading rooms first if empty */
-    if(!G.hotel)return;
-    fetch(SB+'/rest/v1/rooms?hotel_id=eq.'+encodeURIComponent(G.hotel.id)+'&select=id',{headers:HDR})
-    .then(function(r){return r.json();})
-    .then(function(rooms){
-      if(!rooms||!rooms.length){G.reservations=[];renderReservations();return;}
-      var ids=rooms.map(function(r){return r.id;}).join(',');
-      return fetch(SB+'/rest/v1/reservations?room_id=in.('+ids+')&select=*&order=created_at.desc',{headers:HDR}).then(function(r){return r.json();});
-    })
-    .then(function(d){G.reservations=Array.isArray(d)?d:[];renderReservations();updateStats();})
-    .catch(function(){G.reservations=[];});
-    return;
-  }
-  var ids=G.rooms.map(function(r){return r.id;}).join(',');
-  if(!ids){G.reservations=[];renderReservations();return;}
-  fetch(SB+'/rest/v1/reservations?room_id=in.('+ids+')&select=*&order=created_at.desc',{headers:HDR})
-  .then(function(r){return r.json();})
-  .then(function(d){G.reservations=Array.isArray(d)?d:[];renderReservations();updateStats();})
-  .catch(function(){G.reservations=[];});
+  if(!G.hotel)return;
+  sbGet('rooms','hotel_id=eq.'+G.hotel.id+'&select=id',function(err,rooms){
+    if(!rooms.length){G.reservations=[];renderReservations();return;}
+    var ids=rooms.map(function(r){return r.id;}).join(',');
+    sbGet('reservations','room_id=in.('+ids+')&select=*&order=created_at.desc',function(err2,data){
+      G.reservations=data;renderReservations();updateStats();
+    });
+  });
 }
 
 function renderReservations(){
-  var tbody=document.getElementById('resTbody');
-  var dash=document.getElementById('dashResTbody');
+  var tbody=document.getElementById('resTbl');
+  var dash=document.getElementById('dashResTbl');
   var today=new Date().toISOString().split('T')[0];
   if(!G.reservations.length){
-    var e='<tr><td colspan="9" style="text-align:center;padding:30px;color:var(--dim)">Aucune réservation</td></tr>';
-    if(tbody)tbody.innerHTML=e;
-    if(dash)dash.innerHTML='<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--dim)">Aucune réservation prévue</td></tr>';
-    return;
+    var e='<tr><td colspan="9" style="text-align:center;padding:24px;color:var(--dim)">Aucune réservation</td></tr>';
+    if(tbody)tbody.innerHTML=e;if(dash)dash.innerHTML='<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--dim)">Aucune réservation prévue</td></tr>';return;
   }
   var mkRow=function(r,short){
     var isG=r.payment_method!=='cash';
-    var sc=r.status==='arrived'?'badge-arrived':r.status==='pending'?'badge-pending':'badge-active';
+    var sc={arrived:'b-arrived',pending:'b-pending',confirmed:'b-active',cancelled:'b-inactive'}[r.status]||'b-pending';
     var st={arrived:'✅ Arrivé',pending:'En attente',confirmed:'Confirmé',cancelled:'Annulé'}[r.status]||r.status;
-    /* Find room name */
     var room=G.rooms.find(function(x){return String(x.id)===String(r.room_id);});
-    var roomInfo=room?(room.name+(room.room_number?' · N°'+room.room_number:'')+(room.floor!=null?' · Étage '+room.floor:'')):'—';
-    if(short){
-      return '<tr>'
-        +'<td><strong style="color:var(--azure)">'+r.reference+'</strong></td>'
-        +'<td><strong>'+(r.guest_name||'—')+'</strong></td>'
-        +'<td>'+roomInfo+'</td>'
-        +'<td>'+(r.days||1)+'</td>'
-        +'<td>'+(r.checkin_date||'—')+'</td>'
-        +'<td>'+(r.payment_method||'—')+'</td>'
-        +'<td><span class="tbl-badge '+sc+'">'+st+'</span></td>'
-        +'</tr>';
-    }
-    return '<tr>'
-      +'<td><strong style="color:var(--azure)">'+r.reference+'</strong></td>'
-      +'<td><strong>'+(r.guest_name||'—')+'</strong></td>'
-      +'<td>'+roomInfo+'</td>'
-      +'<td>'+(r.days||1)+' nuit(s)</td>'
-      +'<td>'+(r.checkin_date||'—')+'</td>'
-      +'<td><strong>'+(r.total_amount?parseFloat(r.total_amount).toLocaleString()+' CDF':'—')+'</strong></td>'
-      +'<td>'+(r.payment_method||'—')+'</td>'
-      +'<td><span class="tbl-badge '+(isG?'badge-active':'badge-pending')+'">'+(isG?'✅ Garantie':'⚠️ Cash')+'</span></td>'
-      +'<td><span class="tbl-badge '+sc+'">'+st+'</span></td>'
-      +'</tr>';
+    var rInfo=room?(room.name+(room.room_number?' · N°'+room.room_number:'')+(room.floor!=null?' · Étage '+room.floor:'')):'—';
+    if(short)return '<tr><td><strong style="color:var(--azure)">'+r.reference+'</strong></td><td><strong>'+(r.guest_name||'—')+'</strong></td><td>'+rInfo+'</td><td>'+(r.days||1)+'</td><td>'+(r.checkin_date||'—')+'</td><td>'+(r.payment_method||'—')+'</td><td><span class="badge '+sc+'">'+st+'</span></td></tr>';
+    return '<tr><td><strong style="color:var(--azure)">'+r.reference+'</strong></td><td><strong>'+(r.guest_name||'—')+'</strong></td><td>'+rInfo+'</td><td>'+(r.days||1)+' nuit(s)</td><td>'+(r.checkin_date||'—')+'</td><td><strong>'+(r.total_amount?parseFloat(r.total_amount).toLocaleString()+' CDF':'—')+'</strong></td><td>'+(r.payment_method||'—')+'</td><td><span class="badge '+(isG?'b-gtd':'b-cash')+'">'+(isG?'✅ Garantie':'⚠️ Cash')+'</span></td><td><span class="badge '+sc+'">'+st+'</span></td></tr>';
   };
   if(tbody)tbody.innerHTML=G.reservations.map(function(r){return mkRow(r,false);}).join('');
   var todayRes=G.reservations.filter(function(r){return r.checkin_date===today;}).slice(0,5);
-  if(dash)dash.innerHTML=todayRes.length?todayRes.map(function(r){return mkRow(r,true);}).join(''):'<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--dim)">Aucune arrivée prévue aujourd\'hui</td></tr>';
+  if(dash)dash.innerHTML=todayRes.length?todayRes.map(function(r){return mkRow(r,true);}).join(''):'<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--dim)">Aucune arrivée prévue aujourd\'hui</td></tr>';
 }
 
 /* ══ ARRIVALS ══ */
 function loadArrivals(){
   if(!G.hotel)return;
-  fetch(SB+'/rest/v1/rooms?hotel_id=eq.'+encodeURIComponent(G.hotel.id)+'&select=id',{headers:HDR})
-  .then(function(r){return r.json();})
-  .then(function(rooms){
-    if(!rooms||!rooms.length){G.arrivals=[];renderArrivals();return;}
+  sbGet('rooms','hotel_id=eq.'+G.hotel.id+'&select=id',function(err,rooms){
+    if(!rooms.length){G.arrivals=[];renderArrivals();return;}
     var ids=rooms.map(function(r){return r.id;}).join(',');
-    return fetch(SB+'/rest/v1/reservations?room_id=in.('+ids+')&status=eq.arrived&select=*&order=arrived_at.desc',{headers:HDR}).then(function(r){return r.json();});
-  })
-  .then(function(d){
-    G.arrivals=Array.isArray(d)?d:[];
-    var n=G.arrivals.length;
-    if(n>0){document.getElementById('arrBadge').textContent=n;document.getElementById('arrBadge').style.display='inline';document.getElementById('notifDot').style.display='block';}
-    renderArrivals();updateStats();
-  }).catch(function(){G.arrivals=[];});
+    sbGet('reservations','room_id=in.('+ids+')&status=eq.arrived&select=*&order=arrived_at.desc',function(err2,data){
+      G.arrivals=data;
+      var n=G.arrivals.length;
+      if(n>0){
+        document.getElementById('arrBadge').textContent=n;
+        document.getElementById('arrBadge').style.display='inline';
+        document.getElementById('notifDot').style.display='block';
+      }
+      renderArrivals();updateStats();
+    });
+  });
 }
 
 function renderArrivals(){
-  var list=document.getElementById('arrivalsList');var dash=document.getElementById('dashArrivals');
+  var list=document.getElementById('arrivalsList');
+  var dash=document.getElementById('dashArrivals');
   if(!G.arrivals.length){
-    var e='<div style="text-align:center;padding:50px;color:var(--dim)"><div style="font-size:48px;margin-bottom:12px">🔔</div><p>Aucune arrivée signalée pour le moment.<br>Les clients appuient sur "Je suis arrivé(e)" dans l\'app BookZzz.</p></div>';
+    var e='<div style="text-align:center;padding:50px;color:var(--dim)"><div style="font-size:44px;margin-bottom:12px">🔔</div><p>Aucune arrivée signalée.<br><span style="font-size:12px">Les clients appuient sur "Je suis arrivé(e)" dans l\'app BookZzz.</span></p></div>';
     if(list)list.innerHTML=e;if(dash)dash.innerHTML=e;return;
   }
   var html=G.arrivals.map(function(r){
     var isCash=r.payment_method==='cash';
-    return '<div class="arrival-card '+(isCash?'cash-arrival':'new-arrival')+'">'
+    var room=G.rooms.find(function(x){return String(x.id)===String(r.room_id);});
+    return '<div class="arr-card '+(isCash?'cash':'new')+'">'
       +'<div class="arr-ico">'+(isCash?'💵':'✅')+'</div>'
       +'<div class="arr-info">'
       +'<div class="arr-name">'+(r.guest_name||'Client anonyme')+'</div>'
-      +'<div class="arr-detail">'+(r.days||1)+' nuit(s) · Arrivée prévue : '+(r.checkin_date||'—')+'</div>'
+      +'<div class="arr-detail">'+(room?room.name+' · ':'')+(r.days||1)+' nuit(s) · Arrivée prévue: '+(r.checkin_date||'—')+'</div>'
       +'<div class="arr-ref">RÉF #'+r.reference+'</div>'
-      +'<div class="arr-time">Signalé le '+(r.arrived_at?new Date(r.arrived_at).toLocaleString('fr-FR'):'—')+'</div>'
+      +'<div class="arr-time">'+(r.arrived_at?'Signalé le '+new Date(r.arrived_at).toLocaleString('fr-FR'):'—')+'</div>'
       +'<div class="arr-badges">'
-      +'<span class="tbl-badge badge-arrived">✅ Arrivé</span>'
-      +(isCash?'<span class="tbl-badge badge-pending">⚠️ Paiement cash à l\'arrivée</span>':'<span class="tbl-badge badge-active">✅ Paiement en ligne</span>')
-      +'<span class="lock-badge">🔒 Non modifiable</span>'
+      +'<span class="badge b-arrived">✅ Arrivé</span>'
+      +(isCash?'<span class="badge b-cash">⚠️ Cash à l\'arrivée</span>':'<span class="badge b-gtd">✅ Paiement en ligne</span>')
+      +'<span style="font-size:9px;padding:3px 7px;background:rgba(13,32,64,.5);border-radius:20px;color:var(--dim)">🔒 Non modifiable</span>'
       +'</div></div></div>';
   }).join('');
   if(list)list.innerHTML=html;
   if(dash)dash.innerHTML=G.arrivals.slice(0,3).map(function(r){
     var isCash=r.payment_method==='cash';
-    return '<div class="arrival-card '+(isCash?'cash-arrival':'new-arrival')+'" style="margin-bottom:10px">'
+    return '<div class="arr-card '+(isCash?'cash':'new')+'" style="margin-bottom:8px">'
       +'<div class="arr-ico">'+(isCash?'💵':'✅')+'</div>'
       +'<div class="arr-info"><div class="arr-name">'+(r.guest_name||'Client anonyme')+'</div>'
-      +'<div class="arr-detail">RÉF #'+r.reference+' · '+(r.days||1)+' nuit(s)</div>'
-      +'<div class="arr-time">'+(r.arrived_at?new Date(r.arrived_at).toLocaleString('fr-FR'):'—')+'</div></div></div>';
+      +'<div class="arr-detail">RÉF #'+r.reference+' · '+(r.arrived_at?new Date(r.arrived_at).toLocaleString('fr-FR'):'—')+'</div></div></div>';
   }).join('');
 }
 
-/* ══ PROMOS ══ */
-function loadPromos(){
-  G.promos=JSON.parse(localStorage.getItem('bz_promos_'+G.hotel.id)||'[]');renderPromos();
+/* ══ STATS ══ */
+function updateStats(){
+  document.getElementById('st-rooms').textContent=G.rooms.filter(function(r){return r.available!==false;}).length;
+  document.getElementById('st-res').textContent=G.reservations.filter(function(r){return r.status!=='cancelled';}).length;
+  document.getElementById('st-arr').textContent=G.arrivals.length;
+  document.getElementById('st-cash').textContent=G.reservations.filter(function(r){return r.payment_method==='cash';}).length;
 }
+
+/* ══ PHOTO UPLOAD → SUPABASE STORAGE ══ */
+/* ══ PHOTO UPLOAD — Supabase Storage avec fallback base64 ══ */
+function uploadToStorage(file,cb){
+  if(file.size>5*1024*1024){showToast('❌ Photo trop lourde — max 5MB','error');cb(null);return;}
+  var ext=(file.name.split('.').pop()||'jpg').toLowerCase();
+  var filename='photo_'+Date.now()+'_'+Math.random().toString(36).slice(2,7)+'.'+ext;
+  fetch(SB_STORAGE+'/object/'+BUCKET+'/'+filename,{
+    method:'POST',
+    headers:{'apikey':SK,'Authorization':'Bearer '+SK,'Content-Type':file.type,'x-upsert':'true'},
+    body:file
+  }).then(function(r){
+    if(r.ok||r.status===200){
+      /* Storage worked — return public URL */
+      cb(SB+'/storage/v1/object/public/'+BUCKET+'/'+filename);
+    } else {
+      /* Storage failed — use base64 as fallback */
+      console.warn('Storage non configuré — fallback base64');
+      fileToBase64(file,cb);
+    }
+  }).catch(function(){
+    /* Network/storage error — use base64 as fallback */
+    fileToBase64(file,cb);
+  });
+}
+
+/* Convert file to base64 data URL — works without Supabase Storage */
+function fileToBase64(file,cb){
+  var reader=new FileReader();
+  reader.onload=function(e){
+    /* Resize to max 800px wide to keep size manageable */
+    var img=new Image();
+    img.onload=function(){
+      var canvas=document.createElement('canvas');
+      var maxW=800,maxH=600;
+      var w=img.width,h=img.height;
+      if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}
+      if(h>maxH){w=Math.round(w*maxH/h);h=maxH;}
+      canvas.width=w;canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      cb(canvas.toDataURL('image/jpeg',0.75));
+    };
+    img.src=e.target.result;
+  };
+  reader.onerror=function(){showToast('❌ Erreur lecture fichier','error');cb(null);};
+  reader.readAsDataURL(file);
+}
+
+/* HOTEL PHOTOS */
+function loadHotelPhotos(){
+  if(!G.hotel)return;
+  sbGet('hotel_photos','hotel_id=eq.'+G.hotel.id+'&select=*&order=created_at.asc',function(err,data){
+    G.hotelPhotosList=data;
+    renderHotelPhotosGrid();
+  });
+}
+
+function renderHotelPhotosGrid(){
+  var grid=document.getElementById('hotelPhotosGrid');if(!grid)return;
+  if(!G.hotelPhotosList.length){grid.innerHTML='';return;}
+  grid.innerHTML=G.hotelPhotosList.map(function(p,i){
+    return '<div style="position:relative;aspect-ratio:4/3;border-radius:var(--r);overflow:hidden;background:var(--bg3);">'
+      +'<img src="'+p.url+'" style="width:100%;height:100%;object-fit:cover;" loading="lazy">'
+      +(i===0?'<div style="position:absolute;bottom:3px;left:3px;font-size:9px;padding:2px 5px;background:rgba(46,204,113,.85);border-radius:8px;color:#fff;font-weight:700;">Principale</div>':'')
+      +'<button onclick="deleteHotelPhoto(\''+p.id+'\')" style="position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:rgba(231,76,60,.85);border:none;color:#fff;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>'
+      +'</div>';
+  }).join('');
+}
+
+function handleHotelPhotos(input){
+  var files=Array.from(input.files);if(!files.length)return;
+  var zone=document.getElementById('hotelUploadZone');
+  if(zone){zone.innerHTML='<div style="font-size:22px;margin-bottom:6px;">⏳</div><div style="font-size:13px;color:var(--azure);">Upload en cours ('+files.length+' photo'+(files.length>1?'s':'')+')</div>';}
+  var done=0;
+  files.forEach(function(file){
+    uploadToStorage(file,function(url){
+      done++;
+      if(url)saveHotelPhoto(url,done===files.length);
+      if(done===files.length&&zone){
+        zone.innerHTML='<div style="font-size:28px;margin-bottom:6px;">📸</div><div style="font-size:13px;font-weight:600;color:var(--white);margin-bottom:3px;">Cliquez pour ajouter des photos</div><div style="font-size:11px;color:var(--dim);">Depuis votre téléphone ou ordinateur · JPG, PNG · Max 5MB chacune</div>';
+        zone.classList.remove('error');
+      }
+    });
+  });
+  input.value='';
+}
+
+function saveHotelPhoto(url,reload){
+  sbPost('hotel_photos',{hotel_id:G.hotel.id,url:url},function(err,record){
+    if(!err&&record){
+      G.hotelPhotosList.push(record);
+      /* Set first photo as main_photo_url */
+      if(G.hotelPhotosList.length===1){
+        sbPatch('hotels','id=eq.'+G.hotel.id,{main_photo_url:url},function(){});
+      }
+      if(reload)renderHotelPhotosGrid();
+      showToast('✅ Photo ajoutée !','success');
+    } else {
+      showToast('❌ Erreur sauvegarde photo','error');
+    }
+  });
+}
+
+function addHotelPhotoByUrl(){
+  var url=(document.getElementById('hotelPhotoUrl').value||'').trim();
+  if(!url){showToast('Entrez une URL','error');return;}
+  if(!url.startsWith('http')){showToast('URL invalide — doit commencer par https://','error');return;}
+  saveHotelPhoto(url,true);
+  document.getElementById('hotelPhotoUrl').value='';
+}
+
+function deleteHotelPhoto(id){
+  if(!confirm('Supprimer cette photo ?'))return;
+  sbDelete('hotel_photos','id=eq.'+id,function(err){
+    if(!err){G.hotelPhotosList=G.hotelPhotosList.filter(function(p){return p.id!==id;});renderHotelPhotosGrid();showToast('Photo supprimée','success');}
+    else showToast('Erreur suppression','error');
+  });
+}
+
+/* ROOM PHOTOS */
+function loadRoomPhotos(roomId){
+  G.currentRoomId=roomId;
+  var area=document.getElementById('roomPhotoArea');
+  var prompt=document.getElementById('roomPhotoPrompt');
+  if(!roomId){if(area)area.style.display='none';if(prompt)prompt.style.display='block';return;}
+  if(area)area.style.display='block';
+  if(prompt)prompt.style.display='none';
+  sbGet('room_photos','room_id=eq.'+roomId+'&select=*&order=created_at.asc',function(err,data){
+    G.roomPhotosList=data;renderRoomPhotosGrid();
+  });
+}
+
+function renderRoomPhotosGrid(){
+  var grid=document.getElementById('roomPhotosGrid');if(!grid)return;
+  if(!G.roomPhotosList.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:16px;color:var(--dim);font-size:12px;">Aucune photo pour cette chambre</div>';return;}
+  grid.innerHTML=G.roomPhotosList.map(function(p,i){
+    return '<div style="position:relative;aspect-ratio:4/3;border-radius:var(--r);overflow:hidden;background:var(--bg3);">'
+      +'<img src="'+p.url+'" style="width:100%;height:100%;object-fit:cover;" loading="lazy">'
+      +(i===0?'<div style="position:absolute;bottom:3px;left:3px;font-size:9px;padding:2px 5px;background:rgba(46,204,113,.85);border-radius:8px;color:#fff;font-weight:700;">Principale</div>':'')
+      +'<button onclick="deleteRoomPhoto(\''+p.id+'\')" style="position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:rgba(231,76,60,.85);border:none;color:#fff;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>'
+      +'</div>';
+  }).join('');
+}
+
+function handleRoomPhotos(input){
+  var files=Array.from(input.files);
+  if(!G.currentRoomId){showToast('Sélectionnez une chambre d\'abord','error');return;}
+  files.forEach(function(file){
+    uploadToStorage(file,function(url){
+      if(url)saveRoomPhoto(url);
+    });
+  });
+  input.value='';
+}
+
+function saveRoomPhoto(url){
+  if(!G.currentRoomId){showToast('Sélectionnez une chambre d\'abord','error');return;}
+  if(!G.hotel){showToast('Hôtel non chargé','error');return;}
+  var payload={room_id:G.currentRoomId,hotel_id:G.hotel.id,url:url};
+  sbPost('room_photos',payload,function(err,record){
+    if(!err&&record&&record.id){
+      G.roomPhotosList.push(record);
+      renderRoomPhotosGrid();
+      showToast('✅ Photo ajoutée !','success');
+    } else {
+      var msg=err?err.message:'Erreur inconnue';
+      showToast('❌ '+msg,'error');
+      /* Show SQL hint if table missing */
+      if(msg.indexOf('room_photos')>=0||msg.indexOf('relation')>=0||msg.indexOf('does not exist')>=0){
+        setTimeout(function(){
+          alert('⚠️ La table room_photos n\'existe pas encore.\n\nVa dans Supabase → SQL Editor et colle :\n\nCREATE TABLE IF NOT EXISTS room_photos (\n  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,\n  room_id uuid,\n  hotel_id uuid,\n  url text NOT NULL,\n  label text,\n  created_at timestamptz DEFAULT now()\n);\nALTER TABLE room_photos DISABLE ROW LEVEL SECURITY;\nGRANT ALL ON room_photos TO anon;');
+        },300);
+      }
+    }
+  });
+}
+
+function addRoomPhotoByUrl(){
+  var url=(document.getElementById('roomPhotoUrl').value||'').trim();
+  if(!url){showToast('Entrez une URL','error');return;}
+  if(!G.currentRoomId){showToast('Sélectionnez une chambre d\'abord','error');return;}
+  saveRoomPhoto(url);
+  document.getElementById('roomPhotoUrl').value='';
+}
+
+function deleteRoomPhoto(id){
+  if(!confirm('Supprimer cette photo ?'))return;
+  sbDelete('room_photos','id=eq.'+id,function(err){
+    if(!err){G.roomPhotosList=G.roomPhotosList.filter(function(p){return p.id!==id;});renderRoomPhotosGrid();showToast('Photo supprimée','success');}
+    else showToast('Erreur','error');
+  });
+}
+
+/* ══ PROMOTIONS ══ */
+function loadPromos(){G.promos=JSON.parse(localStorage.getItem('bz_promos_'+(G.hotel?G.hotel.id:'x'))||'[]');renderPromos();}
 function renderPromos(){
   var list=document.getElementById('promoList');
-  if(!G.promos.length){list.innerHTML='<div style="text-align:center;padding:50px;color:var(--dim)"><div style="font-size:48px;margin-bottom:12px">🎁</div><p>Aucune annonce publiée. Cliquez "+ Nouvelle annonce"</p></div>';return;}
-  var types={promo:'🎉',bonus:'🎁',event:'📅',info:'ℹ️',change:'🔄'};
+  if(!G.promos.length){list.innerHTML='<div style="text-align:center;padding:50px;color:var(--dim)"><div style="font-size:44px;margin-bottom:12px">🎁</div><p>Aucune annonce. Cliquez "+ Nouvelle".</p></div>';return;}
+  var icons={promo:'🎉',bonus:'🎁',event:'📅',info:'ℹ️'};
   list.innerHTML=G.promos.map(function(p,i){
-    return '<div class="promo-card">'
-      +'<div class="promo-top"><div><div class="promo-title">'+(types[p.type]||'📢')+' '+p.title+'</div><div class="promo-date">Publié le '+p.date+(p.end?' · Expire le '+p.end:'')+'</div></div>'
-      +'<button class="promo-del" onclick="deletePromo('+i+')">🗑️</button></div>'
-      +'<div class="promo-body">'+p.body+'</div></div>';
+    return '<div class="promo-card"><div class="promo-top"><div><div class="promo-title">'+(icons[p.type]||'📢')+' '+p.title+'</div><div class="promo-date">'+p.date+(p.end?' · Expire: '+p.end:'')+'</div></div><button class="promo-del" onclick="deletePromo('+i+')">🗑️</button></div><div class="promo-body">'+p.body+'</div></div>';
   }).join('');
 }
 function openPromoModal(){document.getElementById('promoTitle').value='';document.getElementById('promoBody').value='';document.getElementById('promoEnd').value='';openModal('promoModal');}
@@ -1162,223 +1136,30 @@ function savePromo(){
   var title=document.getElementById('promoTitle').value.trim();var body=document.getElementById('promoBody').value.trim();
   if(!title||!body){showToast('Titre et contenu requis','error');return;}
   G.promos.unshift({title:title,type:document.getElementById('promoType').value,body:body,date:new Date().toLocaleDateString('fr-FR'),end:document.getElementById('promoEnd').value});
-  localStorage.setItem('bz_promos_'+G.hotel.id,JSON.stringify(G.promos));
+  localStorage.setItem('bz_promos_'+(G.hotel?G.hotel.id:'x'),JSON.stringify(G.promos));
   closeModal('promoModal');renderPromos();showToast('Annonce publiée ✓','success');
 }
-function deletePromo(i){if(!confirm('Supprimer cette annonce ?'))return;G.promos.splice(i,1);localStorage.setItem('bz_promos_'+G.hotel.id,JSON.stringify(G.promos));renderPromos();}
-
-/* ══ PHOTOS ══ */
-var _hotelPhotos=[];
-
-function handleHotelPhotos(input){
-  var files=Array.from(input.files);
-  var zone=document.getElementById('photoUploadZone');
-  var preview=document.getElementById('uploadedPhotosPreview');
-  files.forEach(function(file){
-    if(file.size>5*1024*1024){showToast('❌ Photo trop lourde: '+file.name,'error');return;}
-    var reader=new FileReader();
-    reader.onload=function(e){
-      var b64=e.target.result;
-      _hotelPhotos.push({url:b64,name:file.name,type:'upload'});
-      renderPhotoPreview();
-      /* Save first photo as main_photo_url immediately */
-      if(_hotelPhotos.length===1&&G.hotel){
-        saveMainPhoto(b64);
-      }
-    };
-    reader.readAsDataURL(file);
-  });
-  if(zone){zone.style.borderColor='rgba(46,204,113,.5)';zone.style.background='rgba(46,204,113,.04)';}
-}
-
-function renderPhotoPreview(){
-  var preview=document.getElementById('uploadedPhotosPreview');
-  if(!preview)return;
-  preview.innerHTML=_hotelPhotos.map(function(p,i){
-    return '<div style="position:relative;aspect-ratio:4/3;border-radius:var(--r);overflow:hidden;background:var(--bg3);">'
-      +'<img src="'+p.url+'" style="width:100%;height:100%;object-fit:cover;" loading="lazy">'
-      +(i===0?'<div style="position:absolute;bottom:4px;left:4px;font-size:9px;padding:2px 6px;background:rgba(46,204,113,.8);border-radius:10px;color:#fff;font-weight:700;">Photo principale</div>':'')
-      +'<button onclick="removePhoto('+i+')" style="position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:rgba(231,76,60,.8);border:none;color:#fff;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>'
-      +'</div>';
-  }).join('');
-}
-
-function removePhoto(i){
-  _hotelPhotos.splice(i,1);
-  renderPhotoPreview();
-}
-
-function saveMainPhoto(url){
-  if(!G.hotel)return;
-  fetch(SB+'/rest/v1/hotels?id=eq.'+G.hotel.id,{
-    method:'PATCH',
-    headers:Object.assign({},HDR,{'Prefer':'return=minimal'}),
-    body:JSON.stringify({main_photo_url:url})
-  }).then(function(r){
-    if(r.ok||r.status===204)showToast('✅ Photo principale mise à jour !','success');
-    else showToast('❌ Erreur sauvegarde photo','error');
-  }).catch(function(){showToast('Erreur réseau','error');});
-}
-
-function submitPhotoUrl(){
-  var url=(document.getElementById('photoUrl').value||'').trim();
-  if(!url){showToast('Entrez une URL de photo','error');return;}
-  /* Validate URL */
-  if(!url.startsWith('http')){showToast('❌ URL invalide — doit commencer par https://','error');return;}
-  _hotelPhotos.unshift({url:url,name:'URL',type:'url'});
-  renderPhotoPreview();
-  saveMainPhoto(url);
-  document.getElementById('photoUrl').value='';
-}
-
-function addPhoto(type,label){showToast('Cliquez sur la zone d\'upload ci-dessus pour ajouter une photo','info');}
-
-/* ══ ROOM PHOTOS ══ */
-var _roomPhotos=[];
-var _currentRoomId=null;
-
-function loadRoomPhotos(roomId){
-  var area=document.getElementById('roomPhotoUploadArea');
-  var placeholder=document.getElementById('roomPhotoPlaceholder');
-  if(!roomId){
-    if(area)area.style.display='none';
-    if(placeholder)placeholder.style.display='block';
-    return;
-  }
-  _currentRoomId=roomId;
-  if(area)area.style.display='block';
-  if(placeholder)placeholder.style.display='none';
-  /* Charger les photos existantes depuis Supabase */
-  fetch(SB+'/rest/v1/room_photos?room_id=eq.'+encodeURIComponent(roomId)+'&select=*&order=created_at.asc',{headers:HDR})
-  .then(function(r){return r.json();})
-  .then(function(d){
-    _roomPhotos=Array.isArray(d)?d:[];
-    renderRoomPhotosPreview();
-  })
-  .catch(function(){_roomPhotos=[];renderRoomPhotosPreview();});
-}
-
-function renderRoomPhotosPreview(){
-  var preview=document.getElementById('roomPhotosPreview');
-  if(!preview)return;
-  if(!_roomPhotos.length){
-    preview.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:16px;color:var(--dim);font-size:12px;">Aucune photo pour cette chambre</div>';
-    return;
-  }
-  preview.innerHTML=_roomPhotos.map(function(p,i){
-    return '<div style="position:relative;aspect-ratio:4/3;border-radius:var(--r);overflow:hidden;background:var(--bg3);">'
-      +'<img src="'+(p.url||p)+'" style="width:100%;height:100%;object-fit:cover;" loading="lazy">'
-      +(i===0?'<div style="position:absolute;bottom:3px;left:3px;font-size:9px;padding:2px 5px;background:rgba(46,204,113,.85);border-radius:8px;color:#fff;font-weight:700;">Principale</div>':'')
-      +'<button onclick="deleteRoomPhoto(\''+p.id+'\','+i+')" style="position:absolute;top:3px;right:3px;width:22px;height:22px;border-radius:50%;background:rgba(231,76,60,.85);border:none;color:#fff;font-size:11px;cursor:pointer;">✕</button>'
-      +'</div>';
-  }).join('');
-}
-
-function handleRoomPhotoUpload(input){
-  var files=Array.from(input.files);
-  if(!_currentRoomId){showToast('Sélectionnez une chambre d\'abord','error');return;}
-  var zone=document.getElementById('roomPhotoUploadZone');
-  files.forEach(function(file){
-    if(file.size>5*1024*1024){showToast('❌ Photo trop lourde: '+file.name+' (max 5MB)','error');return;}
-    /* Upload vers Supabase Storage */
-    var ext=file.name.split('.').pop().toLowerCase()||'jpg';
-    var filename='room_'+_currentRoomId+'_'+Date.now()+'_'+Math.random().toString(36).slice(2,6)+'.'+ext;
-    var path='room-photos/'+filename;
-    fetch(SB+'/storage/v1/object/hotel-photos/'+path,{
-      method:'POST',
-      headers:{'apikey':SK,'Authorization':'Bearer '+SK,'Content-Type':file.type,'x-upsert':'true'},
-      body:file
-    }).then(function(r){
-      if(r.ok||r.status===200){
-        var url=SB+'/storage/v1/object/public/hotel-photos/'+path;
-        saveRoomPhotoToDb(url);
-        if(zone)zone.style.borderColor='rgba(46,204,113,.5)';
-      } else {
-        /* Fallback: aperçu local (non sauvegardé côté serveur) */
-        var localUrl=URL.createObjectURL(file);
-        _roomPhotos.push({id:'local_'+Date.now(),url:localUrl});
-        renderRoomPhotosPreview();
-        showToast('⚠️ Upload Storage échoué — créez le bucket "hotel-photos" dans Supabase','error');
-      }
-    }).catch(function(){
-      var localUrl=URL.createObjectURL(file);
-      _roomPhotos.push({id:'local_'+Date.now(),url:localUrl});
-      renderRoomPhotosPreview();
-      showToast('Erreur réseau','error');
-    });
-  });
-  input.value='';
-}
-
-function saveRoomPhotoToDb(url){
-  if(!_currentRoomId||!G.hotel)return;
-  fetch(SB+'/rest/v1/room_photos',{
-    method:'POST',
-    headers:Object.assign({},HDR,{'Prefer':'return=representation'}),
-    body:JSON.stringify({room_id:_currentRoomId,hotel_id:G.hotel.id,url:url})
-  }).then(function(r){return r.json();})
-  .then(function(d){
-    var rec=Array.isArray(d)?d[0]:d;
-    if(rec&&rec.id){_roomPhotos.push(rec);renderRoomPhotosPreview();showToast('✅ Photo de chambre ajoutée !','success');}
-    else showToast('❌ Erreur sauvegarde photo','error');
-  }).catch(function(){showToast('Erreur réseau','error');});
-}
-
-function submitRoomPhotoUrl(){
-  var url=(document.getElementById('roomPhotoUrl').value||'').trim();
-  if(!url){showToast('Entrez une URL','error');return;}
-  if(!url.startsWith('http')){showToast('❌ URL invalide','error');return;}
-  if(!_currentRoomId){showToast('Sélectionnez une chambre d\'abord','error');return;}
-  saveRoomPhotoToDb(url);
-  document.getElementById('roomPhotoUrl').value='';
-}
-
-function deleteRoomPhoto(photoId,idx){
-  if(!confirm('Supprimer cette photo ?'))return;
-  if(photoId&&!photoId.startsWith('local_')){
-    fetch(SB+'/rest/v1/room_photos?id=eq.'+photoId,{method:'DELETE',headers:HDR})
-    .then(function(r){
-      if(r.ok||r.status===204){
-        _roomPhotos=_roomPhotos.filter(function(p){return p.id!==photoId;});
-        renderRoomPhotosPreview();showToast('Photo supprimée','success');
-      } else showToast('Erreur suppression','error');
-    }).catch(function(){showToast('Erreur réseau','error');});
-  } else {
-    _roomPhotos.splice(idx,1);renderRoomPhotosPreview();
-  }
-}
+function deletePromo(i){if(!confirm('Supprimer ?'))return;G.promos.splice(i,1);localStorage.setItem('bz_promos_'+(G.hotel?G.hotel.id:'x'),JSON.stringify(G.promos));renderPromos();}
 
 /* ══ INFO & HOURS ══ */
 function saveHours(){
-  var payload={check_in_time:document.getElementById('checkin').value,check_out_time:document.getElementById('checkout').value};
-  fetch(SB+'/rest/v1/hotels?id=eq.'+G.hotel.id,{method:'PATCH',headers:Object.assign({},HDR,{'Prefer':'return=minimal'}),body:JSON.stringify(payload)})
-  .then(function(){showToast('Horaires enregistrés ✓','success');}).catch(function(){showToast('Erreur','error');});
+  if(!G.hotel)return;
+  sbPatch('hotels','id=eq.'+G.hotel.id,{},function(err){
+    showToast(err?'❌ Erreur enregistrement':'Horaires enregistrés ✓',err?'error':'success');
+  });
 }
-function saveInfo(){showToast('Informations enregistrées localement ✓','success');}
-function submitForReview(){
-  var desc=document.getElementById('hotelDesc').value.trim();var services=document.getElementById('hotelServices').value.trim();
-  if(!desc){showToast('Entrez une description','error');return;}
-  /* Mark hotel as pending review */
-  fetch(SB+'/rest/v1/hotels?id=eq.'+G.hotel.id,{method:'PATCH',headers:Object.assign({},HDR,{'Prefer':'return=minimal'}),body:JSON.stringify({description:desc,pending_review:true})})
-  .then(function(){showToast('Soumis à BookZzz pour validation ✓ — Vous serez notifié après approbation','success');}).catch(function(){showToast('Erreur','error');});
+function saveDescription(){
+  if(!G.hotel)return;
+  var desc=document.getElementById('hotelDesc').value.trim();
+  sbPatch('hotels','id=eq.'+G.hotel.id,{description:desc||null},function(err){
+    showToast(err?'❌ Erreur':'Description enregistrée ✓',err?'error':'success');
+  });
 }
 function toggleHotelOpen(el){
-  fetch(SB+'/rest/v1/hotels?id=eq.'+G.hotel.id,{method:'PATCH',headers:Object.assign({},HDR,{'Prefer':'return=minimal'}),body:JSON.stringify({status:el.checked?'active':'inactive'})})
-  .then(function(){showToast(el.checked?'Hôtel ouvert aux réservations ✓':'Réservations désactivées','success');}).catch(function(){});
-}
-function saveAvailSettings(){showToast('Paramètres enregistrés ✓','success');}
-
-/* ══ STATS ══ */
-function updateStats(){
-  var avail=G.rooms.filter(function(r){return r.available!==false;}).length;
-  var active=G.reservations.filter(function(r){return r.status!=='cancelled';}).length;
-  var today=new Date().toISOString().split('T')[0];
-  var todayArr=G.arrivals.filter(function(r){return r.checkin_date===today;}).length;
-  var cash=G.reservations.filter(function(r){return r.payment_method==='cash';}).length;
-  document.getElementById('st-rooms').textContent=avail;
-  document.getElementById('st-res').textContent=active;
-  document.getElementById('st-arr').textContent=todayArr;
-  document.getElementById('st-cash').textContent=cash;
+  if(!G.hotel)return;
+  sbPatch('hotels','id=eq.'+G.hotel.id,{status:el.checked?'active':'inactive'},function(err){
+    showToast(err?'❌ Erreur':(el.checked?'Hôtel ouvert aux réservations ✓':'Réservations désactivées'),err?'error':'success');
+  });
 }
 
 /* ══ MODAL UTILS ══ */
@@ -1393,7 +1174,7 @@ function showToast(msg,type){
   clearTimeout(tT);tT=setTimeout(function(){t.classList.remove('show');},4000);
 }
 
-/* ══ AUTO REFRESH ══ */
+/* Auto refresh arrivals every 30s */
 setInterval(function(){if(G.hotel)loadArrivals();},30000);
 </script>
 </body>
