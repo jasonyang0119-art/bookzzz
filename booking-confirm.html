@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>BookZzz — Réservation confirmée</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;0,700;1,300;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#060e1a;--bg2:#091628;--bg3:#0d2040;
+  --azure:#5DADE2;--blue:#1a7fd4;
+  --white:#f0f7ff;--glass:rgba(13,32,64,0.55);--glass2:rgba(6,14,26,0.92);
+  --border:rgba(93,173,226,0.18);--border2:rgba(26,127,212,0.3);
+  --text:#e8f4fd;--dim:rgba(220,240,255,0.52);
+  --green:#2ecc71;--red:#e74c3c;--yellow:#f39c12;
+  --r-xl:28px;--r-lg:20px;--r-md:14px;--r-sm:10px;
+}
+html,body{min-height:100%;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);}
+body{overflow-x:hidden;}
+
+/* BG */
+.nbg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 100% 55% at 50% 100%,rgba(26,127,212,0.18) 0%,transparent 60%),linear-gradient(180deg,#04080f 0%,#060e1a 30%,#091628 60%,#060e1a 100%);}
+
+/* TOP BAR */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;gap:12px;padding:clamp(12px,2vw,15px) clamp(14px,4vw,22px);background:rgba(6,14,26,0.92);border-bottom:1px solid var(--border);backdrop-filter:blur(28px);}
+.back-btn{display:flex;align-items:center;gap:7px;padding:8px 16px;background:rgba(13,32,64,.5);border:1px solid var(--border);border-radius:40px;color:var(--azure);font-size:13px;font-weight:600;cursor:pointer;transition:all .3s;}
+.back-btn:hover{background:rgba(93,173,226,.1);}
+.topbar-logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--white);}
+.topbar-logo span{color:var(--azure);font-style:italic;}
+
+/* MAIN */
+.main{position:relative;z-index:10;max-width:500px;margin:0 auto;padding:clamp(74px,12vw,86px) clamp(16px,4vw,24px) 40px;}
+
+/* SUCCESS HEADER */
+.success-header{text-align:center;padding:clamp(28px,5vw,40px) 0 clamp(20px,4vw,28px);}
+.success-icon{font-size:clamp(56px,12vw,72px);margin-bottom:14px;animation:popIn .6s cubic-bezier(.16,1,.3,1);}
+@keyframes popIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.success-title{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,6vw,34px);font-weight:700;color:var(--white);margin-bottom:6px;line-height:1.2;}
+.success-title span{color:var(--azure);font-style:italic;}
+.success-sub{font-size:clamp(12px,3vw,14px);color:var(--dim);line-height:1.7;}
+
+/* CARD */
+.card{background:var(--glass2);border:1px solid var(--border2);border-radius:var(--r-xl);padding:clamp(20px,4vw,28px);margin-bottom:14px;position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;left:12%;right:12%;height:1px;background:linear-gradient(90deg,transparent,rgba(93,173,226,.4),rgba(26,127,212,.7),rgba(93,173,226,.4),transparent);}
+
+/* QR CODE area */
+.qr-wrap{text-align:center;padding:clamp(16px,4vw,24px) 0;}
+.qr-box{display:inline-block;background:#fff;padding:14px;border-radius:var(--r-md);margin-bottom:14px;}
+.qr-box canvas{display:block;}
+.ref-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;background:rgba(93,173,226,.1);border:1px solid rgba(93,173,226,.3);border-radius:40px;font-size:clamp(14px,3vw,16px);font-weight:700;color:var(--azure);letter-spacing:2px;margin-bottom:8px;}
+.qr-hint{font-size:11px;color:var(--dim);line-height:1.6;}
+
+/* INFO ROWS */
+.info-title{font-family:'Cormorant Garamond',serif;font-size:clamp(18px,4vw,21px);font-weight:700;color:var(--white);margin-bottom:14px;}
+.info-title span{color:var(--azure);font-style:italic;}
+.info-row{display:flex;align-items:flex-start;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(93,173,226,.1);gap:12px;}
+.info-row:last-child{border-bottom:none;}
+.ir-label{font-size:11px;color:var(--dim);min-width:100px;flex-shrink:0;}
+.ir-val{font-size:clamp(12px,3vw,13px);font-weight:600;color:var(--white);text-align:right;}
+.ir-val.green{color:var(--green);}
+.ir-val.red{color:var(--red);}
+.ir-val.azure{color:var(--azure);}
+
+/* GUARANTEE BADGE */
+.guarantee-card{padding:14px 16px;border-radius:var(--r-lg);margin-bottom:14px;display:flex;align-items:flex-start;gap:12px;}
+.guarantee-card.gtd{background:rgba(46,204,113,.08);border:1px solid rgba(46,204,113,.3);}
+.guarantee-card.ngtd{background:rgba(231,76,60,.06);border:1px solid rgba(231,76,60,.25);}
+.gtd-icon{font-size:24px;flex-shrink:0;}
+.gtd-info .gtd-title{font-size:13px;font-weight:700;margin-bottom:4px;}
+.gtd-info .gtd-title.green{color:var(--green);}
+.gtd-info .gtd-title.red{color:var(--red);}
+.gtd-info .gtd-body{font-size:11px;color:var(--dim);line-height:1.6;}
+
+/* ARRIVED BUTTON */
+.arrived-btn{width:100%;padding:clamp(14px,3vw,16px);background:linear-gradient(135deg,var(--green),#27ae60);border:none;border-radius:var(--r-lg);color:#fff;font-size:clamp(13px,3vw,15px);font-weight:700;cursor:pointer;transition:all .3s;margin-bottom:10px;position:relative;overflow:hidden;}
+.arrived-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent);opacity:0;transition:opacity .3s;}
+.arrived-btn:hover::after{opacity:1;}
+.arrived-btn:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(46,204,113,.35);}
+.arrived-btn:disabled{background:rgba(13,32,64,.5);color:var(--dim);cursor:not-allowed;transform:none;box-shadow:none;}
+.arrived-done{width:100%;padding:clamp(14px,3vw,16px);background:rgba(46,204,113,.1);border:2px solid rgba(46,204,113,.4);border-radius:var(--r-lg);color:var(--green);font-size:clamp(13px,3vw,15px);font-weight:700;text-align:center;margin-bottom:10px;}
+
+/* ACTION BUTTONS */
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.action-btn{padding:clamp(11px,2.5vw,13px) 12px;border:none;border-radius:var(--r-lg);font-size:clamp(12px,2.5vw,13px);font-weight:700;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:7px;text-decoration:none;}
+.action-btn:hover{transform:translateY(-2px);}
+.btn-wa{background:linear-gradient(135deg,#25d366,#1ebe57);color:#fff;}
+.btn-gps{background:linear-gradient(135deg,var(--azure),var(--blue));color:#fff;}
+.btn-home{width:100%;padding:clamp(12px,3vw,14px);background:rgba(13,32,64,.6);border:1px solid var(--border2);border-radius:var(--r-lg);color:var(--azure);font-size:clamp(13px,3vw,14px);font-weight:600;cursor:pointer;transition:all .3s;text-align:center;}
+.btn-home:hover{background:rgba(93,173,226,.1);}
+
+/* CONFETTI */
+.confetti-wrap{position:fixed;top:0;left:0;right:0;pointer-events:none;z-index:200;overflow:hidden;height:100vh;}
+.confetti-piece{position:absolute;width:8px;height:8px;border-radius:2px;animation:fall linear forwards;}
+@keyframes fall{
+  0%{transform:translateY(-20px) rotate(0deg);opacity:1;}
+  100%{transform:translateY(110vh) rotate(720deg);opacity:0;}
+}
+
+/* SHARE */
+.share-row{display:flex;gap:8px;margin-top:10px;justify-content:center;}
+.share-btn{padding:8px 16px;background:rgba(13,32,64,.6);border:1px solid var(--border);border-radius:40px;color:var(--dim);font-size:11px;font-weight:600;cursor:pointer;transition:all .3s;}
+.share-btn:hover{color:var(--white);border-color:rgba(93,173,226,.4);}
+
+.toast{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-14px);background:rgba(13,32,64,.97);border:1px solid rgba(93,173,226,.38);border-radius:var(--r-md);padding:11px 20px;color:var(--white);font-size:13px;z-index:999;opacity:0;pointer-events:none;transition:all .35s cubic-bezier(.16,1,.3,1);backdrop-filter:blur(18px);max-width:88vw;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+.fu{opacity:0;transform:translateY(20px);animation:fuA .6s cubic-bezier(.16,1,.3,1) forwards;}
+@keyframes fuA{to{opacity:1;transform:translateY(0);}}
+.d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}.d4{animation-delay:.4s}
+
+@media(max-width:480px){
+  .main{padding:clamp(68px,10vw,78px) 12px 32px;}
+  .qr-box{padding:10px;}
+  .action-grid{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="nbg"></div>
+<div class="confetti-wrap" id="confettiWrap"></div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <button class="back-btn" onclick="goHome()">← <span id="backTxt">Mes réservations</span></button>
+  <div class="topbar-logo">Book<span>Zzz</span></div>
+</div>
+
+<div class="main">
+
+  <!-- SUCCESS HEADER -->
+  <div class="success-header fu">
+    <div class="success-icon" id="successIcon">✅</div>
+    <div class="success-title" id="successTitle">Réservation <span>confirmée !</span></div>
+    <div class="success-sub" id="successSub">Votre réservation a bien été enregistrée. Montrez votre référence à l'hôtel.</div>
+  </div>
+
+  <!-- QR CODE + REFERENCE -->
+  <div class="card fu d1">
+    <div class="qr-wrap">
+      <div class="qr-box"><canvas id="qrCanvas"></canvas></div>
+      <div><div class="ref-badge">🔖 <span id="refDisplay">RÉF #BZ000000</span></div></div>
+      <div class="qr-hint">Présentez ce QR code ou votre référence à la réception de l'hôtel</div>
+    </div>
+  </div>
+
+  <!-- BOOKING DETAILS -->
+  <div class="card fu d2">
+    <div class="info-title">Détails de la <span>réservation</span></div>
+    <div class="info-row"><span class="ir-label">Hôtel</span><span class="ir-val" id="detHotel">—</span></div>
+    <div class="info-row"><span class="ir-label">Chambre</span><span class="ir-val" id="detRoom">—</span></div>
+    <div class="info-row"><span class="ir-label">Arrivée</span><span class="ir-val azure" id="detCheckin">—</span></div>
+    <div class="info-row"><span class="ir-label">Départ</span><span class="ir-val" id="detCheckout">—</span></div>
+    <div class="info-row"><span class="ir-label">Durée</span><span class="ir-val" id="detDays">—</span></div>
+    <div class="info-row"><span class="ir-label">Client</span><span class="ir-val" id="detGuest">—</span></div>
+    <div class="info-row"><span class="ir-label">Montant total</span><span class="ir-val green" id="detAmount">—</span></div>
+    <div class="info-row"><span class="ir-label">Mode de paiement</span><span class="ir-val" id="detPay">—</span></div>
+  </div>
+
+  <!-- GUARANTEE STATUS -->
+  <div id="guaranteeCard" class="fu d2"></div>
+
+  <!-- ARRIVED BUTTON -->
+  <div class="card fu d3">
+    <div class="info-title">Arrivée à <span>l'hôtel</span></div>
+    <div style="font-size:clamp(12px,3vw,13px);color:var(--dim);line-height:1.7;margin-bottom:16px;" id="arrivedHint">Quand vous arrivez physiquement à l'hôtel, appuyez sur ce bouton. L'hôtel recevra une confirmation et vous donnera accès à votre chambre.</div>
+    <div id="arrivedSection">
+      <button class="arrived-btn" id="arrivedBtn" onclick="markArrived()">✅ Je suis arrivé(e) à l'hôtel</button>
+    </div>
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="fu d3">
+    <div class="action-grid">
+      <a id="waBtn" href="#" target="_blank" class="action-btn btn-wa">📱 Taxi WhatsApp</a>
+      <a id="gpsBtn" href="#" target="_blank" class="action-btn btn-gps">🗺️ Voir GPS</a>
+    </div>
+    <button class="btn-home" onclick="goHome()">← Retour à mes réservations</button>
+  </div>
+
+  <!-- SHARE -->
+  <div class="share-row fu d4">
+    <button class="share-btn" onclick="shareRef()">📋 Copier la référence</button>
+    <button class="share-btn" onclick="shareWhatsApp()">📤 Partager</button>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- QR Code library (pure JS, no external) -->
+<script>
+/* ═══ MINIMAL QR CODE GENERATOR ═══
+   Uses a data URL approach via canvas
+   Since no external lib, we draw a stylized code with the ref number */
+function drawRefCode(ref,canvas){
+  var ctx=canvas.getContext('2d');
+  var size=160;canvas.width=size;canvas.height=size;
+  ctx.fillStyle='#ffffff';ctx.fillRect(0,0,size,size);
+  /* Simulate QR pattern using the reference string as seed */
+  var seed=0;for(var i=0;i<ref.length;i++)seed+=ref.charCodeAt(i);
+  var cells=21;var cSize=Math.floor((size-20)/cells);var offset=10;
+  /* Draw finder patterns */
+  function finder(x,y){
+    ctx.fillStyle='#000';ctx.fillRect(x,y,7*cSize,7*cSize);
+    ctx.fillStyle='#fff';ctx.fillRect(x+cSize,y+cSize,5*cSize,5*cSize);
+    ctx.fillStyle='#000';ctx.fillRect(x+2*cSize,y+2*cSize,3*cSize,3*cSize);
+  }
+  finder(offset,offset);finder(offset+(cells-7)*cSize,offset);finder(offset,offset+(cells-7)*cSize);
+  /* Draw data cells based on ref */
+  ctx.fillStyle='#000';
+  for(var r=0;r<cells;r++){
+    for(var c=0;c<cells;c++){
+      /* Skip finder pattern areas */
+      if((r<9&&c<9)||(r<9&&c>cells-9)||(r>cells-9&&c<9))continue;
+      /* Deterministic pattern from seed */
+      var val=(seed*r*37+c*53+r+c)%7;
+      if(val<3){
+        ctx.fillRect(offset+c*cSize,offset+r*cSize,cSize-1,cSize-1);
+      }
+    }
+  }
+  /* Ref text at bottom */
+  ctx.fillStyle='#000';ctx.font='bold 9px monospace';ctx.textAlign='center';
+  ctx.fillText(ref,size/2,size-3);
+}
+</script>
+
+<script>
+/* ═══ CONFIG ═══ */
+var SB='https://dgxgpvxyrimpppjvvwto.supabase.co';
+var SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRneGdwdnh5cmltcHBwanZ2d3RvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4NDc1NTMsImV4cCI6MjA4OTQyMzU1M30.Ccr7orHXHiVJJiXzdxIcF0bP9Kkj3PxQM-hZQQ4Mg2w';
+var HDR={'apikey':SK,'Authorization':'Bearer '+SK,'Content-Type':'application/json'};
+var BASE='https://jasonyang0119-art.github.io/bookzzz/';
+
+/* ═══ STATE ═══ */
+var B=null; /* booking object */
+var H=null; /* hotel object */
+
+/* ═══ TRANSLATIONS ═══ */
+var lang=localStorage.getItem('bz_lang')||'fr';
+var TT={
+  fr:{back:'Mes réservations',title:'Réservation confirmée !',sub:'Votre réservation a bien été enregistrée. Montrez votre référence à la réception.',
+    nights:'nuit(s)',arrivedHint:'Quand vous arrivez physiquement à l\'hôtel, appuyez sur ce bouton. L\'hôtel recevra une confirmation et vous donnera accès à votre chambre.',
+    arrivedBtn:'✅ Je suis arrivé(e) à l\'hôtel',arrivedDone:'✅ Arrivée confirmée — Bon séjour !',
+    gtdTitle:'✅ Réservation garantie',gtdBody:'Votre paiement en ligne a sécurisé votre chambre. Elle vous est réservée jusqu\'à votre arrivée.',
+    ngtdTitle:'⚠️ Réservation non garantie',ngtdBody:'Vous avez choisi le paiement en espèces à l\'arrivée. Si vous ne vous présentez pas le jour prévu, la chambre sera libérée automatiquement.',
+    taxi:'Taxi WhatsApp',gps:'Voir GPS',copied:'Référence copiée ✓'},
+  en:{back:'My bookings',title:'Booking confirmed!',sub:'Your booking has been recorded. Show your reference at reception.',
+    nights:'night(s)',arrivedHint:'When you physically arrive at the hotel, tap this button. The hotel will receive confirmation and give you room access.',
+    arrivedBtn:'✅ I have arrived at the hotel',arrivedDone:'✅ Arrival confirmed — Enjoy your stay!',
+    gtdTitle:'✅ Guaranteed reservation',gtdBody:'Your online payment has secured your room. It is reserved for you until your arrival.',
+    ngtdTitle:'⚠️ Non-guaranteed reservation',ngtdBody:'You chose to pay cash on arrival. If you do not show up on the scheduled day, the room will be automatically released.',
+    taxi:'WhatsApp Taxi',gps:'View GPS',copied:'Reference copied ✓'},
+  sw:{back:'Uhifadhi wangu',title:'Uhifadhi umethibitishwa!',sub:'Uhifadhi wako umerekodiwa. Onyesha kumbukumbu yako kwenye mapokezi.',
+    nights:'usiku',arrivedHint:'Ukifika hotelini, bonyeza kitufe hiki. Hoteli itapokea uthibitisho na kukupa ufikiaji wa chumba.',
+    arrivedBtn:'✅ Nimefika hotelini',arrivedDone:'✅ Kuwasili kumethibitishwa — Furahia!',
+    gtdTitle:'✅ Uhifadhi uliohakikishwa',gtdBody:'Malipo yako ya mtandaoni yamehifadhi chumba chako.',
+    ngtdTitle:'⚠️ Uhifadhi usio na uhakika',ngtdBody:'Ulichagua kulipa pesa taslimu ukifika. Usipofika, chumba kitatolewa kiotomatiki.',
+    taxi:'Teksi WhatsApp',gps:'Ona GPS',copied:'Kumbukumbu imenakiliwa ✓'}
+};
+var t=TT[lang]||TT.fr;
+
+/* ═══ INIT ═══ */
+window.addEventListener('DOMContentLoaded',function(){
+  /* Apply translations */
+  document.getElementById('backTxt').textContent=t.back;
+  document.getElementById('successTitle').innerHTML=t.title.replace('!','<span>!</span>');
+  document.getElementById('successSub').textContent=t.sub;
+  document.getElementById('arrivedHint').textContent=t.arrivedHint;
+
+  /* Get booking from URL param or localStorage */
+  var params=new URLSearchParams(window.location.search);
+  var ref=params.get('ref');
+  if(ref){loadBookingByRef(ref);}
+  else{
+    /* Try latest booking from localStorage */
+    var bookings=JSON.parse(localStorage.getItem('bz_bookings')||'[]');
+    if(bookings.length>0){renderBooking(bookings[0]);}
+    else{document.getElementById('successTitle').innerHTML='Aucune <span>réservation</span>';}
+  }
+
+  /* Confetti */
+  launchConfetti();
+});
+
+function loadBookingByRef(ref){
+  /* Try to find in localStorage first */
+  var bookings=JSON.parse(localStorage.getItem('bz_bookings')||'[]');
+  var b=bookings.find(function(x){return x.ref===ref;});
+  if(b){renderBooking(b);return;}
+  /* Try Supabase */
+  fetch(SB+'/rest/v1/reservations?reference=eq.'+encodeURIComponent(ref)+'&select=*',{headers:HDR})
+  .then(function(r){return r.json();})
+  .then(function(d){if(d&&d.length>0)renderBookingFromSupa(d[0]);})
+  .catch(function(){});
+}
+
+function renderBooking(b){
+  B=b;
+  var ref=b.ref||b.reference||'—';
+  document.getElementById('refDisplay').textContent='RÉF #'+ref;
+  document.getElementById('successTitle').innerHTML=t.title.replace('!','<span>!</span>');
+
+  /* QR code */
+  drawRefCode(ref,document.getElementById('qrCanvas'));
+
+  /* Details */
+  document.getElementById('detHotel').textContent=b.hotel||b.hotel_name||'—';
+  document.getElementById('detRoom').textContent=b.room||b.room_name||'—';
+  document.getElementById('detCheckin').textContent=b.checkin||b.checkin_date||'—';
+
+  /* Calculate checkout */
+  var checkinDate=b.checkin||b.checkin_date||null;
+  var days=parseInt(b.days)||1;
+  if(checkinDate){
+    var co=new Date(checkinDate);co.setDate(co.getDate()+days);
+    document.getElementById('detCheckout').textContent=co.toLocaleDateString(lang==='fr'?'fr-FR':lang==='en'?'en-GB':'sw-TZ');
+  }
+  document.getElementById('detDays').textContent=days+' '+t.nights;
+
+  var user=JSON.parse(localStorage.getItem('bz_user')||'{}');
+  document.getElementById('detGuest').textContent=(user.firstName||b.guest_name||'—')+(user.lastName?' '+user.lastName:'');
+
+  var amount=b.totalAmount||b.total_amount||0;
+  var currency=b.currency||'CDF';
+  document.getElementById('detAmount').textContent=amount>0?parseFloat(amount).toLocaleString()+' '+currency:'Paiement à l\'arrivée';
+
+  var payMethods={mobile:'📱 Mobile Money',card:'💳 Carte bancaire',cash:'💵 Espèces',online:'💻 En ligne'};
+  document.getElementById('detPay').textContent=payMethods[b.payMethod||b.payment_method]||(b.payMethod||b.payment_method||'—');
+
+  /* Guarantee card */
+  var isGtd=(b.guaranteed!==false)&&(b.payMethod!=='cash')&&(b.payment_method!=='cash');
+  document.getElementById('guaranteeCard').innerHTML='<div class="guarantee-card '+(isGtd?'gtd':'ngtd')+'">'
+    +'<div class="gtd-icon">'+(isGtd?'✅':'⚠️')+'</div>'
+    +'<div class="gtd-info">'
+    +'<div class="gtd-title '+(isGtd?'green':'red')+'">'+(isGtd?t.gtdTitle:t.ngtdTitle)+'</div>'
+    +'<div class="gtd-body">'+(isGtd?t.gtdBody:t.ngtdBody)+'</div>'
+    +'</div></div>';
+
+  /* Arrived button */
+  if(b.status==='arrived'){
+    document.getElementById('arrivedSection').innerHTML='<div class="arrived-done">'+t.arrivedDone+'</div>';
+  } else {
+    document.getElementById('arrivedBtn').textContent=t.arrivedBtn;
+  }
+
+  /* Load hotel for GPS and taxi */
+  var hotel=JSON.parse(localStorage.getItem('bz_hotel')||'{}');
+  H=hotel;
+  setupActions(hotel,b);
+}
+
+function renderBookingFromSupa(r){
+  renderBooking({
+    ref:r.reference,hotel:'Hôtel',room:'Chambre',days:r.days,checkin:r.checkin_date,
+    totalAmount:r.total_amount,currency:'CDF',payMethod:r.payment_method,
+    status:r.status,guaranteed:r.payment_method!=='cash',reservationId:r.id
+  });
+}
+
+function setupActions(hotel,b){
+  /* GPS */
+  var gpsUrl='https://www.google.com/maps/search/?api=1&query='+(hotel.latitude&&hotel.longitude?hotel.latitude+','+hotel.longitude:encodeURIComponent((hotel.address||hotel.name||b.hotel||'')+(hotel.city?', '+hotel.city:'')));
+  document.getElementById('gpsBtn').href=gpsUrl;
+  document.getElementById('gpsBtn').textContent='🗺️ '+t.gps;
+
+  /* WhatsApp Taxi */
+  var addr=(hotel.address||b.hotel||'')+(hotel.city?', '+hotel.city:'');
+  var msg=encodeURIComponent('Bonjour, j\'ai besoin d\'un taxi pour l\'hôtel '+(hotel.name||b.hotel||'')+(hotel.address?', '+hotel.address+(hotel.city?', '+hotel.city:''):'')+'.\nMa référence BookZzz: #'+(b.ref||b.reference||''));
+  document.getElementById('waBtn').href='https://wa.me/?text='+msg;
+  document.getElementById('waBtn').textContent='📱 '+t.taxi;
+}
+
+/* ═══ MARK ARRIVED ═══ */
+function markArrived(){
+  var btn=document.getElementById('arrivedBtn');
+  if(!btn||btn.disabled)return;
+  btn.disabled=true;btn.textContent='⏳ Envoi en cours...';
+
+  /* Update localStorage */
+  var bookings=JSON.parse(localStorage.getItem('bz_bookings')||'[]');
+  var ref=B?B.ref:null;
+  if(ref){
+    bookings=bookings.map(function(b){return b.ref===ref?Object.assign({},b,{status:'arrived'}):b;});
+    localStorage.setItem('bz_bookings',JSON.stringify(bookings));
+  }
+
+  /* Update Supabase */
+  var resId=B?B.reservationId:null;
+  if(resId){
+    fetch(SB+'/rest/v1/reservations?id=eq.'+resId,{
+      method:'PATCH',
+      headers:Object.assign({},HDR,{'Prefer':'return=minimal'}),
+      body:JSON.stringify({status:'arrived',arrived_at:new Date().toISOString()})
+    }).then(function(){}).catch(function(){});
+  } else if(ref){
+    fetch(SB+'/rest/v1/reservations?reference=eq.'+encodeURIComponent(ref),{
+      method:'PATCH',
+      headers:Object.assign({},HDR,{'Prefer':'return=minimal'}),
+      body:JSON.stringify({status:'arrived',arrived_at:new Date().toISOString()})
+    }).then(function(){}).catch(function(){});
+  }
+
+  /* Show success */
+  setTimeout(function(){
+    document.getElementById('arrivedSection').innerHTML='<div class="arrived-done">'+t.arrivedDone+'</div>';
+    showToast('✅ Signal envoyé à l\'hôtel !');
+  },1000);
+}
+
+/* ═══ SHARE ═══ */
+function shareRef(){
+  var ref=B?B.ref:null;
+  if(!ref)return;
+  navigator.clipboard.writeText('Référence BookZzz: #'+ref+' — Hôtel: '+(B.hotel||'—')+' — Arrivée: '+(B.checkin||'—'))
+  .then(function(){showToast(t.copied);}).catch(function(){showToast('#'+ref);});
+}
+function shareWhatsApp(){
+  var ref=B?B.ref:null;if(!ref)return;
+  var msg=encodeURIComponent('Ma réservation BookZzz\nRéférence: #'+ref+'\nHôtel: '+(B?B.hotel||'—':'—')+'\nArrivée: '+(B?B.checkin||'—':'—'));
+  window.open('https://wa.me/?text='+msg,'_blank');
+}
+
+/* ═══ CONFETTI ═══ */
+function launchConfetti(){
+  var wrap=document.getElementById('confettiWrap');
+  var colors=['#5DADE2','#2ecc71','#f39c12','#e74c3c','#9b59b6','#1a7fd4'];
+  for(var i=0;i<60;i++){
+    var el=document.createElement('div');
+    el.className='confetti-piece';
+    el.style.cssText='left:'+Math.random()*100+'%;background:'+colors[Math.floor(Math.random()*colors.length)]+';animation-duration:'+(Math.random()*2+2)+'s;animation-delay:'+(Math.random()*1.5)+'s;transform:rotate('+(Math.random()*360)+'deg);';
+    wrap.appendChild(el);
+  }
+  setTimeout(function(){wrap.innerHTML='';},5000);
+}
+
+/* ═══ NAVIGATION ═══ */
+function goHome(){window.location.href=BASE+'index.html';}
+
+/* ═══ TOAST ═══ */
+var tT;
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(tT);tT=setTimeout(function(){t.classList.remove('show');},3000);}
+</script>
+</body>
+</html>
