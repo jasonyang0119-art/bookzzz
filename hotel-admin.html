@@ -1086,23 +1086,28 @@ function handleRoomPhotos(input){
 function saveRoomPhoto(url){
   if(!G.currentRoomId){showToast('Sélectionnez une chambre d\'abord','error');return;}
   if(!G.hotel){showToast('Hôtel non chargé','error');return;}
-  var payload={room_id:G.currentRoomId,hotel_id:G.hotel.id,url:url};
-  sbPost('room_photos',payload,function(err,record){
-    if(!err&&record&&record.id){
-      G.roomPhotosList.push(record);
-      renderRoomPhotosGrid();
+  var payload={room_id:String(G.currentRoomId),hotel_id:String(G.hotel.id),url:url};
+  fetch(SB+'/rest/v1/room_photos',{
+    method:'POST',
+    headers:Object.assign({},HDR,{'Prefer':'return=representation'}),
+    body:JSON.stringify(payload)
+  })
+  .then(function(r){return r.text().then(function(t){return {status:r.status,text:t};});})
+  .then(function(res){
+    var parsed;try{parsed=JSON.parse(res.text);}catch(e){parsed=null;}
+    if(res.status===200||res.status===201){
+      var record=Array.isArray(parsed)?parsed[0]:parsed;
+      if(record&&record.id){G.roomPhotosList.push(record);renderRoomPhotosGrid();}
+      else{loadRoomPhotos(G.currentRoomId);}
       showToast('✅ Photo ajoutée !','success');
     } else {
-      var msg=err?err.message:'Erreur inconnue';
-      showToast('❌ '+msg,'error');
-      /* Show SQL hint if table missing */
-      if(msg.indexOf('room_photos')>=0||msg.indexOf('relation')>=0||msg.indexOf('does not exist')>=0){
-        setTimeout(function(){
-          alert('⚠️ La table room_photos n\'existe pas encore.\n\nVa dans Supabase → SQL Editor et colle :\n\nCREATE TABLE IF NOT EXISTS room_photos (\n  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,\n  room_id uuid,\n  hotel_id uuid,\n  url text NOT NULL,\n  label text,\n  created_at timestamptz DEFAULT now()\n);\nALTER TABLE room_photos DISABLE ROW LEVEL SECURITY;\nGRANT ALL ON room_photos TO anon;');
-        },300);
-      }
+      var errMsg='Erreur '+res.status;
+      if(parsed&&parsed.message)errMsg=parsed.message;
+      else if(parsed&&parsed.hint)errMsg=parsed.hint;
+      showToast('❌ '+errMsg,'error');
     }
-  });
+  })
+  .catch(function(){showToast('❌ Erreur réseau','error');});
 }
 
 function addRoomPhotoByUrl(){
