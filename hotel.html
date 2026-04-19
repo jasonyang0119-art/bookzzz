@@ -832,9 +832,8 @@ function saveLocally(ref){
   localStorage.setItem('bz_bookings',JSON.stringify(bookings));
 }
 
-function showSuccess(ref){function showSuccess(ref){
+function showSuccess(ref){
   window.location.href = BASE + 'booking-confirm.html?ref=' + ref;
-}
 }
 
 function loadFallback(){
