@@ -20,36 +20,43 @@ html,body{width:100%;height:100%;font-family:'DM Sans',sans-serif;background:var
 body{overflow:hidden;}
 button,input{font-family:'DM Sans',sans-serif;cursor:pointer;}
 
-/* SCREENS */
-.screen{position:fixed;inset:0;display:flex;align-items:flex-start;justify-content:center;opacity:0;pointer-events:none;transition:opacity .45s ease;z-index:10;overflow-y:auto;overflow-x:hidden;}
+/* ── SCREENS ── */
+.screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .45s ease;z-index:10;}
 .screen.active{opacity:1;pointer-events:all;}
 #home{align-items:flex-start;overflow-y:auto;overflow-x:hidden;}
 #home::-webkit-scrollbar{width:0;}
 
-/* BG */
-.nbg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 100% 55% at 50% 100%,rgba(26,127,212,.22),transparent 60%),linear-gradient(180deg,#04080f,#060e1a 25%,#091628 55%,#0d2040 75%,#060e1a);}
+/* ── NIGHT BG ── */
+.nbg{position:fixed;inset:0;z-index:0;
+  background:radial-gradient(ellipse 100% 55% at 50% 100%,rgba(26,127,212,0.22) 0%,transparent 60%),
+  linear-gradient(180deg,#04080f 0%,#060e1a 25%,#091628 55%,#0d2040 75%,#060e1a 100%);}
 .stars{position:fixed;inset:0;pointer-events:none;z-index:1;}
 .star{position:absolute;border-radius:50%;background:#fff;animation:tw ease-in-out infinite alternate;}
 @keyframes tw{from{opacity:.03}to{opacity:.75}}
-.moon{position:fixed;top:6%;right:13%;z-index:2;width:56px;height:56px;border-radius:50%;overflow:hidden;box-shadow:0 0 18px rgba(26,127,212,.38),0 0 55px rgba(26,127,212,.1);}
-.ms{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 36% 34%,#c8dff5,#8ab8de 28%,#4e7aaa 58%,#2a4d7a);}
-.mm{position:absolute;inset:0;border-radius:50%;background:radial-gradient(ellipse 42% 30% at 30% 36%,rgba(13,35,70,.5),transparent),radial-gradient(ellipse 38% 32% at 46% 62%,rgba(15,40,80,.45),transparent);}
-.msh{position:absolute;inset:0;border-radius:50%;background:radial-gradient(ellipse 72% 100% at 96% 50%,rgba(4,8,20,.92),rgba(4,8,20,.5) 40%,transparent 70%);}
+.moon{position:fixed;top:6%;right:13%;z-index:2;width:56px;height:56px;border-radius:50%;overflow:hidden;
+  box-shadow:0 0 18px rgba(26,127,212,.38),0 0 55px rgba(26,127,212,.1);}
+.ms{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 36% 34%,#c8dff5 0%,#8ab8de 28%,#4e7aaa 58%,#2a4d7a 100%);}
+.mm{position:absolute;inset:0;border-radius:50%;background:radial-gradient(ellipse 42% 30% at 30% 36%,rgba(13,35,70,.5) 0%,transparent 100%),radial-gradient(ellipse 38% 32% at 46% 62%,rgba(15,40,80,.45) 0%,transparent 100%);}
+.msh{position:absolute;inset:0;border-radius:50%;background:radial-gradient(ellipse 72% 100% at 96% 50%,rgba(4,8,20,.92) 0%,rgba(4,8,20,.5) 40%,transparent 70%);}
 .cityf{position:fixed;bottom:0;left:0;right:0;height:155px;z-index:2;pointer-events:none;}
 
-/* GLASS CARD */
-.gc{position:relative;background:var(--glass2);border:1px solid var(--border2);border-radius:var(--r-xl);backdrop-filter:blur(36px) saturate(1.4);box-shadow:0 40px 90px rgba(0,0,0,.5);}
-.gc::before{content:'';position:absolute;top:0;left:14%;right:14%;height:1px;background:linear-gradient(90deg,transparent,rgba(93,173,226,.5),rgba(26,127,212,.9),rgba(93,173,226,.5),transparent);}
+/* ── GLASS CARD ── */
+.gc{position:relative;background:var(--glass2);border:1px solid var(--border2);border-radius:var(--r-xl);
+  backdrop-filter:blur(36px) saturate(1.4);box-shadow:0 40px 90px rgba(0,0,0,.5),inset 0 1px 0 rgba(93,173,226,.18);
+  transform-style:preserve-3d;transition:transform .1s ease;}
+.gc::before{content:'';position:absolute;top:0;left:14%;right:14%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(93,173,226,.5),rgba(26,127,212,.9),rgba(93,173,226,.5),transparent);}
 
-/* SPLASH */
+/* ── SPLASH ── */
 #splash{z-index:100;background:var(--bg-deep);}
 .spin{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;}
 .spg{display:flex;align-items:center;gap:clamp(10px,3vw,18px);opacity:0;transform:translateX(110px);animation:sIn 1s cubic-bezier(.16,1,.3,1) .5s forwards;}
-@keyframes sIn{to{opacity:1;transform:none;}}
+@keyframes sIn{to{opacity:1;transform:translateX(0);}}
 .spbrand{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,10vw,80px);font-weight:700;letter-spacing:-2px;line-height:1;display:flex;align-items:baseline;}
-.spb{color:var(--white);}.spz{color:var(--azure);font-style:italic;text-shadow:0 0 28px rgba(93,173,226,.8);}
-.spsl{margin-top:10px;font-size:clamp(12px,3vw,14.5px);color:var(--text-dim);text-align:center;opacity:0;transform:translateY(-18px);animation:slD .8s cubic-bezier(.16,1,.3,1) 1.4s forwards;}
-@keyframes slD{to{opacity:1;transform:none;}}
+.spb{color:var(--white);}.spz{color:var(--azure);font-style:italic;text-shadow:0 0 28px rgba(93,173,226,.8),0 0 70px rgba(93,173,226,.3);}
+.spsl{margin-top:10px;font-size:clamp(12px,3vw,14.5px);font-weight:300;color:var(--text-dim);text-align:center;
+  opacity:0;transform:translateY(-18px);animation:slD .8s cubic-bezier(.16,1,.3,1) 1.4s forwards;}
+@keyframes slD{to{opacity:1;transform:translateY(0);}}
 .sls{color:var(--white);font-weight:700;}.slz{color:var(--azure);font-weight:700;font-style:italic;}
 .spdots{margin-top:52px;display:flex;gap:8px;opacity:0;animation:fi .4s ease 2.3s forwards;}
 @keyframes fi{to{opacity:1;}}
@@ -57,16 +64,19 @@ button,input{font-family:'DM Sans',sans-serif;cursor:pointer;}
 .spdots span:nth-child(2){animation-delay:.2s}.spdots span:nth-child(3){animation-delay:.4s}
 @keyframes dp{0%,100%{transform:scale(.6);opacity:.3}50%{transform:scale(1.2);opacity:1}}
 
-/* INTRO */
+/* ── INTRO CARDS ── */
 .intro-wrap{width:100%;max-width:460px;padding:16px;}
 .intro-card{padding:clamp(28px,5vw,50px) clamp(20px,5vw,52px);width:100%;}
 .card-logo{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,8vw,40px);font-weight:700;color:var(--white);margin-bottom:5px;text-align:center;}
 .card-logo span{color:var(--azure);font-style:italic;}
 .card-sub{font-size:clamp(10px,2.5vw,12px);color:var(--text-dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:clamp(24px,4vw,36px);text-align:center;}
 .lo{display:flex;flex-direction:column;gap:10px;}
-.lb{display:flex;align-items:center;gap:12px;padding:clamp(12px,3vw,16px) clamp(14px,4vw,20px);background:rgba(13,32,64,.45);border:1px solid var(--border);border-radius:var(--r-lg);cursor:pointer;tra
-.lb-selected{border-color:rgba(46,204,113,.4);background:rgba(46,204,113,.08)!important;}nsition:all .3s;text-align:left;width:100%;}
-.lb:hover{border-color:rgba(93,173,226,.45);transform:translateY(-2px);}
+.lb{display:flex;align-items:center;gap:12px;padding:clamp(12px,3vw,16px) clamp(14px,4vw,20px);
+  background:rgba(13,32,64,.45);border:1px solid var(--border);border-radius:var(--r-lg);
+  cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);text-align:left;position:relative;overflow:hidden;width:100%;}
+.lb::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(93,173,226,.07),transparent);opacity:0;transition:opacity .3s;}
+.lb:hover::after{opacity:1;}
+.lb:hover{border-color:rgba(93,173,226,.45);transform:translateY(-2px);box-shadow:0 10px 32px rgba(93,173,226,.12);}
 .lb:active{transform:scale(.98);}
 .lfl{font-size:clamp(20px,5vw,25px);flex-shrink:0;}.li{flex:1;}
 .ln{font-size:clamp(14px,3.5vw,16px);font-weight:600;color:var(--white);}
@@ -74,28 +84,32 @@ button,input{font-family:'DM Sans',sans-serif;cursor:pointer;}
 .lar{color:var(--azure);opacity:.5;font-size:16px;transition:all .3s;flex-shrink:0;}
 .lb:hover .lar{opacity:1;transform:translateX(4px);}
 .back-step{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:rgba(13,32,64,.5);border:1px solid var(--border);border-radius:40px;color:var(--text-dim);font-size:clamp(11px,2.5vw,12px);cursor:pointer;margin-bottom:16px;transition:all .3s;}
-.back-step:hover{color:var(--azure);}
+.back-step:hover{color:var(--azure);border-color:rgba(93,173,226,.4);}
 
-/* COUNTRY/CITY */
+/* Country / City */
 .cc-icon{font-size:clamp(32px,8vw,42px);margin-bottom:8px;text-align:center;}
-.cc-title{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,6vw,32px);font-weight:700;color:var(--white);margin-bottom:6px;text-align:center;}
+.cc-title{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,6vw,32px);font-weight:700;color:var(--white);margin-bottom:6px;line-height:1.2;text-align:center;}
 .cc-title span{color:var(--azure);font-style:italic;}
-.cc-sub{font-size:clamp(11px,2.5vw,13px);color:var(--text-dim);margin-bottom:16px;text-align:center;}
-.cc-notice{display:flex;gap:8px;padding:12px 14px;background:rgba(93,173,226,.07);border:1px solid rgba(93,173,226,.2);border-radius:var(--r-md);margin-bottom:20px;}
+.cc-sub{font-size:clamp(11px,2.5vw,13px);color:var(--text-dim);margin-bottom:16px;text-align:center;line-height:1.5;}
+.cc-notice{display:flex;align-items:flex-start;gap:8px;padding:12px 14px;background:rgba(93,173,226,.07);border:1px solid rgba(93,173,226,.2);border-radius:var(--r-md);margin-bottom:20px;text-align:left;}
 .cc-notice-txt{font-size:clamp(10px,2.5vw,12px);color:var(--text-dim);line-height:1.5;}
 .cc-notice-txt strong{color:var(--azure-soft);}
 .countries-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.cbtn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:clamp(14px,3vw,18px) 12px;background:rgba(13,32,64,.45);border:1px solid var(--border);border-radius:var(--r-lg);cursor:pointer;transition:all .3s;position:relative;overflow:hidden;width:100%;}
+.cbtn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:clamp(14px,3vw,18px) 12px;background:rgba(13,32,64,.45);border:1px solid var(--border);border-radius:var(--r-lg);cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden;width:100%;}
+.cbtn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(93,173,226,.07),transparent);opacity:0;transition:opacity .3s;}
+.cbtn:hover::after{opacity:1;}
 .cbtn:hover{border-color:rgba(93,173,226,.45);transform:translateY(-2px);}
 .cbtn:active{transform:scale(.98);}
 .cflag{font-size:clamp(24px,6vw,32px);}
 .cname{font-size:clamp(11px,2.5vw,13px);font-weight:600;color:var(--white);text-align:center;}
 .cbtn-soon{opacity:.4;cursor:not-allowed;}
-.cbtn-soon:hover{transform:none;}
+.cbtn-soon:hover{transform:none;box-shadow:none;border-color:var(--border);}
 .soon-tag{position:absolute;top:6px;right:6px;font-size:8px;padding:2px 7px;background:rgba(93,173,226,.12);border:1px solid rgba(93,173,226,.2);border-radius:20px;color:var(--azure);font-weight:600;}
 .cities-list{display:flex;flex-direction:column;gap:9px;max-height:min(340px,50vh);overflow-y:auto;}
 .cities-list::-webkit-scrollbar{width:0;}
-.city-btn{display:flex;align-items:center;gap:12px;padding:clamp(12px,3vw,14px) clamp(14px,3vw,18px);background:rgba(13,32,64,.45);border:1px solid var(--border);border-radius:var(--r-lg);cursor:pointer;transition:all .3s;text-align:left;width:100%;}
+.city-btn{display:flex;align-items:center;gap:12px;padding:clamp(12px,3vw,14px) clamp(14px,3vw,18px);background:rgba(13,32,64,.45);border:1px solid var(--border);border-radius:var(--r-lg);cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);text-align:left;position:relative;overflow:hidden;width:100%;}
+.city-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(93,173,226,.07),transparent);opacity:0;transition:opacity .3s;}
+.city-btn:hover::after{opacity:1;}
 .city-btn:hover{border-color:rgba(93,173,226,.45);transform:translateY(-2px);}
 .city-btn:active{transform:scale(.98);}
 .city-icon{font-size:clamp(18px,4vw,22px);flex-shrink:0;}
@@ -107,7 +121,7 @@ button,input{font-family:'DM Sans',sans-serif;cursor:pointer;}
 .city-btn-soon{opacity:.4;cursor:not-allowed;}
 .city-btn-soon:hover{transform:none;}
 
-/* PROFILE SETUP */
+/* Profile */
 .sbadge{display:inline-flex;align-items:center;gap:7px;background:rgba(93,173,226,.09);border:1px solid rgba(93,173,226,.22);border-radius:40px;padding:5px 14px;margin-bottom:16px;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--azure);}
 .sdot{width:5px;height:5px;border-radius:50%;background:var(--azure);}
 .ptit{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,6vw,32px);font-weight:700;color:var(--white);margin-bottom:4px;line-height:1.2;}
@@ -117,38 +131,43 @@ button,input{font-family:'DM Sans',sans-serif;cursor:pointer;}
 .fl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--azure-soft);margin-bottom:6px;display:block;}
 .finp{width:100%;padding:clamp(11px,3vw,14px) clamp(14px,3vw,18px);background:rgba(13,32,64,.6);border:1px solid var(--border);border-radius:var(--r-md);color:var(--white);font-size:clamp(13px,3vw,14px);outline:none;transition:all .3s;}
 .finp::placeholder{color:rgba(220,240,255,.22);}
-.finp:focus{border-color:rgba(93,173,226,.55);box-shadow:0 0 0 3px rgba(93,173,226,.07);}
+.finp:focus{border-color:rgba(93,173,226,.55);background:rgba(13,32,64,.8);box-shadow:0 0 0 3px rgba(93,173,226,.07);}
 .gsel{display:flex;align-items:center;background:rgba(13,32,64,.6);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;}
-.gbtn{width:48px;height:48px;border:none;background:transparent;color:var(--azure);font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.gbtn{width:48px;height:48px;border:none;background:transparent;color:var(--azure);font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;}
 .gbtn:hover{background:rgba(93,173,226,.1);}
 .gbtn:active{transform:scale(.88);}
 .gcnt{flex:1;text-align:center;font-size:18px;font-weight:600;color:var(--white);user-select:none;}
 .ghint{font-size:11px;color:var(--text-dim);margin-top:4px;}
-.cta{width:100%;padding:clamp(13px,3vw,16px);background:linear-gradient(135deg,var(--azure),var(--blue-dark));border:none;border-radius:var(--r-lg);color:#fff;font-size:clamp(13px,3vw,15px);font-weight:700;cursor:pointer;margin-top:6px;transition:all .3s;}
+.cta{width:100%;padding:clamp(13px,3vw,16px);background:linear-gradient(135deg,var(--azure),var(--blue-dark));border:none;border-radius:var(--r-lg);color:#fff;font-size:clamp(13px,3vw,15px);font-weight:700;cursor:pointer;margin-top:6px;transition:all .3s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden;}
+.cta::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent);opacity:0;transition:opacity .3s;}
+.cta:hover::after{opacity:1;}
 .cta:hover{transform:translateY(-2px);box-shadow:0 14px 44px rgba(93,173,226,.32);}
+.cta:active{transform:scale(.98);}
 
-/* HOME */
+/* ── HOME ── */
 .hw{position:relative;z-index:10;width:100%;max-width:1140px;margin:0 auto;padding:0 clamp(14px,4vw,26px) 110px;min-height:100vh;}
 .tnav{display:flex;align-items:center;justify-content:space-between;padding:clamp(16px,3vw,24px) 0 0;margin-bottom:clamp(20px,4vw,32px);}
-.nlogo{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,5vw,29px);font-weight:700;color:var(--white);}
+.nlogo{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,5vw,29px);font-weight:700;color:var(--white);letter-spacing:-.5px;}
 .nlogo span{color:var(--azure);font-style:italic;}
-.ngr{font-size:clamp(10px,2.5vw,12px);color:var(--text-dim);background:rgba(13,32,64,.5);border:1px solid var(--border);border-radius:40px;padding:6px clamp(10px,2vw,16px);display:flex;align-items:center;gap:6px;}
+.ngr{font-size:clamp(10px,2.5vw,12px);color:var(--text-dim);background:rgba(13,32,64,.5);border:1px solid var(--border);border-radius:40px;padding:6px clamp(10px,2vw,16px);display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
 .country-pill{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;background:rgba(93,173,226,.1);border:1px solid rgba(93,173,226,.25);border-radius:20px;font-size:clamp(9px,2vw,11px);color:var(--azure);}
 
-/* LANGUAGE OVERLAY */
+/* Language overlay popup */
 .lang-overlay{position:fixed;inset:0;background:rgba(4,8,20,.85);z-index:400;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s ease;backdrop-filter:blur(8px);}
 .lang-overlay.open{opacity:1;pointer-events:all;}
 .lang-popup{background:var(--glass2);border:1px solid var(--border2);border-radius:var(--r-xl);padding:clamp(24px,5vw,40px) clamp(20px,5vw,48px);width:90%;max-width:400px;position:relative;box-shadow:0 40px 90px rgba(0,0,0,.5);}
 .lang-popup::before{content:'';position:absolute;top:0;left:14%;right:14%;height:1px;background:linear-gradient(90deg,transparent,rgba(93,173,226,.5),rgba(26,127,212,.9),rgba(93,173,226,.5),transparent);}
-.lang-popup-close{position:absolute;top:14px;right:16px;width:30px;height:30px;border-radius:50%;background:rgba(93,173,226,.1);border:1px solid var(--border);color:var(--text-dim);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.lang-popup-close{position:absolute;top:14px;right:16px;width:30px;height:30px;border-radius:50%;background:rgba(93,173,226,.1);border:1px solid var(--border);color:var(--text-dim);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;}
+.lang-popup-close:hover{color:var(--white);}
 .lang-popup-title{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,5vw,28px);font-weight:700;color:var(--white);margin-bottom:4px;}
 .lang-popup-title span{color:var(--azure);font-style:italic;}
 .lang-popup-sub{font-size:11px;color:var(--text-dim);margin-bottom:20px;}
 
-/* HERO */
-.hcard{background:linear-gradient(135deg,rgba(13,32,64,.85),rgba(6,14,26,.92));border:1px solid var(--border2);border-radius:clamp(20px,4vw,32px);padding:clamp(24px,5vw,44px) clamp(20px,5vw,48px);backdrop-filter:blur(40px);box-shadow:0 55px 110px rgba(0,0,0,.5);position:relative;overflow:hidden;margin-bottom:clamp(18px,3vw,28px);}
+/* Hero */
+.hero{margin-bottom:clamp(18px,3vw,28px);}
+.hcard{background:linear-gradient(135deg,rgba(13,32,64,.85),rgba(6,14,26,.92));border:1px solid var(--border2);border-radius:clamp(20px,4vw,32px);padding:clamp(24px,5vw,44px) clamp(20px,5vw,48px);backdrop-filter:blur(40px);box-shadow:0 55px 110px rgba(0,0,0,.5);transform-style:preserve-3d;transition:transform .1s ease;position:relative;overflow:hidden;}
 .hcard::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(93,173,226,.45),rgba(26,127,212,.85),rgba(93,173,226,.45),transparent);}
-.hglow{position:absolute;top:-50px;right:-50px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(93,173,226,.1),transparent 70%);pointer-events:none;}
+.hglow{position:absolute;top:-50px;right:-50px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(93,173,226,.1) 0%,transparent 70%);pointer-events:none;}
 .htag{display:inline-flex;align-items:center;gap:7px;background:rgba(93,173,226,.09);border:1px solid rgba(93,173,226,.22);border-radius:40px;padding:5px 14px;margin-bottom:clamp(10px,2vw,16px);font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--azure);}
 .hh1{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,5vw,50px);font-weight:700;color:var(--white);line-height:1.18;margin-bottom:clamp(8px,2vw,13px);}
 .hh1 em{color:var(--azure);font-style:italic;}
@@ -156,10 +175,10 @@ button,input{font-family:'DM Sans',sans-serif;cursor:pointer;}
 .srow{display:flex;gap:8px;align-items:center;background:rgba(6,14,26,.7);border:1px solid var(--border2);border-radius:var(--r-lg);padding:6px 6px 6px clamp(12px,3vw,17px);}
 .sinp{flex:1;background:transparent;border:none;outline:none;color:var(--white);font-size:clamp(13px,3vw,14px);padding:8px 0;min-width:0;}
 .sinp::placeholder{color:rgba(220,240,255,.27);}
-.sbtn{padding:clamp(10px,2vw,12px) clamp(16px,3vw,24px);background:linear-gradient(135deg,var(--azure),var(--blue-dark));border:none;border-radius:var(--r-md);color:#fff;font-size:clamp(12px,2.5vw,13px);font-weight:700;cursor:pointer;transition:all .3s;flex-shrink:0;}
+.sbtn{padding:clamp(10px,2vw,12px) clamp(16px,3vw,24px);background:linear-gradient(135deg,var(--azure),var(--blue-dark));border:none;border-radius:var(--r-md);color:#fff;font-size:clamp(12px,2.5vw,13px);font-weight:700;cursor:pointer;transition:all .3s;white-space:nowrap;flex-shrink:0;}
 .sbtn:hover{transform:scale(1.03);}
 
-/* FILTERS */
+/* Filters */
 .filters{display:flex;gap:8px;margin-bottom:18px;overflow-x:auto;padding-bottom:4px;}
 .filters::-webkit-scrollbar{height:0;}
 .ftag{padding:clamp(6px,1.5vw,8px) clamp(12px,3vw,18px);background:rgba(13,32,64,.5);border:1px solid var(--border);border-radius:40px;font-size:clamp(11px,2.5vw,12px);font-weight:500;color:var(--text-dim);cursor:pointer;transition:all .3s;white-space:nowrap;flex-shrink:0;}
@@ -168,10 +187,12 @@ button,input{font-family:'DM Sans',sans-serif;cursor:pointer;}
 .sech span{color:var(--azure);font-style:italic;}
 .secs{font-size:clamp(11px,2.5vw,12px);color:var(--text-dim);margin-bottom:18px;}
 
-/* HOTEL GRID */
+/* Hotel Grid */
 .hgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(285px,100%),1fr));gap:clamp(14px,3vw,20px);margin-bottom:50px;}
-.hc{background:var(--glass);border:1px solid var(--border);border-radius:var(--r-xl);overflow:hidden;cursor:pointer;transition:box-shadow .3s;position:relative;}
+.hc{background:var(--glass);border:1px solid var(--border);border-radius:var(--r-xl);overflow:hidden;cursor:pointer;transform-style:preserve-3d;transition:transform .12s ease,box-shadow .3s;position:relative;}
 .hc:hover{box-shadow:0 28px 70px rgba(0,0,0,.4),0 0 34px rgba(93,173,226,.1);}
+.hc::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(93,173,226,.05),transparent);opacity:0;transition:opacity .3s;pointer-events:none;border-radius:var(--r-xl);}
+.hc:hover::after{opacity:1;}
 .himg{height:clamp(160px,25vw,190px);overflow:hidden;position:relative;background:linear-gradient(135deg,var(--bg-mid),var(--navy));}
 .himg img{width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.16,1,.3,1);}
 .hc:hover .himg img{transform:scale(1.06);}
@@ -179,39 +200,45 @@ button,input{font-family:'DM Sans',sans-serif;cursor:pointer;}
 @keyframes shim{to{background-position:-200% 0}}
 .hbadge-top{position:absolute;top:11px;right:11px;background:rgba(6,14,26,.82);border:1px solid rgba(93,173,226,.28);border-radius:40px;padding:3px 11px;font-size:10px;font-weight:700;color:var(--azure);backdrop-filter:blur(10px);}
 .hvrf{position:absolute;top:11px;left:11px;background:rgba(46,204,113,.15);border:1px solid rgba(46,204,113,.4);border-radius:40px;padding:3px 9px;font-size:9px;font-weight:700;color:var(--green);}
-.hbody{padding:clamp(13px,3vw,16px) clamp(15px,3vw,18px);}
+.hbody{padding:clamp(13px,3vw,16px) clamp(15px,3vw,18px) clamp(15px,3vw,18px);}
 .hname{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,3.5vw,17px);font-weight:700;color:var(--white);margin-bottom:4px;line-height:1.3;}
 .hloc{display:flex;align-items:center;gap:4px;font-size:clamp(10px,2.5vw,11px);color:var(--text-dim);margin-bottom:9px;}
 .hamen-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:11px;}
 .atag{font-size:9px;padding:2px 7px;background:rgba(93,173,226,.08);border:1px solid rgba(93,173,226,.15);border-radius:20px;color:var(--text-dim);}
+
+/* ═══ HOTEL CARD PRICE SECTION — CORRECTED ═══
+   Shows: room price + discount badge only.
+   NO commission mention. NO "frais de réservation". */
 .hpr{display:flex;align-items:flex-end;justify-content:space-between;gap:8px;}
 .hprice-block{display:flex;flex-direction:column;gap:3px;}
 .room-price-display{font-size:clamp(17px,4vw,20px);font-weight:700;color:var(--white);line-height:1;}
 .room-price-night{font-size:clamp(9px,2vw,10px);color:var(--text-dim);}
+/* Discount badge — only shown if discount > 0 */
 .discount-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.3);border-radius:20px;font-size:clamp(9px,2vw,10px);font-weight:700;color:var(--green);}
 .rbtn{padding:clamp(7px,2vw,9px) clamp(14px,3vw,18px);background:linear-gradient(135deg,var(--azure),var(--blue-dark));border:none;border-radius:var(--r-sm);color:#fff;font-size:clamp(11px,2.5vw,12px);font-weight:700;cursor:pointer;transition:all .3s;flex-shrink:0;}
 .rbtn:hover{transform:translateY(-2px);box-shadow:0 7px 20px rgba(93,173,226,.32);}
 
-/* SKELETON */
+/* Skeleton */
 .skel{background:var(--glass);border:1px solid var(--border);border-radius:var(--r-xl);overflow:hidden;height:clamp(260px,40vw,310px);}
 .skel-img{height:clamp(150px,22vw,190px);background:linear-gradient(110deg,var(--bg-mid) 30%,rgba(93,173,226,.06) 50%,var(--bg-mid) 70%);background-size:200% 100%;animation:shim 1.8s infinite;}
 .skel-body{padding:14px 16px;}
 .skel-line{height:10px;border-radius:6px;background:linear-gradient(110deg,var(--bg-mid) 30%,rgba(93,173,226,.06) 50%,var(--bg-mid) 70%);background-size:200% 100%;animation:shim 1.8s infinite;margin-bottom:8px;}
 .skel-line.w70{width:70%;}.skel-line.w50{width:50%;}.skel-line.w40{width:40%;}
 .empty{grid-column:1/-1;text-align:center;padding:60px 30px;color:var(--text-dim);}
+.ei{font-size:clamp(40px,10vw,56px);margin-bottom:14px;}
+.empty h3{font-size:clamp(15px,4vw,18px);color:var(--white);margin-bottom:6px;}
 
-/* TAB PANELS */
-.tab-panel{display:none;width:100%;}
-.tab-panel.active{display:block;width:100%;}
+/* ── TAB PANELS ── */
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
 .panel-wrap{padding:clamp(16px,3vw,24px) 0 0;}
 .panel-title{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,5vw,28px);font-weight:700;color:var(--white);margin-bottom:4px;}
 .panel-title span{color:var(--azure);font-style:italic;}
 .panel-sub{font-size:clamp(11px,2.5vw,12px);color:var(--text-dim);margin-bottom:20px;}
 
-/* BOOKINGS */
+/* Bookings */
 .booking-empty{text-align:center;padding:50px 20px;background:var(--glass);border:1px solid var(--border);border-radius:var(--r-xl);}
-.booking-empty .ei{font-size:clamp(40px,10vw,56px);margin-bottom:14px;}
-.booking-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--r-lg);padding:clamp(14px,3vw,18px) clamp(16px,3vw,20px);margin-bottom:12px;transition:border-color .3s;}
+.booking-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--r-lg);padding:clamp(14px,3vw,18px) clamp(16px,3vw,20px);margin-bottom:12px;transition:all .3s;}
 .booking-card:hover{border-color:var(--border2);}
 .bc-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;}
 .bc-icon{font-size:clamp(22px,5vw,28px);flex-shrink:0;}
@@ -230,19 +257,21 @@ button,input{font-family:'DM Sans',sans-serif;cursor:pointer;}
 .bc-action-btn{padding:8px 14px;border:none;border-radius:var(--r-sm);font-size:11px;font-weight:700;cursor:pointer;transition:all .3s;flex-shrink:0;}
 .btn-arrived{background:linear-gradient(135deg,var(--green),#27ae60);color:#fff;}
 .btn-arrived:hover{transform:translateY(-1px);box-shadow:0 5px 16px rgba(46,204,113,.3);}
-.btn-arrived:disabled{background:rgba(13,32,64,.5);color:var(--text-dim);cursor:not-allowed;transform:none;}
+.btn-arrived:disabled{background:rgba(13,32,64,.5);color:var(--text-dim);cursor:not-allowed;transform:none;box-shadow:none;}
 .btn-extend{background:linear-gradient(135deg,var(--azure),var(--blue-dark));color:#fff;}
+.btn-extend:hover{transform:translateY(-1px);}
 .btn-shorten{background:rgba(231,76,60,.15);border:1px solid rgba(231,76,60,.3);color:var(--red);}
+.btn-shorten:hover{background:rgba(231,76,60,.25);}
 
-/* ADJUST MODAL */
+/* Adjust modal */
 .modal-overlay{position:fixed;inset:0;background:rgba(4,8,20,.85);z-index:300;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s ease;backdrop-filter:blur(6px);}
 .modal-overlay.open{opacity:1;pointer-events:all;}
 .modal-box{background:var(--glass2);border:1px solid var(--border2);border-radius:var(--r-xl) var(--r-xl) 0 0;padding:clamp(20px,4vw,28px) clamp(18px,4vw,26px) clamp(24px,5vw,32px);width:100%;max-width:500px;transform:translateY(100%);transition:transform .4s cubic-bezier(.16,1,.3,1);position:relative;}
 .modal-overlay.open .modal-box{transform:translateY(0);}
 .modal-handle{width:36px;height:3px;border-radius:2px;background:rgba(93,173,226,.3);margin:0 auto 18px;}
-.modal-close{position:absolute;top:16px;right:16px;width:28px;height:28px;border-radius:50%;background:rgba(93,173,226,.1);border:1px solid var(--border);color:var(--text-dim);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.modal-close{position:absolute;top:16px;right:16px;width:28px;height:28px;border-radius:50%;background:rgba(93,173,226,.1);border:1px solid var(--border);color:var(--text-dim);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;}
 .modal-close:hover{color:var(--white);}
-.modal-title{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,5vw,24px);font-weight:700;color:var(--white);margin-bottom:16px;}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,5vw,26px);font-weight:700;color:var(--white);margin-bottom:16px;}
 .modal-title span{color:var(--azure);font-style:italic;}
 .adj-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--azure-soft);margin-bottom:8px;display:block;}
 .adj-row{display:flex;align-items:center;background:rgba(13,32,64,.6);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;margin-bottom:14px;}
@@ -252,15 +281,14 @@ button,input{font-family:'DM Sans',sans-serif;cursor:pointer;}
 .adj-total{font-size:13px;color:var(--text-dim);margin-bottom:14px;padding:10px 14px;background:rgba(93,173,226,.06);border:1px solid rgba(93,173,226,.12);border-radius:var(--r-md);}
 .adj-total strong{color:var(--azure);}
 .adj-confirm{width:100%;padding:13px;background:linear-gradient(135deg,var(--azure),var(--blue-dark));border:none;border-radius:var(--r-lg);color:#fff;font-size:14px;font-weight:700;cursor:pointer;transition:all .3s;}
-.adj-confirm:hover{transform:translateY(-1px);}
+.adj-confirm:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(93,173,226,.3);}
 
-/* MAP SECTION */
-.map-placeholder{background:var(--glass);border:1px solid var(--border);border-radius:var(--r-xl);overflow:hidden;height:clamp(200px,40vw,260px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;cursor:pointer;transition:all .3s;}
-.map-placeholder:hover{border-color:var(--border2);transform:translateY(-2px);}
+/* Map */
+.map-placeholder{background:var(--glass);border:1px solid var(--border);border-radius:var(--r-xl);overflow:hidden;height:clamp(280px,50vw,400px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:var(--text-dim);}
 
-/* PROFILE PANEL */
+/* Profile panel */
 .prof-panel{background:var(--glass);border:1px solid var(--border2);border-radius:var(--r-xl);padding:clamp(20px,4vw,28px);margin-bottom:14px;}
-.prof-avatar{width:clamp(52px,10vw,68px);height:clamp(52px,10vw,68px);border-radius:50%;background:linear-gradient(135deg,var(--azure),var(--blue-dark));display:flex;align-items:center;justify-content:center;font-size:clamp(22px,5vw,28px);margin:0 auto clamp(12px,3vw,16px);}
+.prof-avatar{width:clamp(48px,10vw,64px);height:clamp(48px,10vw,64px);border-radius:50%;background:linear-gradient(135deg,var(--azure),var(--blue-dark));display:flex;align-items:center;justify-content:center;font-size:clamp(20px,5vw,26px);margin:0 auto clamp(12px,3vw,16px);}
 .prof-name-display{text-align:center;font-family:'Cormorant Garamond',serif;font-size:clamp(20px,5vw,26px);font-weight:700;color:var(--white);margin-bottom:3px;}
 .prof-country-display{text-align:center;font-size:clamp(11px,2.5vw,13px);color:var(--text-dim);margin-bottom:18px;}
 .prof-info-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);}
@@ -280,26 +308,28 @@ button,input{font-family:'DM Sans',sans-serif;cursor:pointer;}
 .faq-a{display:none;padding:0 clamp(14px,3vw,20px) clamp(12px,3vw,16px);font-size:clamp(12px,3vw,13px);color:var(--text-dim);line-height:1.7;}
 .faq-item.open .faq-a{display:block;}
 
-/* BOTTOM NAV */
+/* Bottom nav */
 .bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:calc(100% - clamp(20px,5vw,40px));max-width:450px;background:rgba(6,14,26,.92);border:1px solid var(--border2);border-bottom:none;border-radius:20px 20px 0 0;padding:clamp(8px,2vw,10px) 4px;backdrop-filter:blur(28px);display:flex;justify-content:space-around;z-index:200;box-shadow:0 -18px 55px rgba(0,0,0,.38);}
 .ni{display:flex;flex-direction:column;align-items:center;gap:2px;padding:clamp(6px,1.5vw,7px) clamp(12px,3vw,17px);border-radius:var(--r-md);cursor:pointer;transition:all .3s;min-width:clamp(44px,10vw,54px);background:none;border:none;color:var(--text-dim);}
 .ni.active{color:var(--azure);background:rgba(93,173,226,.09);}
 .ni:hover:not(.active){color:var(--azure-soft);background:rgba(93,173,226,.04);}
 .nii{font-size:clamp(16px,4vw,18px);}
-.nil{font-size:clamp(8px,2vw,9px);font-weight:600;}
+.nil{font-size:clamp(8px,2vw,9px);font-weight:600;letter-spacing:.3px;}
 
-/* TOAST */
+/* Toast */
 .toast{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-14px);background:rgba(13,32,64,.97);border:1px solid rgba(93,173,226,.38);border-radius:var(--r-md);padding:11px 20px;color:var(--white);font-size:clamp(12px,3vw,13px);z-index:999;opacity:0;pointer-events:none;transition:all .35s cubic-bezier(.16,1,.3,1);backdrop-filter:blur(18px);box-shadow:0 12px 40px rgba(0,0,0,.4);white-space:nowrap;max-width:88vw;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
 .fu{opacity:0;transform:translateY(22px);animation:fuA .6s cubic-bezier(.16,1,.3,1) forwards;}
-@keyframes fuA{to{opacity:1;transform:none;}}
+@keyframes fuA{to{opacity:1;transform:translateY(0);}}
 .d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}.d4{animation-delay:.32s}
 
 @media(max-width:480px){
   .intro-card{padding:28px 18px;}
   .hcard{padding:22px 16px;}
+  .countries-grid{grid-template-columns:1fr 1fr;}
   .bnav{border-radius:16px 16px 0 0;}
+  .moon{width:42px;height:42px;top:4%;right:8%;}
 }
 @media(min-width:768px) and (max-width:1024px){
   .hw{max-width:720px;}
@@ -315,16 +345,31 @@ button,input{font-family:'DM Sans',sans-serif;cursor:pointer;}
 
 <svg class="cityf" viewBox="0 0 1440 155" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
   <defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0d2040"/><stop offset="100%" stop-color="#060e1a"/></linearGradient></defs>
-  <path d="M0,155 L0,98 L40,98 L40,68 L60,68 L60,44 L74,44 L74,26 L84,26 L84,44 L98,44 L98,68 L118,68 L118,48 L133,48 L133,28 L146,28 L146,48 L160,48 L160,78 L182,78 L182,52 L198,52 L198,33 L210,33 L210,17 L220,17 L220,33 L232,33 L232,52 L250,52 L250,76 L270,76 L270,50 L286,50 L286,36 L296,36 L296,50 L312,50 L312,73 L332,73 L332,46 L348,46 L348,28 L360,28 L360,46 L374,46 L374,66 L640,66 L640,83 L660,83 L660,50 L1036,50 L1036,78 L1200,78 L1200,56 L1380,56 L1380,70 L1398,70 L1398,93 L1440,93 L1440,155 Z" fill="url(#cg)"/>
+  <path d="M0,155 L0,98 L40,98 L40,68 L60,68 L60,44 L74,44 L74,26 L84,26 L84,44 L98,44 L98,68 L118,68 L118,48 L133,48 L133,28 L146,28 L146,48 L160,48 L160,78 L182,78 L182,52 L198,52 L198,33 L210,33 L210,17 L220,17 L220,33 L232,33 L232,52 L250,52 L250,76 L270,76 L270,50 L286,50 L286,36 L296,36 L296,50 L312,50 L312,73 L332,73 L332,46 L348,46 L348,28 L360,28 L360,46 L374,46 L374,66 L393,66 L393,86 L413,86 L413,56 L428,56 L428,36 L440,36 L440,20 L450,20 L450,36 L462,36 L462,56 L480,56 L480,78 L500,78 L500,50 L516,50 L516,33 L528,33 L528,50 L542,50 L542,70 L562,70 L562,46 L576,46 L576,30 L588,30 L588,46 L602,46 L602,63 L620,63 L620,83 L640,83 L640,53 L656,53 L656,36 L668,36 L668,20 L678,20 L678,36 L690,36 L690,53 L708,53 L708,76 L728,76 L728,48 L742,48 L742,30 L754,30 L754,48 L768,48 L768,70 L788,70 L788,90 L808,90 L808,56 L824,56 L824,38 L836,38 L836,56 L850,56 L850,73 L868,73 L868,50 L884,50 L884,33 L896,33 L896,50 L910,50 L910,66 L928,66 L928,86 L948,86 L948,58 L964,58 L964,40 L976,40 L976,23 L986,23 L986,40 L998,40 L998,58 L1016,58 L1016,78 L1036,78 L1036,53 L1050,53 L1050,36 L1062,36 L1062,53 L1076,53 L1076,70 L1094,70 L1094,48 L1110,48 L1110,30 L1122,30 L1122,48 L1136,48 L1136,63 L1153,63 L1153,83 L1173,83 L1173,56 L1188,56 L1188,38 L1200,38 L1200,56 L1214,56 L1214,73 L1233,73 L1233,93 L1253,93 L1253,60 L1268,60 L1268,43 L1280,43 L1280,26 L1290,26 L1290,43 L1302,43 L1302,60 L1320,60 L1320,80 L1340,80 L1340,53 L1354,53 L1354,36 L1366,36 L1366,53 L1380,53 L1380,70 L1398,70 L1398,93 L1440,93 L1440,155 Z" fill="url(#cg)"/>
+  <g opacity="0.8"><rect x="77" y="28" width="4" height="3" rx=".5" fill="rgba(93,173,226,.8)"/><rect x="213" y="20" width="4" height="3" rx=".5" fill="rgba(26,127,212,.9)"/><rect x="442" y="23" width="4" height="3" rx=".5" fill="rgba(93,173,226,.9)"/><rect x="670" y="23" width="4" height="3" rx=".5" fill="rgba(220,240,255,.7)"/><rect x="978" y="26" width="4" height="3" rx=".5" fill="rgba(93,173,226,.7)"/><rect x="1124" y="32" width="4" height="3" rx=".5" fill="rgba(93,173,226,.9)"/></g>
 </svg>
 
 <!-- SPLASH -->
 <div class="screen active" id="splash">
   <div class="spin">
     <div class="spg">
+      <svg width="50" height="56" viewBox="0 0 50 56" fill="none" style="filter:drop-shadow(0 0 14px rgba(93,173,226,.5))">
+        <defs><linearGradient id="hg" x1="0" y1="0" x2="0" y2="56" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#0d2d5e"/><stop offset="100%" stop-color="#06121e"/></linearGradient><linearGradient id="rg" x1="0" y1="0" x2="50" y2="0"><stop offset="0%" stop-color="#5DADE2"/><stop offset="100%" stop-color="#1a7fd4"/></linearGradient></defs>
+        <rect x="5" y="12" width="40" height="44" rx="2.5" fill="url(#hg)" stroke="rgba(93,173,226,.38)" stroke-width="1"/>
+        <rect x="14" y="4" width="22" height="10" rx="2" fill="url(#rg)"/>
+        <text x="25" y="12" text-anchor="middle" font-size="5" fill="rgba(220,240,255,.95)" font-family="DM Sans,sans-serif" font-weight="700">HOTEL</text>
+        <rect x="11" y="19" width="8" height="6" rx="1.5" fill="rgba(93,173,226,.9)"/><rect x="21" y="19" width="8" height="6" rx="1.5" fill="rgba(93,173,226,.38)"/><rect x="31" y="19" width="8" height="6" rx="1.5" fill="rgba(93,173,226,.9)"/>
+        <rect x="11" y="30" width="8" height="6" rx="1.5" fill="rgba(93,173,226,.38)"/><rect x="21" y="30" width="8" height="6" rx="1.5" fill="rgba(93,173,226,.9)"/><rect x="31" y="30" width="8" height="6" rx="1.5" fill="rgba(93,173,226,.38)"/>
+        <rect x="18" y="41" width="14" height="15" rx="2" fill="rgba(93,173,226,.08)" stroke="rgba(93,173,226,.28)" stroke-width=".8"/><circle cx="29.5" cy="49" r="1.2" fill="rgba(93,173,226,.7)"/>
+      </svg>
       <div class="spbrand"><span class="spb">Book</span><span class="spz">Zzz</span></div>
+      <svg width="34" height="48" viewBox="0 0 34 48" fill="none" style="filter:drop-shadow(0 0 12px rgba(93,173,226,.48))">
+        <defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="48" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#5DADE2"/><stop offset="55%" stop-color="#1a7fd4"/><stop offset="100%" stop-color="#0d2d5e"/></linearGradient></defs>
+        <path d="M17 2C9.82 2 4 7.82 4 15c0 9.8 13 29 13 29S30 24.8 30 15C30 7.82 24.18 2 17 2z" fill="url(#pg)"/>
+        <circle cx="17" cy="15" r="5.5" fill="rgba(6,18,30,.82)"/><circle cx="17" cy="15" r="3" fill="url(#pg)" opacity=".9"/>
+      </svg>
     </div>
-    <div class="spsl"><span class="sls">Book</span> first. Sleep ea<span class="slz">Zzz</span>y.</div>
+    <div class="spsl"><span class="sls">Book</span> first. Avoid the stress. Sleep ea<span class="slz">Zzz</span>y.</div>
     <div class="spdots"><span></span><span></span><span></span></div>
   </div>
 </div>
@@ -347,12 +392,12 @@ button,input{font-family:'DM Sans',sans-serif;cursor:pointer;}
 <!-- COUNTRY -->
 <div class="screen" id="country">
   <div class="intro-wrap">
-    <div class="gc intro-card">
+    <div class="gc intro-card" id="countryCard">
       <button class="back-step" onclick="goBack('lang')">← <span id="backToLang">Retour</span></button>
       <div class="cc-icon">🌍</div>
       <div class="cc-title" id="ccTitle">Dans quel <span>pays</span> voyagez-vous ?</div>
       <div class="cc-sub" id="ccSub">Choisissez votre pays de destination</div>
-      <div class="cc-notice"><div class="cc-notice-txt" id="ccNotice"><strong>ℹ️</strong> Ce n'est pas votre pays d'origine, mais le pays où vous cherchez un hôtel.</div></div>
+      <div class="cc-notice"><div class="cc-notice-txt" id="ccNotice"><strong>ℹ️</strong> Ce n'est pas votre pays d'origine, mais le pays où vous cherchez un hôtel via BookZzz.</div></div>
       <div class="countries-grid" id="countriesGrid"></div>
     </div>
   </div>
@@ -361,9 +406,9 @@ button,input{font-family:'DM Sans',sans-serif;cursor:pointer;}
 <!-- CITY -->
 <div class="screen" id="city">
   <div class="intro-wrap">
-    <div class="gc intro-card">
+    <div class="gc intro-card" id="cityCard">
       <button class="back-step" onclick="goBack('country')">← <span id="backToCountry">Retour</span></button>
-      <div class="cc-icon" id="cityFlag">🌍</div>
+      <div class="city-flag" id="cityFlag" style="font-size:clamp(30px,7vw,40px);margin-bottom:8px;text-align:center;">🌍</div>
       <div class="cc-title" id="cityTitle">Choisissez votre <span>ville</span></div>
       <div class="cc-sub" id="citySub">Sélectionnez la ville où vous cherchez un hôtel</div>
       <div class="cities-list" id="citiesList"></div>
@@ -371,10 +416,10 @@ button,input{font-family:'DM Sans',sans-serif;cursor:pointer;}
   </div>
 </div>
 
-<!-- PROFILE SETUP -->
+<!-- PROFILE -->
 <div class="screen" id="profile">
   <div class="intro-wrap">
-    <div class="gc intro-card">
+    <div class="gc intro-card" id="profileCard">
       <button class="back-step" onclick="goBack('city')">← <span id="backToCity">Retour</span></button>
       <div class="sbadge"><div class="sdot"></div><span id="sLbl">ÉTAPE 3 / 3</span></div>
       <div class="ptit" id="pTit">Parlez-nous de <span>vous</span></div>
@@ -396,20 +441,22 @@ button,input{font-family:'DM Sans',sans-serif;cursor:pointer;}
   <div class="hw">
     <nav class="tnav fu">
       <div class="nlogo">Book<span>Zzz</span></div>
-      <div class="ngr"><span>👋</span><strong id="nName" style="color:var(--azure-soft)">Invité</strong><span class="country-pill" id="countryPill">🌍</span></div>
+      <div class="ngr"><span>👋</span><strong id="nName" style="color:var(--azure-soft)">Invité</strong><span class="country-pill" id="countryPill">🇨🇩 RDC</span></div>
     </nav>
 
     <!-- HOME TAB -->
     <div class="tab-panel active" id="panel-home">
-      <div class="hcard fu d1">
-        <div class="hglow"></div>
-        <div class="htag">✦ <span id="hTagT">Meilleurs hôtels près de vous</span></div>
-        <h1 class="hh1" id="hH1">Trouvez votre<br><em>nuit parfaite</em></h1>
-        <p class="hsub" id="hSub">Réservez avant d'arriver. Sans stress.<br>Arrivez et dormez tranquille.</p>
-        <div class="srow">
-          <span style="color:var(--azure);font-size:16px">🔍</span>
-          <input class="sinp" id="sInp" placeholder="Chercher un hôtel, une ville..." oninput="filterH()">
-          <button class="sbtn" onclick="filterH()"><span id="sBtnT">Chercher</span></button>
+      <div class="hero fu d1">
+        <div class="hcard" id="heroCard">
+          <div class="hglow"></div>
+          <div class="htag">✦ <span id="hTagT">Meilleurs hôtels près de vous</span></div>
+          <h1 class="hh1" id="hH1">Trouvez votre<br><em>nuit parfaite</em></h1>
+          <p class="hsub" id="hSub">Réservez avant d'arriver. Sans stress.<br>Arrivez et dormez tranquille.</p>
+          <div class="srow">
+            <span style="color:var(--azure);font-size:16px">🔍</span>
+            <input class="sinp" id="sInp" placeholder="Chercher un hôtel, une ville..." oninput="filterH()">
+            <button class="sbtn" onclick="filterH()"><span id="sBtnT">Chercher</span></button>
+          </div>
         </div>
       </div>
       <div class="filters fu d2">
@@ -421,7 +468,7 @@ button,input{font-family:'DM Sans',sans-serif;cursor:pointer;}
       </div>
       <div class="fu d3">
         <div class="sech" id="secH">Hôtels <span>disponibles</span></div>
-        <div class="secs" id="secS">Appuyez sur une carte pour voir les chambres</div>
+        <div class="secs" id="secS">Appuyez sur une carte pour voir les chambres et réserver</div>
       </div>
       <div class="hgrid fu d4" id="hGrid">
         <div class="skel"><div class="skel-img"></div><div class="skel-body"><div class="skel-line w70"></div><div class="skel-line w50"></div><div class="skel-line w40"></div></div></div>
@@ -444,18 +491,22 @@ button,input{font-family:'DM Sans',sans-serif;cursor:pointer;}
       <div class="panel-wrap">
         <div class="panel-title">Carte <span>des hôtels</span></div>
         <div class="panel-sub" id="mapSub">Localisation GPS de tous les hôtels disponibles</div>
-        <!-- Carte -->
-        <div class="map-placeholder fu" onclick="openMap()" style="margin-bottom:16px;">
-          <div style="font-size:clamp(44px,10vw,64px)">🗺️</div>
-          <div style="font-size:clamp(14px,4vw,16px);font-weight:600;color:var(--white)" id="mapCardTitle">Carte interactive des hôtels</div>
-          <div style="font-size:clamp(11px,3vw,13px);text-align:center;max-width:260px;line-height:1.6;color:var(--text-dim)">Voir tous les hôtels sur la carte avec GPS</div>
-          <div style="padding:12px 28px;background:linear-gradient(135deg,var(--azure),var(--blue-dark));border-radius:var(--r-lg);color:#fff;font-size:clamp(13px,3vw,14px);font-weight:700;">🗺️ Ouvrir la carte</div>
+        <!-- Map preview with open button -->
+        <div style="background:var(--glass);border:1px solid var(--border2);border-radius:var(--r-xl);overflow:hidden;margin-bottom:16px;">
+          <div style="height:clamp(200px,40vw,280px);background:linear-gradient(135deg,#091628,#0d2040);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;position:relative;">
+            <div style="font-size:clamp(44px,10vw,64px)">🗺️</div>
+            <div style="font-size:clamp(14px,4vw,16px);font-weight:600;color:var(--white)" id="mapCardTitle">Carte interactive des hôtels</div>
+            <div style="font-size:clamp(11px,3vw,13px);text-align:center;max-width:260px;line-height:1.6;color:var(--text-dim)" id="mapCardSub">Voir tous les hôtels sur la carte avec GPS, filtres et réservation directe</div>
+            <button onclick="openMap()" style="padding:clamp(11px,2.5vw,13px) clamp(22px,5vw,32px);background:linear-gradient(135deg,var(--azure),var(--blue-dark));border:none;border-radius:var(--r-lg);color:#fff;font-size:clamp(13px,3vw,14px);font-weight:700;cursor:pointer;transition:all .3s;margin-top:4px;" id="openMapBtn">🗺️ Ouvrir la carte</button>
+          </div>
         </div>
-        <!-- Taxi -->
-        <div class="fu" style="background:var(--glass);border:1px solid var(--border2);border-radius:var(--r-xl);padding:clamp(18px,4vw,24px);">
-          <div class="panel-title" style="margin-bottom:6px;">🚖 Taxi vers <span>mon hôtel</span></div>
-          <div style="font-size:clamp(12px,3vw,13px);color:var(--text-dim);line-height:1.7;margin-bottom:16px;" id="taxiSub">Vous êtes arrivé(e) dans la ville ? Appelez un taxi qui connaît déjà l'adresse exacte de votre hôtel.</div>
-          <div id="taxiContent"></div>
+        <!-- Taxi feature -->
+        <div style="background:var(--glass);border:1px solid var(--border2);border-radius:var(--r-xl);padding:clamp(18px,4vw,24px);">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(20px,5vw,24px);font-weight:700;color:var(--white);margin-bottom:6px;" id="taxiTitle">🚖 Taxi vers <span style="color:var(--azure);font-style:italic">mon hôtel</span></div>
+          <div style="font-size:clamp(12px,3vw,13px);color:var(--text-dim);line-height:1.7;margin-bottom:18px;" id="taxiSub">Vous êtes arrivé(e) dans la ville ? Appelez un taxi qui connaît déjà l'adresse exacte de votre hôtel.</div>
+          <div id="taxiContent">
+            <div style="padding:20px;text-align:center;background:rgba(13,32,64,.4);border:1px solid var(--border);border-radius:var(--r-lg);color:var(--text-dim);font-size:13px;" id="taxiNoBooking">Réservez un hôtel d'abord pour utiliser cette fonctionnalité.</div>
+          </div>
         </div>
       </div>
     </div>
@@ -474,17 +525,14 @@ button,input{font-family:'DM Sans',sans-serif;cursor:pointer;}
           <div class="prof-info-row"><span class="pir-label" id="pirL3">Personnes / chambre</span><span class="pir-val" id="pirV3">—</span></div>
           <div class="prof-info-row"><span class="pir-label" id="pirL4">Langue</span><span class="pir-val" id="pirV4">—</span></div>
           <div class="prof-info-row"><span class="pir-label" id="pirL5">Destination</span><span class="pir-val" id="pirV5">—</span></div>
-          <button class="change-lang-btn" onclick="openLangOverlay()">🌐 <span id="changeLangBtn">Changer de langue</span></button>
-          <button class="change-lang-btn" onclick="openDestOverlay()" style="margin-top:8px;background:rgba(46,204,113,.1);border-color:rgba(46,204,113,.3);color:var(--green);">✈️ <span id="changeDestBtn">Changer de destination</span></button>
+          <button class="change-lang-btn" onclick="openLangOverlay()" id="changeLangBtn">🌐 Changer de langue</button>
         </div>
-        <div class="panel-title" style="margin-top:24px;margin-bottom:14px">FAQ — <span>Aide</span></div>
+        <div class="panel-title" style="margin-top:24px;margin-bottom:14px" id="faqTitle">FAQ — <span>Aide</span></div>
         <div id="faqList"></div>
       </div>
     </div>
-
   </div>
 
-  <!-- BOTTOM NAV -->
   <nav class="bnav">
     <button class="ni active" onclick="setTab(this,'home')"><span class="nii">🏠</span><span class="nil" id="n1">Accueil</span></button>
     <button class="ni" onclick="setTab(this,'bookings')"><span class="nii">🔖</span><span class="nil" id="n2">Réservations</span></button>
@@ -494,32 +542,21 @@ button,input{font-family:'DM Sans',sans-serif;cursor:pointer;}
 </div>
 
 <!-- LANGUAGE OVERLAY -->
-<div class="lang-overlay" id="langOverlay" onclick="if(event.target===this)closeLangOverlay()">
+<div class="lang-overlay" id="langOverlay" onclick="closeLangOverlayOutside(event)">
   <div class="lang-popup">
     <button class="lang-popup-close" onclick="closeLangOverlay()">✕</button>
     <div class="lang-popup-title">Book<span>Zzz</span></div>
-    <div class="lang-popup-sub">Choisissez votre langue</div>
+    <div class="lang-popup-sub" id="lpSub">Choisissez votre langue</div>
     <div class="lo">
-      <button class="lb" onclick="changeLangTo('fr')"><span class="lfl">🇫🇷</span><div class="li"><div class="ln">Français</div></div><span class="lar">→</span></button>
-      <button class="lb" onclick="changeLangTo('en')"><span class="lfl">🇬🇧</span><div class="li"><div class="ln">English</div></div><span class="lar">→</span></button>
-      <button class="lb" onclick="changeLangTo('sw')"><span class="lfl">🇹🇿</span><div class="li"><div class="ln">Kiswahili</div></div><span class="lar">→</span></button>
+      <button class="lb" onclick="changeLangTo('fr')"><span class="lfl">🇫🇷</span><div class="li"><div class="ln">Français</div><div class="lna">Continuer en français</div></div><span class="lar">→</span></button>
+      <button class="lb" onclick="changeLangTo('en')"><span class="lfl">🇬🇧</span><div class="li"><div class="ln">English</div><div class="lna">Continue in English</div></div><span class="lar">→</span></button>
+      <button class="lb" onclick="changeLangTo('sw')"><span class="lfl">🇹🇿</span><div class="li"><div class="ln">Kiswahili</div><div class="lna">Endelea kwa Kiswahili</div></div><span class="lar">→</span></button>
     </div>
   </div>
 </div>
 
-<!-- DESTINATION OVERLAY -->
-<div class="lang-overlay" id="destOverlay" onclick="if(event.target===this)closeDestOverlay()">
-  <div class="lang-popup" style="max-height:85vh;overflow-y:auto;">
-    <button class="lang-popup-close" onclick="closeDestOverlay()">✕</button>
-    <div class="lang-popup-title">Book<span>Zzz</span></div>
-    <div class="lang-popup-sub" id="destOverlaySub">Choisissez votre destination</div>
-    <div id="destCountryList" class="lo"></div>
-    <div id="destCityList" style="display:none;" class="lo"></div>
-  </div>
-</div>
-
-<!-- ADJUST MODAL -->
-<div class="modal-overlay" id="adjustModal" onclick="if(event.target===this)closeAdjust()">
+<!-- ADJUST STAY MODAL -->
+<div class="modal-overlay" id="adjustModal" onclick="closeAdjustOutside(event)">
   <div class="modal-box">
     <div class="modal-handle"></div>
     <button class="modal-close" onclick="closeAdjust()">✕</button>
@@ -538,7 +575,6 @@ button,input{font-family:'DM Sans',sans-serif;cursor:pointer;}
 <div class="toast" id="toast"></div>
 
 <script>
-/* ══ SUPABASE ══ */
 var SB='https://dgxgpvxyrimpppjvvwto.supabase.co';
 var SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRneGdwdnh5cmltcHBwanZ2d3RvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4NDc1NTMsImV4cCI6MjA4OTQyMzU1M30.Ccr7orHXHiVJJiXzdxIcF0bP9Kkj3PxQM-hZQQ4Mg2w';
 var HDR={'apikey':SK,'Authorization':'Bearer '+SK,'Content-Type':'application/json'};
@@ -546,24 +582,25 @@ var BASE='https://jasonyang0119-art.github.io/bookzzz/';
 var DEFAULT_COMMISSION=25;
 var DEFAULT_DISCOUNT=33;
 
-/* ══ COUNTRIES DATA ══ */
 var COUNTRIES=[
-  {code:'CD',flag:'🇨🇩',name_fr:'RDC / Congo-Kinshasa',name_en:'DRC',name_sw:'DRC',active:true,
-   cities:[{name:'Kinshasa',desc_fr:'Capitale',icon:'🏙️',active:true},{name:'Goma',desc_fr:'Nord-Kivu',icon:'🌋',active:true},{name:'Lubumbashi',desc_fr:'Katanga',icon:'⛏️',active:true},{name:'Bukavu',desc_fr:'Sud-Kivu',icon:'🏞️',active:false}]},
+  {code:'CD',flag:'🇨🇩',name_fr:'RDC / Congo-Kinshasa',name_en:'DRC / Congo-Kinshasa',name_sw:'DRC / Kongo-Kinshasa',active:true,
+   cities:[{name:'Kinshasa',desc_fr:'Capitale, ville principale',desc_en:'Capital city',desc_sw:'Mji mkuu',icon:'🏙️',active:true},{name:'Goma',desc_fr:'Nord-Kivu',desc_en:'North Kivu',desc_sw:'Kivu Kaskazini',icon:'🌋',active:true},{name:'Lubumbashi',desc_fr:'Katanga',desc_en:'Katanga',desc_sw:'Katanga',icon:'⛏️',active:true},{name:'Bukavu',desc_fr:'Sud-Kivu',desc_en:'South Kivu',desc_sw:'Kivu Kusini',icon:'🏞️',active:false},{name:'Mbuji-Mayi',desc_fr:'Kasaï Oriental',desc_en:'East Kasai',desc_sw:'Kasai Mashariki',icon:'💎',active:false}]},
   {code:'TZ',flag:'🇹🇿',name_fr:'Tanzanie',name_en:'Tanzania',name_sw:'Tanzania',active:true,
-   cities:[{name:'Dar es Salaam',desc_fr:'Capitale économique',icon:'🌊',active:true},{name:'Dodoma',desc_fr:'Capitale politique',icon:'🏛️',active:true},{name:'Zanzibar',desc_fr:'Île paradisiaque',icon:'🏝️',active:false}]},
-  {code:'RW',flag:'🇷🇼',name_fr:'Rwanda',name_en:'Rwanda',name_sw:'Rwanda',active:false,cities:[{name:'Kigali',desc_fr:'Capitale',icon:'🏙️',active:false}]},
-  {code:'BI',flag:'🇧🇮',name_fr:'Burundi',name_en:'Burundi',name_sw:'Burundi',active:false,cities:[{name:'Bujumbura',desc_fr:'Capitale',icon:'🏙️',active:false}]},
-  {code:'KE',flag:'🇰🇪',name_fr:'Kenya',name_en:'Kenya',name_sw:'Kenya',active:false,cities:[{name:'Nairobi',desc_fr:'Capitale',icon:'🏙️',active:false}]},
-  {code:'CI',flag:'🇨🇮',name_fr:"Côte d'Ivoire",name_en:'Ivory Coast',name_sw:"Côte d'Ivoire",active:false,cities:[{name:'Abidjan',desc_fr:'Capitale économique',icon:'🏙️',active:false}]}
+   cities:[{name:'Dar es Salaam',desc_fr:'Capitale économique',desc_en:'Economic capital',desc_sw:'Mji mkuu wa uchumi',icon:'🌊',active:true},{name:'Dodoma',desc_fr:'Capitale politique',desc_en:'Political capital',desc_sw:'Mji mkuu wa kisiasa',icon:'🏛️',active:true},{name:'Zanzibar',desc_fr:'Île paradisiaque',desc_en:'Paradise island',desc_sw:'Kisiwa cha paradiso',icon:'🏝️',active:false}]},
+  {code:'RW',flag:'🇷🇼',name_fr:'Rwanda',name_en:'Rwanda',name_sw:'Rwanda',active:false,cities:[{name:'Kigali',desc_fr:'Capitale',desc_en:'Capital',desc_sw:'Mji mkuu',icon:'🏙️',active:false}]},
+  {code:'BI',flag:'🇧🇮',name_fr:'Burundi',name_en:'Burundi',name_sw:'Burundi',active:false,cities:[{name:'Bujumbura',desc_fr:'Capitale',desc_en:'Capital',desc_sw:'Mji mkuu',icon:'🏙️',active:false}]},
+  {code:'KE',flag:'🇰🇪',name_fr:'Kenya',name_en:'Kenya',name_sw:'Kenya',active:false,cities:[{name:'Nairobi',desc_fr:'Capitale',desc_en:'Capital',desc_sw:'Mji mkuu',icon:'🏙️',active:false}]},
+  {code:'CI',flag:'🇨🇮',name_fr:"Côte d'Ivoire",name_en:'Ivory Coast',name_sw:"Côte d'Ivoire",active:false,cities:[{name:'Abidjan',desc_fr:'Capitale économique',desc_en:'Economic capital',desc_sw:'Mji mkuu wa uchumi',icon:'🏙️',active:false}]}
 ];
 
-/* ══ TRANSLATIONS ══ */
+var S={lang:'fr',country:null,city:null,user:{},hotels:[],gc:1,activeFilter:'all',profileSetup:false,adjustTarget:null,adjustDays:1};
+
 var T={
-  fr:{langSub:'Choisissez votre langue',back:'Retour',step:'ÉTAPE 3 / 3',pty:'vous',pt:'Parlez-nous de ',ps:'Configuration rapide — 10 secondes.',fl:'PRÉNOM *',ll:'NOM DE FAMILLE',gl:'PERSONNES PAR CHAMBRE',gh:'Minimum 1 · Maximum 2',cta:'Voir les hôtels →',
-    htag:'Meilleurs hôtels près de vous',h1:'Trouvez votre\nnuit parfaite',hs:'Réservez avant d\'arriver. Sans stress.',
-    sp:'Chercher un hôtel, une ville...',sb:'Chercher',sh:'Hôtels ',shsp:'disponibles',ss:'Appuyez sur une carte pour voir les chambres',rb:'Voir les chambres',
-    verified:'Vérifié',rooms:'chambres',meal:'Repas',ac:'Clim.',elev:'Ascenseur',perNight:'/ nuit',discountLabel:'Réduction de ',
+  fr:{back:'Retour',step:'ÉTAPE 3 / 3',pty:'vous',pt:'Parlez-nous de ',ps:'Configuration rapide — 10 secondes.',fl:'PRÉNOM *',ll:'NOM DE FAMILLE',gl:'PERSONNES PAR CHAMBRE',gh:'Minimum 1 · Maximum 2',cta:'Voir les hôtels →',
+    htag:'Meilleurs hôtels près de vous',h1:'Trouvez votre\nnuit parfaite',hs:'Réservez avant d\'arriver. Sans stress.\nArrivez et dormez tranquille.',
+    sp:'Chercher un hôtel, une ville...',sb:'Chercher',sh:'Hôtels ',shsp:'disponibles',ss:'Appuyez sur une carte pour voir les chambres',
+    rb:'Voir les chambres',verified:'Vérifié',rooms:'chambres',meal:'Repas',ac:'Clim.',elev:'Ascenseur',
+    perNight:'/ nuit',discountLabel:'Réduction de ',discountWith:'avec BookZzz',
     f_all:'🏨 Tous',f_ac:'❄️ Climatisé',f_meal:'🍽️ Repas inclus',f_elev:'🛗 Ascenseur',f_vrf:'✅ Vérifié',
     nr:'Aucun hôtel trouvé',ns:'Essayez un autre filtre',
     n1:'Accueil',n2:'Réservations',n3:'Carte',n4:'Profil',
@@ -574,110 +611,94 @@ var T={
     pirL1:'Prénom',pirL2:'Nom',pirL3:'Personnes / chambre',pirL4:'Langue',pirL5:'Destination',
     changeLang:'🌐 Changer de langue',ccTitle:'Dans quel pays voyagez-vous ?',ccSub:'Choisissez votre pays de destination',
     ccNotice:'Ce n\'est pas votre pays d\'origine, mais le pays où vous cherchez un hôtel via BookZzz.',
-    cityTitle:'Choisissez votre ville',citySub:'Sélectionnez la ville',
-    soon:'Bientôt',prTitle:'Mon profil',prSub:'Vos informations personnelles',
-    taxiNoBooking:'Réservez un hôtel d\'abord pour utiliser le service taxi.',
-    chooseCountry:'Dans quel pays voyagez-vous ?',
-    chooseCity:'Choisissez une ville',
-    changeDestBtn:'✈️ Changer de destination',
+    cityTitle:'Choisissez votre ville',citySub:'Sélectionnez la ville où vous cherchez un hôtel',
+    soon:'Bientôt',prTitle:'Mon profil',prSub:'Vos informations personnelles',faqTitle:'FAQ — Aide',langSub:'Choisissez votre langue',
     faqs:[
       {q:'Comment fonctionne BookZzz ?',a:'BookZzz vous permet de réserver une chambre avant votre arrivée. La réservation est gratuite. Vous payez le prix de la chambre soit en ligne, soit directement à l\'hôtel à votre arrivée.'},
-      {q:'La réservation est-elle gratuite ?',a:'Oui ! Réserver via BookZzz est entièrement gratuit. Vous payez uniquement le prix de la chambre.'},
+      {q:'La réservation est-elle gratuite ?',a:'Oui ! Réserver via BookZzz est entièrement gratuit. Vous payez uniquement le prix de la chambre — pas de frais supplémentaires de notre part.'},
       {q:'Quelle est la réduction BookZzz ?',a:'En réservant via BookZzz, vous bénéficiez d\'une réduction exclusive sur le prix de la chambre. Cette réduction est affichée sur chaque hôtel.'},
-      {q:'Réservation garantie vs non garantie ?',a:'Garantie = vous payez en ligne. Non garantie = espèces à l\'arrivée. Si vous ne vous présentez pas le jour prévu, la chambre est libérée automatiquement.'},
+      {q:'Réservation garantie vs non garantie ?',a:'Une réservation garantie = vous payez en ligne (Mobile Money ou carte). Une réservation non garantie = vous choisissez de payer en espèces à l\'arrivée. Dans ce cas, si vous ne vous présentez pas le jour prévu, la chambre est libérée automatiquement.'},
       {q:'Comment signaler mon arrivée ?',a:'Dans l\'onglet Réservations, appuyez sur "Je suis arrivé(e)". L\'hôtel reçoit confirmation et vous donne accès à votre chambre.'},
       {q:'Puis-je modifier la durée de mon séjour ?',a:'Oui ! Dans l\'onglet Réservations, utilisez "Prolonger" ou "Raccourcir". Le prix est recalculé automatiquement.'}
     ]},
-  en:{langSub:'Choose your language',back:'Back',step:'STEP 3 / 3',pty:'you',pt:'Tell us about ',ps:'Quick setup — 10 seconds.',fl:'FIRST NAME *',ll:'LAST NAME',gl:'GUESTS PER ROOM',gh:'Min 1 · Max 2',cta:'Explore Hotels →',
-    htag:'Best Hotels Near You',h1:'Find your perfect\nnights rest',hs:'Book before you arrive. No stress.',
-    sp:'Search hotel, city...',sb:'Search',sh:'Available ',shsp:'Hotels',ss:'Tap a card to see rooms',rb:'See Rooms',
-    verified:'Verified',rooms:'rooms',meal:'Meal',ac:'AC',elev:'Elevator',perNight:'/ night',discountLabel:'Discount ',
-    f_all:'🏨 All',f_ac:'❄️ AC',f_meal:'🍽️ Meal',f_elev:'🛗 Elevator',f_vrf:'✅ Verified',
+  en:{back:'Back',step:'STEP 3 / 3',pty:'you',pt:'Tell us about ',ps:'Quick setup — 10 seconds.',fl:'FIRST NAME *',ll:'LAST NAME',gl:'GUESTS PER ROOM',gh:'Min 1 · Max 2',cta:'Explore Hotels →',
+    htag:'Best Hotels Near You',h1:'Find your perfect\nnights rest',hs:'Book before you arrive. No stress.\nJust arrive and sleep easy.',
+    sp:'Search hotel, city...',sb:'Search',sh:'Available ',shsp:'Hotels',ss:'Tap a card to see rooms & book',
+    rb:'See Rooms',verified:'Verified',rooms:'rooms',meal:'Meal',ac:'AC',elev:'Elevator',
+    perNight:'/ night',discountLabel:'Discount ',discountWith:'with BookZzz',
+    f_all:'🏨 All',f_ac:'❄️ AC',f_meal:'🍽️ Meal incl.',f_elev:'🛗 Elevator',f_vrf:'✅ Verified',
     nr:'No hotels found',ns:'Try another filter',
     n1:'Home',n2:'Bookings',n3:'Map',n4:'Profile',
-    bkTitle:'My bookings',bkSub:'Manage your reservations',bkEmpty:'No reservations yet',
+    bkTitle:'My bookings',bkSub:'Manage your reservations and arrival',bkEmpty:'No reservations yet',
     arrivedBtn:'✅ I have arrived',extendBtn:'➕ Extend',shortenBtn:'➖ Shorten',
-    guaranteed:'Guaranteed',notGuaranteed:'Non-guaranteed',
+    guaranteed:'Guaranteed booking',notGuaranteed:'Non-guaranteed booking',
     adjTitle:'Modify stay',adjLabel:'NEW NUMBER OF NIGHTS',
     pirL1:'First name',pirL2:'Last name',pirL3:'Guests / room',pirL4:'Language',pirL5:'Destination',
-    changeLang:'🌐 Change language',ccTitle:'Which country are you visiting?',ccSub:'Choose your destination',
-    ccNotice:'This is not your home country — it\'s where you want to book a hotel.',
-    cityTitle:'Choose your city',citySub:'Select the city',
-    soon:'Soon',prTitle:'My profile',prSub:'Your personal information',
-    taxiNoBooking:'Book a hotel first to use the taxi service.',
-    chooseCountry:'Which country are you travelling to?',
-    chooseCity:'Choose a city',
-    changeDestBtn:'✈️ Change destination',
-    faqs:[{q:'How does BookZzz work?',a:'BookZzz lets you reserve a room before arriving. Booking is free. You pay the room price online or at the hotel.'},
-      {q:'Is booking free?',a:'Yes! Booking through BookZzz is completely free. You only pay the room price.'},
-      {q:'What is the BookZzz discount?',a:'By booking via BookZzz, you get an exclusive discount on the room price, shown on each hotel.'},
-      {q:'Guaranteed vs non-guaranteed?',a:'Guaranteed = pay online. Non-guaranteed = pay cash on arrival. No-show means automatic cancellation.'},
-      {q:'How do I signal arrival?',a:'In Bookings tab, tap "I have arrived". Hotel receives confirmation and gives you room access.'},
-      {q:'Can I change my stay duration?',a:'Yes! In Bookings tab, use Extend or Shorten. Price is recalculated automatically.'}
+    changeLang:'🌐 Change language',ccTitle:'Which country are you visiting?',ccSub:'Choose your destination country',
+    ccNotice:'This is not your home country — it\'s where you want to book a hotel via BookZzz.',
+    cityTitle:'Choose your city',citySub:'Select the city where you are looking for a hotel',
+    soon:'Soon',prTitle:'My profile',prSub:'Your personal information',faqTitle:'FAQ — Help',langSub:'Choose your language',
+    faqs:[
+      {q:'How does BookZzz work?',a:'BookZzz lets you reserve a room before arriving. Booking is free. You pay the room price either online or directly at the hotel on arrival.'},
+      {q:'Is booking free?',a:'Yes! Booking through BookZzz is completely free. You only pay the room price — no extra charges from us.'},
+      {q:'What is the BookZzz discount?',a:'By booking via BookZzz, you get an exclusive discount on the room price. The discount is shown on each hotel.'},
+      {q:'Guaranteed vs non-guaranteed booking?',a:'A guaranteed booking = you pay online (Mobile Money or card). A non-guaranteed booking = you choose to pay cash on arrival. If you don\'t show up on the scheduled day, the room is automatically released.'},
+      {q:'How do I signal my arrival?',a:'In the Bookings tab, tap "I have arrived". The hotel receives confirmation and gives you room access.'},
+      {q:'Can I change my stay duration?',a:'Yes! In the Bookings tab, use "Extend" or "Shorten". The price is recalculated automatically.'}
     ]},
-  sw:{langSub:'Chagua lugha yako',back:'Rudi',step:'HATUA 3 / 3',pty:'wewe',pt:'Tuambie kuhusu ',ps:'Usanidi wa haraka.',fl:'JINA LA KWANZA *',ll:'JINA LA UKOO',gl:'WAGENI KWA CHUMBA',gh:'Kiwango 1 · Upeo 2',cta:'Tazama Mahoteli →',
-    htag:'Mahoteli Bora Karibu Nawe',h1:'Pata usiku wako\nkamili',hs:'Hifadhi kabla ya kuwasili.',
-    sp:'Tafuta hoteli, jiji...',sb:'Tafuta',sh:'Mahoteli ',shsp:'Yanayopatikana',ss:'Gusa kadi kuona vyumba',rb:'Ona Vyumba',
-    verified:'Imethibitishwa',rooms:'vyumba',meal:'Chakula',ac:'AC',elev:'Lifti',perNight:'/ usiku',discountLabel:'Punguzo la ',
+  sw:{back:'Rudi',step:'HATUA 3 / 3',pty:'wewe',pt:'Tuambie kuhusu ',ps:'Usanidi wa haraka — sekunde 10.',fl:'JINA LA KWANZA *',ll:'JINA LA UKOO',gl:'WAGENI KWA CHUMBA',gh:'Kiwango 1 · Upeo 2',cta:'Tazama Mahoteli →',
+    htag:'Mahoteli Bora Karibu Nawe',h1:'Pata usiku wako\nkamili',hs:'Hifadhi kabla ya kuwasili.\nFika na ulale vizuri.',
+    sp:'Tafuta hoteli, jiji...',sb:'Tafuta',sh:'Mahoteli ',shsp:'Yanayopatikana',ss:'Gusa kadi kuona vyumba',
+    rb:'Ona Vyumba',verified:'Imethibitishwa',rooms:'vyumba',meal:'Chakula',ac:'AC',elev:'Lifti',
+    perNight:'/ usiku',discountLabel:'Punguzo la ',discountWith:'na BookZzz',
     f_all:'🏨 Yote',f_ac:'❄️ AC',f_meal:'🍽️ Chakula',f_elev:'🛗 Lifti',f_vrf:'✅ Imethibitishwa',
     nr:'Hakuna hoteli',ns:'Jaribu kichujio kingine',
     n1:'Nyumbani',n2:'Uhifadhi',n3:'Ramani',n4:'Profaili',
-    bkTitle:'Uhifadhi wangu',bkSub:'Simamia uhifadhi wako',bkEmpty:'Hakuna uhifadhi bado',
+    bkTitle:'Uhifadhi wangu',bkSub:'Simamia uhifadhi wako na kuwasili',bkEmpty:'Hakuna uhifadhi bado',
     arrivedBtn:'✅ Nimefika',extendBtn:'➕ Ongeza',shortenBtn:'➖ Punguza',
-    guaranteed:'Umehakikishwa',notGuaranteed:'Hauhakikishwi',
+    guaranteed:'Uhifadhi uliohakikishwa',notGuaranteed:'Uhifadhi usio na uhakika',
     adjTitle:'Badilisha kukaa',adjLabel:'IDADI MPYA YA USIKU',
     pirL1:'Jina la kwanza',pirL2:'Jina la ukoo',pirL3:'Wageni / chumba',pirL4:'Lugha',pirL5:'Nchi ya safari',
     changeLang:'🌐 Badilisha lugha',ccTitle:'Unasafiri nchi gani?',ccSub:'Chagua nchi yako ya marudio',
-    ccNotice:'Hii si nchi yako ya asili — ni nchi unayotaka kuhifadhi hoteli.',
-    cityTitle:'Chagua mji wako',citySub:'Chagua mji',
-    soon:'Hivi karibuni',prTitle:'Profaili yangu',prSub:'Maelezo yako ya kibinafsi',
-    taxiNoBooking:'Hifadhi hoteli kwanza kutumia huduma ya teksi.',
-    chooseCountry:'Unasafiri kwenda nchi gani?',
-    chooseCity:'Chagua mji',
-    changeDestBtn:'✈️ Badilisha marudio',
-    faqs:[{q:'BookZzz inafanyaje kazi?',a:'BookZzz inakuruhusu kuhifadhi chumba kabla ya kuwasili. Uhifadhi ni bure. Unalipa bei ya chumba mtandaoni au hotelini.'},
-      {q:'Je, uhifadhi ni wa bure?',a:'Ndiyo! Kuhifadhi kupitia BookZzz ni bure kabisa. Unalipa bei ya chumba tu.'},
-      {q:'Punguzo la BookZzz ni nini?',a:'Kwa kuhifadhi kupitia BookZzz, unapata punguzo la kipekee la bei ya chumba.'},
-      {q:'Uhifadhi uliohakikishwa dhidi ya usio na uhakika?',a:'Uliohakikishwa = lipa mtandaoni. Usio na uhakika = lipa pesa taslimu. Usipofika, chumba kitatolewa.'},
-      {q:'Jinsi ya kutangaza kuwasili kwangu?',a:'Kwenye kichupo cha Uhifadhi, bonyeza "Nimefika". Hoteli inathibitisha na kukupa ufikiaji.'},
-      {q:'Ninaweza kubadilisha muda wa kukaa?',a:'Ndiyo! Katika kichupo cha Uhifadhi, tumia Ongeza au Punguza.'}
+    ccNotice:'Hii si nchi yako ya asili — ni nchi unayotaka kuhifadhi hoteli kupitia BookZzz.',
+    cityTitle:'Chagua mji wako',citySub:'Chagua mji unaotafuta hoteli',
+    soon:'Hivi karibuni',prTitle:'Profaili yangu',prSub:'Maelezo yako ya kibinafsi',faqTitle:'Maswali — Msaada',langSub:'Chagua lugha yako',
+    faqs:[
+      {q:'BookZzz inafanyaje kazi?',a:'BookZzz inakuruhusu kuhifadhi chumba kabla ya kuwasili. Uhifadhi ni bure. Unalipa bei ya chumba mtandaoni au moja kwa moja hotelini ukifika.'},
+      {q:'Je, uhifadhi ni wa bure?',a:'Ndiyo! Kuhifadhi kupitia BookZzz ni bure kabisa. Unalipa bei ya chumba tu — hakuna malipo ya ziada kutoka kwetu.'},
+      {q:'Punguzo la BookZzz ni nini?',a:'Kwa kuhifadhi kupitia BookZzz, unapata punguzo la kipekee kwa bei ya chumba. Punguzo linaonyeshwa kwenye kila hoteli.'},
+      {q:'Uhifadhi uliohakikishwa dhidi ya usio na uhakika?',a:'Uhifadhi uliohakikishwa = unalipa mtandaoni. Uhifadhi usio na uhakika = unachagua kulipa pesa taslimu ukifika. Usipofika siku uliyopanga, chumba kitatolewa kiotomatiki.'},
+      {q:'Jinsi ya kutangaza kuwasili kwangu?',a:'Katika kichupo cha Uhifadhi, bonyeza "Nimefika". Hoteli inapokea uthibitisho na kukupa ufikiaji wa chumba.'},
+      {q:'Ninaweza kubadilisha muda wa kukaa kwangu?',a:'Ndiyo! Katika kichupo cha Uhifadhi, tumia "Ongeza" au "Punguza". Bei inakokotolewa upya kiotomatiki.'}
     ]}
 };
 
-/* ══ DEMO DATA ══ */
 var DEMO={
   CD:[
     {id:'d1',name:'Azure Sky Hotel',address:'Avenue Kasa-Vubu',city:'Kinshasa',country:'RDC',has_ac:true,has_elevator:true,meal_included:'breakfast',is_verified:true,status:'active',commission_rate:25,discount_rate:33,emoji:'🏙️',rooms_available:3,min_price:45000,currency:'CDF'},
     {id:'d2',name:'Le Palmier Palace',address:'Bvd du 30 Juin',city:'Kinshasa',country:'RDC',has_ac:true,has_elevator:false,meal_included:'none',is_verified:true,status:'active',commission_rate:25,discount_rate:33,emoji:'🌴',rooms_available:5,min_price:32000,currency:'CDF'},
     {id:'d3',name:'Nuit Tranquille',address:'Rue Kabambare',city:'Kinshasa',country:'RDC',has_ac:false,has_elevator:false,meal_included:'none',is_verified:false,status:'active',commission_rate:25,discount_rate:33,emoji:'🌙',rooms_available:8,min_price:18000,currency:'CDF'},
-    {id:'d4',name:'Grand Savana Resort',address:"Route de N'Sele",city:'Kinshasa',country:'RDC',has_ac:true,has_elevator:true,meal_included:'full',is_verified:true,status:'active',commission_rate:25,discount_rate:33,emoji:'🌿',rooms_available:2,min_price:78000,currency:'CDF'}
+    {id:'d4',name:'Grand Savana Resort',address:"Route de N'Sele",city:'Kinshasa',country:'RDC',has_ac:true,has_elevator:true,meal_included:'full',is_verified:true,status:'active',commission_rate:25,discount_rate:33,emoji:'🌿',rooms_available:2,min_price:78000,currency:'CDF'},
+    {id:'d5',name:'City Rest Inn',address:'Avenue Col. Lukusa',city:'Kinshasa',country:'RDC',has_ac:true,has_elevator:false,meal_included:'none',is_verified:false,status:'active',commission_rate:25,discount_rate:33,emoji:'🏢',rooms_available:12,min_price:12000,currency:'CDF'}
   ],
   TZ:[
-    {id:'t1',name:'Kilimanjaro Grand',address:'Ohio Street',city:'Dar es Salaam',country:'Tanzania',has_ac:true,has_elevator:true,meal_included:'breakfast',is_verified:true,status:'active',commission_rate:25,discount_rate:33,emoji:'🏔️',rooms_available:6,min_price:85000,currency:'TZS'}
+    {id:'t1',name:'Kilimanjaro Grand',address:'Ohio Street',city:'Dar es Salaam',country:'Tanzania',has_ac:true,has_elevator:true,meal_included:'breakfast',is_verified:true,status:'active',commission_rate:25,discount_rate:33,emoji:'🏔️',rooms_available:6,min_price:85000,currency:'TZS'},
+    {id:'t2',name:'Serengeti View',address:'Samora Avenue',city:'Dar es Salaam',country:'Tanzania',has_ac:true,has_elevator:false,meal_included:'none',is_verified:true,status:'active',commission_rate:25,discount_rate:33,emoji:'🦁',rooms_available:4,min_price:55000,currency:'TZS'}
   ]
 };
 
-/* ══ STATE ══ */
-var S={lang:'fr',country:null,city:null,user:{},hotels:[],gc:1,activeFilter:'all',profileSetup:false,adjustTarget:null,adjustDays:1};
+/* STARS */
+(function(){var s=document.getElementById('stars');for(var i=0;i<95;i++){var e=document.createElement('div');e.className='star';var sz=Math.random()*2+0.3;e.style.cssText='width:'+sz+'px;height:'+sz+'px;top:'+Math.random()*75+'vh;left:'+Math.random()*100+'vw;animation-duration:'+(Math.random()*4+2)+'s;animation-delay:'+(Math.random()*6)+'s;';s.appendChild(e);}})();
 
-/* ══ STARS ══ */
-(function(){
-  var s=document.getElementById('stars');
-  for(var i=0;i<90;i++){
-    var e=document.createElement('div');e.className='star';
-    var sz=Math.random()*2+0.3;
-    e.style.cssText='width:'+sz+'px;height:'+sz+'px;top:'+Math.random()*75+'vh;left:'+Math.random()*100+'vw;animation-duration:'+(Math.random()*4+2)+'s;animation-delay:'+(Math.random()*6)+'s;';
-    s.appendChild(e);
-  }
-})();
+/* 3D TILT */
+function tilt(el,e){if(window.innerWidth<768)return;var r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;el.style.transform='perspective(900px) rotateY('+(x*10)+'deg) rotateX('+(-y*7)+'deg) scale3d(1.018,1.018,1.018)';}
+function uTilt(el){el.style.transform='perspective(900px) rotateY(0) rotateX(0) scale3d(1,1,1)';}
+function addTilt(el){if(!el||window.innerWidth<768)return;el.addEventListener('mousemove',function(e){tilt(el,e);});el.addEventListener('mouseleave',function(){uTilt(el);});}
 
-/* ══ SCREENS ══ */
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(function(x){x.classList.remove('active');});
-  document.getElementById(id).classList.add('active');
-}
+/* SCREENS */
+function showScreen(id){document.querySelectorAll('.screen').forEach(function(x){x.classList.remove('active');});document.getElementById(id).classList.add('active');}
 
-/* ══ BACK ══ */
+/* BACK NAV */
 function goBack(target){
   if(S.profileSetup){showScreen('home');return;}
   showScreen(target);
@@ -685,62 +706,48 @@ function goBack(target){
   if(target==='city'&&S.country)renderCities();
 }
 
-/* ══ SPLASH ══ */
+/* SPLASH */
 setTimeout(function(){
-  var savedUser=localStorage.getItem('bz_user');
-  var savedLang=localStorage.getItem('bz_lang');
-  var savedCountry=localStorage.getItem('bz_country');
-  var savedCity=localStorage.getItem('bz_city');
-  var sp=document.getElementById('splash');
-  sp.style.transition='opacity .7s ease';sp.style.opacity='0';
+  var saved=localStorage.getItem('bz_user'),lang=localStorage.getItem('bz_lang'),country=localStorage.getItem('bz_country'),city=localStorage.getItem('bz_city');
+  var sp=document.getElementById('splash');sp.style.transition='opacity .7s ease';sp.style.opacity='0';
   setTimeout(function(){
-    if(savedUser&&savedLang&&savedCountry){
-      try{
-        S.user=JSON.parse(savedUser);
-        S.lang=savedLang;
-        S.country=COUNTRIES.find(function(c){return c.code===savedCountry;})||COUNTRIES[0];
-        S.city=savedCity?{name:savedCity,icon:'🏙️'}:null;
-        S.gc=S.user.guests||1;
-        S.profileSetup=true;
-        applyLangUI(S.lang);
-        applyHomeUI();
-        showScreen('home');
-        loadHotels();
-      }catch(e){showScreen('lang');}
-    } else {
-      showScreen('lang');
-    }
+    if(saved&&lang&&country){
+      try{S.user=JSON.parse(saved);S.lang=lang;S.country=COUNTRIES.find(function(c){return c.code===country;})||COUNTRIES[0];S.city=city?{name:city,icon:'🏙️'}:null;S.gc=S.user.guests||1;S.profileSetup=true;applyHomeUI();showScreen('home');addTilt(document.getElementById('heroCard'));loadHotels();}
+      catch(e){showScreen('lang');}
+    } else {showScreen('lang');addTilt(document.getElementById('langCard'));}
   },700);
-},3200);
+},3400);
 
-/* ══ LANGUAGE ══ */
-function setLang(l){S.lang=l;applyLangUI(l);showScreen('country');renderCountries();}
+/* LANGUAGE */
+function setLang(l){S.lang=l;applyLangUI(l);showScreen('country');renderCountries();addTilt(document.getElementById('countryCard'));}
 function openLangOverlay(){document.getElementById('langOverlay').classList.add('open');}
 function closeLangOverlay(){document.getElementById('langOverlay').classList.remove('open');}
-function changeLangTo(l){
-  S.lang=l;localStorage.setItem('bz_lang',l);
-  applyLangUI(l);applyHomeUI();renderH(S.hotels);
-  closeLangOverlay();
-  showToast({fr:'Langue changée ✓',en:'Language changed ✓',sw:'Lugha imebadilishwa ✓'}[l]);
-}
+function closeLangOverlayOutside(e){if(e.target===document.getElementById('langOverlay'))closeLangOverlay();}
+function changeLangTo(l){S.lang=l;localStorage.setItem('bz_lang',l);applyLangUI(l);applyHomeUI();renderH(S.hotels);closeLangOverlay();showToast({fr:'Langue changée ✓',en:'Language changed ✓',sw:'Lugha imebadilishwa ✓'}[l]||'Done');}
 
 function applyLangUI(l){
   var t=T[l];
-  var safe=function(id,val){var el=document.getElementById(id);if(el)el.textContent=val||'';};
-  safe('langSub',t.langSub);
-  safe('backToLang',t.back);safe('backToCountry',t.back);safe('backToCity',t.back);
-  safe('sLbl',t.step);safe('pSub',t.ps);safe('fLbl',t.fl);safe('lLbl',t.ll);safe('gLbl',t.gl);safe('gHint',t.gh);safe('ctaTxt',t.cta);
-  var pTit=document.getElementById('pTit');if(pTit)pTit.innerHTML=t.pt+'<span>'+t.pty+'</span>';
-  var ccT=document.getElementById('ccTitle');if(ccT)ccT.innerHTML=t.ccTitle;
-  safe('ccSub',t.ccSub);
-  var ccN=document.getElementById('ccNotice');if(ccN)ccN.innerHTML='<strong>ℹ️</strong> '+t.ccNotice;
-  var ctyT=document.getElementById('cityTitle');if(ctyT)ctyT.innerHTML=t.cityTitle;
-  safe('citySub',t.citySub);
+  document.getElementById('langSub').textContent=t.langSub;
+  document.getElementById('lpSub').textContent=t.langSub;
+  document.getElementById('backToLang').textContent=t.back;
+  document.getElementById('backToCountry').textContent=t.back;
+  document.getElementById('backToCity').textContent=t.back;
+  document.getElementById('sLbl').textContent=t.step;
+  document.getElementById('pTit').innerHTML=t.pt+'<span>'+t.pty+'</span>';
+  document.getElementById('pSub').textContent=t.ps;
+  document.getElementById('fLbl').textContent=t.fl;document.getElementById('lLbl').textContent=t.ll;
+  document.getElementById('gLbl').textContent=t.gl;document.getElementById('gHint').textContent=t.gh;
+  document.getElementById('ctaTxt').textContent=t.cta;
+  document.getElementById('ccTitle').textContent=t.ccTitle;
+  document.getElementById('ccSub').textContent=t.ccSub;
+  document.getElementById('ccNotice').innerHTML='<strong>ℹ️</strong> '+t.ccNotice;
+  document.getElementById('cityTitle').innerHTML=t.cityTitle.replace('ville','<span>ville</span>').replace('city','<span>city</span>').replace('mji','<span>mji</span>');
+  document.getElementById('citySub').textContent=t.citySub;
 }
 
-/* ══ COUNTRIES ══ */
+/* COUNTRIES */
 function renderCountries(){
-  var t=T[S.lang];var nk='name_'+(S.lang==='en'?'en':S.lang==='sw'?'sw':'fr');
+  var t=T[S.lang];var nk=S.lang==='en'?'name_en':S.lang==='sw'?'name_sw':'name_fr';
   document.getElementById('countriesGrid').innerHTML=COUNTRIES.map(function(c){
     var nm=c[nk]||c.name_fr;
     return c.active
@@ -749,120 +756,128 @@ function renderCountries(){
   }).join('');
 }
 
-function setCountry(code){
-  S.country=COUNTRIES.find(function(c){return c.code===code;});
-  renderCities();showScreen('city');
-}
-
+/* COUNTRY & CITY */
+function setCountry(code){S.country=COUNTRIES.find(function(c){return c.code===code;});renderCities();showScreen('city');addTilt(document.getElementById('cityCard'));}
 function renderCities(){
   var t=T[S.lang];var c=S.country;if(!c)return;
+  var dk='desc_'+(S.lang==='sw'?'fr':S.lang);
   document.getElementById('cityFlag').textContent=c.flag;
   document.getElementById('citiesList').innerHTML=
     c.cities.filter(function(x){return x.active;}).map(function(city){
-      return '<button class="city-btn" onclick="setCity(\''+city.name+'\',\''+city.icon+'\')">'
-        +'<span class="city-icon">'+city.icon+'</span><div class="city-info"><div class="city-name-txt">'+city.name+'</div><div class="city-desc">'+city.desc_fr+'</div></div>'
-        +'<span class="city-arr">→</span></button>';
+      return '<button class="city-btn" onclick="setCity(\''+city.name+'\',\''+city.icon+'\')"><span class="city-icon">'+city.icon+'</span><div class="city-info"><div class="city-name-txt">'+city.name+'</div><div class="city-desc">'+(city[dk]||city.desc_fr)+'</div></div><span class="city-arr">→</span></button>';
     }).join('')+
     c.cities.filter(function(x){return !x.active;}).map(function(city){
-      return '<div class="city-btn city-btn-soon"><span class="city-icon" style="opacity:.5">'+city.icon+'</span><div class="city-info"><div class="city-name-txt">'+city.name+'</div></div><span style="font-size:9px;color:var(--azure);opacity:.6">'+t.soon+'</span></div>';
+      return '<div class="city-btn city-btn-soon"><span class="city-icon" style="opacity:.5">'+city.icon+'</span><div class="city-info"><div class="city-name-txt">'+city.name+'</div><div class="city-desc">'+(city[dk]||city.desc_fr)+'</div></div><span style="font-size:9px;color:var(--azure);opacity:.6">'+t.soon+'</span></div>';
     }).join('');
 }
+function setCity(name,icon){S.city={name:name,icon:icon};showScreen('profile');addTilt(document.getElementById('profileCard'));}
 
-function setCity(name,icon){S.city={name:name,icon:icon};showScreen('profile');}
-
-/* ══ GUESTS ══ */
+/* GUESTS */
 function chG(d){S.gc=Math.max(1,Math.min(2,S.gc+d));document.getElementById('gCnt').textContent=S.gc;}
 
-/* ══ SAVE PROFILE ══ */
+/* SAVE PROFILE */
 function savePro(){
   var fn=document.getElementById('fname').value.trim();
   if(!fn){showToast(S.lang==='fr'?'Veuillez entrer votre prénom':S.lang==='sw'?'Ingiza jina lako':'Please enter your first name');return;}
   S.user={firstName:fn,lastName:document.getElementById('lname').value.trim(),guests:S.gc};
   S.profileSetup=true;
-  localStorage.setItem('bz_user',JSON.stringify(S.user));
-  localStorage.setItem('bz_lang',S.lang);
-  localStorage.setItem('bz_country',S.country?S.country.code:'CD');
-  localStorage.setItem('bz_city',S.city?S.city.name:'');
-  applyLangUI(S.lang);applyHomeUI();
-  showScreen('home');loadHotels();
+  localStorage.setItem('bz_user',JSON.stringify(S.user));localStorage.setItem('bz_lang',S.lang);
+  localStorage.setItem('bz_country',S.country?S.country.code:'CD');localStorage.setItem('bz_city',S.city?S.city.name:'');
+  applyHomeUI();showScreen('home');addTilt(document.getElementById('heroCard'));loadHotels();
 }
 
-/* ══ APPLY HOME UI ══ */
+/* APPLY HOME UI */
 function applyHomeUI(){
   var t=T[S.lang];
   var cName=S.lang==='en'?S.country.name_en:S.lang==='sw'?S.country.name_sw:S.country.name_fr;
   var cityName=S.city?S.city.name:null;
-  var safe=function(id,val){var el=document.getElementById(id);if(el)el.textContent=val||'';};
-  safe('nName',S.user.firstName||'—');
-  var cp=document.getElementById('countryPill');if(cp)cp.textContent=S.country.flag+' '+(cityName||cName);
-  safe('hTagT',t.htag);
-  var hH1=document.getElementById('hH1');if(hH1)hH1.innerHTML=t.h1.replace('\n','<br>');
-  var hSub=document.getElementById('hSub');if(hSub)hSub.innerHTML=t.hs.replace('\n','<br>');
-  var sinp=document.getElementById('sInp');if(sinp)sinp.placeholder=t.sp;
-  safe('sBtnT',t.sb);safe('f-all',t.f_all);safe('f-ac',t.f_ac);safe('f-meal',t.f_meal);safe('f-elevator',t.f_elev);safe('f-verified',t.f_vrf);
-  var secH=document.getElementById('secH');if(secH)secH.innerHTML=t.sh+'<span>'+t.shsp+'</span>';
-  safe('secS',t.ss);safe('n1',t.n1);safe('n2',t.n2);safe('n3',t.n3);safe('n4',t.n4);
-  var bkTitle=document.getElementById('bkTitle');if(bkTitle)bkTitle.innerHTML=t.bkTitle;
-  safe('bkSub',t.bkSub);
-  var prTitle=document.getElementById('prTitle');if(prTitle)prTitle.innerHTML=t.prTitle;
-  safe('prSub',t.prSub);
-  safe('pirL1',t.pirL1);safe('pirL2',t.pirL2);safe('pirL3',t.pirL3);safe('pirL4',t.pirL4);safe('pirL5',t.pirL5);
-  safe('pirV1',S.user.firstName||'—');safe('pirV2',S.user.lastName||'—');
-  safe('pirV3',S.gc||1);safe('pirV4',{fr:'Français',en:'English',sw:'Kiswahili'}[S.lang]);
-  safe('pirV5',(S.country?S.country.flag:'')+' '+cName+(cityName?' — '+cityName:''));
-  safe('profNameD',(S.user.firstName||'')+' '+(S.user.lastName||''));
-  safe('profCountryD',(S.country?S.country.flag:'')+' '+cName+(cityName?' · '+cityName:''));
-  var clb=document.getElementById('changeLangBtn');if(clb)clb.textContent=t.changeLang;
+  document.getElementById('nName').textContent=S.user.firstName||'—';
+  document.getElementById('countryPill').textContent=S.country.flag+' '+(cityName||cName);
+  document.getElementById('hTagT').textContent=t.htag;
+  document.getElementById('hH1').innerHTML=t.h1.replace('\n','<br>').replace("nights","night's");
+  document.getElementById('hSub').innerHTML=t.hs.replace('\n','<br>');
+  document.getElementById('sInp').placeholder=t.sp;document.getElementById('sBtnT').textContent=t.sb;
+  document.getElementById('f-all').textContent=t.f_all;document.getElementById('f-ac').textContent=t.f_ac;
+  document.getElementById('f-meal').textContent=t.f_meal;document.getElementById('f-elevator').textContent=t.f_elev;
+  document.getElementById('f-verified').textContent=t.f_vrf;
+  document.getElementById('secH').innerHTML=t.sh+'<span>'+t.shsp+'</span>';
+  document.getElementById('secS').textContent=t.ss;
+  document.getElementById('n1').textContent=t.n1;document.getElementById('n2').textContent=t.n2;
+  document.getElementById('n3').textContent=t.n3;document.getElementById('n4').textContent=t.n4;
+  document.getElementById('bkTitle').innerHTML=t.bkTitle;document.getElementById('bkSub').textContent=t.bkSub;
+  document.getElementById('prTitle').innerHTML=t.prTitle;document.getElementById('prSub').textContent=t.prSub;
+  document.getElementById('pirL1').textContent=t.pirL1;document.getElementById('pirV1').textContent=S.user.firstName||'—';
+  document.getElementById('pirL2').textContent=t.pirL2;document.getElementById('pirV2').textContent=S.user.lastName||'—';
+  document.getElementById('pirL3').textContent=t.pirL3;document.getElementById('pirV3').textContent=S.gc;
+  document.getElementById('pirL4').textContent=t.pirL4;document.getElementById('pirV4').textContent={fr:'Français',en:'English',sw:'Kiswahili'}[S.lang];
+  document.getElementById('pirL5').textContent=t.pirL5;document.getElementById('pirV5').textContent=S.country.flag+' '+cName+(cityName?' — '+cityName:'');
+  document.getElementById('profNameD').textContent=(S.user.firstName||'')+' '+(S.user.lastName||'');
+  document.getElementById('profCountryD').textContent=S.country.flag+' '+cName+(cityName?' · '+cityName:'');
+  document.getElementById('changeLangBtn').textContent=t.changeLang;
+  document.getElementById('faqTitle').innerHTML=t.faqTitle;
   renderFAQ(t.faqs);
 }
 
-/* ══ FAQ ══ */
-function renderFAQ(faqs){
-  var el=document.getElementById('faqList');if(!el)return;
-  el.innerHTML=faqs.map(function(f,i){
-    return '<div class="faq-item" id="faq'+i+'">'
-      +'<div class="faq-q" onclick="toggleFAQ('+i+')">'
-      +'<span class="faq-q-txt">'+f.q+'</span><span class="faq-arr">›</span></div>'
-      +'<div class="faq-a">'+f.a+'</div></div>';
-  }).join('');
-}
-function toggleFAQ(i){var el=document.getElementById('faq'+i);if(el)el.classList.toggle('open');}
+/* FAQ */
+function renderFAQ(faqs){document.getElementById('faqList').innerHTML=faqs.map(function(f,i){return '<div class="faq-item" id="faq'+i+'"><div class="faq-q" onclick="toggleFAQ('+i+')"><span class="faq-q-txt">'+f.q+'</span><span class="faq-arr">›</span></div><div class="faq-a">'+f.a+'</div></div>';}).join('');}
+function toggleFAQ(i){document.getElementById('faq'+i).classList.toggle('open');}
 
-/* ══ DISCOUNT CALC ══ */
+/* ═══════════════════════════════════════
+   DISCOUNT CALC — for display only
+   discountPct = (commission_rate * discount_rate / 100)
+   This is the % reduction on the room price
+   Example: room 45000, comm 25%, disc 33%
+   → client saves 45000 * 25% * 33% = 3712.5 CDF
+   → discount shown = 8.25% of room price
+   We show the discountPct as "Réduction de X%"
+═══════════════════════════════════════ */
 function calcDiscount(price,comm,disc){
-  var pct=Math.round((comm/100)*(disc/100)*1000)/10;
-  return {pct:pct,amount:Math.round(price*(pct/100))};
+  var discPct=Math.round((comm/100)*(disc/100)*1000)/10; /* e.g. 8.25% */
+  var discAmt=Math.round(price*(discPct/100));
+  return {pct:discPct,amount:discAmt};
 }
 
-/* ══ LOAD HOTELS ══ */
+/* LOAD HOTELS */
 function loadHotels(){
-  var hGrid=document.getElementById('hGrid');
-  if(hGrid)hGrid.innerHTML='<div class="skel"><div class="skel-img"></div><div class="skel-body"><div class="skel-line w70"></div><div class="skel-line w50"></div></div></div><div class="skel"><div class="skel-img"></div><div class="skel-body"><div class="skel-line w70"></div><div class="skel-line w50"></div></div></div>';
-
-  /* Always filter by city — hotel in Kinshasa NOT visible from Goma */
-  var cn=S.city?S.city.name:'';
+  /* Load ALL active hotels — no city filter to avoid missing hotels */
   var url=SB+'/rest/v1/hotels?select=*&status=eq.active&order=created_at.desc';
-  if(cn)url+='&city=ilike.'+encodeURIComponent(cn); /* ilike = case insensitive */
-
+  document.getElementById('hGrid').innerHTML='<div class="skel"><div class="skel-img"></div><div class="skel-body"><div class="skel-line w70"></div><div class="skel-line w50"></div><div class="skel-line w40"></div></div></div><div class="skel"><div class="skel-img"></div><div class="skel-body"><div class="skel-line w70"></div><div class="skel-line w50"></div><div class="skel-line w40"></div></div></div>';
   fetch(url,{headers:HDR})
-  .then(function(r){return r.json();})
+  .then(function(r){
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    return r.json();
+  })
   .then(function(d){
     var hotels=d&&Array.isArray(d)?d:[];
+    /* Filter by city if user selected one — case insensitive */
+    var cn=S.city?S.city.name.toLowerCase():null;
+    if(cn&&hotels.length>0){
+      var filtered=hotels.filter(function(h){return (h.city||'').toLowerCase()===cn;});
+      /* If city filter gives results use them, otherwise show all */
+      if(filtered.length>0)hotels=filtered;
+    }
     if(hotels.length>0){
       S.hotels=hotels;
       enrichWithPrices(hotels);
     } else {
-      /* No hotels in this city — show empty state, NOT demo hotels from other cities */
-      S.hotels=[];
-      renderH([]);
+      /* No hotels in Supabase yet — show demo */
+      var cc=S.country?S.country.code:'CD';
+      var dm=DEMO[cc]||DEMO.CD;
+      S.hotels=dm;
+      renderH(dm);
     }
   })
-  .catch(function(){
-    S.hotels=[];renderH([]);
+  .catch(function(err){
+    /* Network error or Supabase error — show demo */
+    var cc=S.country?S.country.code:'CD';
+    var dm=DEMO[cc]||DEMO.CD;
+    S.hotels=dm;
+    renderH(dm);
   });
 }
 
 function enrichWithPrices(hotels){
+  if(!hotels||!hotels.length){renderH(hotels);return;}
   var ids=hotels.map(function(h){return h.id;}).join(',');
   fetch(SB+'/rest/v1/rooms?select=hotel_id,price,available,currency&hotel_id=in.('+ids+')',{headers:HDR})
   .then(function(r){return r.json();})
@@ -872,60 +887,77 @@ function enrichWithPrices(hotels){
       rooms.forEach(function(r){
         if(!pm[r.hotel_id]){pm[r.hotel_id]={min:Infinity,count:0,currency:'CDF'};}
         if(r.available!==false&&parseFloat(r.price)>0){
-          if(parseFloat(r.price)<pm[r.hotel_id].min){pm[r.hotel_id].min=parseFloat(r.price);pm[r.hotel_id].currency=r.currency||'CDF';}
+          if(parseFloat(r.price)<pm[r.hotel_id].min){
+            pm[r.hotel_id].min=parseFloat(r.price);
+            pm[r.hotel_id].currency=r.currency||'CDF';
+          }
           pm[r.hotel_id].count++;
         }
       });
     }
     hotels.forEach(function(h){
-      if(pm[h.id]&&pm[h.id].min!==Infinity){h.min_price=pm[h.id].min;h.rooms_available=pm[h.id].count;h.currency=h.currency||pm[h.id].currency;}
-      else{h.min_price=0;h.rooms_available=0;}
+      if(pm[h.id]&&pm[h.id].min!==Infinity){
+        h.min_price=pm[h.id].min;
+        h.rooms_available=pm[h.id].count;
+        h.currency=pm[h.id].currency;
+      } else {
+        h.min_price=0;
+        h.rooms_available=0;
+      }
     });
     renderH(hotels);
   })
   .catch(function(){renderH(hotels);});
 }
 
-/* ══ RENDER HOTELS ══ */
+/* RENDER HOTELS — shows room price + discount badge only */
 function renderH(list){
-  var t=T[S.lang];var g=document.getElementById('hGrid');if(!g)return;
-  if(!list||!list.length){g.innerHTML='<div class="empty"><div style="font-size:40px;margin-bottom:14px">🔍</div><h3>'+t.nr+'</h3><p>'+t.ns+'</p></div>';return;}
+  var t=T[S.lang];var g=document.getElementById('hGrid');
+  if(!list||!list.length){g.innerHTML='<div class="empty"><div class="ei">🔍</div><h3>'+t.nr+'</h3><p>'+t.ns+'</p></div>';return;}
   g.innerHTML=list.map(function(h,i){
     var price=parseFloat(h.min_price||0);
-    var d=calcDiscount(price,h.commission_rate||DEFAULT_COMMISSION,h.discount_rate||DEFAULT_DISCOUNT);
+    var comm=h.commission_rate||DEFAULT_COMMISSION;
+    var disc=h.discount_rate||DEFAULT_DISCOUNT;
+    var d=calcDiscount(price,comm,disc);
     var amen=[];
     if(h.has_ac)amen.push('<span class="atag">❄️ '+t.ac+'</span>');
     if(h.has_elevator)amen.push('<span class="atag">🛗 '+t.elev+'</span>');
     if(h.meal_included&&h.meal_included!=='none')amen.push('<span class="atag">🍽️ '+t.meal+'</span>');
+    var loc=(h.city||'')+', '+(h.country||'');
+
+    /* Price section — shows room price and discount badge */
     var priceHtml='<div class="hprice-block">';
     if(price>0){
       priceHtml+='<div class="room-price-display">'+price.toLocaleString()+' '+(h.currency||'CDF')+'</div>';
       priceHtml+='<div class="room-price-night">'+t.perNight+'</div>';
-      if(d.pct>0)priceHtml+='<div class="discount-badge">🎉 '+t.discountLabel+d.pct+'%</div>';
+      if(d.pct>0){
+        priceHtml+='<div class="discount-badge">🎉 '+t.discountLabel+d.pct+'%</div>';
+      }
     } else {
       priceHtml+='<div class="room-price-display" style="font-size:13px;color:var(--text-dim)">Sur demande</div>';
     }
     priceHtml+='</div>';
-    return '<div class="hc" style="animation:fuA .55s cubic-bezier(.16,1,.3,1) '+(i*0.07)+'s both" onclick="openH(\''+h.id+'\','+i+')">'
+
+    return '<div class="hc" style="animation:fuA .55s cubic-bezier(.16,1,.3,1) '+(i*0.07)+'s both" onmousemove="tilt(this,event)" onmouseleave="uTilt(this)" onclick="openH(\''+h.id+'\','+i+')">'
       +'<div class="himg">'+(h.main_photo_url?'<img src="'+h.main_photo_url+'" alt="'+h.name+'" loading="lazy">':'<div class="hph">'+(h.emoji||'🏨')+'</div>')
       +(h.is_verified?'<div class="hvrf">✓ '+t.verified+'</div>':'')
-      +'<div class="hbadge-top">'+(h.rooms_available||'?')+' '+t.rooms+'</div></div>'
-      +'<div class="hbody"><div class="hname">'+h.name+'</div>'
-      +'<div class="hloc">📍 '+(h.city||'')+', '+(h.country||'')+'</div>'
+      +'<div class="hbadge-top">'+(h.rooms_available||'?')+' '+t.rooms+'</div>'
+      +'</div>'
+      +'<div class="hbody">'
+      +'<div class="hname">'+h.name+'</div>'
+      +'<div class="hloc">📍 '+loc+'</div>'
       +(amen.length?'<div class="hamen-row">'+amen.join('')+'</div>':'')
-      +'<div class="hpr">'+priceHtml+'<button class="rbtn" onclick="event.stopPropagation();openH(\''+h.id+'\','+i+')">'+t.rb+'</button></div></div></div>';
+      +'<div class="hpr">'+priceHtml
+      +'<button class="rbtn" onclick="event.stopPropagation();openH(\''+h.id+'\','+i+')">'+t.rb+'</button>'
+      +'</div></div></div>';
   }).join('');
 }
 
-/* ══ FILTER ══ */
-function setFilter(el,type){
-  S.activeFilter=type;
-  document.querySelectorAll('.ftag').forEach(function(x){x.classList.remove('on');});
-  el.classList.add('on');applyFilters();
-}
+/* FILTER */
+function setFilter(el,type){S.activeFilter=type;document.querySelectorAll('.ftag').forEach(function(x){x.classList.remove('on');});el.classList.add('on');applyFilters();}
 function filterH(){applyFilters();}
 function applyFilters(){
-  var q=(document.getElementById('sInp').value||'').toLowerCase().trim();
+  var q=document.getElementById('sInp').value.toLowerCase().trim();
   renderH(S.hotels.filter(function(h){
     var mQ=!q||h.name.toLowerCase().includes(q)||(h.city||'').toLowerCase().includes(q)||(h.address||'').toLowerCase().includes(q);
     var mF=S.activeFilter==='all'||(S.activeFilter==='ac'&&h.has_ac)||(S.activeFilter==='meal'&&h.meal_included&&h.meal_included!=='none')||(S.activeFilter==='elevator'&&h.has_elevator)||(S.activeFilter==='verified'&&h.is_verified);
@@ -933,161 +965,44 @@ function applyFilters(){
   }));
 }
 
-/* ══ OPEN HOTEL ══ */
+/* OPEN HOTEL */
 function openH(id,idx){
   var h=S.hotels.find(function(x){return x.id==id;})||S.hotels[idx];
   if(h){localStorage.setItem('bz_hotel',JSON.stringify(h));localStorage.setItem('bz_lang',S.lang);localStorage.setItem('bz_user',JSON.stringify(S.user));}
   window.location.href=BASE+'hotel.html?id='+id;
 }
 
-/* ══════════════════════════════════
-   TABS — single clean function
-══════════════════════════════════ */
+/* TABS */
 function setTab(el,tab){
-  /* Update nav */
   document.querySelectorAll('.ni').forEach(function(x){x.classList.remove('active');});
   if(el)el.classList.add('active');
-  /* Switch panels */
   document.querySelectorAll('.tab-panel').forEach(function(x){x.classList.remove('active');});
   var panel=document.getElementById('panel-'+tab);
   if(panel)panel.classList.add('active');
-  /* Scroll to top */
-  var screen=document.getElementById('home');
-  if(screen)screen.scrollTop=0;
-  /* Per-tab actions */
+  var homeEl=document.getElementById('home');
+  if(homeEl)homeEl.scrollTo(0,0);
   if(tab==='bookings')loadBookings();
   if(tab==='map')loadTaxiSection();
   if(tab==='profile')refreshProfilePanel();
 }
 
-/* ══ CHANGE DESTINATION OVERLAY ══ */
-function openDestOverlay(){
-  var t=T[S.lang];
-  document.getElementById('destOverlaySub').textContent=t.chooseCountry||'Choisissez votre pays';
-  renderDestCountries();
-  document.getElementById('destCountryList').style.display='block';
-  document.getElementById('destCityList').style.display='none';
-  document.getElementById('destOverlay').classList.add('open');
-}
-function closeDestOverlay(){
-  document.getElementById('destOverlay').classList.remove('open');
-}
-
-function renderDestCountries(){
-  var t=T[S.lang];
-  var active=COUNTRIES.filter(function(c){return c.active;});
-  document.getElementById('destCountryList').innerHTML=active.map(function(c){
-    var name=S.lang==='en'?c.name_en:S.lang==='sw'?c.name_sw:c.name_fr;
-    var isSelected=S.country&&S.country.code===c.code;
-    return '<button class="lb'+(isSelected?' lb-selected':'')+'" onclick="selectDestCountry(\''+c.code+\'\')">'
-      +'<span class="lfl">'+c.flag+'</span>'
-      +'<div class="li"><div class="ln">'+name+'</div>'
-      +'<div class="lna">'+(c.cities.filter(function(x){return x.active;}).length)+' ville(s) disponible(s)</div></div>'
-      +'<span class="lar">→</span></button>';
-  }).join('');
-}
-
-function selectDestCountry(code){
-  var country=COUNTRIES.find(function(c){return c.code===code;});
-  if(!country)return;
-  S.country=country;
-  var t=T[S.lang];
-  var name=S.lang==='en'?country.name_en:S.lang==='sw'?country.name_sw:country.name_fr;
-  document.getElementById('destOverlaySub').textContent=name+' — '+(t.chooseCity||'Choisissez une ville');
-  /* Show cities */
-  var activeCities=country.cities.filter(function(c){return c.active;});
-  document.getElementById('destCountryList').style.display='none';
-  document.getElementById('destCityList').style.display='block';
-  document.getElementById('destCityList').innerHTML=
-    '<button class="lb" onclick="renderDestCountries();document.getElementById(\'destCountryList\').style.display=\'block\';document.getElementById(\'destCityList\').style.display=\'none\';" style="opacity:.7;">'
-    +'<span class="lfl">←</span><div class="li"><div class="ln">'+(t.back||'Retour')+'</div></div></button>'
-    +activeCities.map(function(city){
-      var isSelected=S.city&&S.city.name===city.name;
-      return '<button class="lb'+(isSelected?' lb-selected':'')+'" onclick="selectDestCity(\''+city.name+'\',\''+country.code+\'\')">'
-        +'<span class="lfl">'+city.icon+'</span>'
-        +'<div class="li"><div class="ln">'+city.name+'</div>'
-        +(city.desc_fr?'<div class="lna">'+city.desc_fr+'</div>':'')
-        +'</div><span class="lar">→</span></button>';
-    }).join('');
-}
-
-function selectDestCity(cityName,countryCode){
-  var country=COUNTRIES.find(function(c){return c.code===countryCode;});
-  if(!country)return;
-  var city=country.cities.find(function(c){return c.name===cityName;});
-  if(!city)return;
-  /* Update state */
-  S.country=country;
-  S.city=city;
-  /* Save to localStorage */
-  localStorage.setItem('bz_country',countryCode);
-  localStorage.setItem('bz_city',cityName);
-  /* Update UI */
-  closeDestOverlay();
-  applyHomeUI();
-  /* Reload hotels for new city */
-  S.hotels=[];
-  loadHotels();
-  /* Scroll to top of home */
-  var screen=document.getElementById('home');
-  if(screen)screen.scrollTop=0;
-  /* Switch to home tab */
-  document.querySelectorAll('.ni').forEach(function(x){x.classList.remove('active');});
-  var homeBtn=document.querySelector('.ni');
-  if(homeBtn)homeBtn.classList.add('active');
-  document.querySelectorAll('.tab-panel').forEach(function(x){x.classList.remove('active');});
-  var homePanel=document.getElementById('panel-home');
-  if(homePanel)homePanel.classList.add('active');
-  /* Show toast */
-  showToast('✈️ Destination : '+cityName);
-}
-
-/* ══ PROFILE PANEL ══ */
-function renderProfilePanel(){
-  var t=T[S.lang];
-  var cName=S.country?(S.lang==='en'?S.country.name_en:S.lang==='sw'?S.country.name_sw:S.country.name_fr):'—';
-  var cityName=S.city?S.city.name:null;
-  var safe=function(id,val){var el=document.getElementById(id);if(el)el.textContent=val||'';};
-  safe('profNameD',(S.user.firstName||'')+' '+(S.user.lastName||''));
-  safe('profCountryD',(S.country?S.country.flag:'')+' '+cName+(cityName?' · '+cityName:''));
-  safe('pirV1',S.user.firstName||'—');safe('pirV2',S.user.lastName||'—');
-  safe('pirV3',S.gc||1);safe('pirV4',{fr:'Français',en:'English',sw:'Kiswahili'}[S.lang]);
-  safe('pirV5',(S.country?S.country.flag:'')+' '+cName+(cityName?' — '+cityName:''));
-  /* Update label texts */
-  safe('pirL1',t.pirL1||'Prénom');safe('pirL2',t.pirL2||'Nom');
-  safe('pirL3',t.pirL3||'Personnes / chambre');safe('pirL4',t.pirL4||'Langue');safe('pirL5',t.pirL5||'Destination');
-  /* Update button labels */
-  safe('changeLangBtn',t.changeLang||'🌐 Changer de langue');
-  safe('changeDestBtn',t.changeDestBtn||'✈️ Changer de destination');
-  renderFAQ(T[S.lang].faqs);
-}
-
-/* ══════════════════════════════════
-   BOOKINGS TAB — loads from localStorage + Supabase
-══════════════════════════════════ */
+/* BOOKINGS */
 function loadBookings(){
   var t=T[S.lang];
-  var list=document.getElementById('bookingsList');if(!list)return;
   var saved=JSON.parse(localStorage.getItem('bz_bookings')||'[]');
-  if(!saved.length){
-    list.innerHTML='<div class="booking-empty"><div class="ei">🔖</div><p>'+t.bkEmpty+'</p></div>';
-    return;
-  }
+  var list=document.getElementById('bookingsList');
+  if(!saved.length){list.innerHTML='<div class="booking-empty"><div class="ei">🔖</div><p>'+t.bkEmpty+'</p></div>';return;}
   list.innerHTML=saved.map(function(b,i){
     var isG=b.guaranteed!==false&&b.payMethod!=='cash';
     var sc='status-'+(b.status||'pending');
-    var stTxt={arrived:t.arrivedBtn.replace('✅ ',''),pending:'En attente',confirmed:'Confirmé',cancelled:'Annulé'}[b.status]||'En attente';
     var arrivedDisabled=b.status==='arrived'||b.status==='cancelled';
     return '<div class="booking-card">'
-      +'<div class="bc-top">'
-      +'<div class="bc-icon">🏨</div>'
-      +'<div class="bc-info">'
-      +'<div class="bc-name">'+b.hotel+'</div>'
-      +'<div class="bc-detail">'+(b.room||'')+(b.days?' · '+b.days+' nuit(s)':'')+(b.checkin?' · Arrivée : '+b.checkin:'')+'</div>'
-      +'<div class="bc-ref">RÉF #'+b.ref+'</div>'
-      +'</div></div>'
+      +'<div class="bc-top"><div class="bc-icon">🏨</div>'
+      +'<div class="bc-info"><div class="bc-name">'+b.hotel+'</div>'
+      +'<div class="bc-detail">'+b.room+' · '+b.days+' nuit(s) · Arrivée : '+b.checkin+'</div>'
+      +'<div class="bc-ref">RÉF #'+b.ref+'</div></div></div>'
       +'<div class="bc-status-row">'
-      +'<span class="bc-status '+sc+'">'+stTxt+'</span>'
+      +'<span class="bc-status '+sc+'">'+(b.status==='arrived'?t.arrivedBtn.replace('✅ ',''):b.status==='pending'?'En attente':'Confirmé')+'</span>'
       +(isG?'<span class="guaranteed-badge">✅ '+t.guaranteed+'</span>':'<span class="not-guaranteed-badge">⚠️ '+t.notGuaranteed+'</span>')
       +'</div>'
       +'<div class="bc-actions">'
@@ -1098,8 +1013,9 @@ function loadBookings(){
   }).join('');
 }
 
-/* ══ MARK ARRIVED ══ */
+/* ARRIVED */
 function markArrived(idx){
+  var t=T[S.lang];
   var bookings=JSON.parse(localStorage.getItem('bz_bookings')||'[]');
   if(!bookings[idx])return;
   var b=bookings[idx];
@@ -1110,34 +1026,29 @@ function markArrived(idx){
   if(b.reservationId){patchUrl=SB+'/rest/v1/reservations?id=eq.'+b.reservationId;}
   else if(b.ref){patchUrl=SB+'/rest/v1/reservations?reference=eq.'+encodeURIComponent(b.ref);}
   if(patchUrl){fetch(patchUrl,{method:'PATCH',headers:Object.assign({},HDR,{'Prefer':'return=minimal'}),body:JSON.stringify({status:'arrived',arrived_at:arrivedAt})}).catch(function(){});}
-  loadBookings();showToast(T[S.lang].arrivedBtn+' ✓');
+  loadBookings();showToast(t.arrivedBtn+' ✓');
 }
 
-/* ══ ADJUST STAY ══ */
+/* ADJUST */
 function openAdjust(idx,dir){
   var t=T[S.lang];
   var bookings=JSON.parse(localStorage.getItem('bz_bookings')||'[]');
   var b=bookings[idx];if(!b)return;
-  S.adjustTarget=idx;
-  S.adjustDays=Math.max(1,b.days+(dir>0?1:-1));
-  var adjTitle=document.getElementById('adjTitle');if(adjTitle)adjTitle.innerHTML=t.adjTitle;
-  var adjLabel=document.getElementById('adjLabel');if(adjLabel)adjLabel.textContent=t.adjLabel;
+  S.adjustTarget=idx;S.adjustDays=Math.max(1,b.days+(dir>0?1:-1));
+  document.getElementById('adjTitle').innerHTML=t.adjTitle;
+  document.getElementById('adjLabel').textContent=t.adjLabel;
   document.getElementById('adjCnt').textContent=S.adjustDays;
-  updateAdjTotal(b);
+  var newPrice=Math.round((b.pricePerNight||0)*S.adjustDays);
+  document.getElementById('adjTotal').innerHTML='Total : <strong>'+newPrice.toLocaleString()+' '+(b.currency||'CDF')+'</strong>';
   document.getElementById('adjustModal').classList.add('open');
 }
 function chAdj(d){
-  var bookings=JSON.parse(localStorage.getItem('bz_bookings')||'[]');
-  var b=bookings[S.adjustTarget];
-  S.adjustDays=Math.max(1,S.adjustDays+d);
-  document.getElementById('adjCnt').textContent=S.adjustDays;
-  if(b)updateAdjTotal(b);
-}
-function updateAdjTotal(b){
-  var total=Math.round((b.pricePerNight||0)*S.adjustDays);
-  document.getElementById('adjTotal').innerHTML='Nouveau total : <strong>'+total.toLocaleString()+' '+(b.currency||'CDF')+'</strong>';
+  var bookings=JSON.parse(localStorage.getItem('bz_bookings')||'[]');var b=bookings[S.adjustTarget];
+  S.adjustDays=Math.max(1,S.adjustDays+d);document.getElementById('adjCnt').textContent=S.adjustDays;
+  if(b){var np=Math.round((b.pricePerNight||0)*S.adjustDays);document.getElementById('adjTotal').innerHTML='Total : <strong>'+np.toLocaleString()+' '+(b.currency||'CDF')+'</strong>';}
 }
 function closeAdjust(){document.getElementById('adjustModal').classList.remove('open');}
+function closeAdjustOutside(e){if(e.target===document.getElementById('adjustModal'))closeAdjust();}
 function confirmAdjust(){
   var bookings=JSON.parse(localStorage.getItem('bz_bookings')||'[]');
   if(bookings[S.adjustTarget])bookings[S.adjustTarget].days=S.adjustDays;
@@ -1145,9 +1056,7 @@ function confirmAdjust(){
   closeAdjust();loadBookings();showToast('Séjour mis à jour ✓');
 }
 
-/* ══════════════════════════════════
-   MAP TAB
-══════════════════════════════════ */
+/* ══ OPEN MAP ══ */
 function openMap(){
   localStorage.setItem('bz_lang',S.lang);
   if(S.city)localStorage.setItem('bz_city',S.city.name);
@@ -1155,35 +1064,37 @@ function openMap(){
   window.location.href=BASE+'map.html';
 }
 
+/* ══ TAXI FEATURE ══ */
 function loadTaxiSection(){
   var t=T[S.lang];
   var bookings=JSON.parse(localStorage.getItem('bz_bookings')||'[]');
   var active=bookings.filter(function(b){return b.status!=='cancelled';});
-  var content=document.getElementById('taxiContent');if(!content)return;
+  var content=document.getElementById('taxiContent');
+  if(!content)return;
   if(!active.length){
-    content.innerHTML='<div style="padding:20px;text-align:center;background:rgba(13,32,64,.4);border:1px solid var(--border);border-radius:var(--r-lg);color:var(--text-dim);font-size:13px;">'+t.taxiNoBooking+'</div>';
+    content.innerHTML='<div style="padding:20px;text-align:center;background:rgba(13,32,64,.4);border:1px solid var(--border);border-radius:var(--r-lg);color:var(--text-dim);font-size:13px;">'+(t.taxiNoBooking||'Réservez un hôtel d\'abord pour utiliser cette fonctionnalité.')+'</div>';
     return;
   }
-  content.innerHTML=active.map(function(b){
+  content.innerHTML=active.map(function(b,i){
     var hotel=S.hotels.find(function(h){return h.name===b.hotel;})||null;
     var addr=hotel?((hotel.address||'')+', '+(hotel.city||'')):b.hotel;
-    var lat=hotel?hotel.latitude:null;
-    var lng=hotel?hotel.longitude:null;
-    var msg=encodeURIComponent('Bonjour, j\'ai besoin d\'un taxi pour l\'hôtel '+b.hotel+(hotel&&hotel.address?', '+hotel.address+(hotel.city?', '+hotel.city:''):'')+'.\nRéf BookZzz: #'+b.ref);
+    var lat=hotel?hotel.latitude:null;var lng=hotel?hotel.longitude:null;
+    /* WhatsApp message */
+    var msg=encodeURIComponent('Bonjour, je viens d\'arriver et j\'ai besoin d\'un taxi pour aller à l\'hôtel '+b.hotel+(hotel&&hotel.address?', situé au '+hotel.address+', '+( hotel.city||''):'')+'.\nMa référence BookZzz: #'+b.ref);
     var waUrl='https://wa.me/?text='+msg;
-    var gpsUrl=(lat&&lng)?('https://www.google.com/maps/search/?api=1&query='+lat+','+lng):('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(addr));
+    /* GPS link */
+    var gpsUrl=lat&&lng?'https://www.google.com/maps/search/?api=1&query='+lat+','+lng:'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(addr);
     return '<div style="background:rgba(13,32,64,.5);border:1px solid var(--border2);border-radius:var(--r-lg);padding:clamp(14px,3vw,18px);margin-bottom:10px;">'
       +'<div style="font-size:clamp(13px,3vw,14px);font-weight:600;color:var(--white);margin-bottom:4px;">🏨 '+b.hotel+'</div>'
       +'<div style="font-size:11px;color:var(--text-dim);margin-bottom:14px;">📍 '+addr+' · Réf: <strong style="color:var(--azure)">#'+b.ref+'</strong></div>'
       +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">'
-      +'<a href="'+waUrl+'" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:6px;padding:11px;background:linear-gradient(135deg,#25d366,#1ebe57);border-radius:var(--r-md);color:#fff;font-size:clamp(11px,2.5vw,13px);font-weight:700;text-decoration:none;">📱 WhatsApp</a>'
-      +'<a href="'+gpsUrl+'" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:6px;padding:11px;background:linear-gradient(135deg,var(--azure),var(--blue-dark));border-radius:var(--r-md);color:#fff;font-size:clamp(11px,2.5vw,13px);font-weight:700;text-decoration:none;">🗺️ GPS</a>'
+      +'<a href="'+waUrl+'" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 12px;background:linear-gradient(135deg,#25d366,#1ebe57);border-radius:var(--r-md);color:#fff;font-size:clamp(11px,2.5vw,13px);font-weight:700;text-decoration:none;transition:all .3s;">📱 WhatsApp Taxi</a>'
+      +'<a href="'+gpsUrl+'" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 12px;background:linear-gradient(135deg,var(--azure),var(--blue-dark));border-radius:var(--r-md);color:#fff;font-size:clamp(11px,2.5vw,13px);font-weight:700;text-decoration:none;transition:all .3s;">🗺️ Voir GPS</a>'
       +'</div></div>';
   }).join('');
 }
 
-/* ══ TOAST ══ */
-var tT;
+
 
 /* PROFILE PANEL */
 function refreshProfilePanel(){
@@ -1201,11 +1112,9 @@ function refreshProfilePanel(){
   if(t&&t.faqs)renderFAQ(t.faqs);
 }
 
-function showToast(msg){
-  var t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  clearTimeout(tT);tT=setTimeout(function(){t.classList.remove('show');},3000);
-}
+/* Toast */
+var tT;
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(tT);tT=setTimeout(function(){t.classList.remove('show');},3000);}
 </script>
 </body>
 </html>
