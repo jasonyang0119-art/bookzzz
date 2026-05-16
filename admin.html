@@ -419,6 +419,7 @@ tr:hover td{background:rgba(93,173,226,.04);}
             <option value="KES">KES — Shilling Kenyan</option>
             <option value="XOF">XOF — Franc CFA (Côte d'Ivoire)</option>
             <option value="USD">USD — Dollar Américain</option>
+            <option value="ZAR">ZAR — Rand Sud-Africain</option>
             <option value="EUR">EUR — Euro</option>
           </select>
         </div>
@@ -687,7 +688,8 @@ var COUNTRY_CURRENCIES={
   'rwanda':'RWF','kigali':'RWF',
   'burundi':'BIF','bujumbura':'BIF',
   'kenya':'KES','nairobi':'KES',
-  "côte d'ivoire":'XOF','ivory coast':'XOF','abidjan':'XOF'
+  "côte d'ivoire":'XOF','ivory coast':'XOF','abidjan':'XOF',
+  'afrique du sud':'ZAR','south africa':'ZAR','johannesburg':'ZAR','cape town':'ZAR','durban':'ZAR','pretoria':'ZAR'
 };
 function autoDetectCurrency(){
   var country=(document.getElementById('hCountry').value||'').toLowerCase().trim();

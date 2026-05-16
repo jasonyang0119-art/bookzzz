@@ -201,14 +201,17 @@ var G={
 var T={
   fr:{back:'Retour',hotels:'hôtels',loading:'Chargement des hôtels...',empty:'Aucun hôtel trouvé dans cette zone',
     verified:'Vérifié',rooms:'chambres',perNight:'/ nuit',viewHotel:'Voir & Réserver',openGPS:'GPS',
+    taxiBtn:'Appeler un taxi WhatsApp',
     discountLabel:'Réduction de ',f_all:'🏨 Tous',f_vrf:'✅ Vérifiés',f_ac:'❄️ Climatisé',f_meal:'🍽️ Repas inclus',f_elev:'🛗 Ascenseur',
     ac:'Clim.',elev:'Ascenseur',meal:'Repas',panelTitle:'Hôtels disponibles'},
   en:{back:'Back',hotels:'hotels',loading:'Loading hotels...',empty:'No hotels found in this area',
     verified:'Verified',rooms:'rooms',perNight:'/ night',viewHotel:'See & Book',openGPS:'GPS',
+    taxiBtn:'Call a WhatsApp Taxi',
     discountLabel:'Discount ',f_all:'🏨 All',f_vrf:'✅ Verified',f_ac:'❄️ AC',f_meal:'🍽️ Meal incl.',f_elev:'🛗 Elevator',
     ac:'AC',elev:'Elevator',meal:'Meal',panelTitle:'Available Hotels'},
   sw:{back:'Rudi',hotels:'mahoteli',loading:'Inapakia mahoteli...',empty:'Hakuna mahoteli katika eneo hili',
     verified:'Imethibitishwa',rooms:'vyumba',perNight:'/ usiku',viewHotel:'Ona & Hifadhi',openGPS:'GPS',
+    taxiBtn:'Piga simu teksi WhatsApp',
     discountLabel:'Punguzo la ',f_all:'🏨 Yote',f_vrf:'✅ Imethibitishwa',f_ac:'❄️ AC',f_meal:'🍽️ Chakula',f_elev:'🛗 Lifti',
     ac:'AC',elev:'Lifti',meal:'Chakula',panelTitle:'Mahoteli Yanayopatikana'}
 };
@@ -250,7 +253,11 @@ function initMap(){
     'Goma':[-1.6832,29.2085,13],
     'Lubumbashi':[-11.6647,27.4794,13],
     'Dar es Salaam':[-6.7924,39.2083,12],
-    'Dodoma':[-6.1722,35.7395,13]
+    'Dodoma':[-6.1722,35.7395,13],
+    'Johannesburg':[-26.2041,28.0473,12],
+    'Cape Town':[-33.9249,18.4241,12],
+    'Durban':[-29.8587,31.0218,12],
+    'Pretoria':[-25.7479,28.2293,12]
   };
   var center=centers[G.city]||[-4.3217,15.3222,12];
 
@@ -280,17 +287,22 @@ function loadHotels(){
   document.getElementById('mapLoading').style.display='flex';
   document.getElementById('mapEmpty').style.display='none';
 
+  /* Load ALL active hotels — no strict city filter */
   var url=SB+'/rest/v1/hotels?select=*&status=eq.active&order=created_at.desc';
-  if(G.city){url+='&city=eq.'+encodeURIComponent(G.city);}
-
   fetch(url,{headers:HDR})
   .then(function(r){return r.json();})
   .then(function(d){
     document.getElementById('mapLoading').style.display='none';
-    var hotels=d&&Array.isArray(d)&&d.length>0?d:DEMO_HOTELS;
-    G.hotels=hotels;
-    G.filtered=hotels;
-    /* Enrich with min price from rooms */
+    var all=d&&Array.isArray(d)?d:[];
+    /* Soft filter by city if set */
+    var hotels=all;
+    if(G.city&&all.length>0){
+      var cn=G.city.toLowerCase();
+      var filtered=all.filter(function(h){return (h.city||'').toLowerCase()===cn;});
+      if(filtered.length>0)hotels=filtered;
+    }
+    if(!hotels.length)hotels=DEMO_HOTELS;
+    G.hotels=hotels;G.filtered=hotels;
     enrichPrices(hotels);
   })
   .catch(function(){
@@ -299,6 +311,24 @@ function loadHotels(){
     renderAll(DEMO_HOTELS);
   });
 }
+
+/* ══ TOUCH SWIPE — map panel on mobile ══ */
+(function(){
+  var startY=0,startX=0;
+  document.addEventListener('touchstart',function(e){startY=e.touches[0].clientY;startX=e.touches[0].clientX;},{passive:true});
+  document.addEventListener('touchend',function(e){
+    var dy=e.changedTouches[0].clientY-startY;
+    var dx=e.changedTouches[0].clientX-startX;
+    if(Math.abs(dy)>Math.abs(dx)&&Math.abs(dy)>60){
+      /* Swipe up → show panel, swipe down → hide panel on mobile */
+      var panel=document.getElementById('hotelPanel');
+      if(window.innerWidth<=768){
+        if(dy<0)panel.classList.add('visible');
+        else panel.classList.remove('visible');
+      }
+    }
+  },{passive:true});
+})();
 
 function enrichPrices(hotels){
   var ids=hotels.map(function(h){return h.id;}).join(',');
@@ -344,15 +374,20 @@ function renderAll(hotels){
 }
 
 /* ══ ADD MARKER ══ */
+function makeWaTaxi(h){
+  var t=T[G.lang]||T.fr;
+  var addr=(h.address||h.name||'')+(h.city?', '+h.city:'');
+  var msg=encodeURIComponent('Bonjour, j\'ai besoin d\'un taxi pour l\'hôtel '+h.name+(h.address?', '+h.address+(h.city?', '+h.city:''):'')+'.');
+  return 'https://wa.me/?text='+msg;
+}
+
 function addMarker(h){
   var t=T[G.lang]||T.fr;
   var isVerified=h.is_verified;
-  /* Custom icon HTML */
   var iconHtml='<div class="bz-marker'+(isVerified?' verified':'')+'"><div class="bz-marker-inner"><div class="bz-marker-ico">'+(h.emoji||'🏨')+'</div></div><div class="bz-marker-shadow"></div></div>';
   var icon=L.divIcon({html:iconHtml,className:'',iconSize:[36,44],iconAnchor:[18,44],popupAnchor:[0,-44]});
   var marker=L.marker([h.latitude,h.longitude],{icon:icon});
 
-  /* Popup content */
   var price=parseFloat(h.min_price||0);
   var comm=h.commission_rate||DEFAULT_COMMISSION;
   var disc=h.discount_rate||DEFAULT_DISCOUNT;
@@ -363,6 +398,7 @@ function addMarker(h){
   if(h.meal_included&&h.meal_included!=='none')amen+='<span class="popup-tag">🍽️ '+t.meal+'</span>';
   var gpsUrl='https://www.google.com/maps/search/?api=1&query='+h.latitude+','+h.longitude;
   var hotelUrl=BASE+'hotel.html?id='+h.id;
+  var waUrl=makeWaTaxi(h);
 
   var popupHtml='<div>'
     +'<div class="popup-img">'+(h.main_photo_url?'<img src="'+h.main_photo_url+'" alt="'+h.name+'" loading="lazy">':'<span>'+(h.emoji||'🏨')+'</span>')+'</div>'
@@ -379,6 +415,7 @@ function addMarker(h){
     +'<button class="popup-btn popup-btn-main" onclick="openHotel(\''+hotelUrl+'\',\''+h.id+'\')">'+t.viewHotel+'</button>'
     +'<a class="popup-btn popup-btn-gps" href="'+gpsUrl+'" target="_blank">🗺️ '+t.openGPS+'</a>'
     +'</div>'
+    +'<a href="'+waUrl+'" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:7px;padding:9px 12px;margin-top:8px;background:linear-gradient(135deg,#25d366,#1ebe57);border-radius:var(--r);color:#fff;font-size:12px;font-weight:700;text-decoration:none;">📱 '+t.taxiBtn+'</a>'
     +'</div></div>';
 
   marker.bindPopup(popupHtml,{maxWidth:280,minWidth:260});
